@@ -2118,6 +2118,10 @@ printf $format Paige (set_color red) 6 (set_color normal)
       To iterate over the lines in a text file,
       redirect a file into a loop as follows:
     </div>
+<pre>cat <i>filePath</i> | while read line
+  # do something with $line
+end</pre>
+    <div>or</div>
     <pre>
 while read line
   # do something with $line
