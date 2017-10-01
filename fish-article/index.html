@@ -173,7 +173,10 @@
       <li>easy access to web-based help</li>
       <li>colorful prompts</li>
       <li>ability to customize colors and the prompt using a web UI</li>
-      <li>highly consistent and simple scripting language</li>
+      <li>highly consistent and simple scripting language
+        where everything is done with commands
+        and not special syntax to be memorized
+      </li>
     </ul>
     <div>
       This article explains the fish shell in enough detail for you
@@ -427,6 +430,8 @@
       ssh hosts,
       users,
       and more.
+      To see the available switches for a command including their descriptions,
+      enter the command followed by a space and a dash, then press tab.
     </div>
     <div>
       The options presented depend on the command that has been entered.
@@ -457,6 +462,7 @@
     <div>
       To skip selecting an option, press the escape key.
     </div>
+
     <h4>Examples</h4>
     <div>
       To list files in the current directory whose names contain "d",
@@ -464,6 +470,8 @@
       This also works when only <code>ls</code> entered
       before pressing tab.  In this case the options are
       all files in the current directory.
+      Enter "<code>ls</code> -" and press tab twice
+      to see all the available switches.
     </div>
     <div>
       To output the value of a variable whose name begins with "re",
@@ -1867,6 +1875,13 @@ set result (echo "s($radians)" | bc --mathlib) # .70710678</pre>
       <code>$<i>name</i>[<i>start</i>..<i>end</i>]</code><br>
       <code><i>start</i></code> and <code><i>end</i></code>
       can be positive or negative.
+    </div>
+    <div>
+      To get a new list that contains specific elements from another, use
+      a space-separated list of indexes in the form
+      <code>$<i>name</i>[<i>index1</i> <i>index2</i> <i>index3</i>]</code>.
+      For example, to get the first and last colors, use
+      <code>$colors[1 -1]</code>.
     </div>
     <div>
       To create a reversed version of an existing list, use
