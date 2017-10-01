@@ -39,6 +39,9 @@
         margin: 10px 0;
         width: 800px;
       }
+      #lscolors {
+        width: 200px;
+      }
       pre {
         background-color: lightyellow;
         font-weight: bold;
@@ -3274,9 +3277,12 @@ set color (random choice $colors)</pre>
       These can be overridden and colors for other file extensions
       can be specified with arguments of the form
       <code><i>extension</i>=<i>color</i></code> .
-      Files with unspecified extensions are output in white.
-      For example, <code>lscolor fish=magenta js=cyan</code>.
+      By default, files with an unspecified extension are output in white,
+      by that can also be overridden with <code>default=<i>color</i></code>.
+      For example, <code>lscolor fish=magenta js=cyan</code>
+      produces the following output:
     </div>
+    <img id="lscolors" src="lscolors-output.png" alt="lscolors output">
     </pre>
     <div>
       Here is the Node.js version:
@@ -3288,6 +3294,7 @@ const path = require('path');
 
 const colorMap = {
   'css': 'green',
+  'default': 'white',
   'html': 'blue',
   'js': 'red',
   'scss': 'green'
@@ -3307,7 +3314,7 @@ fs.readdir('.', (err, files) =&gt; {
   if (err) throw new Error(err);
   for (const file of files) {
     const extension = path.extname(file).substring(1);
-    const color = colorMap[extension] || 'white';
+    const color = colorMap[extension] || colorMap.default;
     console.log(chalk.keyword(color)(file));
   }
 });</pre>
@@ -3325,6 +3332,7 @@ Coming soon!</pre>
 function lscolor
   # Default colors
   set cssColor 'green'
+  set defaultColor 'white'
   set htmlColor 'blue'
   set jsColor 'red'
   set scssColor 'green'
@@ -3343,14 +3351,16 @@ function lscolor
   end
 
   for file in (ls -1)
-    set_color white
     set pieces (string split '.' $file)
     if test (count $pieces) -ge 2
       set extension $pieces[2]
       set varName $extension'Color'
       set color $$varName
-      if test -n "$color"; set_color $color; end
+      if test -z "$color"; set color $defaultColor; end
+    else
+      set color $defaultColor
     end
+    set_color $color
     echo $file
   end
 end</pre>
