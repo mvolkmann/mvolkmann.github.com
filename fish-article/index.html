@@ -91,7 +91,7 @@
       <li class="level2"><a href="#Installing">Installing</a></li>
       <li class="level2"><a href="#DefaultShell">Default Shell</a></li>
       <li class="level2"><a href="#Uninstalling">Uninstalling</a></li>
-      <li class="level2"><a href="#StartingFish">Starting Fish</a></li>
+      <li class="level2"><a href="#Starting">Starting</a></li>
       <li class="level2"><a href="#Help">Help</a></li>
       <li class="level2"><a href="#Autosuggestions">Autosuggestions</a></li>
       <li class="level2"><a href="#TabCompletions">Tab Completions</a></li>
@@ -119,7 +119,7 @@
       <li class="level2"><a href="#Aliases">Aliases</a></li>
       <li class="level2"><a href="#Abbreviations">Abbreviations</a></li>
       <li class="level2"><a href="#Path">PATH environment variable</a></li>
-      <li class="level2"><a href="#ToolsForFish">Tools for fish</a></li>
+      <li class="level2"><a href="#ToolsForFish">Tools for Fish</a></li>
 
       <li class="level1"><a href="#ScriptingInFish">Scripting in Fish</a></li>
       <li class="level2"><a href="#echoCommand">echo Command</a></li>
@@ -183,11 +183,14 @@
       <li>commands never create subshells,
         so changes they make (such as setting variables)
         are visible in the calling shell</li>
+      <li>can set variables that are shared will all
+        current and future shells (see "universal variables")</li>
     </ul>
     <div>
       This article explains the fish shell in enough detail for you
       to determine whether you might prefer it over other shells.
-      Really learning a shell is similar to learning a new programming language.
+      Really learning a shell is similar to
+      learning a new programming language.
       Similar topics are covered here such as
       variables, functions, string operations, and so on.
       If writing scripts in other shells has felt tedious in the past,
@@ -343,7 +346,7 @@
       <li><code>rm -f /usr/local/bin/fish_indent</code></li>
     </ul>
 
-    <h3><a name="StartingFish">Starting Fish</a></h3>
+    <h3><a name="Starting">Starting</a></h3>
     <div>
       Once fish has been installed, open a terminal.
       If fish is not the default shell, enter <code>fish</code> to start a fish shell.
@@ -1182,7 +1185,7 @@ if set -l index (contains -i <i>some-path</i> $fish_user_paths)
   set -e fish_user_paths[$index]
 end</pre>
 
-    <h3><a name="ToolsForFish">Tools for fish</a></h3>
+    <h3><a name="ToolsForFish">Tools for Fish</a></h3>
     <div>
       Here's a list of popular tools for fish in alphabetical order.
     </div>
