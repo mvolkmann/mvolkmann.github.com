@@ -887,6 +887,72 @@ set cells {a,b,c}{1,2} # a1 b1 c1 a2 b2 c2</pre>
 
     <h2><a name="CustomizingFish">Customizing Fish</a></h2>
 
+    <h3><a name="Aliases">Aliases</a></h3>
+    <div>
+      An alias is an alternate name, usually shorter, for some command.
+    </div>
+    <div>
+      To define an alias, enter
+      <code>alias <i>name</i> <i>command</i></code>.
+    </div>
+    <div>
+      To list all aliases, enter <code>alias</code>.
+    </div>
+    <div>
+      To remove an alias, enter <code>functions --erase <i>name</i></code> (<code>-e</code>).
+    </div>
+    <div>
+      Defining an alias creates a function with the specified name
+      that runs when the alias is used as a command.
+      Functions are described later in the "Scripting in Fish" section.
+      The function is only defined in the current session
+      and goes away when the session exits.
+      To create aliases that are available in all future sessions,
+      define them in <code>config.fish</code>.
+      For more information, see "Defining aliases" at
+      <a href="https://fishshell.com/docs/current/index.html#introduction" target="_blank">https://fishshell.com/docs/current/index.html#introduction</a>.
+    </div>
+
+    <h3><a name="Abbreviations">Abbreviations</a></h3>
+    <div>
+      In addition to aliases, fish supports abbreviations.
+      These are similar, but expand when typed.
+    </div>
+    <div>
+      To define an abbreviation, enter
+      <code>abbr --add <i>name</i> <i>value</i></code> (<code>-a</code>).
+    </div>
+    <div>
+      For example, the following defines an abbreviation
+      for checking out a git branch:
+      <code>abbr --add co git checkout</code>.
+      Once this is defined, enter <code>co</code> followed by a space
+      and that will expand to <code>git checkout</code>.
+      Continue typing a branch name and press enter to execute the command.
+      The branch name is often auto-suggested and can be tab completed.
+    </div>
+    <div>
+      Unlike aliases, when abbreviations are defined in a terminal
+      (as opposed to inside <code>config.fish</code>),
+      they become available in all current and future sessions.
+    </div>
+    <div>
+      In general, abbreviations are preferred over aliases.
+    </div>
+    <div>
+      To output a list of all abbreviation names,
+      enter <code>abbr --list</code> (<code>-l</code>).
+    </div>
+    <div>
+      To output a list of all abbreviation names and their values,
+      enter <code>abbr --show</code> (<code>-s</code>)
+      or just <code>abbr</code>.
+    </div>
+    <div>
+      To delete (erase) an alias,
+      enter <code>abbr --erase <i>name</i></code> (<code>-e</code>).
+    </div>
+
     <div>
       The fish shell can be configured in three ways:
       by executing commands in a shell,
@@ -956,7 +1022,7 @@ set cells {a,b,c}{1,2} # a1 b1 c1 a2 b2 c2</pre>
     <h4><a name="FunctionsTab">Functions Tab</a></h4>
     <div>
       The "functions" tab provides a read-only view
-      of all functions that have been defined.
+      of all fish functions that have been defined.
       Select a function name to see its definition
       which includes all the commands it executes.
     </div>
@@ -984,8 +1050,8 @@ set cells {a,b,c}{1,2} # a1 b1 c1 a2 b2 c2</pre>
 
     <h4><a name="BindingsTab">Bindings Tab</a></h4>
     <div>
-      The "bindings" tab provides a read-only view
-      that lists the current key bindings.
+      The "bindings" tab provides a read-only list
+      of the current key bindings.
     </div>
     <img src="config-bindings.png" alt="bindings config screenshot">
 
@@ -998,13 +1064,15 @@ set cells {a,b,c}{1,2} # a1 b1 c1 a2 b2 c2</pre>
       To delete an existing abbreviation,
       click the circled "X" to its right.
       To add a new abbreviation, enter a name and a command
-      in the two inputs at the bottom and press the "Save" button.
-      one for the name and one for the associated command.
+      in the two inputs at the bottom,
+      one for the name and one for the associated command,
+      and press the "Save" button.
       Changing the name of an existing abbreviation
       creates a new abbreviation with that name,
       but doesn't delete the existing one.
       Often abbreviations are defined in <code>config.fish</code>
-      (discussed later), but they can also be defined from a terminal.
+      (discussed later), but they can also be defined
+      by entering the <code>abbr</code> command in a terminal.
     </div>
     <img src="config-abbreviations.png" alt="abbreviations config screenshot">
     <div>
@@ -1030,12 +1098,13 @@ set cells {a,b,c}{1,2} # a1 b1 c1 a2 b2 c2</pre>
       (in <code>~/.bash_profile</code> and <code>~/.bashrc</code>)
       and will want similar configuration for fish.
       Examples include
-      creating aliases and abbreviations (discussed soon),
+      creating aliases and abbreviations,
       and setting variables such as <code>PATH</code>.
     </div>
     <div>
       The fish configuration file is named <code>config.fish</code>
-      and should be placed in the <code>~/.config/fish</code> directory.
+      and should be placed in your
+      <code>~/.config/fish</code> directory.
       Placing configuration in this file enables
       copying the file to other machines
       where the same configuration is desired.
@@ -1070,71 +1139,6 @@ set cells {a,b,c}{1,2} # a1 b1 c1 a2 b2 c2</pre>
       <code>set -U fish_greeting 'You are a fish!'</code>.
       To suppress the greeting, erase the current setting with
       <code>set -e fish_greeting</code>.
-    </div>
-
-    <h3><a name="Aliases">Aliases</a></h3>
-    <div>
-      An alias is an alternate name, usually shorter, for some command.
-    </div>
-    <div>
-      To define an alias, enter <code>alias name <i>command</i></code>.
-    </div>
-    <div>
-      To list all aliases, enter <code>alias</code>.
-    </div>
-    <div>
-      To remove an alias, enter <code>functions --erase <i>name</i></code> (<code>-e</code>).
-    </div>
-    <div>
-      Defining an alias creates a function with the specified name
-      that runs when the alias is used as a command.
-      Functions are described later in the "Scripting in Fish" section.
-      The function is only defined in the current session
-      and goes away when the session exits.
-      To create aliases that are available in all future sessions,
-      define them in <code>config.fish</code>.
-      For more information, see "Defining aliases" at
-      <a href="https://fishshell.com/docs/current/index.html#introduction" target="_blank">https://fishshell.com/docs/current/index.html#introduction</a>.
-    </div>
-
-    <h3><a name="Abbreviations">Abbreviations</a></h3>
-    <div>
-      In addition to aliases, fish supports abbreviations.
-      These are similar, but expand when typed.
-    </div>
-    <div>
-      To define an abbreviation, enter
-      <code>abbr --add <i>name</i> <i>value</i></code> (<code>-a</code>).
-    </div>
-    <div>
-      For example, the following defines an abbreviation
-      for checking out a git branch:
-      <code>abbr --add co git checkout</code>.
-      Once this is defined, enter <code>co</code> followed by a space
-      and that will expand to <code>git checkout</code>.
-      Continue typing a branch name and press enter to execute the command.
-      The branch name is often auto-suggested and can be tab completed.
-    </div>
-    <div>
-      Unlike aliases, when abbreviations are defined in a terminal
-      (as opposed to inside <code>config.fish</code>),
-      they become available in all current and future sessions.
-    </div>
-    <div>
-      In general, abbreviations are preferred over aliases.
-    </div>
-    <div>
-      To output a list of all abbreviation names,
-      enter <code>abbr --list</code> (<code>-l</code>).
-    </div>
-    <div>
-      To output a list of all abbreviation names and their values,
-      enter <code>abbr --show</code> (<code>-s</code>)
-      or just <code>abbr</code>.
-    </div>
-    <div>
-      To delete (erase) an alias,
-      enter <code>abbr --erase <i>name</i></code> (<code>-e</code>).
     </div>
 
     <h3><a name="PATH">PATH environment variable</a></h3>
@@ -1245,7 +1249,7 @@ end</pre>
     <div>
       While the same can be done with fish scripts,
       most of these steps are not necessary.
-      The easiest way to write and enable a new fish script is:
+      The easiest way to implement and enable a new fish command is:
     </div>
     <ul>
       <li>
@@ -1292,7 +1296,7 @@ end</pre>
       <code>myvar</code> and <code>myVar</code> are different variables.
     </div>
     <div>
-      All variable values are lists that hold zero, one, or more
+      The value of every variable is a list that hold zero, one, or more
       string values, although most have only one.
     </div>
     <div>
