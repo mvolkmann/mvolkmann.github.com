@@ -576,7 +576,7 @@
       It also includes defining functions.
       It's hard to think of another programming language
       with such a consistent syntax.
-      It is somewhat like Lisp in this regard.
+      The fish shell is somewhat like Lisp in this regard.
     </div>
     <div>
       Many commands accept switches that affect their functionality.
@@ -695,26 +695,26 @@ and <i>command2</i></pre>
       <code>or</code> instead of <code>||</code> like in bash.
     </div>
     <div>
+      While these conventions for <code>and</code> and <code>or</code>
+      may seem unusual at first,
+      they follow the consistent syntax of fish
+      where everything is done with commands and
+      all commands are terminated with a newline or semicolon.
+    </div>
+    <div>
       If an attempt is made to use
       the bash <code>&amp;&amp;</code> and <code>||</code> operators,
       fish outputs a message explaining the correct altenatives.
       For example,
     </div>
     <pre>
-🐠  date &amp;&amp; ls
+🐠 date &amp;&amp; ls
 fish: Unsupported use of '&amp;&amp;'. In fish, please use 'COMMAND; and COMMAND'.
 date &amp;&amp; ls
       ^</pre>
     <div>
       The <code>and</code> and <code>or</code> commands are often
       used in <code>if</code> and <code>while</code> commands.
-    </div>
-    <div>
-      While these conventions for <code>and</code> and <code>or</code>
-      may seem unusual at first,
-      they follow the consistent syntax of fish
-      where everything is done with commands and
-      all commands are terminated with a newline or semicolon.
     </div>
 
     <h3><a name="CommandHistory">Command History</a></h3>
@@ -738,7 +738,7 @@ date &amp;&amp; ls
       You asked on the mailing list on 9/29.
     </div>
     <div>
-      To navigate through all previously entered commands
+      To navigate through all previously entered commands,
       press the up and down arrow keys.
       Press enter to execute the displayed command
       or press ctrl-c to exit without executing one.
@@ -783,7 +783,7 @@ date &amp;&amp; ls
     <h3><a name="CommandSubstitution">Command Substitution</a></h3>
     <div>
       To use the output of one command as an argument to another,
-      surround the command with parens,
+      surround the command with parentheses,
       not backticks like in some other shells.
       If the command outputs more than one line,
       each will be treated as a separate argument
@@ -810,8 +810,12 @@ date &amp;&amp; ls
 set dateFormat '+%A %B %d, %G' # ex. Tuesday, August 15, 2017
 set announcement 'Today is '(date $dateFormat)'.'</pre>
     <div>
+      Comments in fish begin with a <code>#</code> and
+      extend to the end of the line like in other shells.
+    </div>
+    <div>
       Note the use of string concatention by placing
-      literal strings next to the parens.
+      literal strings next to the parentheses.
     </div>
     <div>
       Command substitution does not work inside strings.
@@ -873,7 +877,6 @@ set announcement 'Today is '(date $dateFormat)'.'</pre>
     <pre>
 set cells {a,b,c}{1,2} # a1 b1 c1 a2 b2 c2</pre>
     <div>
-      Comments begin with <code>#</code> like in other shells.
       In the line above, the value assigned to the variable
       is shown in a comment at the end of the line.
     </div>
@@ -2237,7 +2240,7 @@ set result (product 2 3) # 6</pre>
       but they can write to streams like stdout.
       Math is performed using the <code>math</code> function
       which writes its result to stdout.
-      Surrounding a command with parens allows its stdout to be
+      Surrounding a command with parentheses allows its stdout to be
       captured and placed in a variable.
     </div>
 
