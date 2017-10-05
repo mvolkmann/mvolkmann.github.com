@@ -2220,7 +2220,7 @@ end</pre>
       They can become available to execute as commands
       when their name is used as a command in a shell.
       In that case they can override
-      commands from <code>PATH</code> and builtin commands.
+      commands found in <code>PATH</code> and builtin commands.
     </div>
     <div>
       To call a function, specify its name optionally followed by arguments.
@@ -2233,11 +2233,7 @@ end</pre>
       to set the <code>status</code> variable.
       To capture stdout from a function in a variable, use
       <code>set <i>variable</i> (<i>someFn</i> <i>args</i>)</code>.
-      For example:
     </div>
-    <pre>
-set result (product 3 4) # 12</pre>
-    <div>
     <div>
       Function names cannot begin with a dash (<code>-</code>),
       but they can begin with any other character, even digits.
@@ -2275,7 +2271,7 @@ end</pre>
     </div>
     <pre>
 function fndesc -a fnName -d 'displays description of a function'
-  set lines (functions -Dv $fnName)
+  set lines (functions --details --verbose $fnName)
   echo $lines[5]
 end</pre>
     <div>
@@ -2287,7 +2283,7 @@ end</pre>
     <div>
       The most common way to make functions available as commands
       in future sessions is to define them in files in
-      a directory in the fish_function_path list
+      a directory in the <code>fish_function_path</code> list
       (not in subdirectories of these).
       By default, this list includes
       <code>~/.config/fish/functions</code>.
@@ -2329,9 +2325,6 @@ set result (product 2 3) # 6</pre>
       Every time a command is evaluated, fish first checks whether there
       is a file in any path listed in <code>fish_function_path</code>
       with the same name and a <code>.fish</code> extension.
-      This path list typically contains <code>~/.config/fish/functions</code>
-      which is where user-defined functions are usually placed.
-      It does not search subdirectories of these paths.
       If a matching file is found, and the file has not been loaded
       within the "staleness interval" (discussed later),
       it loads the file to get the current definition of the function
@@ -2386,18 +2379,17 @@ funced foo; and funcsave foo; and source ~/.config/fish/functions/foo.fish</pre>
     <div>
       To edit a function definition, enter <code>funced <i>name</i></code>.
       If the function is not already defined, it will be created.
-      This uses the editor in the <code>VISUAL</code> variable
+      This uses the editor specified in the <code>VISUAL</code> variable
       that can be set in <code>config.fish</code>.
       It defaults to emacs, but can be changed to Vim with
       <code>set VISUAL vim</code>.
-      This is more convenient that starting an editor first and then
+      Using <code>funced</code> is more convenient than
+      starting an editor first and then
       creating the file in the proper directory or locating it
       from within the editor.
       After every use of <code>funced</code>,
       if the changes should be available in current and future sessions,
       run <code>funcsave <i>name</i></code>.
-      This saves the changes in a <code>.fish</code> file
-      under <code>~/.config/fish/functions</code>.
     </div>
     <div>
       To output a formatted version of a <code>.fish</code> file, enter
@@ -2444,7 +2436,7 @@ sed -i .bak 's/    /  /g' <i>fn-name</i>.fish</pre>
       <li>line number within file where definition begins or 0 if not autoloaded</li>
       <li>whether "scope shadowing" was disabled</li>
       <li>the function description specified with the
-        <code>--description</code> or <code>-d</code> switch
+        <code>--description</code> (<code>-d</code>) switch
         or "n/a" if no description was provided</li>
     </ul>
 
@@ -2469,7 +2461,7 @@ sed -i .bak 's/    /  /g' <i>fn-name</i>.fish</pre>
       to exit before the end.
       This also sets the exit status of the function
       which defaults to 0 for success, but can be specified.
-      For exammple, <code>return 2</code> exits the function
+      For example, <code>return 2</code> exits the function
       in which it was executed and sets status to 2..
     </div>
     <div>
@@ -2481,7 +2473,7 @@ sed -i .bak 's/    /  /g' <i>fn-name</i>.fish</pre>
     <div>
       The <code>--argument-names</code> (<code>-a</code>) switch of the
       <code>function</code> command specifies named parameters.
-      Here is another example of a function that uses named parameters:
+      Here is an example of a function that uses named parameters:
     </div>
     <pre>
 function orderShirt -a size color
@@ -2491,7 +2483,7 @@ function orderShirt -a size color
 end</pre>
     <div>
       All named parameters will be "set",
-      but ones not specified will be set to an empty list.
+      but ones not specified will be set to an empty list
       versus <code>undefined</code> (has no value).
       To test whether a specific named parameter is set, use
       <code>set -q <i>argName</i>[1]</code>.
