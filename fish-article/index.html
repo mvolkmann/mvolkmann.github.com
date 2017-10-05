@@ -139,8 +139,8 @@
       <li class="level2"><a href="#statusCommand">status Command</a></li>
       <li class="level2"><a href="#Files">Files</a></li>
       <li class="level2"><a href="#Tests">Tests</a></li>
-      <li class="level2"><a href="#ComparisonToJavaScript">Comparison to JavaScript</a></li>
       <li class="level2"><a href="#Functions">Functions</a></li>
+      <li class="level2"><a href="#ComparisonToJavaScript">Comparison to JavaScript</a></li>
       <li class="level2"><a href="#FunctionAutoLoading">Function Autoloading</a></li>
       <li class="level2"><a href="#AutoRunningFunctions">Auto-running Functions</a></li>
       <li class="level2"><a href="#TypesOfCommands">Types of Commands</a></li>
@@ -2066,7 +2066,8 @@ echo Roses are (set_color red)red(set_color normal), \
     </div>
     <div>
       For another example of using the <code>set_color</code> command,
-      see the custom prompt defined in the "Custom Prompt" section.
+      see the custom prompt defined in the
+      <a href="#CustomPrompt">Custom Prompt</a> section.
     </div>
 
     <h3><a name="printfCommand">printf Command</a></h3>
@@ -2116,13 +2117,13 @@ printf $format Paige (set_color red) 6 (set_color normal)
     </div>
     <ul>
       <li><code>status current-filename</code> -
-        outputs file path of current file<br>
+        outputs the file path of the current file<br>
         If the function was defined interactively
         and has not been explicitly saved to a file,
         this will output the path to the temporary file
         where its definition has been saved.</li>
       <li><code>status current-function</code> -
-        outputs name of current function</li>
+        outputs the name of the current function</li>
       <li><code>status current-line-number</code> -
         outputs the line number within the file where this appears.
         This command has issues.  See
@@ -2159,7 +2160,7 @@ end &lt; <i>filePath</i> </pre>
       <li>is writable: <code>if test -w $<i>file</i></code></li>
       <li>is an executable file: <code>if test -x $<i>file</i></code></li>
       <li>is a non-empty file (has size): <code>if test -s $<i>file</i></code></li>
-      <li>and more (see test command for details)</li>
+      <li>and more (see the <code>test</code> command for details)</li>
     </ul>
     <div>
       The <code>test</code> command does not support
@@ -2172,7 +2173,7 @@ end &lt; <i>filePath</i> </pre>
       <code>if</code> and <code>while</code> commands.
       Tests for strings, numbers, and files were
       described previously in those sections.
-      For example, <code>test $color = 'yellow'</code>.
+      For example, <code>test "$color" = 'yellow'</code>.
     </div>
     <div>
       To negate any test, add <code>!</code> after <code>test</code>
@@ -2189,7 +2190,7 @@ end &lt; <i>filePath</i> </pre>
     <pre>
 if test $color = 'yellow'; and test $size = 'large'
   # code here
-end</pre>.
+end</pre>
     <div>
       This can also be written on two lines
       by replacing the semicolon with a newline as follows.
@@ -2210,41 +2211,6 @@ end</pre>
     <div>
       But this option requires parentheses and those must be escaped
       which results in ugly code, so the first option is preferred.
-    </div>
-
-    <h3><a name="ComparisonToJavaScript">Comparison to JavaScript</a></h3>
-    <div>
-      Let's look at an example of a simple function that
-      takes two numbers and outputs their product.
-      It's useful to see how fish functions differ from
-      functions in more traditional programming languages like JavaScript.
-    </div>
-    <div>
-      Here is the function in JavaScript and a call to it.
-    </div>
-    <pre>
-function product(n1, n2) {
-  return n1 * n2;
-}
-const result = product(2, 3); // 6</pre>
-    <div>
-      Here is the function in fish and a call to it.
-    </div>
-    <pre>
-function product -a n1 n2
-  math "$n1 * $n2"
-end
-set result (product 2 3) # 6</pre>
-    <div>
-      Everthing in fish is done with commands, even defining functions.
-      The <code>--argument-names</code> (<code>-a</code>) switch of the
-      <code>function</code> command specifies named parameters.
-      Functions in fish cannot return a value,
-      but they can write to streams like stdout.
-      Math is performed using the <code>math</code> function
-      which writes its result to stdout.
-      Surrounding a command with parentheses allows its stdout to be
-      captured and placed in a variable.
     </div>
 
     <h3><a name="Functions">Functions</a></h3>
@@ -2271,6 +2237,7 @@ set result (product 2 3) # 6</pre>
     </div>
     <pre>
 set result (product 3 4) # 12</pre>
+    <div>
     <div>
       Function names cannot begin with a dash (<code>-</code>),
       but they can begin with any other character, even digits.
@@ -2334,6 +2301,29 @@ end</pre>
       are assumed to be used only in the fish shell.
     </div>
 
+    <h3><a name="ComparisonToJavaScript">Comparison to JavaScript</a></h3>
+    <div>
+      Let's look at an example of a simple function that
+      takes two numbers and outputs their product.
+      It's useful to see how fish functions differ from
+      functions in more traditional programming languages like JavaScript.
+    </div>
+    <div>
+      Here is the function in JavaScript and a call to it.
+    </div>
+    <pre>
+function product(n1, n2) {
+  return n1 * n2;
+}
+const result = product(2, 3); // 6</pre>
+    <div>
+      Here is the function in fish and a call to it.
+    </div>
+    <pre>
+function product -a n1 n2
+  math "$n1 * $n2"
+end
+set result (product 2 3) # 6</pre>
     <h3><a name="FunctionAutoLoading">Function Autoloading</a></h3>
     <div>
       Every time a command is evaluated, fish first checks whether there
@@ -2489,8 +2479,9 @@ sed -i .bak 's/    /  /g' <i>fn-name</i>.fish</pre>
       Iterating over the arguments is done in the same way as iterating over any list.
     </div>
     <div>
-      Here is another example of a function
-      that uses named parameters:
+      The <code>--argument-names</code> (<code>-a</code>) switch of the
+      <code>function</code> command specifies named parameters.
+      Here is another example of a function that uses named parameters:
     </div>
     <pre>
 function orderShirt -a size color
