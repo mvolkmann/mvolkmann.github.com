@@ -1303,11 +1303,11 @@ end</pre>
       There are three variable scopes.
     </div>
     <div>
-      <b>Local variables</b> available only in the current block.
+      <b>Local variables</b> are available only in the current block.
       Blocks begin with one of these commands,
       each of which are discussed later:
       <code>begin</code>, <code>if</code>, <code>for</code>,
-      <code>function</code> , <code>switch</code>,
+      <code>function</code>, <code>switch</code>,
       or <code>while</code>.
       Blocks are terminated by a corresponding <code>end</code> command.
     </div>
@@ -1315,10 +1315,10 @@ end</pre>
       <b>Global variables</b> are available anywhere in the current session.
     </div>
     <div>
-      <b>Universal variables</b> are available in every session.
-      They are even available in future sessions
+      <b>Universal variables</b> are available in every session,
+      even in future sessions
       because they are saved across reboots.
-      Settings of universal variables are stored in
+      Settings of universal variables are stored in the file
       <code>~/.config/fish/fishd.<i>machine-id</i></code>.
     </div>
     <div>
@@ -1332,7 +1332,7 @@ end</pre>
       To make a variable universal, add <code>--universal</code> (<code>-U</code>).<br>
       To export a variable so it is visible in child processes,
       add <code>--export</code> (<code>-x</code>).
-      Note that this is not a new kind of scope.
+      This is not a new kind of scope.
       It is convention for exported variable names to be all uppercase.
     </div>
     <div>
@@ -1366,10 +1366,7 @@ end</pre>
       This will delete the variable from the closest scope
       in which it is currently defined,
       considering local then global then universal.
-      A scope can also be specified using the
-      <code>--local</code> (<code>-l</code>),
-      <code>--global</code> (<code>-g</code>), and
-      <code>--universal</code> (<code>-U</code>) switches.
+      A scope can also be specified using a scope switch.
     </div>
     <div>
       To list the names and values of all variables
@@ -1504,7 +1501,8 @@ set listName colors</pre>
     <div>
       Literal string values are specified by enclosing text
       in single or double quotes.
-      Variable substitution occurs in double quotes, but not in single.
+      Variable substitution occurs in double quotes,
+      but not in single quotes.
       For example, the reference to <code>$USER</code>
       in the following is replaced by its value:
       <code>set msg "Good morning, $USER. Have a great day!"</code>
@@ -1589,7 +1587,7 @@ end</pre>
       (<code>-s</code> and <code>-l</code>).
       String indexes start at 1, not 0.
       If <code>-s</code> is omitted, it defaults to <code>1</code>.
-      If <code>-l</code> is omitted, this gets characters to the end.
+      If <code>-l</code> is omitted, it gets characters to the end.
       If <code>-s</code> is negative, it counts from the end of the string.
       For example, to get last three characters, use <code>-s -3</code>.
     </div>
@@ -1651,12 +1649,12 @@ set result (string trim --left --chars 0 $myText) # 19</pre>
     <h3><a name="RegularExpressions">Regular Expressions</a></h3>
     <div>
       To determine if a string matches a pattern,
-      use the <code>string match</code> subcommand.
+      use <code>string match</code>.
       By default this just compares one string to another
       for an exact match which isn't very useful.
     </div>
     <div>
-      A more common use it to match against a regular expression
+      A more common use is to match against a regular expression
       by adding the <code>--regex</code> (<code>-r</code>) switch.
       This uses Perl regular expression syntax.
       By default only the first match is output,
@@ -1765,8 +1763,8 @@ set newText (string replace -ar '.oo' 'bar' $text) # regex matching more than fo
       It sets status to a non-zero number if expression is invalid.
     </div>
     <div>
-      Unlike the fish shell itself,
-      this command supports floating point numbers.
+      Unlike the fish shell itself, the <code>math</code>
+      command supports floating point numbers.
     </div>
     <div>
       For information on available operators and functions,
@@ -1782,6 +1780,13 @@ set newText (string replace -ar '.oo' 'bar' $text) # regex matching more than fo
       <code>*</code> (for multiplication) and parentheses,
       quotes are often required.
     </div>
+    <div>
+      Here is an example that utilizes variables.
+    </div>
+    <pre>
+set width 2
+set height 3
+set area (math "$width * $height") # 6</pre>
     <div>
       By default, the division and modulo operators
       output an integer result obtained by
@@ -1804,20 +1809,13 @@ set newText (string replace -ar '.oo' 'bar' $text) # regex matching more than fo
       that is requested from <code>printf</code>.
     </div>
     <div>
-      Here is an example that utilizes variables.
-    </div>
-    <pre>
-set width 2
-set height 3
-set area (math "$width * $height") # 6</pre>
-    <div>
       The <code>bc</code> command supports functions
       from the Unix standard math library
       if the <code>--mathlib</code> (<code>-l</code>) switch is added.
       These functions include sine (s), cosine (c), arctangent (a),
       natural logarithm (l), exponentiation (e), and bessel (j).
       Unfortunately the <code>math</code> command doesn't support
-      the <code>--mathlibl</code> switch, so it cannot use these functions.
+      the <code>--mathlib</code> switch, so it cannot use these functions.
       However, the <code>bc</code> command can be used directly in fish.
       Here's an example that determines the sine of 45 degrees.
     </div>
