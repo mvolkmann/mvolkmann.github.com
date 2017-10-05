@@ -579,6 +579,14 @@
       The fish shell is somewhat like Lisp in this regard.
     </div>
     <div>
+      By default when entering commands,
+      text is red until a valid command is entered.
+      Then it changes to "normal" which is the
+      configurable, default, foreground color.
+      When typing file paths, the text is underlined
+      unless no directory or file matches what has been typed so far.
+    </div>
+    <div>
       Many commands accept switches that affect their functionality.
       Switches can have short and long forms.
       Long switch names are preceded by two dashes.
@@ -1987,18 +1995,11 @@ end</pre>
 
     <h3><a name="Colors">Colors</a></h3>
     <div>
-      By default when entering commands,
-      text is red until a valid command is entered.
-      Then it changes to "normal" which is the
-      configurable, default, foreground color.
-      When typing file paths, the text is underlined
-      unless no directory or file matches what has been typed so far.
-    </div>
-    <div>
       The color of output can be customized
       using the <code>set_color</code> command.
       This command outputs a sequence of characters that changes
       the foreground color for subsequently output text.
+      For example:
     </div>
 <pre>
 echo Roses are (set_color red)red(set_color normal), \
@@ -2007,7 +2008,7 @@ echo Roses are (set_color red)red(set_color normal), \
       The characters output by the <code>set_color</code> command
       can be captured in a variable and output later.
       For example,
-      <code>set makeBlue (set_color blue); echo 'I am '$makeBlue'blue'</code>
+      <code>set makeBlue (set_color blue); echo "I am$makeBlue blue"</code>
     </div>
     <div>
       Colors can be specified by using a color name or value.
