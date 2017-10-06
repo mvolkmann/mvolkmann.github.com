@@ -3242,8 +3242,7 @@ set color (random choice $colors)</pre>
     <div>
       For comparison purposes, this section presents the same utility,
       <code>lscolor</code>, implemented in Node.js, bash, and fish.
-      It lists all files in the current directory on separate lines
-      like the <code>ls -1</code> command.
+      It lists all files in the current directory on separate lines.
       However, files with certain extensions are output with specific colors.
       There are default colors for files with
       the extensions html, css, js, and scss.
@@ -3295,7 +3294,7 @@ fs.readdir('.', (err, files) =&gt; {
       Here is the bash version:
     </div>
     <pre>
-Coming soon!</pre>
+TODO: Coming soon!</pre>
 
     <div>
       Here is the fish version:
@@ -3322,7 +3321,7 @@ function lscolor
     set $varName $color
   end
 
-  for file in (ls -1)
+  for file in (ls *)
     set pieces (string split '.' $file)
     if test (count $pieces) -ge 2
       set extension $pieces[2]
