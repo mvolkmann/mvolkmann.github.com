@@ -131,7 +131,6 @@
       <li class="level2"><a href="#RegularExpressions">Regular Expressions</a></li>
       <li class="level2"><a href="#Numbers">Numbers</a></li>
       <li class="level2"><a href="#Math">Math</a></li>
-      <li class="level2"><a href="#Dates">Dates</a></li>
       <li class="level2"><a href="#Lists">Lists (a.k.a. Arrays)</a></li>
       <li class="level2"><a href="#Hashmaps">Hashmaps</a></li>
       <li class="level2"><a href="#Colors">Colors</a></li>
@@ -152,6 +151,7 @@
 
       <li class="level1"><a href="#Extras">Extras</a></li>
       <li class="level2"><a href="#AbsolutePath">Absolute Path</a></li>
+      <li class="level2"><a href="#Dates">Dates</a></li>
       <li class="level2"><a href="#OpeningFiles">Opening Files</a></li>
       <li class="level2"><a href="#ReadingFromStdin">Reading From stdin</a></li>
       <li class="level2"><a href="#Processes">Processes</a></li>
@@ -235,14 +235,14 @@
      </li>
       <li>
         Whenever possible without breaking the above goals,
-        fish should follow the Posix syntax.<br>
+        fish should follow the POSIX syntax.<br>
         (This may lead some to avoid using fish for
         sysadmin and install types of scripts
         because there is often a desire for those to be highly portable
         without requiring installation of new software such as fish.
         However, for scripts targeted at typical users
         or scripts that only you will use,
-        implementing them in a shell that is not 100% Posix compliant
+        implementing them in a shell that is not 100% POSIX compliant
         is much less of a concern.)
      </li>
       <li>
@@ -340,9 +340,10 @@
 
     <h3><a name="Uninstalling">Uninstalling</a></h3>
     <div>
-      To uninstall the fish shell, change the default shell
-      to something else (like bash) and then
-      run the following commands:
+      To uninstall the fish shell, change the default shell to
+      something else (like bash), and then run the following commands,
+      adjusting the paths if fish was installed
+      somewhere other than <code>/usr/local</code>:
     </div>
     <ul>
       <li><code>rm -rf /usr/local/etc/fish /usr/local/share/fish ~/.config/fish</code></li>
@@ -1839,21 +1840,6 @@ set result (echo "s($radians)" | bc --mathlib) # .70710678</pre>
       Node.js, Ruby, Python, or Perl.
     </div>
 
-    <h3><a name="Dates">Dates</a></h3>
-    <div>
-      The <code>date</code> command outputs the current date.
-      The default format looks like "Sat Aug 26 16:54:52 CDT 2017".
-      To use a different format, specify it using a format string
-      as defined by the <code>strftime</code> command.
-      For details, enter <code>man strftime</code>.
-    </div>
-    <div>
-      For example, to format the date as "Saturday August 26, 2017"
-      enter <code>date '+%A %B %d, %G'</code>.
-      To format it as "08/26/2017"
-      enter <code>date '+%m/%d/%G'</code>.
-    </div>
-
     <h3><a name="Lists">Lists (a.k.a. Arrays)</a></h3>
     <div>
       Recall that the value of all variables is a list which
@@ -3063,6 +3049,21 @@ end</pre>
       For example, when in the directory <code>/foo/bar/baz</code>,
      entering <code>realpath ../../qux</code>
      outputs <code>/foo/qux</code>.
+    </div>
+
+    <h3><a name="Dates">Dates</a></h3>
+    <div>
+      The <code>date</code> command outputs the current date.
+      The default format looks like "Sat Aug 26 16:54:52 CDT 2017".
+      To use a different format, specify it using a format string
+      as defined by the <code>strftime</code> system library function.
+      For details, enter <code>man strftime</code>.
+    </div>
+    <div>
+      For example, to format the date as "Saturday August 26, 2017"
+      enter <code>date '+%A %B %d, %G'</code>.
+      To format it as "08/26/2017"
+      enter <code>date '+%m/%d/%G'</code>.
     </div>
 
     <h3><a name="OpeningFiles">Opening Files</a></h3>
