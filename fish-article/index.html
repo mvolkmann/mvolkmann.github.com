@@ -378,7 +378,7 @@
     <div>
       Entering <code>help <i>command-name</i></code>
       displays the same help in the default web browser,
-      but with better formatting.
+      but only for fish commands and with better formatting.
     </div>
     <div>
       Other great sources of help include:
@@ -601,7 +601,8 @@
       commands are followed by the short form in parentheses.
     </div>
     <div>
-      Nearly all commands set the <code>status</code> variable to
+      Nearly all commands set the <code>status</code> variable
+      (referred to with <code>$?</code> in other shells) to
       <code>0</code> for success and another number for failure.
       <code>true</code> and <code>false</code> are not boolean literals.
       <code>true</code> is a command that sets status to 0 and
