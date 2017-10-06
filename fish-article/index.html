@@ -3089,7 +3089,10 @@ end</pre>
       <li>
         <code>--prompt-str <i>text</i></code> (<code>-P</code>)<br>
         This sets the prompt text which defaults to "read&gt; ".
-        See the "favorite color" example below.
+        For example, to prompt the user for their favorite color,
+        with the default being yellow, use
+        <code>read --prompt-str 'Favorite color: ' --command yellow color</code>.
+        This sets the variable <code>color</code> to what the user enters.
       </li>
       <li>
         <code>--prompt-cmd <i>command</i></code> (<code>-p</code>)<br>
@@ -3121,12 +3124,6 @@ end</pre>
       </li>
       <li>and many more</li>
     </ul>
-    <div>
-      For example, to prompt the user for their favorite color,
-      with the default being yellow, use
-      <code>read --prompt-str 'Favorite color: ' --command yellow color</code>.
-      This sets the variable <code>color</code> to what the user enters.
-    </div>
     <div>
       The read command can set more than one variable.
       Each is set to the word at the corresponding position.
