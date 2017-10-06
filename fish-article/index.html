@@ -2795,16 +2795,13 @@ switch <i>expression</i> # ex. $color
     <i>statements</i>
 end</pre>
     <div>
-      The expression should evaluate to a string.
-    </div>
-    <div>
       Note how a <code>case</code> can list more than one value.  Also note
       that a "break" statement is not needed at the end of each <code>case</code>
       because execution does not fall through as it does in many programming languages.
     </div>
     <div>
       To treat one case value as the default, use
-      <code>case default-value '*'</code>.
+      <code>case '*'</code>.
     </div>
     <div>
       For example, this function accepts a "help" switch
@@ -2845,8 +2842,8 @@ end</pre>
     <div>
       This uses the status of a command
       to determine whether to iterate again.
-      It continues as long as the status is zero
-      and stops when it is non-zero.
+      It continues as long as the status is 0
+      and stops when it is any other value.
     </div>
     <div>
       For an endless loop, use the <code>true</code> command.
