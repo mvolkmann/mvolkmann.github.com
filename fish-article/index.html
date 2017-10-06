@@ -2296,101 +2296,6 @@ end</pre>
       All functions defined in these directories
       are assumed to be used only in the fish shell.
     </div>
-
-    <h3><a name="ComparisonToJavaScript">Comparison to JavaScript</a></h3>
-    <div>
-      Let's look at an example of a simple function that
-      takes two numbers and outputs their product.
-      It's useful to see how fish functions differ from
-      functions in more traditional programming languages like JavaScript.
-    </div>
-    <div>
-      Here is the function in JavaScript and a call to it.
-    </div>
-    <pre>
-function product(n1, n2) {
-  return n1 * n2;
-}
-const result = product(2, 3); // 6</pre>
-    <div>
-      Here is the function in fish and a call to it.
-    </div>
-    <pre>
-function product -a n1 n2
-  math "$n1 * $n2"
-end
-set result (product 2 3) # 6</pre>
-    <h3><a name="FunctionAutoLoading">Function Autoloading</a></h3>
-    <div>
-      Every time a command is evaluated, fish first checks whether there
-      is a file in any path listed in <code>fish_function_path</code>
-      with the same name and a <code>.fish</code> extension.
-      If a matching file is found, and the file has not been loaded
-      within the "staleness interval" (discussed later),
-      it loads the file to get the current definition of the function
-      and executes the function.
-      This is referred to as "autoloading".
-    </div>
-    <div>
-      If no such function is found, fish then checks whether there is
-      an executable file in any path listed in <code>PATH</code>
-      with the same name.  If so, that file is executed.
-    </div>
-    <div>
-      Multiple functions can be defined in the same file,
-      but they will not be available until the function
-      whose name matches the file is called once,
-      so doing this is not recommended.
-    </div>
-    <div>
-      Functions defined in a path listed in
-      <code>fish_function_path</code> are
-      immediately available in all fish shells.
-      Changes to them are automatically reloaded in all fish shells
-      the next time they are used.
-    </div>
-    <div>
-      Function autoloading allows functions to be used in place of
-      commands, builtins, and executables in <code>PATH</code>.
-      For example, the <code>date</code> command can be overridden
-      with a custom function by entering
-      <code>function date; echo pwned date; end</code>.
-      After this, entering <code>date</code> outputs "pwned date"
-      instead of the output of the <code>date</code> command
-      in the current fish session.
-    </div>
-    <div>
-      The staleness interval avoids thrashing the file system
-      every time a command is evaluated, and is around 15 seconds.
-      This is an implementation detail that cannot be configured.
-      To use a modified function definition before the
-      staleness interval passes, source the file.  For example,
-    </div>
-    <pre>
-funced foo; and funcsave foo; and source ~/.config/fish/functions/foo.fish</pre>
-
-    <div>
-      To save a function definition that has been entered interactively
-      in a file in <code>~/.config/fish/functions</code>
-      so it can be autoloaded,
-      enter <code>funcsave <i>name</i></code>.
-      This uses tabs for indentation.
-    </div>
-    <div>
-      To edit a function definition, enter <code>funced <i>name</i></code>.
-      If the function is not already defined, it will be created.
-      This uses the editor specified in the <code>VISUAL</code> variable
-      that can be set in <code>config.fish</code>.
-      It defaults to emacs, but can be changed to Vim with
-      <code>set VISUAL vim</code>.
-      Using <code>funced</code> is more convenient than
-      starting an editor first and then
-      creating the file in the proper directory or locating it
-      from within the editor.
-      After every use of <code>funced</code>,
-      if the changes should be available in current and future sessions,
-      run <code>funcsave <i>name</i></code>.
-    </div>
     <div>
       To output a formatted version of a <code>.fish</code> file, enter
       <code>fish_indent &lt; <i>someName</i>.fish</code>.
@@ -2515,6 +2420,101 @@ set_color $fish_color_error
 echo <i>someErrorMsg</i> 1&gt;&amp;2 # writes to stdout
 set_color normal
 return <i>someNonZeroStatus</i></pre>
+
+    <h3><a name="ComparisonToJavaScript">Comparison to JavaScript</a></h3>
+    <div>
+      Let's look at an example of a simple function that
+      takes two numbers and outputs their product.
+      It's useful to see how fish functions differ from
+      functions in more traditional programming languages like JavaScript.
+    </div>
+    <div>
+      Here is the function in JavaScript and a call to it.
+    </div>
+    <pre>
+function product(n1, n2) {
+  return n1 * n2;
+}
+const result = product(2, 3); // 6</pre>
+    <div>
+      Here is the function in fish and a call to it.
+    </div>
+    <pre>
+function product -a n1 n2
+  math "$n1 * $n2"
+end
+set result (product 2 3) # 6</pre>
+    <h3><a name="FunctionAutoLoading">Function Autoloading</a></h3>
+    <div>
+      Every time a command is evaluated, fish first checks whether there
+      is a file in any path listed in <code>fish_function_path</code>
+      with the same name and a <code>.fish</code> extension.
+      If a matching file is found, and the file has not been loaded
+      within the "staleness interval" (discussed later),
+      it loads the file to get the current definition of the function
+      and executes the function.
+      This is referred to as "autoloading".
+    </div>
+    <div>
+      If no such function is found, fish then checks whether there is
+      an executable file in any path listed in <code>PATH</code>
+      with the same name.  If so, that file is executed.
+    </div>
+    <div>
+      Multiple functions can be defined in the same file,
+      but they will not be available until the function
+      whose name matches the file is called once,
+      so doing this is not recommended.
+    </div>
+    <div>
+      Functions defined in a path listed in
+      <code>fish_function_path</code> are
+      immediately available in all fish shells.
+      Changes to them are automatically reloaded in all fish shells
+      the next time they are used.
+    </div>
+    <div>
+      Function autoloading allows functions to be used in place of
+      commands, builtins, and executables in <code>PATH</code>.
+      For example, the <code>date</code> command can be overridden
+      with a custom function by entering
+      <code>function date; echo pwned date; end</code>.
+      After this, entering <code>date</code> outputs "pwned date"
+      instead of the output of the <code>date</code> command
+      in the current fish session.
+    </div>
+    <div>
+      The staleness interval avoids thrashing the file system
+      every time a command is evaluated, and is around 15 seconds.
+      This is an implementation detail that cannot be configured.
+      To use a modified function definition before the
+      staleness interval passes, source the file.  For example,
+    </div>
+    <pre>
+funced foo; and funcsave foo; and source ~/.config/fish/functions/foo.fish</pre>
+
+    <div>
+      To save a function definition that has been entered interactively
+      in a file in <code>~/.config/fish/functions</code>
+      so it can be autoloaded,
+      enter <code>funcsave <i>name</i></code>.
+      This uses tabs for indentation.
+    </div>
+    <div>
+      To edit a function definition, enter <code>funced <i>name</i></code>.
+      If the function is not already defined, it will be created.
+      This uses the editor specified in the <code>VISUAL</code> variable
+      that can be set in <code>config.fish</code>.
+      It defaults to emacs, but can be changed to Vim with
+      <code>set VISUAL vim</code>.
+      Using <code>funced</code> is more convenient than
+      starting an editor first and then
+      creating the file in the proper directory or locating it
+      from within the editor.
+      After every use of <code>funced</code>,
+      if the changes should be available in current and future sessions,
+      run <code>funcsave <i>name</i></code>.
+    </div>
 
     <h3><a name="AutoRunningFunctions">Auto-running Functions</a></h3>
     <div>
