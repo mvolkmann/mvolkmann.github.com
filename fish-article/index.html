@@ -2452,7 +2452,7 @@ sed -i .bak 's/    /  /g' <i>fn-name</i>.fish</pre>
       It just makes the function inactive in the current session.
     </div>
     <div>
-      To test if a function exists, enter
+      To test if a function is defined, enter
       <code>functions --query <i>name</i></code> (<code>-q</code>).
       This sets status to 0 if the function exists and 1 otherwise.
     </div>
@@ -2638,10 +2638,10 @@ end</pre>
       For a list of possible signals, enter <code>kill -l</code>.
       To see the keystrokes that generate some of these signals,
       enter <code>stty -a</code> and look for "cchars:".
-      As an example, pressing ctrl-d sends an "eof" signal.
+      For example, pressing ctrl-d sends an "eof" signal.
     </div>
     <div>
-      To send any signal to a given process, enter
+      To send a signal to a process, enter
       <code>kill -<i>signalNameOrNumber</i> <i>pid</i></code>.
       For example, to handle a "hup" signal,
     </div>
@@ -2682,9 +2682,6 @@ kill -hup %self # got hup</pre>
       Examples include <code>cd</code>, <code>echo</code>, and <code>if</code>.
       To get a list of builtin names, enter
       <code>builtin --names</code> (<code>-n</code>)
-      The <code>builtin</code> command can also be used to
-      execute a specific builtin instead of
-      a function with the same name.
     </div>
     <div>
       "Commands" are executables found in <code>PATH</code>.
@@ -2693,9 +2690,6 @@ kill -hup %self # got hup</pre>
       To get the path to a command, enter
       <code>command --search <i>name</i></code> (<code>-s</code>)
       or <code>which <i>name</i></code>.
-      The <code>command</code> command followed by the name of a command
-      can be used to execute a specific command instead of a
-      builtin or function with the same name.
     </div>
     <div>
       "Functions" have two sources, those provided by fish
@@ -2709,7 +2703,6 @@ kill -hup %self # got hup</pre>
       User-defined functions are typically defined in
       files with a <code>.fish</code> extension
       in any directory listed in the <code>fish_function_path</code> directory.
-      By default, this includes the <code>~/.config/fish/functions</code> directory.
     </div>
     <div>
       Recall that the alias command generates a function
@@ -2728,11 +2721,6 @@ end</pre>
       to the end of the command specified in the alias.
       This allows additional switches and arguments to be
       passed to the command when the alias is used.
-    </div>
-    <div>
-      To determine if a function is defined, enter
-      <code>functions --query <i>name</i></code>.
-      This sets status to 0 if defined or 1 if not.
     </div>
     <div>
       To get the type of a name, enter <code>type <i>name</i></code>.
