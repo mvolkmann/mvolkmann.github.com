@@ -3146,7 +3146,7 @@ end</pre>
 
     <h3><a name="Processes">Processes</a></h3>
     <div>
-      The <code>%</code> character followed by specific words
+      The <code>%</code> character followed by text
       expands to a process id.
       <code>%self</code> expands to the current process id.
       <code>%<i>jobNumber</i></code> expands to the
@@ -3215,7 +3215,7 @@ end</pre>
     <div>
       To select a random item from a list of options,
       use <code>random choice <i>option1</i> <i>option2</i> ...</code>.
-      For example, to choose a random color from a list of options,
+      For example, to choose a random color from a list of options:
       <pre>
 set colors red orange yellow green blue purple
 set color (random choice $colors)</pre>
@@ -3240,8 +3240,8 @@ set color (random choice $colors)</pre>
 
     <h3><a name="Example">Example in Node, bash, and fish</a></h3>
     <div>
-      For comparison purposes, this section presents the same utility
-      implemented in Node.js, bash, and fish.
+      For comparison purposes, this section presents the same utility,
+      <code>lscolor</code>, implemented in Node.js, bash, and fish.
       It lists all files in the current directory on separate lines
       like the <code>ls -1</code> command.
       However, files with certain extensions are output with specific colors.
@@ -3251,8 +3251,8 @@ set color (random choice $colors)</pre>
       can be specified with arguments of the form
       <code><i>extension</i>=<i>color</i></code> .
       By default, files with an unspecified extension are output in white,
-      by that can also be overridden with <code>default=<i>color</i></code>.
-      For example, <code>lscolor fish=magenta js=cyan</code>
+      but that can also be overridden with <code>default=<i>color</i></code>.
+      For example, <code>lscolor fish=magenta js=cyan default=yellow</code>
       produces the following output:
     </div>
     <img id="lscolors" src="lscolors-output.png" alt="lscolors output">
