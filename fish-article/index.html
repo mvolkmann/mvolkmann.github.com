@@ -3302,9 +3302,59 @@ fs.readdir('.', (err, files) =&gt; {
 
     <div>
       Here is the bash version:
+      TODO: This isn't correct yet!
     </div>
     <pre>
-TODO: Coming soon!</pre>
+#!/bin/bash
+
+# Color ANSI escape sequences
+black='\033[0;30m'
+red='\033[0;31m'
+green='\033[0;32m'
+orange='\033[0;33m'
+blue='\033[0;34m'
+purple='\033[0;35m' # magenta
+cyan='\033[0;36m'
+yellow='\033[1;33m'
+white='\033[1;37m'
+
+# Default colors
+cssColor=$green
+defaultColor=$white
+htmlColor=$blue
+jsColor=$red
+scssColor=$green
+
+# Use colors specified in switches.
+for arg in "$@"; do
+  IFS="="
+  pieces=$arg
+  if [ ${#pieces[@]} -lt 2 ]; then
+    echo 'invalid argument "'$arg'"'
+    return 1
+  fi
+  extension=${pieces[0]}
+  color=${pieces[1]}
+  varName="${extension}Color}
+  eval $varName=$color
+done
+
+for file in *; do
+  IFS="."
+  pieces=$file
+  if [ ${#pieces[@]} -ge 2 ]; then
+    extension=${pieces[1]}
+    varName="${extension}Color"
+    color=eval $$varName
+    if [ -z $color ]; then
+      color=$defaultColor
+    fi
+  else
+    color=$defaultColor
+  fi
+  #set_color $color
+  echo $file
+done</pre>
 
     <div>
       Here is the fish version:
@@ -3312,15 +3362,15 @@ TODO: Coming soon!</pre>
     <pre>
 function lscolor
   # Default colors
-  set cssColor 'green'
-  set defaultColor 'white'
-  set htmlColor 'blue'
-  set jsColor 'red'
-  set scssColor 'green'
+  set cssColor green
+  set defaultColor white
+  set htmlColor blue
+  set jsColor red
+  set scssColor green
 
   # Use colors specified in switches.
   for arg in $argv
-    set pieces (string split '=' $arg)
+    set pieces (string split = $arg)
     if test (count $pieces) -lt 2
       echo 'invalid argument "'$arg'"'
       return 1
@@ -3331,8 +3381,8 @@ function lscolor
     set $varName $color
   end
 
-  for file in (ls *)
-    set pieces (string split '.' $file)
+  for file in (ls -d *)
+    set pieces (string split . $file)
     if test (count $pieces) -ge 2
       set extension $pieces[2]
       set varName $extension'Color'
@@ -3357,10 +3407,5 @@ end</pre>
       Please send feedback on this article to
       <a href="mailto:mark@objectcomputing.com">mark@objectcomputing.com</a>.
     </div>
-
-    <hr>
-    <ul>
-      <li>LOOK FOR TODO IN THIS FILE!</li>
-    </ul>
   </body>
 </html>
