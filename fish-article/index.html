@@ -148,6 +148,7 @@
       <li class="level2"><a href="#LoopCommands">Loop Commands</a></li>
       <li class="level2"><a href="#CustomPrompt">Custom Prompt</a></li>
       <li class="level2"><a href="#DebuggingFunctions">Debugging Functions</a></li>
+      <li class="level2"><a href="#CustomTabCompletions">Custom Tab Completions</a></li>
 
       <li class="level1"><a href="#Extras">Extras</a></li>
       <li class="level2"><a href="#AbsolutePath">Absolute Path</a></li>
@@ -157,7 +158,6 @@
       <li class="level2"><a href="#Processes">Processes</a></li>
       <li class="level2"><a href="#Jobs">Jobs</a></li>
       <li class="level2"><a href="#RandomNumbersAndOptions">Random Numbers and Options</a></li>
-      <li class="level2"><a href="#CustomTabCompletions">Custom Tab Completions</a></li>
       <li class="level2"><a href="#Example">Example in Node, bash, and fish</a></li>
 
       <li class="level1"><a href="#Summary">Summary</a></li>
@@ -3050,6 +3050,72 @@ end</pre>
       enter <code>kill %self</code>.
     </div>
 
+    <h3><a name="CustomTabCompletions">Custom Tab Completions</a></h3>
+    <div>
+      Tab completions can be defined for custom commands
+      using the <code>complete</code> command.  Its syntax is:
+    </div>
+    <pre>
+complete -c <i>commandName</i> -s <i>shortSwitchName</i> -l <i>longSwitchName</i> -a '<i>argument words</i>'</pre>
+    <div>
+      This command accepts many switches.  The most useful are:
+    </div>
+    <ul>
+      <li><code>--command</code> (<code>-c</code>) -
+        specifies the command to which the completion applies</li>
+      <li><code>--short-option</code> (<code>-s</code>) -
+        specifies the short name of the switch to which the completion applies</li>
+      <li><code>--long-option</code> (<code>-l</code>) -
+        specifies the long name of the switch to which the completion applies</li>
+      <li><code>--arguments</code> (<code>-a</code>) -
+        specifies the completion values to be used as a single, space-separated string</li>
+      <li><code>--no-files</code> (<code>-f</code>) -
+        disallows file path completion for this switch</li>
+      <li><code>--require-parameter</code> (<code>-r</code>) -
+        specifies that a value must follow the switch as opposed to another switch</li>
+    </ul>
+    <div>
+      Here is an example of a custom command with custom completion of color names.
+      It echoes text using colors specified with the
+      <code>--color</code> (<code>-c</code>) switch which can be used any number of times.
+      For example:
+    </div>
+    <pre>
+cecho -c red fire -c green grass -c normal cloud -c blue sky</pre>
+    <div>
+      Tab completion can be used to select colors by typing the
+      <code>--color</code> (<code>-c</code>) switch,
+      followed by a space, and pressing the tab key.
+    </div>
+    <pre>
+function cecho -d 'echoes given text in color'
+  for arg in $argv
+    switch $arg
+      case '-c' '--color'
+        set expectColor 'yes'
+      case '*'
+        if test -n "$expectColor"
+          set_color $arg
+          set expectColor # no value
+        else
+          echo -n $arg' ' # includes space between words
+        end
+    end
+  end
+  echo # for newline
+end
+
+# Configure completions for the color switch.
+set colors 'black blue cyan green magenta red white yellow'
+complete --command cecho -f -r -s c -l color -a "$colors"</pre>
+    <div>
+       For more on this topic, see
+       <a href="https://fishshell.com/docs/current/commands.html#complete">https://fishshell.com/docs/current/commands.html#complete</a>
+       and
+       <a href="https://fishshell.com/docs/current/index.html#completion-own">https://fishshell.com/docs/current/index.html#completion-own</a>.
+       This describes alternative locations for defining tab completions.
+    </div>
+
     <h2><a name="Extras">Extras</a></h2>
 
     <h3><a name="AbsolutePath">Absolute Path</a></h3>
@@ -3231,72 +3297,6 @@ end</pre>
       <pre>
 set colors red orange yellow green blue purple
 set color (random choice $colors)</pre>
-    </div>
-
-    <h3><a name="CustomTabCompletions">Custom Tab Completions</a></h3>
-    <div>
-      Tab completions can be defined for custom commands
-      using the <code>complete</code> command.  Its syntax is:
-    </div>
-    <pre>
-complete -c <i>commandName</i> -s <i>shortSwitchName</i> -l <i>longSwitchName</i> -a '<i>argument words</i>'</pre>
-    <div>
-      This command accepts many switches.  The most useful are:
-    </div>
-    <ul>
-      <li><code>--command</code> (<code>-c</code>) -
-        specifies the command to which the completion applies</li>
-      <li><code>--short-option</code> (<code>-s</code>) -
-        specifies the short name of the switch to which the completion applies</li>
-      <li><code>--long-option</code> (<code>-l</code>) -
-        specifies the long name of the switch to which the completion applies</li>
-      <li><code>--arguments</code> (<code>-a</code>) -
-        specifies the completion values to be used as a single, space-separated string</li>
-      <li><code>--no-files</code> (<code>-f</code>) -
-        disallows file path completion for this switch</li>
-      <li><code>--require-parameter</code> (<code>-r</code>) -
-        specifies that a value must follow the switch as opposed to another switch</li>
-    </ul>
-    <div>
-      Here is an example of a custom command with custom completion of color names.
-      It echoes text using colors specified with the
-      <code>--color</code> (<code>-c</code>) switch which can be used any number of times.
-      For example:
-    </div>
-    <pre>
-cecho -c red fire -c green grass -c normal cloud -c blue sky</pre>
-    <div>
-      Tab completion can be used to select colors by typing the
-      <code>--color</code> (<code>-c</code>) switch,
-      followed by a space, and pressing the tab key.
-    </div>
-    <pre>
-function cecho -d 'echoes given text in color'
-  for arg in $argv
-    switch $arg
-      case '-c' '--color'
-        set expectColor 'yes'
-      case '*'
-        if test -n "$expectColor"
-          set_color $arg
-          set expectColor # no value
-        else
-          echo -n $arg' ' # includes space between words
-        end
-    end
-  end
-  echo # for newline
-end
-
-# Configure completions for the color switch.
-set colors 'black blue cyan green magenta red white yellow'
-complete --command cecho -f -r -s c -l color -a "$colors"</pre>
-    <div>
-       For more on this topic, see
-       <a href="https://fishshell.com/docs/current/commands.html#complete">https://fishshell.com/docs/current/commands.html#complete</a>
-       and
-       <a href="https://fishshell.com/docs/current/index.html#completion-own">https://fishshell.com/docs/current/index.html#completion-own</a>.
-       This describes alternative locations for defining tab completions.
     </div>
 
     <h3><a name="Example">Example in Node, bash, and fish</a></h3>
