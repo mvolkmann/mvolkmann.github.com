@@ -1857,11 +1857,11 @@ set result (echo "s($radians)" | bc --mathlib) # .70710678</pre>
     </div>
     <div>
       To create an empty list,
-      enter <code>set <i>name</i></code>
+      enter <code>set <i>listName</i></code>
     </div>
     <div>
       To create a non-empty list,
-      enter <code>set <i>name</i> <i>item1</i> <i>item2</i> ...</code>
+      enter <code>set <i>listName</i> <i>item1</i> <i>item2</i> ...</code>
     </div>
     <div>
       For example, <code>set colors red green blue</code>
@@ -1871,49 +1871,49 @@ set result (echo "s($radians)" | bc --mathlib) # .70710678</pre>
     </div>
     <div>
       To get the length of a list, use
-      <code>count $<i>name</i></code>
+      <code>count $<i>listName</i></code>
     </div>
     <div>
       To append an item to a list, use
-      <code>set <i>name</i> $<i>name</i> <i>newItem</i></code>
+      <code>set <i>listName</i> $<i>listName</i> <i>newItem</i></code>
     </div>
     <div>
       To prepend an item to a list, use
-      <code>set <i>name</i> <i>newItem</i> $<i>name</i></code>
+      <code>set <i>listName</i> <i>newItem</i> $<i>listName</i></code>
     </div>
     <div>
       To get an item from a list by index, use
-      <code><i>$name</i>[<i>index</i>]</code>.
+      <code><i>$listName</i>[<i>index</i>]</code>.
       Indexes start at 1, not 0.
       Use negative indexes to retrieve from the end of a list.
-      For example, <code><i>$name</i>[-1]</code> gets the last item.
+      For example, <code><i>$listName</i>[-1]</code> gets the last item.
     </div>
     <div>
       To set a list item by index, use
-      <code>set <i>name</i>[<i>index</i>] <i>value</i></code>
+      <code>set <i>listName</i>[<i>index</i>] <i>value</i></code>
     </div>
     <div>
       To get a slice which is a new list, use
-      <code>$<i>name</i>[<i>start</i>..<i>end</i>]</code><br>
+      <code>$<i>listName</i>[<i>start</i>..<i>end</i>]</code><br>
       <code><i>start</i></code> and <code><i>end</i></code>
       can be positive or negative.
     </div>
     <div>
       To get a new list that contains specific elements from another, use
       a space-separated list of indexes in the form
-      <code>$<i>name</i>[<i>index1</i> <i>index2</i> <i>index3</i>]</code>.
+      <code>$<i>listName</i>[<i>index1</i> <i>index2</i> <i>index3</i>]</code>.
       For example, to get the first and last colors, use
       <code>$colors[1 -1]</code>.
     </div>
     <div>
       To create a reversed version of an existing list, use
-      <code>set <i>newName</i> <i>existingName</i>[-1..1]</code>
+      <code>set <i>newListName</i> <i>existingListName</i>[-1..1]</code>
     </div>
     <div>
       To test whether an item is in a list, use:
     </div>
 <pre>
-if contains <i>item</i> $<i>name</i>
+if contains <i>item</i> $<i>listName</i>
   # code goes here
 end</pre>
     <div>
@@ -1922,14 +1922,14 @@ end</pre>
     </div>
     <div>
       To get the index of an item in a list, use<br>
-      <code>contains --index <i>item</i> $<i>name</i></code> (<code>-i</code>)
+      <code>contains --index <i>item</i> $<i>listName</i></code> (<code>-i</code>)
     </div>
     <div>
       To remove an item from a list, use
     </div>
 <pre>
-if set --local index (contains -i <i>item</i> $<i>name</i>)
-  set --erase <i>name</i>[$index]
+if set --local index (contains -i <i>item</i> $<i>listName</i>)
+  set --erase <i>listName</i>[$index]
 end</pre>
     <div>
       Note that <code>--local</code> is used above to
@@ -1938,7 +1938,7 @@ end</pre>
     <div>
       To iterate over all the items in a list, use
 <pre>
-for <i>item</i> in $<i>name</i>
+for <i>item</i> in $<i>listName</i>
   # use $<i>item</i> here
 end</pre>
     </div>
@@ -2169,6 +2169,10 @@ end &lt; <i>filePath</i> </pre>
       Tests for strings, numbers, and files were
       described previously in those sections.
       For example, <code>test "$color" = 'yellow'</code>.
+      This can also be written as
+      <code>[ "$color" = 'yellow' ]</code>.
+      for compatibility with other shells,
+      but explictly using the <code>test</code> command is preferred.
     </div>
     <div>
       To negate any test, add <code>!</code> after <code>test</code>
@@ -2755,7 +2759,7 @@ end</pre>
       is <code>test</code>.  For example,
       to explictly test the status of the
       last command executed before an <code>if</code>, use
-      <code>if test $status # success</code> or
+      <code>if test $status = 0 # success</code> or
       <code>if test $status != 0 # failure</code>
     </div>
     <div>
@@ -3234,18 +3238,67 @@ set color (random choice $colors)</pre>
     <h3><a name="CustomTabCompletions">Custom Tab Completions</a></h3>
     <div>
       Tab completions can be defined for custom commands
-      using the <code>complete</code> command.
-      This is an advanced topic.
+      using the <code>complete</code> command.  Its syntax is:
     </div>
+    <pre>
+complete -c <i>commandName</i> -s <i>shortSwitchName</i> -l <i>longSwitchName</i> -a '<i>argument words</i>'</pre>
     <div>
-      The syntax is
-      <code>complete -c <i>commandName</i> -s <i>shortSwitch</i> -l <i>longSwitch</i> -a '<i>argument words</i>'</code>
+      This command accepts many switches.  The most useful are:
     </div>
+    <ul>
+      <li><code>--command</code> (<code>-c</code>) -
+        specifies the command to which the completion applies</li>
+      <li><code>--short-option</code> (<code>-s</code>) -
+        specifies the short name of the switch to which the completion applies</li>
+      <li><code>--long-option</code> (<code>-l</code>) -
+        specifies the long name of the switch to which the completion applies</li>
+      <li><code>--arguments</code> (<code>-a</code>) -
+        specifies the completion values to be used as a single, space-separated string</li>
+      <li><code>--no-files</code> (<code>-f</code>) -
+        disallows file path completion for this switch</li>
+      <li><code>--require-parameter</code> (<code>-r</code>) -
+        specifies that a value must follow the switch as opposed to another switch</li>
+    </ul>
     <div>
-       TODO: See your functions/greet.fish and completions/greet.fish example
-       which is not working yet.
-       Also see https://fishshell.com/docs/current/commands.html#complete
-       and https://fishshell.com/docs/current/index.html#completion-own.
+      Here is an example of a custom command with custom completion of color names.
+      It echoes text using colors specified with the
+      <code>--color</code> (<code>-c</code>) switch which can be used any number of times.
+      For example:
+    </div>
+    <pre>
+cecho -c red fire -c green grass -c normal cloud -c blue sky</pre>
+    <div>
+      Tab completion can be used to select colors by typing the
+      <code>--color</code> (<code>-c</code>) switch,
+      followed by a space, and pressing the tab key.
+    </div>
+    <pre>
+function cecho -d 'echoes given text in color'
+  for arg in $argv
+    switch $arg
+      case '-c' '--color'
+        set expectColor 'yes'
+      case '*'
+        if test -n "$expectColor"
+          set_color $arg
+          set expectColor # no value
+        else
+          echo -n $arg' ' # includes space between words
+        end
+    end
+  end
+  echo # for newline
+end
+
+# Configure completions for the color switch.
+set colors 'black blue cyan green magenta red white yellow'
+complete --command cecho -f -r -s c -l color -a "$colors"</pre>
+    <div>
+       For more on this topic, see
+       <a href="https://fishshell.com/docs/current/commands.html#complete">https://fishshell.com/docs/current/commands.html#complete</a>
+       and
+       <a href="https://fishshell.com/docs/current/index.html#completion-own">https://fishshell.com/docs/current/index.html#completion-own</a>.
+       This describes alternative locations for defining tab completions.
     </div>
 
     <h3><a name="Example">Example in Node, bash, and fish</a></h3>
