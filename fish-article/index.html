@@ -745,15 +745,17 @@ date &amp;&amp; ls
       retaining only their most recent occurrence.
     </div>
     <div>
-      A separate command history is maintained for each session,
-      but new sessions start with the command history
-      of the session from which they were created.
+      Command history for all sessions is stored in the file
+      <code>~/.local/share/fish/fish_history</code>.
+      This file stores each command and the timestamp of when it was entered.
     </div>
     <div>
-      Command history is stored in <code>~/.local/share/fish/fish_history</code>.
-      This file stores each command and when it was entered.
-      TODO: How does this one file keep a separate history for each session?
-      You asked on the mailing list on 9/29.
+      Each session begins with the history from this file,
+      but stores commands entered within the session in memory.
+      This is why a session cannot recall commands
+      entered in other sessions after it was started.
+      However, a session can add command history from all other sessions
+      to its own by entering <code>history merge</code>.
     </div>
     <div>
       To navigate through all previously entered commands,
