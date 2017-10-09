@@ -3387,24 +3387,21 @@ for arg in "$@"; do
   fi
   extension=${pieces[0]}
   color=${pieces[1]}
-  varName="${extension}Color"
+  varName="${extension}Color}"
   eval $varName=$color
 done
 
 for file in *; do
-  IFS="."
-  pieces=$file
-  if [ ${#pieces[@]} -ge 2 ]; then
-    extension=${pieces[1]}
-    varName="${extension}Color"
-    color=eval $$varName
+  extension=${file##*.}
+  if [[ $extension == $file ]]; then  # no extension was found
+    color=$defaultColor
+  else
+    colorName=${extension}Color
+    color=${!colorName}
     if [ -z $color ]; then
       color=$defaultColor
     fi
-  else
-    color=$defaultColor
   fi
-  IFS=" "
   echo -e "$color$file"
 done</pre>
 
