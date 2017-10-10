@@ -3309,14 +3309,15 @@ set color (random choice $colors)</pre>
       These can be overridden and colors for other file extensions
       can be specified with arguments of the form
       <code><i>extension</i>=<i>color</i></code> .
-      By default, files with an unspecified extension are output in white,
+      By default, files with an unspecified extension
+      are output in the default text color,
       but that can also be overridden with <code>default=<i>color</i></code>.
       For example, <code>lscolor fish=magenta js=cyan default=yellow</code>
       produces the following output:
     </div>
     <img id="lscolors" src="lscolors-output.png" alt="lscolors output">
     <div>
-      Here is the Node.js version:
+      Here is a Node.js version:
     </div>
     <pre>
 const chalk = require('chalk');
@@ -3351,8 +3352,7 @@ fs.readdir('.', (err, files) =&gt; {
 });</pre>
 
     <div>
-      Here is the bash version:
-      TODO: This isn't working yet!
+      Here is a bash version:
     </div>
     <pre>
 #!/bin/bash
@@ -3376,27 +3376,28 @@ htmlColor=$blue
 jsColor=$red
 scssColor=$green
 
+usage() {
+  echo invalid argument $0
+  exit 1
+}
+
 # Use colors specified in switches.
 for arg in "$@"; do
-  IFS="="
-  pieces=$arg
-  if [ ${#pieces[@]} -lt 2 ]; then
-    echo 'invalid argument "'$arg'"'
-    exit 1
-  fi
-  extension=${pieces[0]}
-  color=${pieces[1]}
-  varName="${extension}Color}"
-  eval $varName=$color
+  extension=${arg%%=*}
+  [[ -z $extension ]] &amp;&amp; usage
+  color=${arg##*=}
+  [[ -z $color ]] &amp;&amp; usage
+  varName="${extension}Color"
+  eval $varName=\${!color}
 done
 
 for file in *; do
   extension=${file##*.}
-  if [[ $extension == $file ]]; then  # no extension was found
+  if [[ $extension == $file ]]; then # no extension found
     color=$defaultColor
   else
-    colorName=${extension}Color
-    color=${!colorName}
+    colorVar=${extension}Color
+    color=${!colorVar}
     if [ -z $color ]; then
       color=$defaultColor
     fi
@@ -3405,13 +3406,13 @@ for file in *; do
 done</pre>
 
     <div>
-      Here is the fish version:
+      Here is a fish version:
     </div>
     <pre>
 function lscolor
   # Default colors
   set cssColor green
-  set defaultColor white
+  set defaultColor normal
   set htmlColor blue
   set jsColor red
   set scssColor green
