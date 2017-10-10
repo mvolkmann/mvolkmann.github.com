@@ -3329,7 +3329,6 @@ const path = require('path');
 
 const colorMap = {
   'css': 'green',
-  'default': 'white',
   'html': 'blue',
   'js': 'red',
   'scss': 'green'
@@ -3349,8 +3348,12 @@ fs.readdir('.', (err, files) =&gt; {
   if (err) throw new Error(err);
   for (const file of files) {
     const extension = path.extname(file).substring(1);
-    const color = colorMap[extension] || colorMap.default;
-    console.log(chalk.keyword(color)(file));
+    const color = colorMap[extension];
+    if (color) {
+      console.log(chalk.keyword(color)(file));
+    } else {
+      console.log(file);
+    }
   }
 });</pre>
 
