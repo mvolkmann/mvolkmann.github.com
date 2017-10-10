@@ -105,6 +105,8 @@
       <li class="level2"><a href="#BraceExpansion">Brace Expansion</a></li>
 
       <li class="level1"><a href="#CustomizingFish">Customizing Fish</a></li>
+      <li class="level2"><a href="#Aliases">Aliases</a></li>
+      <li class="level2"><a href="#Abbreviations">Abbreviations</a></li>
       <li class="level2"><a href="#ConfigurationViaWebUi">Configuration via Web UI</a></li>
       <li class="level3"><a href="#ColorsTab">Colors Tab</a></li>
       <li class="level3"><a href="#PromptTab">Prompt Tab</a></li>
@@ -116,8 +118,6 @@
       <li class="level2"><a href="#ConfigurationServer">Configuration Server</a></li>
       <li class="level2"><a href="#ConfigurationViaFishConfig">Configuration via fish.config</a></li>
       <li class="level2"><a href="#CustomGreeting">Custom Greeting</a></li>
-      <li class="level2"><a href="#Aliases">Aliases</a></li>
-      <li class="level2"><a href="#Abbreviations">Abbreviations</a></li>
       <li class="level2"><a href="#Path">PATH environment variable</a></li>
       <li class="level2"><a href="#ToolsForFish">Tools for Fish</a></li>
 
@@ -154,7 +154,7 @@
       <li class="level2"><a href="#AbsolutePath">Absolute Path</a></li>
       <li class="level2"><a href="#Dates">Dates</a></li>
       <li class="level2"><a href="#OpeningFiles">Opening Files</a></li>
-      <li class="level2"><a href="#ReadingFromStdin">Reading From stdin</a></li>
+      <li class="level2"><a href="#ReadingFromStdin">Reading from stdin</a></li>
       <li class="level2"><a href="#Processes">Processes</a></li>
       <li class="level2"><a href="#Jobs">Jobs</a></li>
       <li class="level2"><a href="#RandomNumbersAndOptions">Random Numbers and Options</a></li>
@@ -190,8 +190,8 @@
         not special syntax to be memorized</li>
       <li>commands never create subshells,
         so changes they make (such as setting variables)
-        are visible in the calling shell</li>
-      <li>can set variables that are shared will all
+        are visible in the invoking shell</li>
+      <li>can set variables that are shared with all
         current and future shells (see "universal variables")</li>
     </ul>
     <div>
@@ -521,7 +521,8 @@
       To run an npm command,
       enter <code>npm</code> followed by a space and press tab.
       All npm commands will be displayed.
-      Use the arrow keys to navigate to the desired command.
+      Use the arrow keys to navigate to the desired command
+      and press enter to select it.
       Optionally continue typing to specify arguments.
       Press enter to execute the command.
     </div>
@@ -614,8 +615,8 @@
       (referred to with <code>$?</code> in other shells) to
       <code>0</code> for success and another number for failure.
       <code>true</code> and <code>false</code> are not boolean literals.
-      <code>true</code> is a command that sets status to 0 and
-      <code>false</code> is a command that sets status to 1.
+      <code>true</code> is a command that sets <code>status</code> to 0 and
+      <code>false</code> is a command that sets <code>status</code> to 1.
       Commands that do not set <code>status</code> include
       <code>and</code>,
       <code>begin</code>,
@@ -636,7 +637,8 @@
     </div>
     <div>
       Commands are terminated by a newline or semicolon.
-      In a shell, pressing the enter key produces a newline.
+      In an interactive shell,
+      pressing the enter key produces a newline.
       A line can contain more than one statement
       if they are separated by semicolons.
       For example, <code>cd foo; pwd; ls</code>.
@@ -691,7 +693,7 @@
       To conditionally execute a command only
       if the previous command was successful, use
       <code><i>command1</i>; and <i>command2</i></code>.
-      Note the semicolon at end of the first command and the use of
+      Note the semicolon at the end of the first command and the use of
       <code>and</code> instead of <code>&amp;&amp;</code> like in bash.
       This is the same as
     </div>
@@ -709,7 +711,7 @@ and <i>command2</i></pre>
       To conditionally execute a command only
       if the previous command failed, use
       <code><i>command1</i>; or <i>command2</i></code>.
-      Note the semicolon at end of the first command and the use of
+      Note the semicolon at the end of the first command and the use of
       <code>or</code> instead of <code>||</code> like in bash.
     </div>
     <div>
@@ -722,7 +724,7 @@ and <i>command2</i></pre>
     <div>
       If an attempt is made to use
       the bash <code>&amp;&amp;</code> and <code>||</code> operators,
-      fish outputs a message explaining the correct altenatives.
+      fish outputs a message explaining the correct alternatives.
       For example,
     </div>
     <pre>
@@ -808,7 +810,7 @@ date &amp;&amp; ls
       If the command outputs more than one line,
       each will be treated as a separate argument
       to the outer command.
-      For example, to list all files whose names contain
+      For example, to list all files whose name contains
       the current year, <code>ls *(date "+%Y")*</code>.
     </div>
     <div>
@@ -827,11 +829,12 @@ date &amp;&amp; ls
       and other command output.  For example,
     </div>
     <pre>
-set dateFormat '+%A %B %d, %G' # ex. Tuesday, August 15, 2017
+set dateFormat '+%A %B %d, %G' # ex. Tuesday, November 1, 2017
 set announcement 'Today is '(date $dateFormat)'.'</pre>
     <div>
-      Comments in fish begin with a <code>#</code> and
-      extend to the end of the line like in other shells.
+      The <code>#</code> above indicates the begining of a comment
+      that extends extend to the end of the line,
+      like in other shells.
     </div>
     <div>
       Note the use of string concatention by placing
@@ -858,12 +861,12 @@ set announcement 'Today is '(date $dateFormat)'.'</pre>
       For example, <code>echo '<i>some input</i>' | <i>someCommand</i></code>.
     </div>
     <div>
-      For commands that read from stdin, to read from a file instead,
+      For commands that read from stdin, to read from a file instead
       use <code>&lt;</code> like in other shells.
       For example, <code><i>someCommand</i> &lt; <i>someFilePath</i></code>.
     </div>
     <div>
-      For commands that write to stdout, to write to a file instead,
+      For commands that write to stdout, to write to a file instead
       use <code>&gt;</code> like in other shells.
       For example, <code><i>someCommand</i> &gt; <i>someFilePath</i></code>.
       To avoid overwriting an existing file, use <code>&gt;?</code> instead of <code>&gt;</code>.
@@ -1029,7 +1032,7 @@ set cells {a,b,c}{1,2} # a1 b1 c1 a2 b2 c2</pre>
       The "prompt" tab displays the contents
       of the current fish shell prompt.
       It allows selection from 17 predefined prompts.
-      To change the prompt, select one and press "Prompt Set!"
+      To change the prompt, select one and press "Prompt Set!".
       DANGER: This overwrites <code>functions/fish_prompt.fish</code>,
       so if you have defined a custom prompt in that file
       and don't want to wipe it out, don't do this!
