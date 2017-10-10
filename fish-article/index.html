@@ -493,7 +493,7 @@
       This also works when only <code>ls</code> followed by a space
       is entered before pressing tab.  In this case the options are
       all files in the current directory.
-      Enter "<code>ls</code> -" and press tab twice
+      Enter "<code>ls</code> -" and press tab
       to see all the available switches.
     </div>
     <div>
@@ -795,7 +795,8 @@ date &amp;&amp; ls
     </div>
     <div>
       To delete commands from history that contain a given substring,
-      enter <code>history delete --contains <i>substring</i></code>.
+      enter <code>history delete --contains <i>substring</i></code>
+      (<code>-c</code>).
     </div>
     <div>
       To delete commands from history that begin with a given prefix,
@@ -1615,8 +1616,8 @@ end</pre>
       For example,
     </div>
     <pre>
-      set csv 'red,green,blue'
-      set colors (string split , $csv) # red green blue</pre>
+set csv 'red,green,blue'
+set colors (string split , $csv) # red green blue</pre>
     <div>
       Note that in the previous line the <code>string split</code> command
       was surrounded by parentheses.  This allows its stdout to be captured.
@@ -1654,8 +1655,8 @@ set result (string trim --left --chars 0 $myText) # 19</pre>
       can be an empty string.
     </div>
     <pre>
-      set initialList (string sub -l 1 $first $middle $last) # R M V
-      set initials (string join '' $initialList) # RMV</pre>
+set initialList (string sub -l 1 $first $middle $last) # R M V
+set initials (string join '' $initialList) # RMV</pre>
     <div>
       To create a string that repeats a given string,
       use <code>string repeat</code> with the
@@ -2865,7 +2866,7 @@ end</pre>
     <pre>
 for n in (seq 5)
   echo $n
- end</pre>
+end</pre>
     <div>
       This outputs 1, 2, 3, 4, and 5 on separate lines.
     </div>
