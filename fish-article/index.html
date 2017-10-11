@@ -193,7 +193,8 @@
         so changes they make (such as setting variables)
         are visible in the invoking shell</li>
       <li>can set variables that are shared with all
-        current and future shells (see "universal variables")</li>
+        current and future shells (see
+        "<a href="#Variables">universal variables</a>")</li>
     </ul>
     <div>
       This article explains the fish shell in enough detail for you
@@ -1190,11 +1191,11 @@ set cells {a,b,c}{1,2} # a1 b1 c1 a2 b2 c2</pre>
       To see the current value, enter <code>echo $PATH</code>.
     </div>
     <div>
-      The universal variable <code>fish_user_paths</code>
+      The <a href="#Variables">universal variable</a>
+      <code>fish_user_paths</code>
       is another list of paths that is
       automatically prepended to <code>PATH</code>.
-      Universal variables are described
-      in the "Scripting in Fish" section.
+      Universal variables are described later.
       Setting this modifies <code>PATH</code> in a way that
       affects all current and future sessions
       without having to modify <code>config.fish</code>
@@ -1216,8 +1217,8 @@ set cells {a,b,c}{1,2} # a1 b1 c1 a2 b2 c2</pre>
     <div>
       As we will see later, all variables hold a list.
       It's just that many of them only contain a single value.
-      Lists are discussed in the "Scripting in Fish" section.
-      Removing a path from PATH or fish_user_paths is done
+      <a href="#Lists">Lists</a> are discussed in the "Scripting in Fish" section.
+      Removing a path from PATH or <code>fish_user_paths</code> is done
       the same way as removing an item from any list.
     </div>
     <div>
@@ -1236,7 +1237,7 @@ end</pre>
       <li>awesome-fish -<br>
         "A curated list of awesome tools, prompts,
         and other cool nuggets for the amazing fish-shell."<br>
-        <a href="https://github.com/JorgeBucaran/awesome-fis://github.com/JorgeBucaran/awesome-fish">https://github.com/JorgeBucaran/awesome-fis://github.com/JorgeBucaran/awesome-fish</a>
+        <a href="https://github.com/JorgeBucaran/awesome-fish">https://github.com/JorgeBucaran/awesome-fish</a>
       </li>
       <li>Fisherman -
         "The fish-shell plugin manager"<br>
