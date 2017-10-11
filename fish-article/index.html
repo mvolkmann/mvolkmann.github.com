@@ -1452,13 +1452,13 @@ end</pre>
     <h3><a name="Eval">Eval</a></h3>
     <div>
       The <code>eval</code> command evaluates a command in a string
-      that can be built using concatention and variable substitution.
+      that can be built using concatenation and variable substitution.
       For example,
     </div>
     <pre>
 set extension 'js'
 set command 'ls *.'$extension
-eval $command</pre>
+eval $command # lists all JavaScript files in the current directory</pre>
 
     <h3><a name="AdvancedUseOfVariables">Advanced Use of Variables</a></h3>
     <div>
@@ -1470,7 +1470,7 @@ set foo 1
 set bar foo
 echo $$bar # 1
 
-set pocket 'wallet'
+set pocket wallet
 set pant pocket
 echo $$pant # wallet
 
@@ -1490,8 +1490,7 @@ echo $$name # blue</pre>
 set colors red green blue
 set listName colors</pre>
     <div>
-      How can we write code to get the value "green"
-      from the list of colors?
+      How can we get the value "green" from the list of colors?
     </div>
     <div>
       <code>echo $$listName[2]</code>
@@ -1564,7 +1563,7 @@ set listName colors</pre>
       to indicate where the switches end.
     </div>
     <div>
-      To get the length of a string, use
+      To output the length of a string, use
       <code>string length $<i>name</i></code>.
     </div>
     <div>
@@ -1624,7 +1623,7 @@ end</pre>
       If <code>-s</code> is omitted, it defaults to <code>1</code>.
       If <code>-l</code> is omitted, it gets characters to the end.
       If <code>-s</code> is negative, it counts from the end of the string.
-      For example, to get last three characters, use <code>-s -3</code>.
+      For example, to get last three characters, use <code>string sub -s -3</code>.
     </div>
     <div>
       To split a string on a delimiter resulting in a list, use
