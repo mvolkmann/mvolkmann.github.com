@@ -107,6 +107,7 @@
       <li class="level1"><a href="#CustomizingFish">Customizing Fish</a></li>
       <li class="level2"><a href="#Aliases">Aliases</a></li>
       <li class="level2"><a href="#Abbreviations">Abbreviations</a></li>
+      <li class="level2"><a href="#Configuration">Configuration</a></li>
       <li class="level2"><a href="#ConfigurationViaWebUi">Configuration via Web UI</a></li>
       <li class="level3"><a href="#ColorsTab">Colors Tab</a></li>
       <li class="level3"><a href="#PromptTab">Prompt Tab</a></li>
@@ -116,7 +117,7 @@
       <li class="level3"><a href="#BindingsTab">Bindings Tab</a></li>
       <li class="level3"><a href="#AbbreviationsTab">Abbreviations Tab</a></li>
       <li class="level2"><a href="#ConfigurationServer">Configuration Server</a></li>
-      <li class="level2"><a href="#ConfigurationViaFishConfig">Configuration via fish.config</a></li>
+      <li class="level2"><a href="#ConfigurationViaFishConfig">Configuration via config.fish</a></li>
       <li class="level2"><a href="#CustomGreeting">Custom Greeting</a></li>
       <li class="level2"><a href="#Path">PATH environment variable</a></li>
       <li class="level2"><a href="#ToolsForFish">Tools for Fish</a></li>
@@ -918,6 +919,11 @@ set cells {a,b,c}{1,2} # a1 b1 c1 a2 b2 c2</pre>
     <div>
       To define an alias, enter
       <code>alias <i>name</i> <i>command</i></code>.
+      For example, <code>alias cdp 'cd $PROJECT_DIR'</code>
+      creates an alias that can be used to
+      cd to one of your commonly used directories.
+      It assumes that the <code>PROJECT_DIR</code> variable
+      has been set to a directory path.
     </div>
     <div>
       To list all aliases, enter <code>alias</code>.
@@ -931,8 +937,8 @@ set cells {a,b,c}{1,2} # a1 b1 c1 a2 b2 c2</pre>
       Functions are described later in the "Scripting in Fish" section.
       The function is only defined in the current session
       and goes away when the session exits.
-      To create aliases that are available in all future sessions,
-      define them in <code>config.fish</code>.
+      To create aliases that are available in all future sessions, define them in
+      <a href="#ConfigurationViaFishConfig"><code>config.fish</code></a>.
       For more information, see "Defining aliases" at
       <a href="https://fishshell.com/docs/current/index.html#introduction" target="_blank">https://fishshell.com/docs/current/index.html#introduction</a>.
     </div>
@@ -957,7 +963,8 @@ set cells {a,b,c}{1,2} # a1 b1 c1 a2 b2 c2</pre>
     </div>
     <div>
       Unlike aliases, when abbreviations are defined in a terminal
-      (as opposed to inside <code>config.fish</code>),
+      (as opposed to inside
+      <a href="#ConfigurationViaFishConfig"><code>config.fish</code></a>),
       they become available in all current and future sessions.
     </div>
     <div>
@@ -977,16 +984,20 @@ set cells {a,b,c}{1,2} # a1 b1 c1 a2 b2 c2</pre>
       enter <code>abbr --erase <i>name</i></code> (<code>-e</code>).
     </div>
 
+    <h3><a name="Configuration">Configuration</a></h3>
     <div>
       The fish shell can be configured in three ways:
-      by executing commands in a shell,
-      adding commands in a configuration file,
-      and in a web UI.
     </div>
+    <ol>
+      <li>executing commands in a shell</li>
+      <li>using the a web configuration UI</li>
+      <li>adding commands in a
+        <a href="#ConfigurationViaFishConfig">configuration file</a></li>
+    </ol>
 
     <h3><a name="ConfigurationViaWebUi">Configuration via Web UI</a></h3>
     <div>
-      To start the web UI, enter
+      To start the web configuration UI, enter
       <code>fish_config <i>starting-tab-name</i></code>.
       Specifying the starting tab name is optional
       and defaults to "colors".
@@ -1113,7 +1124,7 @@ set cells {a,b,c}{1,2} # a1 b1 c1 a2 b2 c2</pre>
       which will also open a new browser tab.
     </div>
 
-    <h3><a name="ConfigurationViaFishConfig">Configuration via fish.config</a></h3>
+    <h3><a name="ConfigurationViaFishConfig">Configuration via config.fish</a></h3>
     <div>
       Fish is billed as not needing configuation.
       Strictly speaking this is true.
