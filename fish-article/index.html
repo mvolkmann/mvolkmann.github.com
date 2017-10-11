@@ -1024,7 +1024,7 @@ set cells {a,b,c}{1,2} # a1 b1 c1 a2 b2 c2</pre>
       select a color from the color grid that will be displayed below.
       When finished customizing the colors, press the "Set Theme" button.
       Note that these colors are not used when files containing
-      fish function definitions are simply cat'ed in a terminal.
+      fish function definitions are simply <code>cat</code>'ed in a terminal.
     </div>
     <div>
       While the "color" tab allows selecting a background color,
@@ -1045,12 +1045,11 @@ set cells {a,b,c}{1,2} # a1 b1 c1 a2 b2 c2</pre>
       of the current fish shell prompt.
       It allows selection from 17 predefined prompts.
       To change the prompt, select one and press "Prompt Set!".
-      DANGER: This overwrites <code>functions/fish_prompt.fish</code>,
+      DANGER: This overwrites <code>~/.config/functions/fish_prompt.fish</code>,
       so if you have defined a custom prompt in that file
       and don't want to wipe it out, don't do this!
-      Defining custom prompts is discussed
-      <a href="#CustomPrompt">later</a> in the
-      "Scripting in Fish" section.
+      Defining <a href="#CustomPrompt">custom prompts</a>
+      is discussed later in the "Scripting in Fish" section.
     </div>
     <img src="config-prompt.png" alt="prompt config screenshot">
 
@@ -1068,7 +1067,8 @@ set cells {a,b,c}{1,2} # a1 b1 c1 a2 b2 c2</pre>
       The "variables" tab provides a read-only view
       that lists all universal variables and their values.
       This does not list global or local variables.
-      The distinctions between these variable types is discussed later.
+      The distinctions between these variable types is discussed
+      <a href="#Variables">later</a>.
     </div>
     <img src="config-variables.png" alt="variables config screenshot">
 
@@ -1105,7 +1105,8 @@ set cells {a,b,c}{1,2} # a1 b1 c1 a2 b2 c2</pre>
       Changing the name of an existing abbreviation
       creates a new abbreviation with that name,
       but doesn't delete the existing one.
-      Often abbreviations are defined in <code>config.fish</code>
+      Often abbreviations are defined in
+      <a href="#ConfigurationViaFishConfig"><code>config.fish</code></a>
       (discussed later), but they can also be defined
       by entering the <code>abbr</code> command in a terminal.
     </div>
@@ -1159,11 +1160,6 @@ set cells {a,b,c}{1,2} # a1 b1 c1 a2 b2 c2</pre>
       <code>if status --is-login; ...; end</code>.
       To run commands only when starting an interactive shell, use
       <code>if status --is-interactive; ...; end</code>.
-    </div>
-    <div>
-      While functions can be defined in <code>config.fish</code>,
-      it is more efficient to use autoloading functions.
-      These are discussed later.
     </div>
 
     <h3><a name="CustomGreeting">Custom Greeting</a></h3>
@@ -2306,6 +2302,10 @@ end</pre>
       There is no need to add a "shebang comment" in these files.
       All functions defined in these directories
       are assumed to be used only in the fish shell.
+    </div>
+    <div>
+      While functions can be defined in <code>config.fish</code>,
+      it is more efficient to use autoloading functions.
     </div>
     <div>
       To output a formatted version of a <code>.fish</code> file, enter
