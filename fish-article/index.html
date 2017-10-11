@@ -1596,7 +1596,7 @@ set result some prefix{$middle}some suffix</pre>
       is passed as a separate argument.
       It outputs <code>1</code> if the expression evaluates to true
       and <code>0</code> if false,
-      but it sets status to the opposite value
+      but it sets <code>status</code> to the opposite value
       which is convenient when used in conjuction with
       commands like <code>if</code>, <code>while</code>,
       <code>and</code>, and <code>or</code>.
@@ -1627,7 +1627,7 @@ end</pre>
     </div>
     <div>
       To split a string on a delimiter resulting in a list, use
-      <code>string split <i>delim</i> $<i>var</i></code><br>
+      <code>string split <i>delimiter</i> $<i>var</i></code><br>
       For example,
     </div>
     <pre>
@@ -1647,7 +1647,7 @@ set colors (string split , $csv) # red green blue</pre>
       <li><code>--left</code> (<code>-l</code>) only trims from left</li>
       <li><code>--right</code> (<code>-r</code>) only trim from right</li>
       <li><code>--chars</code> (<code>-c</code>) specifies the
-        characters to be trimmed instead of just whitespace</li>
+        characters to be trimmed instead of whitespace</li>
     </ul>
     <div>
       For example, to remove leading zeros:
@@ -1693,7 +1693,7 @@ set initials (string join '' $initialList) # RMV</pre>
       This uses Perl regular expression syntax.
       By default only the first match is output,
       or nothing if not found.
-      It sets status to 0 if at least one match was found and 1 if not.
+      It sets <code>status</code> to 0 if at least one match was found and 1 if not.
       To suppress output describing the matches,
       add the <code>--quiet</code> (<code>-q</code>) switch.
     </div>
@@ -1764,9 +1764,9 @@ set newText (string replace -ar '.oo' 'bar' $text) # regex matching more than fo
       When a variable is set to a number, it is stored as a string.
     </div>
     <div>
-      For example, if <code>set score 12345</code> is entered,
-      the variable <code>score</code> will be set to a string containing
-      the five characters "12345".
+      For example, <code>set score 12345</code> sets
+      the variable <code>score</code> to a string
+      containing the five characters "12345".
     </div>
     <div>
       To test the relationship between two numbers,
@@ -1794,7 +1794,7 @@ set newText (string replace -ar '.oo' 'bar' $text) # regex matching more than fo
       reading from a file or piping in through stdin
       as is required with <code>bc</code>.
       The result is written to stdout.
-      It sets status to a non-zero number if expression is invalid.
+      It sets <code>status</code> to a non-zero number if expression is invalid.
     </div>
     <div>
       Unlike the fish shell itself, the <code>math</code>
@@ -2378,7 +2378,7 @@ sed -i .bak 's/    /  /g' <i>fn-name</i>.fish</pre>
     <div>
       To test if a function is defined, enter
       <code>functions --query <i>name</i></code> (<code>-q</code>).
-      This sets status to 0 if the function exists and 1 otherwise.
+      This sets <code>status</code> to 0 if the function exists and 1 otherwise.
     </div>
     <div>
       The <code>return</code> command can be used in a function
@@ -2386,7 +2386,7 @@ sed -i .bak 's/    /  /g' <i>fn-name</i>.fish</pre>
       This also sets the exit status of the function
       which defaults to 0 for success, but can be specified.
       For example, <code>return 2</code> exits the function
-      in which it was executed and sets status to 2..
+      in which it was executed and sets <code>status</code> to 2..
     </div>
     <div>
       The arguments specified in a function call
