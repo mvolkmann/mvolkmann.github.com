@@ -1267,7 +1267,8 @@ end</pre>
     </div>
     <div>
       A script can be implemented by writing a function.
-      Functions become custom commands that can be executed from a terminal.
+      Functions can become custom commands that are
+      available to be executed from a terminal.
     </div>
     <div>
       In other shells, many steps are required to write and enable a new script.
@@ -2234,7 +2235,7 @@ end</pre>
       Functions give a name to a set of commands that
       are executed when the function is invoked.
       They can become available to execute as commands
-      when their name is used as a command in a shell.
+      when their name is used as a command.
       In that case they can override
       commands found in <code>PATH</code> and builtin commands.
     </div>
@@ -2251,12 +2252,17 @@ end</pre>
       <code>set <i>variable</i> (<i>someFn</i> <i>args</i>)</code>.
     </div>
     <div>
+      Functions in fish do not have access to local variables set outside them.
+      They are not closures like functions in
+      programming languages such as JavaScript.
+    </div>
+    <div>
       Function names cannot begin with a dash (<code>-</code>),
       but they can begin with any other character, even digits.
       Function names cannot contain a slash (<code>/</code>),
       but they can contain any other character, even spaces.
       To include a space, prefix it with <code>\</code>.
-      For example, <code>function foo\ bar; echo in foo bar; end</code>
+      For example, <code>function foo\ bar; ...; end</code>
       To call this function, use <code>foo\ bar</code>.
       While this is supported, utilizing this
       will likely cause confusion.
@@ -2266,14 +2272,51 @@ end</pre>
       using the <code>function</code> command.
       This command continues reading from stdin
       until a corresponding <code>end</code> command is entered.
-      For example,
+      The syntax for defining a function is:
     </div>
     <pre>
 function <i>name</i>
   # code goes here
 end</pre>
     <div>
+      The arguments specified in a function call
+      are held in a list in the <code>argv</code> variable.
+      The first argument can be accessed with <code>$argv[1]</code>.
+      Iterating over the arguments is done in the same way as iterating over any list.
+    </div>
+    <div>
       Many switches can follow the function name.
+      The <code>--argument-names</code> (<code>-a</code>) switch of the
+      <code>function</code> command specifies named parameters.
+      Here is an example of a function that uses named parameters:
+    </div>
+    <pre>
+function orderShirt -a size color
+  # Use $size and $color here.
+  # $argv is also set to a list of the arguments.
+  echo I see you want to order a $size shirt that is $color.
+end</pre>
+    <div>
+      All named parameters will be "set",
+      but ones not specified will be set to an empty list
+      versus <code>undefined</code> (has no value).
+      To test whether a specific named parameter is set, use
+      <code>set -q <i>argName</i>[1]</code>.
+      To set a named parameter to a default value if it is not specified, use:
+    </div>
+    <pre>
+set -q <i>argName</i>[1]; or set <i>argName</i> <i>defaultValue</i></pre>
+    <div>
+      Here is the previous example, modified to
+      have default values for the arguments:
+    </div>
+    <pre>
+function orderShirt -a size color
+  set -q size[1]; or set size 'large'
+  set -q color[1]; or set color 'white'
+  echo I see you want to order a $size shirt that is $color.
+end</pre>
+    <div>
       To add documentation, use <code>--description '<i>some desc</i>'</code>
       (<code>-d</code>).
       To display the description of a function, enter
@@ -2313,28 +2356,6 @@ end</pre>
       are assumed to be used only in the fish shell.
     </div>
     <div>
-      While functions can be defined in <code>config.fish</code>,
-      it is more efficient to use autoloading functions.
-    </div>
-    <div>
-      To output a formatted version of a <code>.fish</code> file, enter
-      <code>fish_indent &lt; <i>someName</i>.fish</code>.
-      The <code>fish_indent</code> command writes to stdout,
-      so this redirects output into a new file.
-      To output using the colors specified in <code>fish_config</code>,
-      add the <code>--ansi</code> (no short form) switch.
-      To output as HTML, add the <code>--html</code> (no short form) switch.
-      With HTML it is possible to add colors to specific syntax items using CSS.
-      To read from a file and rewrite it with a formatted version, enter
-      <code>fish_indent --write <i>someName</i>.fish</code> (<code>-w</code>).
-      This uses four-space indentation and that cannot be customized.
-      However, all occurrences of four spaces can be replaced with two
-      using the following command which also saves a backup of the original file
-      in a new file with <code>.bak</code> appended to the name.
-    </div>
-    <pre>
-sed -i .bak 's/    /  /g' <i>fn-name</i>.fish</pre>
-    <div>
       To list all currently defined functions, enter <code>functions</code>.
       To include private fish functions whose names begin with a double underscore,
       add the <code>--all</code> (<code>-a</code>) switch.
@@ -2356,15 +2377,16 @@ sed -i .bak 's/    /  /g' <i>fn-name</i>.fish</pre>
       This outputs the following five lines:
     </div>
     <ul>
-      <li>path to definition</li>
+      <li>path to the definition</li>
       <li>whether it was autoloaded (outputs "autoloaded" or "n/a")</li>
-      <li>line number within file where definition begins or 0 if not autoloaded</li>
-      <li>whether "scope shadowing" was disabled</li>
+      <li>line number within the file where definition begins or 0 if not autoloaded</li>
+      <li>whether "scope shadowing" was disabled<br>
+        This is disabled by default.  See the <code>--no-scope-shadowing</code>
+        switch of the <code>function</code> command for details.</li>
       <li>the function description specified with the
         <code>--description</code> (<code>-d</code>) switch
         or "n/a" if no description was provided</li>
     </ul>
-
     <div>
       To copy a function definition to a new name, enter
       <code>functions --copy <i>oldName</i> <i>newName</i></code> (<code>-c</code>).
@@ -2390,48 +2412,6 @@ sed -i .bak 's/    /  /g' <i>fn-name</i>.fish</pre>
       in which it was executed and sets <code>status</code> to 2..
     </div>
     <div>
-      The arguments specified in a function call
-      are held in a list in the <code>argv</code> variable.
-      The first argument can be accessed with <code>$argv[1]</code>.
-      Iterating over the arguments is done in the same way as iterating over any list.
-    </div>
-    <div>
-      The <code>--argument-names</code> (<code>-a</code>) switch of the
-      <code>function</code> command specifies named parameters.
-      Here is an example of a function that uses named parameters:
-    </div>
-    <pre>
-function orderShirt -a size color
-  # Use $size and $color here.
-  # $argv is also set to a list of the arguments.
-  echo I see you want to order a $size shirt that is $color.
-end</pre>
-    <div>
-      All named parameters will be "set",
-      but ones not specified will be set to an empty list
-      versus <code>undefined</code> (has no value).
-      To test whether a specific named parameter is set, use
-      <code>set -q <i>argName</i>[1]</code>.
-      To set a named parameter to a default value if it is not specified, use:
-    </div>
-    <pre>
-set -q <i>argName</i>[1]; or set <i>argName</i> <i>defaultValue</i></pre>
-    <div>
-      Here is the previous example, modified to
-      have default values for the arguments:
-    </div>
-    <pre>
-function orderShirt -a size color
-  set -q size[1]; or set size 'large'
-  set -q color[1]; or set color 'white'
-  echo I see you want to order a $size shirt that is $color.
-end</pre>
-    <div>
-      Functions do not have access to local variables set outside them.
-      They are not closures like functions in
-      programming languages such as JavaScript.
-    </div>
-    <div>
       If a function needs to output an error message,
       a good approach is the following:
     </div>
@@ -2440,6 +2420,28 @@ set_color $fish_color_error
 echo <i>someErrorMsg</i> 1&gt;&amp;2 # writes to stdout
 set_color normal
 return <i>someNonZeroStatus</i></pre>
+    <div>
+      To output a formatted version of a <code>.fish</code> file, enter
+      <code>fish_indent &lt; <i>someName</i>.fish</code>.
+      The <code>fish_indent</code> command writes to stdout,
+      so this redirects output into a new file.
+      To output using the colors specified using <code>fish_config</code>
+      (or the color variables that sets which can
+      also be set in the <code>config.fish</code> file),
+      add the <code>--ansi</code> (no short form) switch.
+      To output as HTML, add the <code>--html</code> (no short form) switch.
+      With HTML it is possible to add colors to specific syntax items using CSS.
+    </div>
+    <div>
+      To read from a file and rewrite it with a formatted version, enter
+      <code>fish_indent --write <i>someName</i>.fish</code> (<code>-w</code>).
+      This uses four-space indentation and that cannot be customized.
+      However, all occurrences of four spaces can be replaced with two
+      using the following command which also saves a backup of the original file
+      in a new file with <code>.bak</code> appended to the name.
+    </div>
+    <pre>
+sed -i .bak 's/    /  /g' <i>fn-name</i>.fish</pre>
 
     <h3><a name="ComparisonToJavaScript">Comparison to JavaScript</a></h3>
     <div>
@@ -2483,15 +2485,8 @@ set result (product 2 3) # 6</pre>
     <div>
       Multiple functions can be defined in the same file,
       but they will not be available until the function
-      whose name matches the file is called once,
+      whose name matches the file is used once,
       so doing this is not recommended.
-    </div>
-    <div>
-      Functions defined in a path listed in
-      <code>fish_function_path</code> are
-      immediately available in all fish shells.
-      Changes to them are automatically reloaded in all fish shells
-      the next time they are used.
     </div>
     <div>
       Function autoloading allows functions to be used in place of
@@ -2503,16 +2498,6 @@ set result (product 2 3) # 6</pre>
       instead of the output of the <code>date</code> command
       in the current fish session.
     </div>
-    <div>
-      The staleness interval avoids thrashing the file system
-      every time a command is evaluated, and is around 15 seconds.
-      This is an implementation detail that cannot be configured.
-      To use a modified function definition before the
-      staleness interval passes, source the file.  For example,
-    </div>
-    <pre>
-funced foo; and funcsave foo; and source ~/.config/fish/functions/foo.fish</pre>
-
     <div>
       To save a function definition that has been entered interactively
       in a file in <code>~/.config/fish/functions</code>
@@ -2535,6 +2520,20 @@ funced foo; and funcsave foo; and source ~/.config/fish/functions/foo.fish</pre>
       if the changes should be available in current and future sessions,
       run <code>funcsave <i>name</i></code>.
     </div>
+    <div>
+      While functions can be defined in <code>config.fish</code>,
+      it is more efficient to use autoloading functions.
+    </div>
+    <div>
+      The staleness interval avoids thrashing the file system
+      every time a command is evaluated, and is around 15 seconds.
+      This is an implementation detail that cannot be configured.
+      To use a modified function definition before the
+      staleness interval passes, source the file.  For example,
+    </div>
+    <pre>
+funced foo; and funcsave foo; and source ~/.config/fish/functions/foo.fish</pre>
+
 
     <h3><a name="AutoRunningFunctions">Auto-running Functions</a></h3>
     <div>
@@ -2599,9 +2598,9 @@ end</pre>
       <li>
         <code>fish_preexec</code> and <code>fish_postexec</code><br>
         These are emitted before and after
-        executing an interactive command,
+        each interactive command is executed,
         even if the command is invalid.
-        The command line is passed as the first parameter.
+        The entire command line is passed as the first argument.
       </li>
     </ul>
 
@@ -2662,7 +2661,7 @@ end</pre>
     </div>
     <div>
       To send a signal to a process, enter
-      <code>kill -<i>signalNameOrNumber</i> <i>pid</i></code>.
+      <code>kill -<i>signalNameOrNumber</i> <i>processId</i></code>.
       For example, to handle a "hup" signal,
     </div>
     <pre>
