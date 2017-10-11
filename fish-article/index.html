@@ -1378,12 +1378,15 @@ end</pre>
       depends on whether it has been previously set.
       If the variable has already been set in any scope, this
       changes the value of the lowest visible scope already set.
+      If the variable has not already been set in any scope
+      and it is not being set inside a function,
+      the variable will be global.
       If the variable has not already been set in any scope,
-      the new variable will be local to the function in which it is set,
+      and it is being set inside a function,
+      the variable will be local to that function,
       not the block where it is set.
       To force it to be local to a block,
       use the <code>--local</code> (<code>-l</code>) switch.
-      If not in a function, the variable will be global.
       When a variable is set in <code>config.fish</code>
       with no scope switch, it becomes global.
       While these rules may seem challenging to memorize,
@@ -1417,9 +1420,9 @@ end</pre>
       to list only the variable names in that scope.
     </div>
     <div>
-      To determine if a variable has been set (query),
+      To determine if a variable has been set,
       enter <code>set --query <i>name</i></code> (<code>-q</code>).
-      This sets the status variable to 0 if set and 1 if not.
+      This sets the <code>status</code> variable to 0 if set and 1 if not.
       For example, <code>set -q fish_greeting; echo $status</code>.
       A scope switch can also be specified to query only in that scope.
     </div>
