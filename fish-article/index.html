@@ -1772,7 +1772,7 @@ set newText (string replace -ar '.oo' 'bar' $text) # regex matching more than fo
       To test the relationship between two numbers,
       use the <code>test</code> command.
       This supports many switches for various comparisons.
-      Both operands must be numbers,
+      For numeric comparisons, both operands must be numbers,
       or strings that only contain digits which will be
       converted to numbers for the comparison.
     </div>
@@ -1837,7 +1837,7 @@ set area (math "$width * $height") # 6</pre>
     </div>
     <div>
       The easiest way to get rounding is to use <code>printf</code>.
-      For example, to round at three decimal places,
+      For example, to round at three decimal places, use
       <code>printf '%.3f' (math -s4 '2 / 3')</code> which outputs 0.667.
       Note how this requests one more decimal place from <code>math</code>
       that is requested from <code>printf</code>.
@@ -1873,11 +1873,11 @@ set result (echo "s($radians)" | bc --mathlib) # .70710678</pre>
     </div>
     <div>
       To create an empty list,
-      enter <code>set <i>listName</i></code>
+      use <code>set <i>listName</i></code>
     </div>
     <div>
       To create a non-empty list,
-      enter <code>set <i>listName</i> <i>item1</i> <i>item2</i> ...</code>
+      use <code>set <i>listName</i> <i>item1</i> <i>item2</i> ...</code>
     </div>
     <div>
       For example, <code>set colors red green blue</code>
@@ -1909,7 +1909,7 @@ set result (echo "s($radians)" | bc --mathlib) # .70710678</pre>
       <code>set <i>listName</i>[<i>index</i>] <i>value</i></code>
     </div>
     <div>
-      To get a slice which is a new list, use
+      To get a slice of an existing list which is a new list, use
       <code>$<i>listName</i>[<i>start</i>..<i>end</i>]</code><br>
       <code><i>start</i></code> and <code><i>end</i></code>
       can be positive or negative.
@@ -1975,7 +1975,7 @@ count $labels # 3</pre>
     <div>
       When a fish shell is started, if the variables
       <code>PATH</code>, <code>CDPATH</code>, or <code>MANPATH</code>
-      are set in a parent shell such as bash,
+      are set in a parent shell (such as bash),
       they are converted to lists by splitting on colons.
     </div>
 
@@ -1986,7 +1986,7 @@ count $labels # 3</pre>
       They will be added in fish 3.
     </div>
     <div>
-      Hashmaps can simulated with plain variables,
+      Hashmaps can be simulated with plain variables,
       but there isn't a way to iterate over the keys
       unless they are held in a list.
       For example,
