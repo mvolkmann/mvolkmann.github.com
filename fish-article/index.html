@@ -2035,15 +2035,16 @@ echo Roses are (set_color red)red(set_color normal), \
       The <code>set_color</code> command supports many switches.
     </div>
     <ul>
-      <li><code>--background</code> (<code>-b</code>) to specify a background instead of a foreground color</li>
+      <li><code>--background</code> (<code>-b</code>) specifies a background instead of a foreground color</li>
       <li><code>--print-colors</code> (<code>-c</code>) prints the list of supported color names</li>
       <li><code>--bold</code> (<code>-o</code>) sets bold mode</li>
       <li><code>--dim</code> (<code>-d</code>) sets dim mode<br>
         Some terminals, including iTerm2 on macOS, don't support this by default.</li>
       <li><code>--italics</code> (<code>-i</code>) sets italics mode<br>
         Some terminals, including iTerm2 on macOS, don't support this by default.</li>
-      <li><code>--reverse</code> (<code>-r</code>) sets reverse mode</li>
-      <li><code>--underline</code> (<code>-u</code>) sets underlined mode</li>
+      <li><code>--reverse</code> (<code>-r</code>)
+        sets reverse mode where foreground and background colors are swapped</li>
+      <li><code>--underline</code> (<code>-u</code>) sets underline mode</li>
     </ul>
     <blockquote>
       To enable the use of <code>--dim</code> and <code>--italics</code>
@@ -2059,11 +2060,11 @@ echo Roses are (set_color red)red(set_color normal), \
       runs the <code>tic</code> command on the <code>.terminfo</code> files.
     </blockquote>
     <div>
-      Using <code>set_color</code> without these switches resets to default mode.
+      Using <code>set_color</code> without these switches turns all modes off.
     </div>
     <div>
       To reset all colors and switches, use <code>set_color normal</code>.
-      Typically this is close to white or black, but it is configurable.
+      This sets the foreground color to the default for the terminal.
       When commands are entered in a shell,
       the color of their output is automatically reset to normal
       after each line is entered.
@@ -2141,7 +2142,7 @@ printf $format Paige (set_color red) 6 (set_color normal)
         <a href="https://github.com/fish-shell/fish-shell/issues/4161">https://github.com/fish-shell/fish-shell/issues/4161</a>.
       </li>
       <li><code>status print-stack-trace</code> -
-        prints a stack trace which is useful for debugging issues
+        prints a stack trace which is useful when debugging issues
         in nested function calls</li>
     </ul>
 
