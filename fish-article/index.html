@@ -2164,14 +2164,14 @@ end &lt; <i>filePath</i> </pre>
       assuming <code>file</code> is a variable that holds a file path,
     </div>
     <ul>
-      <li>exists: <code>if test -e $<i>file</i></code></li>
-      <li>is a file: <code>if test -f $<i>file</i></code></li>
-      <li>is a directory: <code>if test -d $<i>file</i></code></li>
-      <li>is a symbolic link: <code>if test -L $<i>file</i></code></li>
-      <li>is readable: <code>if test -r $<i>file</i></code></li>
-      <li>is writable: <code>if test -w $<i>file</i></code></li>
-      <li>is an executable file: <code>if test -x $<i>file</i></code></li>
-      <li>is a non-empty file (has size): <code>if test -s $<i>file</i></code></li>
+      <li>exists: <code>if test -e $file</code></li>
+      <li>is a file: <code>if test -f $file</code></li>
+      <li>is a directory: <code>if test -d $file</code></li>
+      <li>is a symbolic link: <code>if test -L $file</code></li>
+      <li>is readable: <code>if test -r $file</code></li>
+      <li>is writable: <code>if test -w $file</code></li>
+      <li>is executable: <code>if test -x $file</code></li>
+      <li>is non-empty (has size): <code>if test -s $file</code></li>
       <li>and more (see the <code>test</code> command for details)</li>
     </ul>
     <div>
@@ -2187,7 +2187,7 @@ end &lt; <i>filePath</i> </pre>
       described previously in those sections.
       For example, <code>test "$color" = 'yellow'</code>.
       This can also be written as
-      <code>[ "$color" = 'yellow' ]</code>.
+      <code>[ "$color" = 'yellow' ]</code>
       for compatibility with other shells,
       but explictly using the <code>test</code> command is preferred.
     </div>
@@ -2225,7 +2225,7 @@ if test \( $color = 'yellow' \) -a \( $size = 'large' \)
   # code here
 end</pre>
     <div>
-      But this option requires parentheses and those must be escaped
+      This option requires parentheses and those must be escaped
       which results in ugly code, so the first option is preferred.
     </div>
 
