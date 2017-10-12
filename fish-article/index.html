@@ -2686,17 +2686,6 @@ kill -hup %self # got hup</pre>
       builtins, commands, and functions.
     </div>
     <div>
-      It is possible to have a function, builtin, and command
-      that all have the same name.
-      <b>Functions take precedence over builtins
-      and builtins take precedence over commands.</b>
-      To run a function, just enter its name.
-      To run a builtin instead of a function with the same name,
-      enter <code>builtin <i>name</i></code>.
-      To run a command instead of a function or builtin with the same name,
-      enter <code>command <i>name</i></code>.
-    </div>
-    <div>
       "Builtins" are commands that are provided by the shell.
       Examples include <code>cd</code>, <code>echo</code>, and <code>if</code>.
       To get a list of builtin names, enter
@@ -2724,14 +2713,27 @@ kill -hup %self # got hup</pre>
       in any directory listed in the <code>fish_function_path</code> directory.
     </div>
     <div>
-      Recall that the alias command generates a function
+      It is possible to have a function, builtin, and command
+      that all have the same name.
+      <b>Functions take precedence over builtins
+      and builtins take precedence over commands.</b>
+      To run a function, just enter its name.
+      To run a builtin instead of a function with the same name,
+      enter <code>builtin <i>name</i></code>.
+      To run a command instead of a function or builtin with the same name,
+      enter <code>command <i>name</i></code>.
+    </div>
+    <div>
+      Recall that the <code>alias</code> command generates a function
       that implements the alias.  For example,
     </div>
     <pre>
 alias greet 'echo Hello, $USER'
-functions greet
-# This outputs the following:
-# Defined in - @ line 0
+functions greet</pre>
+    <div>
+      This outputs the following:
+    </div>
+<pre># Defined in - @ line 0
 function greet --description 'alias greet echo Hello, $USER'
   echo Hello, $USER $argv;
 end</pre>
@@ -2753,7 +2755,7 @@ end</pre>
 
     <h3><a name="ifCommand">if Command</a></h3>
     <div>
-      The if command supports conditional logic.
+      The <code>if</code> command supports conditional logic.
       Its syntax is:
     </div>
     <pre>
@@ -2814,12 +2816,12 @@ switch <i>expression</i> # ex. $color
     <i>statements</i>
 end</pre>
     <div>
-      Note how a <code>case</code> can list more than one value.  Also note
-      that a "break" statement is not needed at the end of each <code>case</code>
+      A <code>case</code> can list more than one value.
+      A "break" statement is not needed at the end of each <code>case</code>
       because execution does not fall through as it does in many programming languages.
     </div>
     <div>
-      To treat one case value as the default, use
+      To treat one case as the default to use when none of the others match, use
       <code>case '*'</code>.
     </div>
     <div>
@@ -2827,7 +2829,7 @@ end</pre>
       specified with either <code>-h</code> or <code>--help</code>.
     </div>
     <pre>
-function product -d 'outputs product of any # of arguments'
+function product -d 'outputs the product of any # of arguments'
   set result 1
   for arg in $argv
     switch $arg
