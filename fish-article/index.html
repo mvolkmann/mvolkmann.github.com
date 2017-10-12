@@ -160,8 +160,8 @@
       <li class="level2"><a href="#Jobs">Jobs</a></li>
       <li class="level2"><a href="#RandomNumbersAndOptions">Random Numbers and Options</a></li>
       <li class="level2"><a href="#Example">Example in Node, bash, and fish</a></li>
-
       <li class="level1"><a href="#Summary">Summary</a></li>
+      <li class="level1"><a href="#Acknowledgements">Acknowledgements</a></li>
     </ul>
 
     <h3><a name="Overview">Overview</a></h3>
@@ -3287,7 +3287,7 @@ end</pre>
       to the foreground, enter <code>fg</code>.
       To bring a specific background job to the foreground,
       enter <code>fg %<i>jobNumber</i></code>
-      or <code>fg <i>processNumber</i></code>.
+      or <code>fg <i>processId</i></code>.
     </div>
     <div>
       If you attempt to exit from a shell that has background jobs,
@@ -3328,7 +3328,7 @@ set color (random choice $colors)</pre>
       For comparison purposes, this section presents the same utility,
       <code>lscolor</code>, implemented in Node.js, bash, and fish.
       It lists all files in the current directory on separate lines.
-      However, files with certain extensions are output with specific colors.
+      However, files with certain extensions are output in specific colors.
       There are default colors for files with
       the extensions html, css, js, and scss.
       These can be overridden and colors for other file extensions
@@ -3483,6 +3483,14 @@ end</pre>
     <div>
       Please send feedback on this article to
       <a href="mailto:mark@objectcomputing.com">mark@objectcomputing.com</a>.
+    </div>
+
+    <h3><a name="Acknowledgements">Acknowledgements</a></h3>
+    <div>
+      Many people provided helped me write this article
+      by answering questions about fish or reviewing the article.
+      In particularly I want to thank Kurtis Rader (Oregon State University)
+      and Charles Sharp (Object Computing, Inc.).
     </div>
   </body>
 </html>
