@@ -2874,7 +2874,8 @@ end</pre>
       <code>and</code> and <code>or</code> commands.
     </div>
     <div>
-      The syntax for a <code>for</code> loop is:
+      A <code>for</code> loop iterates over the elements of a list.
+      Its syntax is:
     </div>
     <pre>
 for <i>var</i> in <i>list</i>
@@ -2942,7 +2943,7 @@ end</pre>
     </div>
     <div>
       If the prompt doesn't fit in the current terminal width,
-      it will instead just output "<code>&gt;</code>".
+      fish will instead just output "<code>&gt;</code>".
       The <code>fish_prompt</code> function can compare the length
       of what it wants to output with the <code>COLUMNS</code> variable
       and output something that fits.
@@ -2950,14 +2951,14 @@ end</pre>
     <div>
       Here's an example of a custom prompt
       that takes the terminal width into account.
-      Note that there is no way in fish to determine if the window width
+      Note that there is no way to determine if the window width
       is less than 20 characters because when that is the case,
-      the COLUMNS variable is set to 80.
+      fish sets the COLUMNS variable to 80.
       This is done because fish may not behave sensibly
       if the terminal width is less than 20.
     </div>
     <pre>
-# This function is run every time Fish displays a new prompt.
+# This function is run every time fish displays a new prompt.
 function fish_prompt
   set vimModeLen 2 # appears at beginning of prompt (described later)
   set remaining (math "$COLUMNS - $vimModeLen")
@@ -3019,7 +3020,7 @@ end</pre>
       which is a bit distracting.
       To disable this feature,
       make this a function that doesn't output anything.
-      It is not enough to just not define this function
+      It is not enough to simply not define this function
       because fish provides a default implementation
       that must be overridden to change.
     </div>
@@ -3096,7 +3097,7 @@ complete -c <i>commandName</i> -s <i>shortSwitchName</i> -l <i>longSwitchName</i
       <li><code>--no-files</code> (<code>-f</code>) -
         disallows file path completion for this switch</li>
       <li><code>--require-parameter</code> (<code>-r</code>) -
-        specifies that a value must follow the switch as opposed to another switch</li>
+        specifies that a value must follow the switch</li>
     </ul>
     <div>
       Here is an example of a custom command with custom completion of color names.
@@ -3107,12 +3108,12 @@ complete -c <i>commandName</i> -s <i>shortSwitchName</i> -l <i>longSwitchName</i
     <pre>
 cecho -c red fire -c green grass -c normal cloud -c blue sky</pre>
     <div>
-      Tab completion can be used to select colors by typing the
+      Tab completion can be used to select colors by entering the
       <code>--color</code> (<code>-c</code>) switch,
       followed by a space, and pressing the tab key.
     </div>
     <pre>
-function cecho -d 'echoes given text in color'
+function cecho -d 'echoes given text in colors'
   for arg in $argv
     switch $arg
       case '-c' '--color'
