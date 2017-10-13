@@ -181,8 +181,8 @@
     <ul>
       <li>colorful prompts</li>
       <li>auto-suggestions while typing</li>
-      <li>auto-completion of commands, their switches (aka options), file paths,
-        variable names, git branches, and more</li>
+      <li>auto-completion of commands, their switches (aka options),
+        file paths, variable names, git branches, and more</li>
       <li>easy access to web-based help</li>
       <li>error messages that explain the problem and suggest a solution</li>
       <li>ability to customize colors and the prompt using a web UI</li>
@@ -240,7 +240,7 @@
      </li>
       <li>
         Fish should be user friendly, but not at the expense of expressiveness.
-        Most tradeoffs between power and ease of use
+        Most trade-offs between power and ease of use
         can be avoided with careful design.
      </li>
       <li>
@@ -332,7 +332,8 @@
     </div>
     <div>
       For Windows, fish can be run in Cygwin.
-      In Windows 10, fish can be run in the "Windows Subsystem for Linux" (WSL).
+      In Windows 10, fish can be run in the
+      "Windows Subsystem for Linux" (WSL).
     </div>
     <div>
       I highly recommend installing fish now so you can try each feature
@@ -342,7 +343,8 @@
 
     <h3><a name="DefaultShell">Default Shell</a></h3>
     <div>
-      To make fish the default shell so new terminal windows automatically use it,
+      To make fish the default shell
+      so new terminal windows automatically use it,
       enter <code>chsh -s /usr/local/bin/fish</code>.
       Perhaps it's best to hold off on doing this until you become
       convinced that fish is for you.  I'm confident you will!
@@ -407,7 +409,7 @@
         official mailing list at
         <a href="mailto:fish-users@lists.sourceforge.net">fish-users@lists.sourceforge.net</a>
       </li>
-      <li>Stackoverflow at
+      <li>Stack Overflow at
         <a href="https://stackoverflow.com/questions/tagged/fish">https://stackoverflow.com/questions/tagged/fish</a>
       </li>
       <li>IRC channel #fish on irc.oftc.net</li>
@@ -840,7 +842,7 @@ date &amp;&amp; ls
 set dateFormat '+%A %B %d, %G' # ex. Tuesday, November 1, 2017
 set announcement 'Today is '(date $dateFormat)'.'</pre>
     <div>
-      The <code>#</code> above indicates the begining of a comment
+      The <code>#</code> above indicates the beginning of a comment
       that extends extend to the end of the line,
       like in other shells.
     </div>
@@ -902,7 +904,7 @@ set announcement 'Today is '(date $dateFormat)'.'</pre>
       This is also useful in the <code>cp</code> and <code>mv</code> commands.
     </div>
     <div>
-      Brace expansion can also be used to generate "cartesian products".
+      Brace expansion can also be used to generate "Cartesian products".
       For example, to set a variable to this kind of result:
     </div>
     <pre>
@@ -943,8 +945,8 @@ set cells {a,b,c}{1,2} # a1 b1 c1 a2 b2 c2</pre>
       Functions are described later in the "Scripting in Fish" section.
       The function is only defined in the current session
       and goes away when the session exits.
-      To create aliases that are available in all future sessions, define them in
-      <a href="#ConfigurationViaFishConfig"><code>config.fish</code></a>.
+      To create aliases that are available in all future sessions, define them
+      in <a href="#ConfigurationViaFishConfig"><code>config.fish</code></a>.
       For more information, see "Defining aliases" at
       <a href="https://fishshell.com/docs/current/index.html#introduction" target="_blank">https://fishshell.com/docs/current/index.html#introduction</a>.
     </div>
@@ -996,7 +998,7 @@ set cells {a,b,c}{1,2} # a1 b1 c1 a2 b2 c2</pre>
     </div>
     <ol>
       <li>executing commands in a shell</li>
-      <li>using the a web configuration UI</li>
+      <li>using the web configuration UI</li>
       <li>adding commands in a
         <a href="#ConfigurationViaFishConfig">configuration file</a></li>
     </ol>
@@ -1133,7 +1135,7 @@ set cells {a,b,c}{1,2} # a1 b1 c1 a2 b2 c2</pre>
 
     <h3><a name="ConfigurationViaFishConfig">Configuration via config.fish</a></h3>
     <div>
-      Fish is billed as not needing configuation.
+      Fish is billed as not needing configuration.
       Strictly speaking this is true.
       However, if you currently use another shell like bash,
       you likely have configuration for it
@@ -1216,13 +1218,14 @@ set cells {a,b,c}{1,2} # a1 b1 c1 a2 b2 c2</pre>
     <div>
       To prepend a path to PATH,<br>
       <code>set -U fish_user_paths $fish_user_paths <i>new-path</i></code><br>
-      This outputs a warning if no directory matching <code><i>new-path</i></code>
-      is found, but adds it anyway.
+      This outputs a warning if no directory matching
+      <code><i>new-path</i></code> is found, but adds it anyway.
     </div>
     <div>
       As we will see later, all variables hold a list.
       It's just that many of them only contain a single value.
-      <a href="#Lists">Lists</a> are discussed in the "Scripting in Fish" section.
+      <a href="#Lists">Lists</a> are discussed
+      in the "Scripting in Fish" section.
       Removing a path from PATH or <code>fish_user_paths</code> is done
       the same way as removing an item from any list.
     </div>
@@ -1598,7 +1601,7 @@ set result some prefix{$middle}some suffix</pre>
       It outputs <code>1</code> if the expression evaluates to true
       and <code>0</code> if false,
       but it sets <code>status</code> to the opposite value
-      which is convenient when used in conjuction with
+      which is convenient when used in conjunction with
       commands like <code>if</code>, <code>while</code>,
       <code>and</code>, and <code>or</code>.
     </div>
@@ -1710,7 +1713,7 @@ echo $status # 0 for found</pre>
       <code>--all</code> (<code>-a</code>) switch.
     </div>
     <div>
-      To make matching case-insenstive,
+      To make matching case-insensitive,
       add the <code>--ingore-case</code> (<code>-i</code>) switch.
     </div>
     <div>
@@ -2190,7 +2193,7 @@ end &lt; <i>filePath</i> </pre>
       This can also be written as
       <code>[ "$color" = 'yellow' ]</code>
       for compatibility with other shells,
-      but explictly using the <code>test</code> command is preferred.
+      but explicitly using the <code>test</code> command is preferred.
     </div>
     <div>
       To negate any test, add <code>!</code> after <code>test</code>
@@ -2779,7 +2782,7 @@ end</pre>
     <div>
       A common command to use in an <code>if</code>
       is <code>test</code>.  For example,
-      to explictly test the status of the
+      to explicitly test the status of the
       last command executed before an <code>if</code>, use
       <code>if test $status = 0 # success</code> or
       <code>if test $status != 0 # failure</code>
@@ -3002,7 +3005,7 @@ function fish_prompt
   # Always display "fish" prompt on new line.
   set_color normal
   # This uses printf instead of echo to output a leading newline.
-  printf '\\n🐠  ' # uses unicode for fish emoji
+  printf '\\n🐠  ' # uses Unicode for fish emoji
 end</pre>
     <div>
       It is also possible to define a "right prompt"
@@ -3266,7 +3269,7 @@ end</pre>
       To run a command in background,
       add <code>&amp;</code> to end of the command.
       This works for commands, but not for functions.
-      For a discusion on the reason why, see
+      For a discussion on the reason why, see
       <a href="https://github.com/fish-shell/fish-shell/issues/238">https://github.com/fish-shell/fish-shell/issues/238</a>.
     </div>
     <div>
