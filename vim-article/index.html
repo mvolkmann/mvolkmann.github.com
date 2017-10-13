@@ -82,15 +82,14 @@
     <ul class="toc">
       <li class="level1"><a href="#Overview">Overview</a></li>
 
-      <li class="level1"><a href="#Basics">Basics</a></li>
-      <li class="level2"><a href="#StartingAndQuiting">Starting and Quiting</a></li>
-      <li class="level2"><a href="#Modes">Modes</a></li>
+      <li class="level1"><a href="#Installing">Installing</a></li>
+      <li class="level1"><a href="#Starting">Starting</a></li>
+      <li class="level1"><a href="#Modes">Modes</a></li>
+      <li class="level2"><a href="#WritingAndQuiting">Starting and Quiting</a></li>
       <li class="level2"><a href="#Movement">Movement</a></li>
-
-      <li class="level1"><a href="#Buffers">Buffers</a></li>
-
       <li class="level1"><a href="#netrw">netrw</a></li>
-
+      <li class="level1"><a href="#Buffers">Buffers</a></li>
+      <li class="level1"><a href="#Splits">Splits</a></li>
       <li class="level1"><a href="#Macros">Macros</a></li>
       <li class="level1"><a href="#Summary">Summary</a></li>
       <li class="level1"><a href="#Acknowledgements">Acknowledgements</a></li>
@@ -106,6 +105,68 @@
       Even if you don't adopt Vim as your primary editor,
       you may wish to enable a Vim mode in your editor/IDE of choice.
     </div>
+    <div>
+      Okay, many of you don’t like using Vim.
+      But sometimes you have to use it anyway.
+      Maybe you SSH’ed into a machine and your favorite editor isn’t available.
+      By learning just a few things, you can make the experience much nicer.
+      Open more than one file in the same Vim session and switch between them.
+    </div>
+
+    <h3><a name="Installing">Installing</a></h3>
+    already installed on many systems
+    brew install vim
+    gvim on Windows
+
+    <h3><a name="Starting">Starting</a></h3>
+    vim filepath
+    vim
+
+    <h3><a name="Modes">Modes</a></h3>
+    command
+    insert
+    visual
+    others?
+
+    <h3><a name="WritingAndQuiting">Writing and Quiting</a></h3>
+    :w - writes changes
+    :q - quits only if there are no unwritten changes
+    :wq - writes and quits
+    :q! - quits even if there are unwritten changes
+
+    <h3><a name="Movement">Movement</a></h3>
+
+    <h3><a name="netrw">netrw</a></h3>
+    <div>
+      A Vim feature that is a available by default
+      Stands for “NETwork oriented Reading, Writing, and browsing”
+      While it does “net” things, it’s also really great for exploring the file system!
+    </div>
+    <div>
+      Entering <code>:E</code> opens a file explorer.
+      Move to a file or directory with Vim motion keys.
+      Press enter to open the file or directory under the cursor.
+      Press <code>R</code> to rename the file.
+      Press <code>D</code> to delete the file.
+      A file explorer can also be opened by starting with
+      <code>vim +E</code> or <code>vim .</code>.
+    </div>
+
+    <h3><a name="Buffers">Buffers</a></h3>
+    :ls - lists all buffers
+    :b# - opens buffer with a given number
+    :bd#1 #2 ... - deletes specified buffers
+
+    <h3><a name="Splits">Splits</a></h3>
+    :sp - splits horizontally
+    :vs - splits vertically
+    ctrl-w ctrl-w - switches between splits
+
+    <h3><a name="Macros">Macros</a></h3>
+    A macro is ...
+    To record a macro, qletter
+    To run a macro, @letter
+    To repeat running the last macro, r.mark.volkmann@gmail.com
 
     <h3><a name="Summary">Summary</a></h3>
     <div>
