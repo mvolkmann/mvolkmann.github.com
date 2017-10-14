@@ -55,7 +55,7 @@
       }
       table {
         border-collapse: collapse;
-        margin-bottom: 10px;
+        margin-bottom: 15px;
       }
       table th, table td {
         border: solid lightgray 1px;
@@ -611,6 +611,60 @@
         <td>executes the last macro that was executed</td>
       </tr>
     </table>
+    <div>
+      It may not be obvious why macros are useful,
+      so let's walk through an example.
+    </div>
+    <div>
+      Suppose you are editing a text file that contains many
+      phone numbers formatted like "123-456-7890" and
+      you need to change them to "(123)456-7890".
+      You can create a macro to do this by
+      moving the cursor to the beginning of a phone number
+      and pressing the following keys
+      (where <code>esc</code> is the escape key):<br>
+      <code>qpi(escllllr)q</code>
+    </div>
+    <div>
+      Let's break this down.<br>
+      <code>qp</code> begins recording a macro in the p register.<br>
+      <code>i(esc</code> enters insert mode, inserts a left paren,
+      and exits insert mode.<br>
+      <code>llll</code> moves right four characters.
+      This could also be done with <code>4l</code>.<br>
+      <code>r)</code> replaces the character under the cursor,
+      a dash in this case, with a right paren.<br>
+      <code>q</code> end the macro recording.
+    </div>
+    <div>
+      Now that the macro has been recorded, move to the
+      other phone numbers and press <code>@p</code> to format them.
+      After the macro has been run once,
+      it can also be run again by pressing <code>@@</code>.
+    </div>
+    <div>
+      To make this even better, add a command at the end of the macro
+      to automatically find the next phone number in the file.
+      This could be done with <code>/\d\{3}-\d\{3}-\d\{4}enter</code>.
+      This finds a phone number using a regular expression
+      where <code>\d</code> represents a digit and
+      <code>{n}</code> represents a number of consecutive occurrences.
+      The opening braces must be escaped with backslashes.
+      Once this is in place, the macro can be run a specified number
+      of times by entering a number followed by <code>@p</code>.
+      For example, to fix the next ten phone numbers
+      beginning with the one starting at the cursor position
+      enter <code>10@p</code>.
+    </div>
+    <div>
+      This example is not related to software development,
+      but similar reformatting needs frequently occur in that setting.
+    </div>
+    <div>
+      Macros are one of the reasons I cannot bear to use another editor.
+      There are too many occassions where macros save me a tremendous
+      amount of time to consider using an editor that doesn't support them.
+    </div>
 
     <h3><a name="Summary">Summary</a></h3>
     <div>
