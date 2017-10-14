@@ -12,6 +12,9 @@
         font-family: sans-serif;
         margin: 20px 40px;
       }
+      .center {
+        text-align: center;
+      }
       code {
         background-color: lightyellow;
         font-weight: bold;
@@ -20,7 +23,7 @@
       div {
         margin-bottom: 10px;
       }
-      #fish-logo {
+      #vim-logo {
         width: 300px;
       }
       h1, h3 {
@@ -39,6 +42,9 @@
         margin: 10px 0;
         width: 800px;
       }
+      .left {
+        text-align: left;
+      }
       #lscolors {
         width: 200px;
       }
@@ -46,6 +52,13 @@
         background-color: lightyellow;
         font-weight: bold;
         width: 800px;
+      }
+      table {
+        border-collapse: collapse;
+      }
+      table th, table td {
+        border: solid lightgray 1px;
+        padding: 5px;
       }
       .toc > .level1 {
         font-weight: bold;
@@ -85,8 +98,8 @@
       <li class="level1"><a href="#Installing">Installing</a></li>
       <li class="level1"><a href="#Starting">Starting</a></li>
       <li class="level1"><a href="#Modes">Modes</a></li>
-      <li class="level2"><a href="#WritingAndQuitting">Starting and Quitting</a></li>
       <li class="level2"><a href="#Movement">Movement</a></li>
+      <li class="level2"><a href="#WritingAndQuitting">Starting and Quitting</a></li>
       <li class="level1"><a href="#netrw">netrw</a></li>
       <li class="level1"><a href="#Buffers">Buffers</a></li>
       <li class="level1"><a href="#Splits">Splits</a></li>
@@ -106,35 +119,342 @@
       you may wish to enable a Vim mode in your editor/IDE of choice.
     </div>
     <div>
-      Okay, many of you don’t like using Vim.
-      But sometimes you have to use it anyway.
-      Maybe you SSH’ed into a machine and your favorite editor isn’t available.
-      By learning just a few things, you can make the experience much nicer.
-      Open more than one file in the same Vim session and switch between them.
+      The primary goal of this article is to make you
+      more productive without requiring any
+      custom configuration or plugins.
+      By learning just a few things,
+      you can make the experience of using Vim much nicer.
+      This includes opening more than one file in
+      the same Vim session and switching between them.
     </div>
 
     <h3><a name="Installing">Installing</a></h3>
-    already installed on many systems
-    brew install vim
-    gvim on Windows
+    <div>
+      If you are working on a Mac or a Linux system,
+      Vim is already installed.
+      However, you may wish to install a newer version.
+    </div>
+    <div>
+      To install Vim in Windows, browse
+      <a href="https://vim.sourceforge.io/download.php#pc">https://vim.sourceforge.io/download.php#pc</a>,
+      select an installer to download,
+      and run it.
+    </div>
+    <div>
+      To install Vim in macOS, first install Homebrew
+      (<a href="https://brew.sh/">https://brew.sh/</a>).
+      Then open a Terminal window and enter "brew install vim".
+      Alternatively, install MacVim by browsing
+      <a href="https://macvim-dev.github.io/macvim/">https://macvim-dev.github.io/macvim/</a>.
+    </div>
+    <div>
+      To install Vim in Linux, ...
+      If you are using Linux you likely already know how to do this.
+    </div>
 
     <h3><a name="Starting">Starting</a></h3>
-    vim file path
-    vim
+    <div>
+      If using a GUI version of Vim like MacVim,
+      double-click the application icon to start it.
+      If using a terminal-based version of Vim,
+      open a termimal (or Command Prompt in Windows)
+      and enter <code>vim</code>.
+      This can be followed by a file path to open a
+      specific file, but as we'll see it is very easy
+      to locate and open files from within Vim.
+    </div>
+    <div>
+      Next, let's cover some Vim basics including
+      modes, commands, writing, and quitting.
+      It would be easy to go overboard.
+      We just want to hit the highlights to get you started.
+      This will be review for many of you.
+    </div>
 
     <h3><a name="Modes">Modes</a></h3>
-    command
-    insert
-    visual
-    others?
+    <div>
+      Vim is a modal editor.
+      That means you are always operating in a specific "mode".
+      Key presses behave differently based on the current mode.
+      The most commonly used modes are command, insert, and visual.
+    </div>
 
-    <h3><a name="WritingAndQuitting">Writing and Quitting</a></h3>
-    :w - writes changes
-    :q - quits only if there are no unwritten changes
-    :wq - writes and quits
-    :q! - quits even if there are unwritten changes
+    <h4>Command Mode</h4>
+    <div>
+      This mode is for running commands,
+      many of which operate on text in the current buffer.
+      There are many keys that can be pressed to run a command,
+      but the mostly commonly used are these:
+    </div>
+    <table summary="command mode keys">
+      <tr>
+        <th class="center">Key</th>
+        <th class="left">Action</th>
+      </tr>
+      <tr>
+        <td class="center"><code>cw</code></td>
+        <td>changes word starting at cursor;
+          removes word and enters insert mode
+          so replacement can be entered
+        </td>
+      </tr>
+      <tr>
+        <td class="center"><code>c$</code></td>
+        <td>changes everything from cursor to end of line;
+          removes rest of line and enters insert mode
+          so replacement can be entered
+        </td>
+      </tr>
+      <tr>
+        <td class="center"><code>dd</code></td>
+        <td>deletes current line</td>
+      </tr>
+      <tr>
+        <td class="center"><code>dw</code></td>
+        <td>deletes word starting at cursor</td>
+      </tr>
+      <tr>
+        <td class="center"><code>d$</code></td>
+        <td>deletes from cursor to end of current line</td>
+      </tr>
+      <tr>
+        <td class="center"><code>J</code></td>
+        <td>joins next line to current line</td>
+      </tr>
+      <tr>
+        <td class="center"><code>p</code></td>
+        <td>pastes clipboard contents
+          after character under cursor</td>
+      </tr>
+      <tr>
+        <td class="center"><code>P</code></td>
+        <td>pastes clipboard contents
+          before character under cursor</td>
+      </tr>
+      <tr>
+        <td class="center"><code>r</code></td>
+        <td>replaces character under cursor
+          with next character typed
+        </td>
+      </tr>
+      <tr>
+        <td class="center"><code>u</code></td>
+        <td>undoes last change; press repeatedly to undo multiple changes</td>
+      </tr>
+      <tr>
+        <td class="center"><code>y</code></td>
+        <td>yanks (copies) character under cursor</td>
+      </tr>
+      <tr>
+        <td class="center"><code>yw</code></td>
+        <td>yanks (copies) word starting at cursor</td>
+      </tr>
+      <tr>
+        <td class="center"><code>yy</code></td>
+        <td>yanks (copies) current line</td>
+      </tr>
+      <tr>
+        <td class="center"><code>y$</code></td>
+        <td>yanks (copies) characters from cursor
+          to end of current line</td>
+      </tr>
+      <tr>
+        <td class="center"><code>x</code></td>
+        <td>cuts character under cursor</td>
+      </tr>
+      <tr>
+        <td class="center"><code>z</code> enter</td>
+        <td>moves current line to top<br>
+          This is especially useful when the cursor is on
+          the first line of a long function definiton
+          and you want to see as much of the code as possible
+          on the screen at once.
+        </td>
+      </tr>
+      <tr>
+        <td class="center"><code>~</code></td>
+        <td>toggles case of character under cursor</td>
+      </tr>
+      <tr>
+        <td class="center"><code>.</code></td>
+        <td>repeats last command</td>
+      </tr>
+    </table>
+
+    <h4>Insert Mode</h4>
+    <div>
+       This mode is for inserting text into the current buffer.
+       There are many keys that can be pressed to enter insert mode.
+       To exit from this mode and return to command mode,
+       press the escape key.
+    </div>
+    <table summary="insert mode keys">
+      <tr>
+        <th class="center">Key</th>
+        <th class="left">Enters Insert Mode ...</th>
+      </tr>
+      <tr>
+        <td class="center"><code>i</code></td>
+        <td>before character under cursor</td>
+      </tr>
+      <tr>
+        <td class="center"><code>a</code></td>
+        <td>after character under cursor</td>
+      </tr>
+      <tr>
+        <td class="center"><code>I</code></td>
+        <td>before first non-whitespace character on current line</td>
+      </tr>
+      <tr>
+        <td class="center"><code>A</code></td>
+        <td>after last character on current line</td>
+      </tr>
+      <tr>
+        <td class="center"><code>o</code></td>
+        <td>with new line below current line</td>
+      </tr>
+      <tr>
+        <td class="center"><code>O</code></td>
+        <td>with new line above current line</td>
+      </tr>
+    </table>
+
+    <h4>Visual Mode</h4>
+    <div>
+      This mode allows selecting text visually,
+      either by characters or by lines.
+    </div>
+    <table summary="visual mode keys">
+      <tr>
+        <th class="center">Key</th>
+        <th class="left">Enters Insert Mode ...</th>
+      </tr>
+      <tr>
+        <td class="center"><code>v</code></td>
+        <td>enters character-based visual mode</td>
+      </tr>
+      <tr>
+        <td class="center"><code>V</code></td>
+        <td>enters line-based visual mode</td>
+      </tr>
+      <tr>
+        <td class="center"><code>x</code></td>
+        <td>cuts selected text and exits visual mode</td>
+      </tr>
+      <tr>
+        <td class="center"><code>y</code></td>
+        <td>yanks (copies) selected text and exits visual mode</td>
+      </tr>
+      <tr>
+        <td class="center"><code>~</code></td>
+        <td>toggles case of all selected characters
+          and exits visual mode</td>
+      </tr>
+      <tr>
+        <td class="center">esc</td>
+        <td>exits visual mode</td>
+      </tr>
+    </table>
+
+    <h4>Other Modes</h4>
+    <div>
+      What do you want to say here?
+    </div>
 
     <h3><a name="Movement">Movement</a></h3>
+    <table summary="movement keys">
+      <tr>
+        <th class="center">Key</th>
+        <th class="left">Moves ...</th>
+      </tr>
+      <tr>
+        <td class="center"><code>j</code></td>
+        <td>down</td>
+      </tr>
+      <tr>
+        <td class="center"><code>k</code></td>
+        <td>up</td>
+      </tr>
+      <tr>
+        <td class="center"><code>h</code></td>
+        <td>left</td>
+      </tr>
+      <tr>
+        <td class="center"><code>l</code></td>
+        <td>right</td>
+      </tr>
+      <tr>
+        <td class="center"><code>0</code></td>
+        <td>beginning of line</td>
+      </tr>
+      <tr>
+        <td class="center"><code>$</code></td>
+        <td>end of line</td>
+      </tr>
+      <tr>
+        <td class="center"><code>^</code></td>
+        <td>first non-whitespace character on line</td>
+      </tr>
+      <tr>
+        <td class="center"><code>w</code></td>
+        <td>next word</td>
+      </tr>
+      <tr>
+        <td class="center"><code>b</code></td>
+        <td>previous word</td>
+      </tr>
+      <tr>
+        <td class="center"><code>gg</code></td>
+        <td>top of file</td>
+      </tr>
+      <tr>
+        <td class="center"><code>G</code></td>
+        <td>bottom of file</td>
+      </tr>
+      <tr>
+        <td class="center">
+          line number<br>
+          followed by <code>G</code>
+        </td>
+        <td>to line number</td>
+      </tr>
+      <tr>
+        <td class="center">ctrl-<code>f</code></td>
+        <td>forward one page</td>
+      </tr>
+      <tr>
+        <td class="center">ctrl-<code>b</code></td>
+        <td>backward one page</td>
+      </tr>
+    </table>
+
+    <h3><a name="WritingAndQuitting">Writing and Quitting</a></h3>
+    <table summary="writing and quitting commands">
+      <tr>
+        <th class="center">Command</th>
+        <th class="left">Action</th>
+      </tr>
+      <tr>
+        <td class="center"><code>:w</code></td>
+        <td>writes current buffer to associated file</td>
+      </tr>
+      <tr>
+        <td class="center"><code>:w</code><i>file-path</i></td>
+        <td>writes current buffer to specified file</td>
+      </tr>
+      <tr>
+        <td class="center"><code>:q</code></td>
+        <td>quits Vim, but not if there are unsaved changes</td>
+      </tr>
+      <tr>
+        <td class="center"><code>:q!</code></td>
+        <td>quits Vim even if there are unsaved changes</td>
+      </tr>
+      <tr>
+        <td class="center"><code>:wq</code></td>
+        <td>writes and quits</td>
+      </tr>
+    </table>
 
     <h3><a name="netrw">netrw</a></h3>
     <div>
@@ -161,6 +481,8 @@
     :sp - splits horizontally
     :vs - splits vertically
     ctrl-w ctrl-w - switches between splits
+    :close
+    :only
 
     <h3><a name="Macros">Macros</a></h3>
     A macro is ...
