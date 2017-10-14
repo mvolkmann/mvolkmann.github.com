@@ -55,10 +55,14 @@
       }
       table {
         border-collapse: collapse;
+        margin-bottom: 10px;
       }
       table th, table td {
         border: solid lightgray 1px;
         padding: 5px;
+      }
+      td {
+        vertical-align: top;
       }
       .toc > .level1 {
         font-weight: bold;
@@ -122,10 +126,11 @@
       The primary goal of this article is to make you
       more productive without requiring any
       custom configuration or plugins.
+      This is not to suggest that you shouldn't customize
+      Vim or use plugins, just that it isn't necessary
+      in order to be productive.
       By learning just a few things,
       you can make the experience of using Vim much nicer.
-      This includes opening more than one file in
-      the same Vim session and switching between them.
     </div>
 
     <h3><a name="Installing">Installing</a></h3>
@@ -178,6 +183,14 @@
       Key presses behave differently based on the current mode.
       The most commonly used modes are command, insert, and visual.
     </div>
+    <div>
+      For those that disklike Vim,
+      modes are typically the primary reason.
+      Interestingly this is also true for those that like Vim!
+      Modes are the key to why working in Vim is so efficient.
+      They are also a major distinguishing factor
+      between Vim and emacs.
+    </div>
 
     <h4>Command Mode</h4>
     <div>
@@ -193,14 +206,14 @@
       </tr>
       <tr>
         <td class="center"><code>cw</code></td>
-        <td>changes word starting at cursor;
+        <td>changes word starting at cursor;<br>
           removes word and enters insert mode
           so replacement can be entered
         </td>
       </tr>
       <tr>
         <td class="center"><code>c$</code></td>
-        <td>changes everything from cursor to end of line;
+        <td>changes everything from cursor to end of line;<br>
           removes rest of line and enters insert mode
           so replacement can be entered
         </td>
@@ -216,6 +229,10 @@
       <tr>
         <td class="center"><code>d$</code></td>
         <td>deletes from cursor to end of current line</td>
+      </tr>
+      <tr>
+        <td class="center"><code>dt</code> followed<br>by a character</td>
+        <td>deletes from cursor to first occurrence of specified character</td>
       </tr>
       <tr>
         <td class="center"><code>J</code></td>
@@ -264,11 +281,11 @@
       </tr>
       <tr>
         <td class="center"><code>z</code> enter</td>
-        <td>moves current line to top<br>
-          This is especially useful when the cursor is on
-          the first line of a long function definiton
-          and you want to see as much of the code as possible
-          on the screen at once.
+        <td>moves current line to top;<br>
+          especially useful when cursor is on
+          the first line of a long function definiton<br>
+          and you want to see as much code as possible
+          on the screen at once
         </td>
       </tr>
       <tr>
@@ -458,42 +475,152 @@
 
     <h3><a name="netrw">netrw</a></h3>
     <div>
-      A Vim feature that is a available by default
-      Stands for “NETwork oriented Reading, Writing, and browsing”
-      While it does “net” things, it’s also really great for exploring the file system!
+      Many people who use Vim only occassionally quit out
+      of Vim and restart it in order to edit a different file.
+      This is unnecessary.
+      The netrw utility that comes with Vim
+      makes it easy to locate and open multiple files.
+      Each is in its own buffer.
     </div>
     <div>
-      Entering <code>:E</code> opens a file explorer.
-      Move to a file or directory with Vim motion keys.
-      Press enter to open the file or directory under the cursor.
-      Press <code>R</code> to rename the file.
-      Press <code>D</code> to delete the file.
-      A file explorer can also be opened by starting with
+      netrw stands for "NETwork oriented Reading, Writing, and browsing".
+      While it does "net" things, it's also
+      really great for exploring the file system.
+      Some people prefer to use plugins such as NerdTree for this,
+      but netrw works great and doesn't require configuration or a plugin.
+    </div>
+    <div>
+      To open a newrw "explorer" in the current window,
+      enter <code>:E</code>.
+      To open one on the left side of a new vertical split,
+      enter <code>:Ve</code>.
+      To open one when starting Vim, start it with
       <code>vim +E</code> or <code>vim .</code>.
+    </div>
+    <div>
+      Use normal motion keys to move cursor to a file or directory name.
+      Use commands described below to operate on file under cursor.
+    </div>
+    <table summary="netrw commands">
+      <tr>
+        <th class="center">Command</th>
+        <th class="left">Action</th>
+      </tr>
+      <tr>
+        <td class="center">enter</td>
+        <td>opens file for editing or directory for further navigating</td>
+      </tr>
+      <tr>
+        <td class="center"><code>R</code></td>
+        <td>rename file or directory; will prompt for new name</td>
+      </tr>
+      <tr>
+        <td class="center"><code>D</code></td>
+        <td>delete file or directory (if empty)</td>
+      </tr>
+    </table>
+    <div>
+      For more on netrw, see
+      <a href="https://shapeshed.com/vim-netrw/">https://shapeshed.com/vim-netrw/</a>.
     </div>
 
     <h3><a name="Buffers">Buffers</a></h3>
-    :ls - lists all buffers
-    :b# - opens buffer with a given number
-    :bd#1 #2 ... - deletes specified buffers
+    <div>
+      When multiple files are opened in a Vim session
+      each is held in its own buffer.
+      Here are commands that operate on buffers.
+    </div>
+    <table summary="buffer commands">
+      <tr>
+        <th class="center">Command</th>
+        <th class="left">Action</th>
+      </tr>
+      <tr>
+        <td class="center"><code>:ls</code></td>
+        <td>lists all current buffers</td>
+      </tr>
+      <tr>
+        <td class="center"><code>b</code> followed by a<br>buffer number</td>
+        <td>opens specified buffer</td>
+      </tr>
+      <tr>
+        <td class="center"><code>bd</code>
+          followed by a<br>space-separated list<br>of buffer numbers</td>
+        <td>deletes specified buffers, but not their associated files;<br>
+          will no longer appear in <code>:ls</code> output</td>
+      </tr>
+    </table>
 
     <h3><a name="Splits">Splits</a></h3>
-    :sp - splits horizontally
-    :vs - splits vertically
-    ctrl-w ctrl-w - switches between splits
-    :close
-    :only
+    <div>
+      It is often useful to view two or more files simultaneously.
+      To do this, open each file in a different "split".
+      This can also be used to view multiple parts
+      of the same file simultaneously.
+      Here are commands that operate on splits.
+    </div>
+    <table summary="buffer commands">
+      <tr>
+        <th class="center">Command</th>
+        <th class="left">Action</th>
+      </tr>
+      <tr>
+        <td class="center"><code>:split</code> or<br>just <code>:sp</code></td>
+        <td>splits current window horizontally</td>
+      </tr>
+      <tr>
+        <td class="center"><code>:vsplit</code> or<br>just <code>:vs</code></td>
+        <td>splits current window vertically</td>
+      </tr>
+      <tr>
+        <td class="center"><code>:close</code> or<br>just <code>:clo</code></td>
+        <td>closes current split</td>
+      </tr>
+      <tr>
+        <td class="center"><code>:only</code> or<br>just <code>:on</code></td>
+        <td>closes all splits except current one</td>
+      </tr>
+      <tr>
+        <td class="center">ctrl-w ctrl-w</td>
+        <td>moves cursor to next split;<br>
+          press repeatedly to cycle between them</td>
+      </tr>
+    </table>
 
     <h3><a name="Macros">Macros</a></h3>
-    A macro is ...
-    To record a macro, qletter
-    To run a macro, @letter
-    To repeat running the last macro, r.mark.volkmann@gmail.com
+    <div>
+      Macros record a series a keystrokes and assign them to a Vim register
+      so they can be replayed by a key combination.
+      Here are commands for creating and running macros.
+    </div>
+    <table summary="buffer commands">
+      <tr>
+        <th class="center">Command</th>
+        <th class="left">Action</th>
+      </tr>
+      <tr>
+        <td class="center"><code>q</code> followed by<br>a registry letter</td>
+        <td>begins recording a macro in the specified register</td>
+      </tr>
+      <tr>
+        <td class="center"><code>@</code> followed by<br>a registry letter</td>
+        <td>executes the macro in the specified register</td>
+      </tr>
+      <tr>
+        <td class="center"><code>@@</code></td>
+        <td>executes the last macro that was executed</td>
+      </tr>
+    </table>
 
     <h3><a name="Summary">Summary</a></h3>
     <div>
       This article covered everything you need to know to make effective
-      use of Vim.  Using Vim has been a game changer for me.
+      use of Vim.  Of course it can be made even better by configuring
+      certain aspects in a .vimrc file or adding the use of plugins.
+      But those are more advanced topics that you can learn about elsewhere.
+    </div>
+    <div>
+      Using Vim has been a game changer for me.
       I believe that by adopting Vim you will make yourself
       more productive and happier when editing text files!
     </div>
