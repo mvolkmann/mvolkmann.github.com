@@ -102,8 +102,12 @@
       <li class="level1"><a href="#Installing">Installing</a></li>
       <li class="level1"><a href="#Starting">Starting</a></li>
       <li class="level1"><a href="#Modes">Modes</a></li>
-      <li class="level2"><a href="#Movement">Movement</a></li>
-      <li class="level2"><a href="#WritingAndQuitting">Starting and Quitting</a></li>
+      <li class="level2"><a href="#CommandMode">Command Mode</a></li>
+      <li class="level2"><a href="#InsertMode">Insert Mode</a></li>
+      <li class="level2"><a href="#VisualMode">Visual Mode</a></li>
+      <li class="level2"><a href="#OtherModes">Other Modes</a></li>
+      <li class="level1"><a href="#Movement">Movement</a></li>
+      <li class="level1"><a href="#WritingAndQuitting">Starting and Quitting</a></li>
       <li class="level1"><a href="#netrw">netrw</a></li>
       <li class="level1"><a href="#Buffers">Buffers</a></li>
       <li class="level1"><a href="#Splits">Splits</a></li>
@@ -192,7 +196,7 @@
       between Vim and emacs.
     </div>
 
-    <h4>Command Mode</h4>
+    <h4><a name="CommandMode">Command Mode</a></h4>
     <div>
       This mode is for running commands,
       many of which operate on text in the current buffer.
@@ -296,9 +300,22 @@
         <td class="center"><code>.</code></td>
         <td>repeats last command</td>
       </tr>
+      <tr>
+        <td class="center"><code>/<i>text</i></code> or<br>
+          <code>/<i>regex</i></code> </td>
+        <td>finds the next occurrence of the specified text</td>
+      </tr>
+      <tr>
+        <td class="center"><code>%s/<i>text</i>/g</code> or<br>
+          <code>%s/<i>regex</i>/g</code> </td>
+        <td>replaces all occurrences of matching text in the entire file
+          with the specified text;<br>
+          add <code>c</code> to end of command to confirm each replacement
+        </td>
+      </tr>
     </table>
 
-    <h4>Insert Mode</h4>
+    <h4><a name="InsertMode">Insert Mode</a></h4>
     <div>
        This mode is for inserting text into the current buffer.
        There are many keys that can be pressed to enter insert mode.
@@ -336,7 +353,7 @@
       </tr>
     </table>
 
-    <h4>Visual Mode</h4>
+    <h4><a name="VisualMode">Visual Mode</a></h4>
     <div>
       This mode allows selecting text visually,
       either by characters or by lines.
@@ -373,7 +390,7 @@
       </tr>
     </table>
 
-    <h4>Other Modes</h4>
+    <h4><a name="OtherModes">Other Mode</a></h4>
     <div>
       What do you want to say here?
     </div>
