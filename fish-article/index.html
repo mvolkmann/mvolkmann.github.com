@@ -817,6 +817,8 @@ date &amp;&amp; ls
       To use the output of one command as an argument to another,
       surround the command with parentheses,
       not backticks like in some other shells.
+      This allows nesting of command substitution, something
+      that isn't possible in shells that use backticks for this.
       If the command outputs more than one line,
       each will be treated as a separate argument
       to the outer command.
@@ -1872,7 +1874,7 @@ set result (echo "s($radians)" | bc --mathlib) # .70710678</pre>
     <div>
       Recall that the value of all variables is a list which
       may contain any number of items, including none or just one.
-      Lists contain string values.
+      Lists contain an immutable collection of string values.
       They cannot contain other lists.
     </div>
     <div>
@@ -1911,6 +1913,15 @@ set result (echo "s($radians)" | bc --mathlib) # .70710678</pre>
     <div>
       To set a list item by index, use
       <code>set <i>listName</i>[<i>index</i>] <i>value</i></code>
+    </div>
+    <div>
+      To remove the first item in a list, use
+      <code>set --erase <i>listName</i>[1]</code> (<code>-e</code>)
+      or <code>set <i>listName</i> <i>listName</i>[2..-1]</code>
+    </div>
+    <div>
+      To remove the last item in a list, use
+      <code>set --erase <i>listName</i>[(count $<i>listName</i>)]</code>
     </div>
     <div>
       To get a slice of an existing list which is a new list, use
