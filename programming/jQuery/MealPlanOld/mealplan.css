@@ -1,0 +1,66 @@
+body {
+  /* This color was derived using http://colorblendy.com from
+     the dodge of orange and blue shades in jQuery UI Lightness theme.
+     The shade of orange is #e78f08.
+     The shade of blue is #1c94c4. */
+  background-color: #ffffcb; /* light yellow */
+}
+
+.compatibleTarget {
+  background-color: lightgreen;
+}
+
+.item {
+  font-family: Trebuchet MS, Tahoma, Verdana, Arial, sans-serif;
+  font-size: 12pt;
+}
+
+.label {
+  font-weight: bold;
+  text-align: right;
+}
+
+.overTarget {
+  background-color: green;
+}
+
+.title {
+  color: #1c94C4; /* blue */
+  font-family: Trebuchet MS, Tahoma, Verdana, Arial, sans-serif;
+  font-size: 24pt;
+}
+
+.ui-accordion {
+  width: 750px;
+}
+
+#printTable {
+  margin: 20px;
+}
+
+#printTable th, #printTable td {
+  padding: 10px;
+}
+
+#printTable, #printTable th, #printTable td {
+  border: solid red 2px;
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+#progress {
+  height: 5px;
+}
+
+#switchViewButton {
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
+#tabs {
+  margin-top: 15px;
+}
+
+#trash {
+  height: 48px;
+}

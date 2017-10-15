@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>processing_instruction (WAX)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File lib/wax.rb, line 383</span>
+  <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">processing_instruction</span>(<span class="ruby-identifier">target</span>, <span class="ruby-identifier">data</span>)
+    <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@check_me</span>
+      <span class="ruby-identifier">bad_state</span>(<span class="ruby-value str">&quot;pi&quot;</span>) <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@state</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">:after_root</span>
+
+      <span class="ruby-comment cmt"># Special handling for this processing instruction</span>
+      <span class="ruby-comment cmt"># since starting with &quot;xml&quot; is reserved.</span>
+      <span class="ruby-constant">XMLUtil</span>.<span class="ruby-identifier">verify_name</span>(<span class="ruby-identifier">target</span>) <span class="ruby-keyword kw">unless</span> <span class="ruby-identifier">target</span> <span class="ruby-operator">==</span> <span class="ruby-value str">&quot;xml-stylesheet&quot;</span>
+    <span class="ruby-keyword kw">end</span>
+        
+    <span class="ruby-ivar">@has_content</span> = <span class="ruby-ivar">@has_indented_content</span> = <span class="ruby-keyword kw">true</span>
+    <span class="ruby-identifier">terminate_start</span>
+    <span class="ruby-identifier">write_indent</span> <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@parent_stack</span>.<span class="ruby-identifier">size</span> <span class="ruby-operator">&gt;</span> <span class="ruby-value">0</span>
+
+    <span class="ruby-identifier">out</span> <span class="ruby-node">&quot;&lt;?#{target} #{data}?&gt;&quot;</span>
+    <span class="ruby-identifier">out</span>(<span class="ruby-node">&quot;#{@cr}&quot;</span>) <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">will_indent</span> <span class="ruby-keyword kw">and</span> <span class="ruby-ivar">@parent_stack</span>.<span class="ruby-identifier">size</span> <span class="ruby-operator">==</span> <span class="ruby-value">0</span>
+
+    <span class="ruby-keyword kw">self</span>
+  <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

@@ -1,0 +1,24 @@
+.box {
+  color: white;
+  height: 75px;
+  width: 100px;
+  line-height: 75px; /* centers text vertically */
+  text-align: center;
+}
+
+.ui-draggable-dragging { /* added during dragging */
+  color: black;
+}
+
+#outer {
+  background-color: linen;
+  border: solid black 3px;
+  height: 300px;
+  width: 400px;
+}
+
+#center { background-color: red; }
+#bottom { background-color: blue; }
+#left { background-color: purple; }
+#right { background-color: green; }
+#top { background-color: orange; }

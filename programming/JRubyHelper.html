@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR.html1/DTD.html1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999.html">
+  <head>
+    <title>JRubyHelper.java</title>
+    <link rel="stylesheet" type="text/css" href="../common.css"/>
+  </head>
+  <body>
+    <h2>JRubyHelper.java</h2>
+    
+    <pre><div class="code">package com.ociweb.jruby;
+
+import java.util.Iterator;
+import java.util.Map;
+import org.jruby.*;
+import org.jruby.runtime.ThreadContext;
+
+public class JRubyHelper {
+
+  private IRuby ruby = Ruby.getDefaultInstance();
+  private ThreadContext threadContext =
+    Ruby.getDefaultInstance().getCurrentContext();
+
+  public JRubyHelper() {
+    setLoadPath();
+  }
+
+  private void addLoadPath(String path) {
+    String expr = "$: &lt;&lt; '" + path + "'";
+    ruby.evalScript(expr);
+  }
+
+  public RubyObject callMethod(RubyObject receiver, String methodName) {
+    return (RubyObject) receiver.callMethod(threadContext, methodName);
+  }
+
+  public void enableWarning() {
+    // Gives lots of "Useless use of :: in void context" warnings
+    // that don't make sense!
+    ruby.setVerbose(ruby.getTrue());
+  }
+
+  public Object evalScript(String script) {
+    return ruby.evalScript(script);
+  }
+
+  public static Object getAttribute(
+    RubyObject object, String attributeName) {
+
+    // The keys in this RubyHash are java.lang.String objects.
+    // Are the values always java.lang.String object?
+    RubyHash attributes =
+      (RubyHash) object.getInstanceVariable("@attributes");
+    return attributes == null ? null : attributes.get(attributeName);
+  }
+
+  public static void listInstanceVariables(
+    String name, RubyObject object) {
+
+    System.out.println("Instance variables of " + name + ":");
+    Map vars = object.getInstanceVariables();
+    Iterator iter = vars.keySet().iterator();
+    while (iter.hasNext()) {
+      Object key = iter.next();
+      Object value = vars.get(key);
+      System.out.println("  " + key + " = " + value);
+    }
+  }
+
+  private void setLoadPath() {
+    String jrubyLib = System.getProperty("jruby.lib");
+    addLoadPath(jrubyLib);
+    addLoadPath(jrubyLib + "/ruby/site_ruby/1.8");
+    addLoadPath(jrubyLib + "/ruby/site_ruby/1.8/java");
+    addLoadPath(jrubyLib + "/ruby/site_ruby");
+    addLoadPath(jrubyLib + "/ruby/1.8");
+    addLoadPath(jrubyLib + "/ruby/1.8/java");
+    addLoadPath("lib/ruby/1.8");
+  }
+}</div></pre>
+
+    <hr/>
+    <p style="text-align:center">
+      Copyright &#169; 2007 Object Computing, Inc. All rights reserved.
+    </p>
+  </body>
+</html>

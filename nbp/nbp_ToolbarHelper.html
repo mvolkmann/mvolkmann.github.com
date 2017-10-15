@@ -1,0 +1,137 @@
+<?xml version="1.0"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>NBP ToolbarHelper</title>
+    <link rel="stylesheet" type="text/css" href="common.css"/>
+  </head>
+
+  <body>
+    <div class="title">ToolbarHelper</div>
+
+    <p>
+      This class is used by the
+      <code><a href="nbp_DynamicAction.html">DynamicAction</a></code> class.
+      It uses the
+      <code><a href="nbp_FileSystemHelper.html">FileSystemHelper</a></code>
+      class.
+      This needs to be enhanced to allow specification of
+      the position of a new toolbar button within its toolbar.
+    </p>
+
+    <div class="code"><pre>
+package com.halliburton.gui;
+
+import java.awt.Component;
+import java.awt.Container;
+import javax.swing.JButton;
+import javax.swing.JToolBar;
+
+/**
+ * This class provides helper methods for working with Swing toolbars.
+ * @author R. Mark Volkmann, Object Computing, Inc.
+ */
+public class ToolbarHelper {
+
+    /**
+     * Adds a toolbar button to a given toolbar.
+     * @param toolbarName the name of the toolbar where the button should be added
+     * @param actionCategory the category name where the action is registered
+     * @param actionClass the action Class to be trigger by the menu item
+     */
+    public static void addToolbarButton(
+        String toolbarName, String actionCategory, Class actionClass) {
+
+        <a href="nbp_FileSystemHelper.html">FileSystemHelper</a>.addActionShadow(
+            "/Toolbars/" + toolbarName, actionCategory, actionClass);
+    }
+
+    /**
+     * Deletes a toolbar button from a given toolbar.
+     * @param toolbarName the name of the toolbar where the button should be deleted
+     * @param actionClass the action Class to be trigger by the toolbar button
+     */
+    public static void deleteToolbarButton(
+        String toolbarName, Class actionClass) {
+
+        <a href="nbp_FileSystemHelper.html">FileSystemHelper</a>.deleteActionShadow(
+            "/Toolbars/" + toolbarName, actionClass);
+    }
+
+    /**
+     * Gets the number of buttons currently on a given toolbar.
+     */
+    public static int getButtonCount(JToolBar toolbar) {
+        int count = 0;
+
+        Component[] children = toolbar.getComponents();
+        for (Component child : children) {
+            if (child instanceof JButton) count++;
+        }
+
+        return count;
+    }
+
+    /**
+     * Gets the first toolbar that contains a given button
+     * or returns null if none are found.
+     */
+    public static JToolBar getToolbar(Container container, Component button) {
+        Component[] children = container.getComponents();
+        for (Component child : children) {
+            if (child instanceof JToolBar) {
+                JToolBar toolbar = (JToolBar) child;
+                if (toolbarContainsButton(toolbar, button)) return toolbar;
+            } else if (child instanceof Container) {
+                // Recurse
+                JToolBar toolbar = getToolbar((Container) child, button);
+                if (toolbar != null) return toolbar;
+            }
+        }
+
+        return null; // not found
+    }
+
+    /**
+     * Sets the visibility of a given toolbar button and possibly its toolbar.
+     */
+    public static void setToolbarButtonVisible(
+        JToolBar toolbar, Component button, boolean visible) {
+
+        if (toolbar == null || button == null) return;
+
+        if (visible) {
+            if (!toolbar.isVisible()) toolbar.setVisible(true);
+
+            toolbar.add(button);
+        } else {
+            toolbar.remove(button);
+
+            // If there are no buttons remaining on the toolbar,
+            // make it invisible.
+            if (getButtonCount(toolbar) == 0) toolbar.setVisible(false);
+        }
+
+        toolbar.revalidate();
+    }
+
+    /**
+     * Determines whether a given button is on a given toolbar.
+     */
+    private static boolean toolbarContainsButton(
+        JToolBar toolbar, Component button) {
+
+        Component[] children = toolbar.getComponents();
+        for (Component child : children) {
+            if (child == button) return true; // found
+        }
+
+        return false; // not found
+    }
+}
+</pre></div>
+  </body>
+</html>

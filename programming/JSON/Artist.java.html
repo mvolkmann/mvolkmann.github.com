@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR.html1/DTD.html1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999.html">
+  <head>
+    <title>Artist.java</title>
+    <link rel="stylesheet" type="text/css" href="../../common.css"/>
+  </head>
+  <body>
+    <h2>Artist.java</h2>
+    
+    <pre><div class="code">package com.ociweb.demo;
+
+import com.ociweb.lang.ObjectUtil;
+import java.util.*;
+
+/**
+ * This is just a Java Bean.
+ */
+public class Artist {
+
+  private String name;
+  private List&lt;Recording> recordings = new ArrayList&lt;Recording>();
+
+  public Artist() {}
+  public Artist(String name) { this.name = name; }
+
+  public void addRecording(Recording recording) {
+    recordings.add(recording);
+  }
+
+  public Recording addRecording(String title, int year) {
+    Recording r = new Recording(this, title, year);
+    addRecording(r);
+    return r;
+  }
+
+  public boolean equals(Object obj) {
+    if (obj == null) return false;
+    if (obj == this) return true;
+    if (!(obj instanceof Artist)) return false;
+    Artist a = (Artist) obj;
+    return ObjectUtil.equals(name, a.name) &&
+      recordings.equals(a.recordings);
+  }
+
+  public String getName() { return name; }
+  public void setName(String name) { this.name = name; }
+
+  public List&lt;Recording> getRecordings() { return recordings; }
+  public void setRecordings(List&lt;Recording> recordings) {
+    this.recordings = recordings;
+  }
+
+  public String toString() {
+    String s = "Artist: " + name;
+    for (Recording r : recordings) { s += "\n  " + r; }
+    return s;
+  } 
+}</div></pre>
+
+    <hr/>
+    <p style="text-align:center">
+      Copyright &#169; 2007 Object Computing, Inc. All rights reserved.
+    </p>
+  </body>
+</html>

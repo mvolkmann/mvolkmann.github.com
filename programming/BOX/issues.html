@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>BOX Issues</title>
+    <link rel="stylesheet" type="text/css" href="box.css"/>
+  </head>
+
+  <body>
+    <div class="title">Issues</div>
+    <ol>
+      <li>Entity references are not supported.</li>
+      <li>Only UTF-8 and ASCII are supported.</li>
+      <li>Only ASCII seems to be working correctly now.</li>
+      <li>Only logging with Log4J is supported now.</li>
+      <li>
+        There is currently a dependence on Xerces in order to
+        compare two XML documents in their canonical form in unit tests.
+      </li>
+      <li>
+        Since text lengths are currently specified using a two byte integer,
+        there is a limit on the length of text values, albeit a very big limit.
+      </li>
+      <li>
+        A worse problem is that if the length limit is exceeded it is possible
+        that no exception will be throw and an invalid length will be written.
+        FIX THIS!
+      </li>
+    </ol>
+  </body>
+</html>

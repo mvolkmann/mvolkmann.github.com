@@ -1,0 +1,209 @@
+<?xml version="1.0"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>NBP Menus Within DS</title>
+    <link rel="stylesheet" type="text/css" href="common.css"/>
+  </head>
+
+  <body>
+    <div class="title">NBP Menus Within DS</div>
+
+    <p>
+      This page describes an approach for using NetBeans Platform menu items
+      inside the Decision Space framework.
+      There are at least two categories of menu items and toolbar buttons
+      to consider, static and dynamic.
+      Static menu items and toolbar buttons are always enabled and visible
+      regardless of the active <code>TopComponent</code> or selected nodes.
+      Dynamic menu items and toolbar buttons are sometimes
+      disabled and/or invisible depending on which <code>TopComponent</code>
+      is active or which nodes are selected.
+    </p>
+
+    <h3>Static Menu Items and Toolbar Buttons</h3>
+    <p>
+      Static menu items and toolbar buttons are typically created by
+      using the Action Wizard to create an associated action.
+      Details on this can be found <a href="nbp_actions.html#global">here</a>.
+    </p>
+
+    <h3>Dynamic Menu Items and Toolbar Buttons</h3>
+    <p>
+      Dynamic (a.k.a. conditionally-enabled) menu items and toolbar buttons
+      can also be created using the Action Wizard.
+      However, after creating an action class, some modifications are required.
+      By default, disabling actions cause the corresponding menu item
+      and toolbar button to be disabled, not hidden.
+      In order to hide them
+      when a given <code>TopComponent</code> is deactivated
+      and make them reappear
+      when a given <code>TopComponent</code> is activated,
+      see <a href="nbp_actions.html#conditional">here</a>.
+    </p>
+
+    <h3>Comparison of NBP and DS Approaches</h3>
+    <p>
+      In the DS framework, populating and manipulating menus and toolbars
+      is API-driven and occurs during application startup.
+    </p>
+    <p>
+      In the NBP, the contents of menus and toolbars are typically defined
+      in the <code>layer.xml</code> file of each module.
+      Initial entries in these files are created by wizards
+      such as the Action Wizard.
+      Often these are modified by directly editing the XML.
+      Modifying menus and toolbars from source code can also be done,
+      but this is not common.
+    </p>
+    <p>
+      A good understanding of the "system filesystem" is needed to
+      effectively write code that modifies menus and toolbars at runtime.
+      One reason to do this is to cause certain menu items and toolbar buttons
+      to appear when a given <code>TopComponent</code> is active
+      and disappear when it is inactive.
+    </p>
+    <p>
+      The demo code in MathAction.java does this
+      by using several helper classes developed by OCI.
+      See <a href="nbp_actions.html#conditional">here</a>
+      and the following classes:
+    </p>
+    <ul>
+      <li><a href="nbp_DynamicAction.html">DynamicAction</a></li>
+      <li><a href="nbp_FileSystemHelper.html">FileSystemHelper</a></li>
+      <li><a href="nbp_MenuHelper.html">MenuHelper</a></li>
+      <li><a href="nbp_ToolbarHelper.html">ToolbarHelper</a></li>
+    </ul>
+
+    <h3>DS Required Changes</h3>
+    <p>
+      DS menus are created using the classes
+      <code>CAWMenuBar</code>, <code>CAWMenu</code>
+      and <code>CAWMenuItem</code>.
+      The following sections summarize the changes to these classes
+      that are recommended and outstanding questions
+      to get those classes to work within the NetBeans Platform.
+      It is debatable whether doing this is a good idea.
+      It may be better to remove all usage of these classes
+      and use NBP concepts instead, rather than modifying these classes.
+      While modifying the DS menu-related classes
+      would reduce the amount of work required
+      to port existing applications to run under the NBP,
+      it retains the use of the DS API.
+      In the NBP, much more of the GUI is defined using
+      NetBeans wizards and editing <code>layer.xml</code> files.
+    </p>
+
+    <h3>CAWMenuBar</h3>
+    <p>
+      The following issues with <code>CAWMenuBar</code>
+      need to be addressed.
+    </p>
+    <ol>
+      <li>This class will no longer need to extend <code>JMenuBar</code>
+        since the NBP manages menu bars.</li>
+      <li>
+        Determine if notifying menu bar listeners is really required.
+        If so then modify listeners to implement the NBP
+        <code><a href="http://bits.netbeans.org/dev/javadoc/org-openide-filesystems/org/openide/filesystems/FileChangeListener.html" target="_parent">FileChangeListener</a></code> interface
+        and modify this class to register those listeners with an NBP
+        <code><a href="http://bits.netbeans.org/dev/javadoc/org-openide-filesystems/org/openide/filesystems/FileObject.html" target="_parent">FileObject</a></code>
+        that represents the menu bar
+        using the <code>addFileChangeListenter</code> method.
+        It is possible that menu bar listeners are
+        only used for logging and testing.
+      </li>
+      <li>Modify the <code>add</code> and <code>remove</code> methods
+        to delegate to methods in <code>MenuHelper</code>.</li>
+      <li>
+        Is it necessary for menu bars to have a set of "services"
+        associated with them?  If so, change this class to implement the
+        <code><a href="http://bits.netbeans.org/dev/javadoc/org-openide-util/org/openide/util/Lookup.Provider.html" target="_parent">Lookup.Provider</a></code>
+        interface.  See <a href="nbp_lookup.html#ScopedLookup">here</a>.
+      </li>
+      <li>
+        The <code>addMenuBarAction</code>, <code>addStaticMenuBarAction</code>,
+        <code>removeMenuBarAction</code> and
+        <code>removeStaticMenuBarAction</code> methods need to be modified
+        to work with NBP concepts.
+        These will likely delegate to methods in
+        <a href="nbp_MenuHelper.html"><code>MenuHelper</code></a> and
+        <a href="nbp_ToolbarHelper.html"><code>ToolbarHelper</code></a>.
+        Static menu bar actions are added to all instances of CAWMenuBar.
+        Non-static menu bar actions are
+        specific to a single instance of CAWMenuBar.
+        Why would there be more than one menu bar?
+        Does this only happen when there are
+        multiple top-level windows (Frames)?
+      </li>
+      <li>The NBP doesn't support applications
+        that have multiple top-level windows.
+        This could be achieved by implementing
+        a custom <code>WindowManager</code>, but it would be a lot of work.
+        How does this impact future use of this class?</li>
+    </ol>
+
+    <h3>CAWMenu</h3>
+    <p>
+      The following issues with <code>CAWMenu</code>
+      need to be addressed.
+    </p>
+    <ol>
+      <li>This class will no longer need to extend <code>JMenu</code>
+        since the NBP manages menus.</li>
+      <li>
+        Determine if notifying menu listeners is really required.
+        If so then modify listeners to implement the NBP
+        <code><a href="http://bits.netbeans.org/dev/javadoc/org-openide-filesystems/org/openide/filesystems/FileChangeListener.html" target="_parent">FileChangeListener</a></code> interface
+        and modify this class to register those listeners with an NBP
+        <code><a href="http://bits.netbeans.org/dev/javadoc/org-openide-filesystems/org/openide/filesystems/FileObject.html" target="_parent">FileObject</a></code>
+        that represents the menu
+        using the <code>addFileChangeListenter</code> method.
+        It is possible that menu listeners are
+        only used for logging and testing.
+      </li>
+      <li>CAWMenu "captions" provide the menu name and the mnemonic key
+        for opening the menu with a keystroke.
+        Note that <code>JMenu</code> extends <code>AbstractButton</code>
+        which has a <code>setMnemonic</code> method,
+        so Swing <code>JMenu</code>s can have a mnemonic
+        that causes them to be displayed.
+        In the NBP, mnemonics/accelerators for menus and menu items
+        can be specified by simply adding an '&amp;' character
+        immediately before the mnemonic character
+        in menu names and menu items in <code>layer.xml</code> files.
+      <li>
+        The <code>add..</code> and <code>remove...</code> methods
+        need to be modified to work with NBP concepts.
+        These will likely delegate to methods in
+        <a href="nbp_MenuHelper.html"><code>MenuHelper</code></a> and
+        <a href="nbp_ToolbarHelper.html"><code>ToolbarHelper</code></a>.
+      </li>
+      <li>
+        Is it necessary for menus to have a set of "services"
+        associated with them?  If so, change this class to implement the
+        <code><a href="http://bits.netbeans.org/dev/javadoc/org-openide-util/org/openide/util/Lookup.Provider.html" target="_parent">Lookup.Provider</a></code>
+        interface.  See <a href="nbp_lookup.html#ScopedLookup">here</a>.
+      </li>
+      <li>Remove the use of <code>AWListAction</code> and
+        <code>CAWListAction</code> since they don't seem to
+        add anything beyond what NBP actions provide.</li>
+    </ol>
+
+    <h3>CAWMenuItem</h3>
+    <p>
+      The following issues with <code>CAWMenuItem</code>
+      need to be addressed.
+    </p>
+    <ol>
+      <li>This class will no longer need to extend <code>JMenuItem</code>
+        since the NBP manages menu items.</li>
+      <li>This class should probably be eliminated.</li>
+    </ol>
+
+  </body>
+</html>

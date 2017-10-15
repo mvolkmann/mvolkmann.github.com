@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR.html1/DTD.html1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>Clojure Coding Guidelines</title>
+    <link rel="stylesheet" type="text/css" href="../common.css"/>
+  </head>
+  <body>
+    <h2>Clojure Coding Guidelines</h2>
+    
+    <p>
+      The primary motivation for most of the guidelines is code readability.
+    </p>
+
+    <ol>
+      <li>
+        Use two spaces for indentation.
+      </li>
+      <li>
+        Select meaningful names for functions and variables.
+        Avoid acronyms that aren't commonly known.
+        The only acceptable one letter names are for the following variables:
+        i for an index and x/y/z for cartesian coordinates.
+      </li>
+      <li>
+        The names of predicate functions (returning a boolean)
+        should typically end with a question mark (?).
+      </li>
+      <li>
+        Prefer rewriting code to make it clear over adding comments.
+        If that cannot be achieved, add comments.
+      </li>
+      <li>
+        Limit the number of functions invoked in a single line of code
+        to five.
+      </li>
+      <li>
+        Limit the nested depth of a function definition to four.
+        In order to achieve this it may be necessary to
+        introduce local variables to hold intermediate results
+        or extract code into additional function definitions.
+      </li>
+      <li>
+        Only use anonymous functions for short function definitions
+        that fit comfortably on a single line.
+        Otherwise create a private, named function.
+      </li>
+      <li>
+        Do not write anonymous functions that have
+        arguments that are anonymous functions.
+    </ol>
+
+  </body>
+</html>

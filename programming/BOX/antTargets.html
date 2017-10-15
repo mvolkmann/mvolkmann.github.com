@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>Ant Targets</title>
+    <link rel="stylesheet" type="text/css" href="box.css"/>
+  </head>
+
+  <body>
+    <div class="title">Ant Targets</div>
+    <pre>
+
+Default target:
+
+ test               runs all JUnit tests
+
+Main targets:
+
+ byteDump           runs ByteDump on a file; useful for .box files
+ clean              deletes all generated files
+ cleanTestLogs      deletes generated JUnit log files
+ compile            compiles Java source files
+ compileC           compiles C source files using gcc
+ domwriter          exercises Xerces DOMWriter to generate canonical XML
+ file               runs test.file.BOXFile demo application
+ floppy             copies the zip file to a floppy
+ jar                creates a JAR containing on the files needed by BOX clients
+ javadoc            generates javadoc from all .java files
+ prepare            creates output directories
+ releaseZip         releases files to SourceForge
+ socket             runs BOX and XML socket tests
+ test               runs all JUnit tests
+ testC              runs all JUnit tests that exercise C code
+ verifyAntOptional  verifies that Ant's optional.jar can be found
+ verifyFile         verifies that the file property is set
+ verifyGCC          verifies that gcc can be found
+ verifyJUnit        verifies that JUnit can be found
+ verifyJikes        verifies that Jikes can be found
+ verifyXalan        verifies that Xalan can be found
+ verifyXerces       verifies that Xerces can be found
+ zip                zips all necessary project files
+ zipSite            zips web site files
+
+Subtargets:
+
+ gccSetup
+ init
+ jikesSetup
+
+    </pre>
+  </body>
+</html>

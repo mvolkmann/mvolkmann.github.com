@@ -1,0 +1,346 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR.html1/DTD.html1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999.html">
+  <head>
+    <title>Intellij IDEA GWT Studio plugin</title>
+    <link rel="stylesheet" type="text/css" href="../common.css"/>
+  </head>
+  <body>
+    <a name="top"/>
+    <h2>Intellij IDEA GWT Studio plugin</h2>
+    
+    <h3>Contents</h3>
+    <a href="#Introduction">Introduction</a><br/>
+    <a href="#Configuration">Configuration</a><br/>
+    <a href="#Creating">Creating a New Project</a><br/>
+    <a href="#Service">Creating a New Remote Service</a><br/>
+    <a href="#GUI">Implementing the GUI</a><br/>
+    <a href="#Internationalization">Internationalization</a><br/>
+    <a href="#Running">Running the Project</a><br/>
+    <a href="#Debugging">Debugging</a><br/>
+    <a href="#Resources">Resources</a>
+
+    <a name="Introduction"/>
+    <h3>Introduction</h3>
+    <p>
+      Intellij IDEA is a popular Java IDE
+      that ships with a plugin to make developing Google Web Toolkit (GWT)
+      applications easier.  The name of the plugin is "GWT Studio".
+      See the <a href="#Resources">Resources</a> section at the bottom of
+      this document for a link to a screencast that demonstrates using it.
+    </p>
+
+    <a name="Configuration"/>
+    <h3>Configuration</h3>
+    <p>
+      Here are the steps to configure GWT Studio.
+      <ol>
+        <li>Follow the steps <a href="GWT.html#Installing">here</a>.</li>
+        <li>Start IDEA.</li>
+        <li>Select Settings...Google Web Toolkit.</li>
+        <li>Press the elipsis button ("...") and
+          select the location where GWT is installed.</li>
+      </ol>
+      <img style="border:solid red 2px" src="../images/GWTStudioConfig.png"/>
+      <p>
+        For an explanation of the "JavaScript output style" in the dialog box
+        above, see <a href="GWT.html#Deploying">here</a>.
+      </p>
+    </p>
+
+    <a name="Creating"/>
+    <h3>Creating a new project <a class="toplink" href="#top">top</a></h3>
+    <p>
+      Here are the steps to create a new GWT project.
+    </p>
+    <ol>
+      <li>Select File...New Project</li>
+      <li>The options presented are fairly self-explanatory
+        and the default settings normally suffice.
+        When prompted for the number of modules,
+        select "single-module project" which is the default.
+        When prompted for the module type,
+        select "Java module" which is the default.</li>
+      <li>In the left-hand project tree,
+        open the folder containing the src folder, right-click that,
+        and select New...Package.</li>
+      <li>Enter a Java package name to be used
+        for source files in the project.</li>
+      <li>In the left-hand project tree,
+        right-click the package folder
+        and select New...Google Web Toolkit...GWT Module.</li>
+      <li>Enter a name for the module.</li>
+    </ol>
+    <p>
+      The result of these actions will be:
+      <ul>
+        <li><code>src/client</code> directory created</li>
+        <li><code>src/public</code> directory created</li>
+        <li><code>src/server</code> directory created</li>
+        <li><code>src/client/{module-name}.java</code> entry point created</li>
+        <li><code>src/public/{module-name}.css</code> stylesheet created</li>
+        <li><code>src/public/{module-name}.html</code> created</li>
+        <li><code>src/{module-name}.gwt.xml</code> XML descriptor created</li>
+        <li><code>gwt-user.jar</code> added to Libraries</li>
+        <li>Java JARs added to Libraries</li>
+      </ul>
+    </p>
+    <p>
+      Here's the IDEA project tree after creating
+      a project named "GWTHelloWorld",
+      a package named "com.ociweb.gwt",
+      and a GWT module named "Hello".
+      <br/>
+      <img style="border:solid red 2px" src="../images/IDEA_GWTNewModule.png"/>
+    </p>
+    <p>
+      The generated HTML file will contain an <code>h1</code> tag that displays
+      the name of the application.  Typically you'll want to delete that.
+    </p>
+
+    <a name="Service"/>
+    <h3>Creating a New Remote Service
+      <a class="toplink" href="#top">top</a></h3>
+    <p>
+      Remote services are implemented as Java servlets.
+      They can be invoked from GWT client-side code
+      as if they were local objects.
+      GWT takes care of serializing data between the client and server side.
+      Non-primitive data types must be from classes that implement
+      <code>com.google.gwt.user.client.rpc.IsSerializable</code>.
+      They must also have a no-arg constructor and get/set methods
+      for fields to be exposed.
+    </p>
+    <p>
+      To create a new remote service, follow these steps.
+      <ol>
+        <li>Right-click the src/client folder and select
+          New...Google Web Toolkit...GWT Remote service.</li>
+        <li>Enter a name for the service.</li>
+      </ol>
+    </p>
+    <p>
+      The result of these actions will be:
+      <ul>
+        <li><code>src/client/{service-name}.java</code>
+          synchronous interface created</li>
+        <li><code>src/client/{service-name}Async.java</code>
+          asynchronous interface created</li>
+        <li><code>src/server/{service-name}Impl.java</code>
+          service implementation servlet created</li>
+        <li>service implementation servlet registered in XML descriptor
+          (<code>{module-name}.gwt.xml</code>)</li>
+      </ul>
+    </p>
+    <p>
+      Here's the IDEA project tree after creating a remote service
+      named "Greeter".
+      <br/>
+      <img style="border:solid red 2px" src="../images/IDEA_GWTNewRemoteService.png"/>
+    </p>
+    <p>
+      The synchronous interface will define a static nested class
+      named "<code>App</code>" that simplifies the code required for clients
+      to obtained a configured client-side service proxy.
+      We'll see how to use this later.
+    </p>
+    <p>
+      Add service methods to the synchronous interface.
+      Warnings will be displayed to indicate that the corresponding
+      methods do not yet exist in the asynchronous interface
+      and the service implementation servlet.
+    </p>
+    <p>
+      Here's the source window after adding a new method to the
+      synchronous interface "<code>Greeter</code>". Note the light bulb.
+      <br/>
+      <img style="border:solid red 2px" src="../images/IDEA_GWTNewServiceMethod.png"/>
+    </p>
+    <ul>
+      <li>
+        To add missing methods to the synchronous interface,
+        click the warning light bulb and select
+        "Synchronize all methods of {service-name}Async with {service-name}".
+      </li>
+      <li>
+        To add missing methods to the service implemenatation servlet,
+        click the warning light bulb and select
+        "Implement method {method-name}".
+      </li>
+      <li>
+        If the method has a return type that doesn't implement
+        <code>IsSerializable</code>,
+        click the warning light bulb and
+        select "Inherit {class-name} from IsSerializable".
+        For some reason this option is only displayed after the first two
+        issues are resolved and even then doesn't consistently appear.
+      </li>
+    </ul>
+    <p>
+      To change the name of a service,
+      <ol>
+        <li>Select the synchronous interface in the left-hand project tree
+          and do one of the following:
+          <ul>
+            <li>select Rename from the Refactor menu</li>
+            <li>press shift-F6</li>
+            <li>right-click the name to display the context sensitive menu
+              and select Refactor...Rename</li>
+          </ul>
+        </li>
+        <li>Enter the new name.</li>
+        <li>Press the "Refactor", "Select all", "OK",
+          and "Do Refactor" buttons.</li>
+      </ol>
+    </p>
+    <p>
+      The result of these actions will be:
+      <ul>
+        <li><code>src/client/{service-name}.java</code> renamed</li>
+        <li><code>src/client/{service-name}Async.java</code> renamed</li>
+        <li><code>src/server/{service-name}Impl.java</code> renamed</li>
+        <li>XML descriptor servlet class references updated</li>
+      </ul>
+    </p>
+
+    <a name="GUI"/>
+    <h3>Implementing the GUI <a class="toplink" href="#top">top</a></h3>
+    <p>
+      Modify the entry point .java file
+      (<code>Bar.java</code> in the example above)
+      or other client-side Java classes used by it
+      to add widgets to the RootPanel and register event listeners.
+      For more detail, see the documentation starting
+      <a href="GWT.html#Widgets">here</a>.
+    </p>
+    <p>
+      To invoke remote services, get an instance of the asynchronous interface
+      as follows and then invoke methods on it.
+      <pre><div class="code">
+BazAsync baz = Baz.App.getInstance();
+</div></pre>
+    </p>
+    <p>
+      If the client-side Java code refers to a CSS class that is not defined
+      in the CSS stylesheet, IDEA will provide a warning and offer to define it.
+    </p>
+    <p>
+      Here's the source window after adding a reference to an unknown
+      CSS class "title".  Note the light bulb.
+      <br/>
+      <img style="border:solid red 2px"
+        src="../images/IDEA_GWTUnknownCSSClass.png"/>
+      <br/>
+      To fix this, click the light bulb and
+      select "Create CSS class 'title'"
+      This will add the title class to the CSS stylesheet
+      with no formatting properties and display the newly added class
+      so the formatting properties can be added.
+    </p>
+    <p>
+      IDEA has smart CSS editing.  It flags invalid formatting properties
+      and does completion of property names and values.
+    </p>
+
+    <a name="Internationalization"/>
+    <h3>Internationalization <a class="toplink" href="#top">top</a></h3>
+    <p>
+      See the notes on GWT internationalization
+      <a href="GWT.html#Internationalization">here</a>.
+      Here are the IDEA-specific steps to internationalize strings
+      for a GWT project.
+      <ol>
+        <li>In the left-hand project tree, right-click the client directory
+          inside the Java package and select New...Interface.</li>
+        <li>Create an interface named <code>MyConstants</code>.
+        <li>Make the interface extend
+          <code>com.google.gwt.i18n.client.Constants</code>.</li>
+        <li>Click the warning light bulb and select "Inherit module ...".</li>
+        <li>IDEA will add the following line to the XML descriptor.
+          <pre><div class="code">&lt;inherits name="com.google.gwt.i18n.I18N"/></div></pre>
+        </li>
+        <li>In the left-hand project tree, right-click the client directory
+          and select New...File.</li>
+        <li>Name the new file <code>MyConstants.properties</code>.</li>
+        <li>Add properties to be used as label text in the GUI.</li>
+        <li>Click the warning light bulb and
+          select "Create method for property ..."
+          to let IDEA create corresponding methods in the
+          <code>MyConstants</code> interface for each new property.</li>
+      </ol>
+    </p>
+    <p>
+      If Refactor...Rename is used on methods in <code>MyConstants</code>,
+      the corresponding names will be changed in the property file.
+    </p>
+
+    <a name="Running"/>
+    <h3>Running the Project <a class="toplink" href="#top">top</a></h3>
+    <p>
+      Here are the steps to run the project in "hosted mode".
+      <ol>
+        <li>Select "Edit Configurations" from the "Run" menu.</li>
+        <li>Press <img src="../images/IDEA_PlusButton.png"/> button
+          to add a configuration.</li>
+        <li>Select "GWT Configuration".</li>
+        <li>Select the GWT module to be run.</li>
+        <li>Press the "OK" button.</li>
+        <li>Press the <img src="../images/IDEA_RunButton.png"/>
+          toolbar button.</li>
+      </ol>
+    </p>
+    <p>
+      Once the application is running in hosted mode,
+      changes to the client-side code can be tested
+      by clicking the <img src="../images/GWT_RefreshButton.png" height="30px"/>
+      button in the hosted mode browser.
+      It is not necessary to save changes in IDEA before doing this.
+      If changes are made to server-side code,
+      it is necessary to quit out of the hosted mode browser
+      and rerun the project from IDEA in order to see the changes.
+    </p>
+
+    <a name="Debugging"/>
+    <h3>Debugging <a class="toplink" href="#top">top</a></h3>
+    <p>
+      Here are the steps to debug a GWT application in IDEA.
+      <ol>
+        <li>If the GWT hosted mode browser is running, quit out of it.</li>
+        <li>Set one or more breakpoints
+          in client-side or server-side Java code
+          by clicking in the vertical bar to the left of specific lines.</li>
+        <li>Press <img src="../images/IDEA_DebugToolbarButton.png"/>
+          toolbar button.</li>
+        <li>This should bring up the same configuration that was
+          created earlier to run the project without the debugger.</li>
+        <li>Press <img src="../images/IDEA_DebugButton.png"/> the button.</li>
+        <li>The GWT hosted mode browser will launch at the
+          application will stop at the first breakpoint.</li>
+        <li>Continue using the IDEA debugger
+          as you would for non-GWT applications.</li>
+        <li>Quit out of hosted mode before attempting
+          to run the debugger again.</li>
+      </ol>
+    </p>
+
+    <a name="Resources"/>
+    <h3>Resources <a class="toplink" href="#top">top</a></h3>
+    <ul>
+      <li>For information about IDEA integration, see the <a target="_blank"
+        href="http://www.jetbrains.com/idea/features/gwt.html">
+        GWT Studio plugin</a>.</li>
+      <li>IntelliJ IDEA <a target="_blank"
+        href="http://www.jetbrains.com/idea/training/demos/GWT.html">
+        GWT Studio Plugin screencast demo</a></li>
+      <li>IntelliJ IDEA <a target="_blank"
+        href="http://www.jetbrains.net/confluence/display/IDEADEV/GWT+Studio+plugin">
+        GWT Studio Plugin documentation and comments</a></li>
+    </ul>
+
+    <hr/>
+    <p style="text-align:center">
+      Copyright &#169; 2007 Object Computing, Inc. All rights reserved.
+    </p>
+  </body>
+</html>

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>namespace (WAX)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File lib/wax.rb, line 308</span>
+  <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">namespace</span>(<span class="ruby-identifier">p1</span>, <span class="ruby-identifier">p2</span>=<span class="ruby-keyword kw">nil</span>, <span class="ruby-identifier">p3</span>=<span class="ruby-keyword kw">nil</span>)
+    <span class="ruby-keyword kw">if</span> (<span class="ruby-identifier">p2</span> <span class="ruby-operator">==</span> <span class="ruby-keyword kw">nil</span>)
+      <span class="ruby-comment cmt"># only specified the default namespace uri</span>
+      <span class="ruby-identifier">prefix</span>, <span class="ruby-identifier">uri</span>, <span class="ruby-identifier">schema_path</span> = <span class="ruby-keyword kw">nil</span>, <span class="ruby-identifier">p1</span>, <span class="ruby-keyword kw">nil</span>
+    <span class="ruby-keyword kw">elsif</span> (<span class="ruby-identifier">p3</span> <span class="ruby-operator">==</span> <span class="ruby-keyword kw">nil</span>)
+      <span class="ruby-comment cmt"># only specified a namespace prefix and uri</span>
+      <span class="ruby-identifier">prefix</span>, <span class="ruby-identifier">uri</span>, <span class="ruby-identifier">schema_path</span> = <span class="ruby-identifier">p1</span>, <span class="ruby-identifier">p2</span>, <span class="ruby-keyword kw">nil</span>
+    <span class="ruby-keyword kw">else</span>
+      <span class="ruby-comment cmt"># specified namespace prefix, uri and schema location</span>
+      <span class="ruby-identifier">prefix</span>, <span class="ruby-identifier">uri</span>, <span class="ruby-identifier">schema_path</span> = <span class="ruby-identifier">p1</span>, <span class="ruby-identifier">p2</span>, <span class="ruby-identifier">p3</span>
+    <span class="ruby-keyword kw">end</span>
+
+    <span class="ruby-identifier">prefix</span> = <span class="ruby-value str">&quot;&quot;</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">prefix</span> <span class="ruby-operator">==</span> <span class="ruby-keyword kw">nil</span>
+    <span class="ruby-identifier">has_prefix</span> = <span class="ruby-identifier">prefix</span>.<span class="ruby-identifier">length</span> <span class="ruby-operator">&gt;</span> <span class="ruby-value">0</span>
+
+    <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@check_me</span>
+      <span class="ruby-identifier">bad_state</span>(<span class="ruby-value str">&quot;namespace&quot;</span>) <span class="ruby-keyword kw">unless</span> <span class="ruby-ivar">@state</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">:in_start_tag</span>
+
+      <span class="ruby-constant">XMLUtil</span>.<span class="ruby-identifier">verify_name</span>(<span class="ruby-identifier">prefix</span>) <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">has_prefix</span>
+      <span class="ruby-constant">XMLUtil</span>.<span class="ruby-identifier">verify_uri</span>(<span class="ruby-identifier">uri</span>)
+      <span class="ruby-constant">XMLUtil</span>.<span class="ruby-identifier">verify_uri</span>(<span class="ruby-identifier">schema_path</span>) <span class="ruby-keyword kw">unless</span> <span class="ruby-identifier">schema_path</span> <span class="ruby-operator">==</span> <span class="ruby-keyword kw">nil</span>
+    <span class="ruby-keyword kw">end</span>
+
+    <span class="ruby-comment cmt"># Verify that the prefix isn't already defined in the current scope.</span>
+    <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">is_in_scope_prefix</span>(<span class="ruby-identifier">prefix</span>)
+      <span class="ruby-identifier">raise</span> <span class="ruby-constant">ArgumentError</span>,
+        <span class="ruby-node">&quot;The namespace prefix \&quot;#{prefix}\&quot; is already in scope.&quot;</span>
+    <span class="ruby-keyword kw">end</span>
+
+    <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">will_indent</span>
+      <span class="ruby-identifier">write_indent</span>
+    <span class="ruby-keyword kw">else</span>
+      <span class="ruby-identifier">out</span> <span class="ruby-value str">' '</span>
+    <span class="ruby-keyword kw">end</span>
+        
+    <span class="ruby-identifier">out</span> <span class="ruby-value str">&quot;xmlns&quot;</span>
+    <span class="ruby-identifier">out</span>(<span class="ruby-value str">':'</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">prefix</span>) <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">has_prefix</span>
+    <span class="ruby-identifier">out</span> <span class="ruby-node">&quot;=\&quot;#{uri}\&quot;&quot;</span>
+        
+    <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">schema_path</span> <span class="ruby-operator">!=</span> <span class="ruby-keyword kw">nil</span>
+      <span class="ruby-ivar">@namespace_uri_to_schema_path_map</span>[<span class="ruby-identifier">uri</span>] = <span class="ruby-identifier">schema_path</span>
+    <span class="ruby-keyword kw">end</span>
+
+    <span class="ruby-comment cmt"># Add this prefix to the list of those in scope for this element.</span>
+    <span class="ruby-identifier">prefixes</span> = <span class="ruby-ivar">@prefixes_stack</span>.<span class="ruby-identifier">pop</span>
+    <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">prefixes</span> <span class="ruby-operator">==</span> <span class="ruby-keyword kw">nil</span>
+      <span class="ruby-identifier">prefixes</span> = <span class="ruby-identifier">prefix</span>
+    <span class="ruby-keyword kw">else</span>
+      <span class="ruby-identifier">prefixes</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-value str">','</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">prefix</span>
+    <span class="ruby-keyword kw">end</span>
+    <span class="ruby-ivar">@prefixes_stack</span>.<span class="ruby-identifier">push</span>(<span class="ruby-identifier">prefixes</span>)
+
+    <span class="ruby-ivar">@attr_on_new_line</span> = <span class="ruby-keyword kw">true</span> <span class="ruby-comment cmt"># for the next attribute</span>
+
+    <span class="ruby-keyword kw">self</span>
+  <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

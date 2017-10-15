@@ -1,0 +1,2092 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR.html1/DTD.html1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>Smalltalk</title>
+    <link rel="stylesheet" type="text/css" href="../common.css"/>
+  </head>
+  <body>
+    <h2>Smalltalk</h2>
+    
+    <h3><a name="Contents">Quick Links</a></h3>
+    <p>
+      <a href="#Accessors">Accessors</a>
+      <a href="#AddMethod">Add Method</a>
+      <a href="#Benchmarks">Benchmarks</a>
+      <a href="#BinaryMessages">Binary Messages</a>
+      <a href="#Blocks">Blocks</a>
+      <a href="#BrowseDoInspectPrintIt">Browse/Do/Inspect/Print It</a>
+      <a href="#BrowseEditMethod">Browse or Edit Method</a>
+      <a href="#Characters">Characters</a>
+      <a href="#Classes">Classes</a>
+      <a href="#CodeFormatting">Code Formatting</a>
+      <a href="#Comments">Comments</a>
+      <a href="#Configuration">Configuration</a>
+      <a href="#Constants">Constants</a>
+      <a href="#CreateClass">Create Class</a>
+      <a href="#CreateCategory">Create Category</a>
+      <a href="#CreateNewObject">Create New Object</a>
+      <a href="#Debugger">Debugger</a>
+      <a href="#DeleteClass">Delete Class</a>
+      <a href="#DeleteMethod">Delete Method</a>
+      <a href="#EnumeratedTypes">Enumerated Types</a>
+      <a href="#ExceptionHandling">Exception Handling</a>
+      <a href="#FFI">FFI</a>
+      <a href="#FileInOut">Filein/Fileout</a>
+      <a href="#FindClass">Find Class</a>
+      <a href="#FindList">File List</a>
+      <a href="#Flaps">Flaps</a>
+      <a href="#Fonts">Fonts</a>
+      <a href="#Images">Images</a>
+      <a href="#Implementers">Implementers</a>
+      <a href="#Implementations">Implementations</a>
+      <a href="#Indentation">Indentation</a>
+      <a href="#Inheritance">Inheritance</a>
+      <a href="#Inspector">Inspector</a>
+      <a href="#Interfaces">Interfaces</a>
+      <a href="#Introduction">Introduction</a>
+      <a href="#KeyboardInput">Keyboard Input</a>
+      <a href="#KeyboardShortcuts">Keyboard Shortcuts</a>
+      <a href="#LiteralDynamicArrays">Literal/Dynamic Arrays</a>
+      <a href="#LogicalExpressions">LogicalExpressions</a>
+      <a href="#MessagePrecedence">MessagePrecedence</a>
+      <a href="#Messages">Messages</a>
+      <a href="#MethodArguments">Method Arguments</a>
+      <a href="#MethodFinder">Method Finder</a>
+      <a href="#Methods">Methods</a>
+      <a href="#Morphic">Morphic</a>
+      <a href="#Monticello">Monticello</a>
+      <a href="#MouseButtons">Mouse Buttons</a>
+      <a href="#NamingConventions">Naming Conventions</a>
+      <a href="#OmniBrowser">OmniBrowser</a>
+      <a href="#OtherTypes">Other Types</a>
+      <a href="#Packages">Packages</a>
+      <a href="#Persistence">Persistence</a>
+      <a href="#Projects">Projects</a>
+      <a href="#ReasonsDisliked">Reasons Disliked</a>
+      <a href="#ReasonsLiked">Reasons Liked</a>
+      <a href="#Refactoring">Refactoring</a>
+      <a href="#Reflection">Reflection</a>
+      <a href="#RegularExpressions">Regular Expressions</a>
+      <a href="#ReservedKeywords">ReservedKeywords</a>
+      <a href="#Resources">Resources</a>
+      <a href="#RunningHeadless">Running Headless</a>
+      <a href="#WebApps">Seaside</a>
+      <a href="#Senders">Senders</a>
+      <a href="#SqueakEnvironment">Squeak Environment</a>
+      <a href="#StartingAndQuitting">Starting and Quitting</a>
+      <a href="#StartupAndShutdown">Startup and Shutdown</a>
+      <a href="#Statements">Statements</a>
+      <a href="#StreamIO">Stream I/O</a>
+      <a href="#Strings">Strings</a>
+      <a href="#SVI">SVI</a>
+      <a href="#Symbols">Symbols</a>
+      <a href="#SystemBrowshttp://vids.myspace.com/index.cfm?fuseaction=vids.individual&videoid=35394470er">System Browser</a>
+      <a href="#Transcript">Transcript</a>
+      <a href="#UnitTests">Unit Tests</a>
+      <a href="#VariableReferences">Variable References</a>
+      <a href="#Variables">Variables</a>
+      <a href="#WebApps">Web Applications</a>
+      <a href="#Windows">Windows</a>
+      <a href="#Workspace">Workspace</a>
+      <a href="#WorldMenu">World Menu</a>
+    </p>
+
+    <h3><a name="Introduction">Introduction</a></h3>
+    <table>
+      <tr>
+        <td width="215px">
+          "<a href="http://enfranchisedmind.com/blog/2008/10/16/the-hexagonal-wheel-paradox/#comment-33788">Any object-oriented language, given enough time,
+            will become a poor reinvention of Smalltalk.
+          </a>"<br />- Robert Fischer
+        </td>
+        <td rowspan="2">
+          <a href="http://wiki.squeak.org/squeak/3459">
+            <img src="../images/SmalltalkByteCover.jpg" height="160px"
+              alt="Smalltalk Byte cover"/>
+          </a>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          "<a href="http://en.wikiquote.org/wiki/Alan_Kay">Actually
+            I made up the term "object-oriented" and
+            I can tell you I did not have C++ in mind.</a>"<br />- Alan Kay
+        </td>
+      </tr>
+    </table>
+    <p>
+      <i>The following was adapted from
+        <a href="http://www.squeak.org/Smalltalk/">http://www.squeak.org/Smalltalk/</a>.</i>
+    </p>
+    <ul>
+      <li>Everything is an object.</li>
+      <li>Classes are described in terms of state
+        (instance and class variables) and behavior (methods)
+        of the objects created from them.</li>
+      <li>Single inheritance is supported,
+        but multiple inheritance is not.</li>
+      <li>Objects communicate via message passing.</li>
+      <li>When an object receives a message, the corresponding method is
+        looked up in the class and superclasses of the receiver.</li>
+      <li>All methods are public.</li>
+      <li>All instance and class variables are private.</li>
+      <li>Uninitialized variables and container contents are nil.</li>
+    </ul>
+
+    <h3><a name="Resources">Resources</a></h3>
+    <ul>
+      <li><a href="http://www.smalltalk.org">Smalltalk.org</a></li>
+      <li><a href="http://www.whysmalltalk.com">Why Smalltalk?</a></li>
+      <li><a href="http://squeak.joyful.com/LanguageNotes">Language Notes</a></li>
+      <li><a href="http://smalltalk.gnu.org/">GNU Smalltalk</a>
+        - file-based, not image-based</li>
+      <li><a href="http://www.squeak.org">Squeak website</a></li>
+      <li><a href="http://wiki.squeak.org/squeak">Squeak wiki</a></li>
+      <li><a href="http://wiki.squeak.org/squeak/608">Squeak mailing lists</a></li>
+      <li><a href="http://people.squeakfoundation.org">Squeak People</a></li>
+      <li><a href="http://www.iam.unibe.ch/~ducasse/FreeBooks.html">
+        free online books</a></li>
+      <li>chat on irc.freenode.net using the #squeak channel</li>
+      <li><a href="http://www.bergel.eu/athena/">Athena</a></li>
+      <li><a href="http://www.info.ucl.ac.be/%7Ejbrichau/javaconnect.html">JavaConnect</a></li>
+      <li><a href="http://research.sun.com/projects/JSqueak/">JSqueak</a></li>
+      <li><a href="http://research.sun.com/projects/lively/">Lively Kernel</a></li>
+      <li><a href="http://sourceforge.net/projects/potatovm/">Potato</a></li>
+      <li><a href="http://MethodsAndMessages.vox.com">Randal Schwartz blog</a></li>
+      <li><a href="http://vst.ensm-douai.fr/noury/19">Smalltalk Pictures Repository</a></li>
+      <li><a href="http://stephane.ducasse.free.fr/Videos/SqueakOriginalMov/">Squeak training videos</a></li>
+      <li><a href="http://squeak.preeminent.org/tut2007/html/">Stephan Wessels Tutorial</a></li>
+    </ul>
+
+    <h3><a name="ReasonsLiked">Reasons some people like Smalltalk</a></h3>
+    <ol>
+      <li>It has a small, consistently applied syntax.</li>
+      <li>It has a great development environment consisting of tools such as
+        System Browser, Workspace, Transcript, Debugger,
+        Hierarchy Browser, Method Finder and more</li>
+      <li>Everything is an object.</li>
+      <li>It provides automatic version control.</li>
+      <li>It provides extreme polymorphism.
+        Any kind of object can be passed to a method
+        as long as it responds to the messages that will be sent to it.</li>
+        <li>It has a great
+          web app. framework (<a href="Seaside.html">Seaside</a>) and
+          a great CMS framework (<a href="Seaside.html#Pier">Pier</a>).</li>
+    </ol>
+
+    <h3><a name="ReasonsDisliked">Reasons some people dislike Smalltalk</a></h3>
+    <ol>
+      <li>It isn't as popular as many other programming languages.
+        <ul>
+          <li>Schools generally don't teach it.</li>
+          <li>Few jobs using it are available.</li>
+          <li>IT press doesn't talk about it.</li>
+          <li>It's difficult to convince others to use it.</li>
+        </ul>
+      </li>
+      <li>It doesn't minimize compile-time errors as much as
+        statically typed languages such as C++, C# and Java.
+        However, it does do incremental compiling when methods are saved
+        so it finds syntax errors before runtime,
+        unlike most scripting languages.</li>
+      <li>All the code for a project is stored in one big image file
+        (often over 30 MB).</li>
+      <li>The syntax is fairly different from most programming languages.
+        <ul>
+          <li>no dots or parentheses used in method calls</li>
+          <li>conditional and iterating constructs are method calls
+            instead of keywords</li>
+          <li>keyword messages are a departure from positional arguments</li>
+          <li>method cascading (sending multiple messages to the same object)
+            is a new concept</li>
+        </ul>
+      </li>
+      <li>Performance may be an issue.
+        However, VisualWorks Smalltalk is almost twice as fast as Python
+        which is faster than Perl which is faster than Ruby.</li>
+      <li>Classes are not in a namespace, so all class names must be unique.
+        Using class name prefixes is recommended.
+        This is important for using Squeak packages
+        and <a href="#Monticello">Monticello</a>.
+        Squeak has a <a href="http://wiki.squeak.org/squeak/3318">
+            prefix registry</a> in the wiki.
+        Note that Cincom Smalltalk does support namespaces.
+      </li>
+    </ol>
+
+    <h3><a name="Implementations">Implementations</a></h3>
+    <p>
+      This is a partial list of open source implementations.
+    </p>
+    <ul>
+      <li>F-Script - for Mac OS X Cocoa development</li>
+      <li>GNU Smalltalk</li>
+      <li>#Smalltalk (Sharp Smalltalk) - for .NET</li>
+      <li>Squeak</li>
+      <li>Talks2 - implemented in Java and can use Java libraries</li>
+    </ul>
+
+    <h3><a name="Concepts">Concepts</a></h3>
+
+    <h4><a name="Images">Images</a></h4>
+    <p>
+      The Smalltalk environment is stored in an "image" file.
+      It contains:
+    </p>
+    <ul>
+      <li>all the classes it shipped with</li>
+      <li>all the classes you've added and saved</li>
+      <li>modifications to supplied and added classes</li>
+      <li>appearance customizations</li>
+      <li>open windows and their locations</li>
+    </ul>
+    <p>
+      Changes can be saved in the current image or in a new image file.
+    </p>
+
+    <h4><a name="Classes">Classes</a></h4>
+    <p>
+      Classes are templates for creating objects.
+      They define class variables, instance variables,
+      class methods, instance methods, and more.
+      They are organized into categories (similar to packages in Java)
+      to make them easier to find,
+      but their names must be unique across all categories.
+      They are described by <code>Class</code> objects
+      that are in the Kernel-Class category.
+      In Squeak Smalltalk the <code>Class</code> class
+      is a subclass of <code>Behavior</code>.
+    </p>
+    <p>
+      The concepts of abstract classes and methods are not directly supported
+      in Smalltalk.  A method is essentially abstract if
+      it returns "<code>self subclassResponsibility</code>".
+      A class is essentially abstract if it contains any abstract methods.
+    </p>
+    <p>
+      To get an <code>Array</code> containing all the current instances
+      of a given class, send <code>allInstances</code> to the class.
+      For example,
+      <code>instances := SystemWindow allInstances</code>.
+    </p>
+
+    <h4><a name="Inheritance">Inheritance</a></h4>
+    <p>
+      Smalltalk supports single inheritace, not multiple.
+      The superclass of every class is specified in its definition
+      and is often simply <code>Object</code>.
+      For example, <code>Object subclass: #FooBar</code>.
+    </p>
+    <p>
+      In Squeak Smalltalk, the <code>Object</code> class
+      is a subclass of <code>ProtoObject</code>.
+    </p>
+
+    <h4><a name="Interfaces">Interfaces</a></h4>
+    <p>
+      Smalltalk doesn't support the concept of interfaces.
+      Instead it relies on an extreme form of polymorphism.
+      Any message can be sent to any object as the object responds to it.
+      This makes creating mock objects really easy.
+      If the object doesn't respond to the message then
+      the method <code>doesNotUnderstand:</code> will be invoked
+      with the message name symbol as an argument.
+      This is defined in the class <code>Object</code> which
+      signals a <code>MessageNotUnderstood</code> error.
+      The <code>doesNotUnderstand</code> method can be overridden
+      to do interesting metaprogramming things.
+    </p>
+    <div class="code"><pre>
+doesNotUnderstand: aMessage
+  "handle unrecognized messages"
+  Transcript show: 'I don''t recognize "', aMessage asString, '".'
+</pre></div>
+
+    <h4><a name="Characters">Characters</a></h4>
+    <p>
+      Values representing a single character are specified with
+      a $ followed by the character.  For example, the plus character
+      is represented by <code>$+</code>.
+      The <code>Character</code> class has class methods that return
+      whitespace characters such as <code>space</code> and <code>tab</code>.
+    </p>
+
+    <h4><a name="Strings">Strings</a></h4>
+    <p>
+      Literal strings are surrounded by single quotes.
+      This is convenient because it seems that double quotes
+      are needed inside string values more often than single quotes.
+      To embed a single quote, use two consecutive single quotes.
+      To concatenate strings, list any number of literal strings
+      and/or string variables with commas in between.
+      For example, <code>m := 'Mark'. f := m, 'Tami'.</code>
+      <code>f</code> is now <code>'MarkTami'</code>.
+      To concatenate non-string values to strings, call <code>asString</code>
+      on them.  For example, "<code>n := 3. s := n printString, 'D'.</code>".
+    </p>
+    <p>
+      An alternative to converting non-<code>String</code> objects
+      to <code>Strings</code> for the purpose of concatenation
+      is to use the <code>String</code> <code>format:</code> method
+      whose parameter is a <code>Collection</code>.
+      The previous example could be written as follows.
+    </p>
+    <div class="code"><pre>
+n := 3.
+s := '3{1}' format: { n }
+</pre></div>
+    <p>
+      The receiver <code>String</code> can contain any number of
+      indexed placeholders represented by an integer inside curly braces.
+      The parameter is often created using a dynamic array.
+    </p>
+    <p>
+      To append one String to another, a new String must be created.
+      For example, "<code>s1 := s1, s2</code>".
+      If many appends must be performed, consider using
+      a <code>WriteStream</code> as follows, which is much faster:
+    </p>
+    <div class="code"><pre>
+s := String streamContents: [:stream |
+  stream
+    nextPutAll: 'foo';
+    nextPutAll: 'bar'
+]
+</pre></div>
+    <p>
+      To determine if a string contains a substring,
+      use the <code>includesSubstring:</code> method.
+      To replace every occurrence of a substring with another string,
+      use the <code>copyReplaceAll:with:</code> method.
+    </p>
+    <p>
+      To get a substring from a string, use the <code>copyFrom:to:</code>
+      method as follows:
+    </p>
+    <div class="code"><pre>
+s1 := 'abcde'.
+s2 := s1 copyFrom: 2 to: 4. "sets s2 to 'bcd'"
+s3 := s1 copyFrom: 3 to: s1 size. "sets s3 to 'cde'"
+</pre></div>
+    <p>
+      To get a substring that includes all characters but beginning ones
+      use the <code>allButFirst</code> and <code>allButFirst:</code> methods.
+      To get a substring that includes all characters but ending ones
+      use the <code>allButLast</code> and <code>allButLast:</code> method.
+    </p>
+
+    <h4><a name="Symbols">Symbols</a></h4>
+    <p>
+      Symbols are names that are preceded by a <code>#</code>.
+      They are used in place of strings when
+      there should only one instance with the name.
+      If a symbol name contains special characters such as
+      spaces, periods or underscores, surround the name with single quotes.
+    </p>
+
+    <h4><a name="RegularExpressions">Regular Expressions</a></h4>
+    <p>
+      Amazingly the standard Squeak distribution doesn't include
+      support for regular expressions.  However, Squeak-Dev distributions
+      include the VB-Regex package.  VB stands for Vassili Bykov, the author.
+      Among other things, this package adds methods to the <code>String</code>
+      class such as <code>matchesRegex:</code>.
+      See <a href="http://www.dartois-d.nom.fr/regex/en/">http://www.dartois-d.nom.fr/regex/en/</a> for documentation.
+    </p>
+    <div class="code"><pre>
+'a1b' matchesRegex: '\w\d\w' "answers true"
+</pre></div>
+
+    <h4><a name="OtherTypes">Other Types</a></h4>
+    <p>
+      Types that are primitives in other programming languages
+      are described by classes in Smalltalk.
+      For example, the "Kernel-Numbers" category contains the classes
+      <code>Float</code> (double-precision), <code>Fraction</code>
+      and <code>Integer</code> which are subclasses of <code>Number</code>.
+      The "Kernel-Objects" category contains the classes
+      <code>Boolean</code>, <code>False</code>, <code>True</code> and
+      <code>Object</code>.
+    </p>
+
+    <h4><a name="Constants">Constants</a></h4>
+    <p>
+      Constants are typically held in class variables.
+      They are initialized in a class initialize method.
+      This is automatically called when classes are loaded using
+      <a href="#Monticello">Monticello</a>.
+      What calls it if this isn't done?
+    </p>
+
+    <h4><a name="EnumeratedTypes">EnumeratedTypes</a></h4>
+    <p>
+      Smalltalk doesn't support the concept of enumerated types
+      like in Java 5 and above.  Instead, the Smalltalk way is to:
+    </p>
+    <ol>
+      <li>create a class that represents the enumerated type</li>
+      <li>add a class variable for each enumerated value
+        (must start uppercase)</li>
+      <li>add a class-side <code>initialize</code> method that
+        creates an instance of the class for each enumerated value
+        using <code>basicNew</code>
+        and assigns it the corresponding class variable
+      <li>prevent creation of additional instances
+        by overiding the class method <code>new</code> with
+        "<code>self error: 'new instances cannot be created'</code>"</li>
+      <li>add class-side getter method for each enumerated value
+        that simply returns it</li>
+    </ol>
+    <p>
+      Here's an example <code>ColorEnum</code> class.
+    </p>
+    <div class="code"><pre>
+Object subclass: #ColorEnum
+  instanceVariableNames: ''
+  classVariableNames: 'Blue Green Red'
+  poolDictionaries: ''
+  category: 'SomeCategory'
+
+initialize
+  Red := self basicNew.
+  Green := self basicNew.
+  Blue := self basicNew
+
+new
+  self error: 'new instances cannot be created'
+
+red
+  ^Red
+
+green
+  ^Green
+
+blue
+  ^Blue
+</pre></div>
+
+    <h4><a name="Comments">Comments</a></h4>
+    <p>
+      Comments are surrounded by double quotes and can span multiple lines.
+    </p>
+    <p>
+      To add "todo" comments that can be easily found later,
+      enter "self flag: #todo." followed by a regular comment
+      which can be on the same line.
+      To find all occurrences of that, select "todo" and press alt-n
+      which displays all the senders of #todo in a new window.
+      In <a href="#OmniBrowser">OmniBrowser</a>, methods containing
+      those have a wrench icon in front of them in the method plane.
+    </p>
+
+    <h4><a name="LiteralDynamicArrays">Literal/Dynamic Arrays</a></h4>
+    <p>
+      These are Squeak extensions, not standard Smalltalk syntax.
+    </p>
+    <p>
+      Literal arrays create an array from a list of literal values.
+      The code <code>numbers := #(1 3 7)</code>
+      creates an array of Integer objects.
+      The code <code>colors := #(red green blue)</code>
+      creates an array of symbols.
+      The code <code>colors := #('red' 'green' 'blue')</code>
+      creates an array of String objects.
+    </p>
+    <p>
+      Dynamic arrays (a.k.a. bracket arrays) create an array from
+      expressions separated by periods.
+      The code <code>colors :=
+      {'red' asUppercase. 'green' asUppercase. 'blue' asUppercase}</code>
+      creates an array of String objects that are the results of
+      the <code>asUppercase</code> method.
+    </p>
+
+    <h4><a name="ReservedKeywords">Reserved Keywords</a></h4>
+    <p>
+      There are only six reserved keywords.
+    </p>
+    <ol>
+      <li><code>self</code> refers to the current object.</li>
+      <li>
+        <code>super</code> is used to force method lookup to
+        begin in the superclass.
+      </li>
+      <li>
+        <code>nil</code> represents no value and is a singleton instance
+        of the class <code>UndefinedObject</code>.
+      </li>
+      <li>
+        <code>true</code> and <code>false</code> are boolean values
+        that are singleton instances of the classes
+        <code>True</code> and <code>False</code>.
+      </li>
+      <li>
+        <code>thisContext</code> represents the top frame of the call stack
+        which represents the method or block that is currently executing.
+      </li>
+    </ol>
+
+    <h4><a name="LogicalExpressions">Logical Expressions</a></h4>
+    <p>
+      The <code>Boolean</code> class defines many methods for forming
+      logical expressions.
+      <code>and:</code> and <code>or:</code> short-circuit.
+      <code>&amp;</code> and <code>|</code> do not.
+      Other methods include <code>not</code> and <code>xor:</code>.
+    </p>
+
+    <h4><a name="NamingConventions">Naming Conventions</a></h4>
+    <p>
+      Names of local/temporary variables and instance variables
+      start with a lowercase letter and are camelcased.
+      Names of classes, class variables and global variables
+      start with an uppercase letter and are camelcased.
+    </p>
+
+    <h4><a name="Indentation">Indentation</a></h4>
+    <p>
+      The convention in Squeak Smalltalk is to use a single tab.
+    </p>
+
+    <h4><a name="Statements">Statements</a></h4>
+    <p>
+      There are three kinds of statements in Smalltalk.
+    </p>
+    <ol>
+      <li>
+        <b>Message sends</b> send a message to a specified object.
+        They begin by specifying the "receiver" of the message.
+        To send a message to the current object, use the keyword
+        <code>self</code> or <code>super</code> for the receiver.
+        There are three kinds of messages: unary, binary and keyword.
+        For more on these,
+        see the <a href="#Messages">Messages</a> section below.
+        Messages can be "cascaded" to send multiple messages to the same object.
+        This is done by separating the messages with semicolons.
+      </li>
+      <li>
+        <b>Assignments</b> assign a value to a variable.
+        Their syntax is <code><i>variable</i> := <i>expression</i></code>
+        where <code><i>expression</i></code> is
+        a literal value, variable or message send.
+      </li>
+      <li>
+        <b>Answers</b> specify the return value of a method.
+        Their syntax is <code>^<i>expression</i></code>.
+      </li>
+    </ol>
+    <p>
+      There is also a syntax for defining methods,
+      but this is hidden by the development environment
+      and isn't usually viewed directly.
+    </p>
+    <p>
+      There are no statements for branching or looping.
+      Instead, those things are performed by methods in classes like
+      <code>Boolean</code>, <code>Interval</code> and <code>Collection</code>.
+    </p>
+    <p>
+      Here's an example if-then-else.
+      "<code>ifTrue:ifFalse:</code>" is a method of <code>Boolean</code>
+      which is what "<code>m > n</code>" returns.
+      The <code>show</code> method of <code>Transcript</code>
+      writes to the Transcript window if one is open.
+    </p>
+    <div class="code"><pre>
+m := 4.
+n := 5.
+m > n
+  ifTrue: [
+    Transcript show: 'm is bigger'; cr
+  ]
+  ifFalse: [
+    Transcript show: 'n is bigger'; cr
+  ]
+</pre></div>
+    <p>
+      The equivalent of a switch/case statement is the
+      <code>Object</code> method <code>caseOf:otherwise:</code>.
+    </p>
+    <p>
+      Here's an example loop through a range of numbers.
+      "<code>to:</code>" is an <code>Integer</code> method
+      that creates an <code>Interval</code> object.
+      "<code>do:</code>" is an <code>Interval</code> method
+      that executes a block for each value in it.
+    </p>
+    <div class="code"><pre>
+3 to: 7 do: [ :i | Transcript show: i * 2; cr ]
+</pre></div>
+    <p>Here's an example loop through an <code>Array</code> of symbols.</p>
+    <div class="code"><pre>
+array := #(red green blue).
+array do: [:item | Transcript show: item; cr]
+</pre></div>
+
+    <h4><a name="Messages">Messages</a></h4>
+    <p>
+      There are three kinds of messages that can be sent to classes and objects.
+    </p>
+    <ol>
+      <li>
+      <b>Unary messages</b> take no arguments (ex. <code>5 factorial</code>).
+      </li>
+      <li>
+        <b>Binary messages</b> take one argument (ex. <code>2 + 3</code>).
+        Such methods should end with <code>^self</code> to support
+        chaining of calls.
+        These are mainly used for mathematical operators.
+        For other methods that take one argument, keyword messages are used.
+        For a complete list of binary messages, see
+        <a href="#BinaryMessages">Binary Messages</a>.
+      </li>
+      <li>
+        Keyword messages take any number of named arguments
+        (ex. <code>19 printPaddedWith: $+ to: 5.</code> which returns '+++19').
+        Argument names typically describe the kind of value they expect
+        (for example, <code>aBoolean</code>).
+        Despite being named, the arguments must be specified in the order
+        in which they are listed in the method definition.
+        When describing keyword messages, the arguments names are run together.
+        For example, the <code>Dictionary</code> class contains a method
+        described by <code>at:put:</code>.
+      </li>
+    </ol>
+    <p>
+      Any number of messages can be sent to the same object by chaining them
+      using semicolons.  For example,
+    </p>
+    <div class="code"><pre>
+s := Set new.
+s add: 1; add: 2; add: 3.
+</pre></div>
+    
+    <h4><a name="BinaryMessages">Binary Messages</a></h4>
+    <p>
+      Characters that look like operators from other programming languages
+      are binary messages in Smalltalk.  Many are defined in provided classes
+      and they can also be defined in custom classes.
+      There are a fixed set of them and they are all listed below.
+    </p>
+    <ul>
+      <li><code>+</code> <code>-</code> <code>*</code> <code>/</code>
+        perform arithmetic</li>
+      <li><code>&lt;</code> <code>&lt;=</code>
+        <code>&gt;</code> <code>&gt;=</code> perform relational comparisons</li>
+      <li><code>=</code> tests for equality (same values)</li>
+      <li><code>~=</code> tests for inequality (different values)</li>
+      <li><code>==</code> tests for identity (same objects)</li>
+      <li><code>==</code> tests for non-identity (different objects)</li>
+      <li><code>**</code> performs exponentiation</li>
+      <li><code>//</code> performs integer division</li>
+      <li><code>\\</code> performs modulo</li>
+      <li><code>&</code> performs logical and (doesn't short-circuit)</li>
+      <li><code>|</code> performs logical or (doesn't short-circuit)</li>
+      <li><code>,</code> concatenate two collections (strings are collections)</li>
+      <li><code>@</code> creates a <code>Point</code> object</li>
+      <li><code>-></code> creates an <code>Association</code> object</li>
+    </ul>
+
+    <h4><a name="MessagePrecedence">Message Precedence</a></h4>
+    <p>
+      Smalltalk doesn't use operator precedence when evaluating statements.
+      Instead it evaluates statements in the following order
+      unless parentheses are used to override the order.
+    </p>
+    <ol>
+      <li>unary messages from left to right</li>
+      <li>binary messages from left to right</li>
+      <li>keyword messages from left to right</li>
+      <li>assignment</li>
+    </ol>
+    <p>
+      This means that <code>a := 2 + 3 * 4</code> will result in
+      <code>a</code> being set to 20,
+      not 14 as is the case in most other programming languages.
+      To get 14, use <code>a := 2 + (3 * 4)</code>.
+    </p>
+    <p>
+      This also methods that parentheses are needed in
+      "<code>v = 1 | v = 2</code>" because all the messages are binary
+      and will be evaluated left to right.  The correct code is
+      "<code>(v = 1) | (v = 2)</code>".
+    </p>
+
+    <h4><a name="Blocks">Blocks</a></h4>
+    <p>
+      A block is a sequence of statements whose execution is deferred.
+      They can be thought of as methods with no name (anonymous)
+      Blocks can take parameters and return a value.
+      They are represented by instances of the <code>BlockClosure</code> class
+      which is in the Kernel-Contexts category.
+    </p>
+    <p>
+      The syntax for a block is
+      <code>[ argument-list | statement-list ]</code>.
+      This makes sense since real blocks have square corners.
+      Names in the argument list are preceded by colons
+      and they are separated by spaces.
+      For example, "<code>[ :p1 :p2 | <i>code</i> ]</code>".
+      If there are no arguments then the vertical bar can be omitted.
+      Before the statements, a list of temporary variables can be declared
+      in the same way they are declared
+      at the beginning of a <a href="#Methods">method</a>.
+      Statements in the statement list are separated by periods.
+      The Seaside coding conventions call for a single space
+      inside the square brackets.
+    </p>
+    <p>
+      Blocks can be passed as arguments to methods.
+      Once inside the a method, block arguments can be executed by sending
+      them many different methods from the <code>BlockClosure</code> class.
+      Examples include <code>value</code> (no args),
+      <code>value:</code> (1 arg),
+      <code>valueWithArguments:</code> (any number of args in an array),
+      <code>repeat</code>,
+      <code>doWhileFalse:</code> and <code>doWhileTrue:</code>.
+    </p>
+    <p>
+      Blocks are closures which means they remember the variables
+      that were in scope when they were created.
+    </p>
+    <p>
+      To run the code in a block in another process (or green thread),
+      see the methods starting with "<code>fork</code>"
+      in the <code>BlockClosure</code> class.
+      To "sleep" within a process, see the <code>Delay</code> class.
+    </p>
+
+    <h4><a name="Variables">Variables</a></h4>
+    <p>
+      There are five kinds of variables in Smalltalk.
+    </p>
+    <ol>
+      <li>
+        <b>Local variables</b> are only visible
+        in the scope of a method or block.
+        They are listed between vertical bars and separated by spaces
+        at the top of method definitions.
+        For example, <code>| var1 var2 var3 |</code>.
+      </li>
+      <li>
+        <b>Instance variables</b> are only visible
+        in instance methods of their class.
+        They can be referenced either with only their name
+        or their name preceded by <code>self</code>.
+        They are listed in a space-separated string that is the value of the
+        class definition <code>instanceVariableNames:</code> argument.
+      </li>
+      <li>
+        <b>Class variables</b> are only visible
+        in class and instance methods of their class.
+        They are listed in a space-separated string that is the value of the
+        class definition <code>classVariableNames:</code> argument.
+      </li>
+      <li>
+        <b>Global variables</b> are visible everywhere
+        and are maintained by the <code>Smalltalk</code> object
+        which is a global <code>SystemDictionary</code> object.
+        Most of the entries in the dictionary refer to
+        <code>Class</code> objects.
+      </li>
+      <li>
+        <b>Pool dictionaries</b> hold variables that are available to
+        all classes that list the dictionary name
+        in a space-separated string that is the value of the
+        class definition <code>poolDictionaries:</code> argument.
+      </li>
+    </ol>
+
+    <h4><a name="Methods">Methods</a></h4>
+    <p>
+      A method is an implementation of a message.
+      Methods are described by the message that invokes them
+      (called the method signature in other languages),
+      a comment, a list of local/temporary variables inside vertical bars
+      and a sequence of statements separated by periods.
+      The method signature can be just a method name (unary),
+      a method name followed by a single argument name (binary),
+      or list of keyword and argument name pairs
+      where each keyword is terminated with a colon (keyword).
+      The list of temporary variables is a space-separated list of
+      variable names surrounded by vertical bars.
+      The reason its good to have to declare variables in this way
+      is to make code typo-proof.  If variables just sprang into existence
+      the first time they were used, typos in variables names would
+      create new variables rather than being flagged as errors.
+      The Seaside coding conventions call for a single space
+      inside the vertical bars.
+    </p>
+    <p>
+      It is a standard in Smalltalk to indent code using tabs instead of spaces.
+    </p>
+    <p>
+      It's not necessary to manually enter the local/temporary variables
+      between the vertical bars that declare them.  When saving the method,
+      the compiler spots undeclared variables and offers the choice of
+      automatically declaring them as either instance or temporary variables.
+      It does this by displaying a dialog with "Unknown variable: {name}"
+      in the title bar and the choices "declare temp", "declare instance"
+      and "cancel".
+    </p>
+    <p>
+      A method can return a value using <code>^<i>expression</i></code>.
+      If a value is returned then by convention its comment
+      should begin with "answers ...".
+      Methods that don't explicitly return a value will return self.
+      When methods are cascaded, the value returned by the last method
+      is the value of the expression.
+      To make the return value of a cascaded sequence of messages
+      be the original receiver instead, send "<code>yourself</code>"
+      as the last message.
+      This is often useful in conjunction with creating a new object
+      that is returned from a method.  For example,
+    </p>
+    <div class="code"><pre>
+  ^Car new
+    make: 'BMW';
+    model: 'Z3';
+    paint: Color yellow;
+    yourself
+</pre></div>
+    <p>
+      All methods are accessible to all other methods.
+      The fact that some methods are intended for use only by
+      other methods in the same class is documented by placing them
+      in a protocol named "private".
+    </p>
+
+    <h4><a name="Accessors">Accessors</a></h4>
+    <p>
+      Accessor methods for getting and setting the values of instance variables
+      do not, by convention, begin with "get" and "set".
+      For an instance variable "<code>foo</code>",
+      the getter method should be named "<code>foo</code>" and
+      the setter method should be named "<code>foo:</code>".
+    </p>
+    <p>
+      Accessor methods for all the instance variables can be generated
+      by yellow-clicking in the edit pane
+      and selecting refactor class...accessors.
+      Modify generated setters to have an argument name
+      that indicates the type of object expected.
+    </p>
+
+    <h4><a name="ExceptionHandling">Exception Handling</a></h4>
+    <p>
+      Exceptions are objects from classes that inherit from the
+      <code>Exception</code> class.
+      Browse the <code>Exception</code> class and
+      press the "hierarchy" button to see the predefined subclasses.
+      There are two direct subclasses,
+      <code>Abort</code> and <code>Error</code>.
+      All the other predefined exceptions inherit from <code>Error</code>.
+    </p>
+    <p>
+      To "signal" (throw in Java) an exception, create the exception object
+      and send the <code>signal</code> message to it.
+    </p>
+    <p>
+      To catch an exception, invoke code that might raise it in a block
+      and send a message for a <code>BlockClosure</code> method
+      such as <code>on:do:</code> to it.
+    </p>
+    <p>
+      Here's an example.
+    </p>
+    <div class="code"><pre>
+thrower
+  "demonstrates throwing an exception"
+  | e |
+  e := Exception new.
+  e messageText: 'something bad happened'.
+  e signal.
+
+catcher
+  "demonstrates catching an exception"
+  [ self thrower ] on: Exception do: [ :e |
+    Transcript show: e messageText
+  ]
+</pre></div>
+    <p>
+      The <code>BlockClosure</code> class has an <code>ensure:</code> method
+      that executes a given block regardless of
+      whether an exception is signaled (similar to a Java finally block).
+      It also has an <code>ifCurtailed:</code> method
+      that only executes the block if an exception is signaled.
+    </p>
+    <p>
+      Also look at these methods in the <code>Exception</code> class:
+      <code>pass</code>,
+      <code>resignalAs:</code>,
+      <code>resume</code>,
+      <code>retry</code>,
+      <code>retryUsing</code>,
+      <code>return</code>,
+      <code>return:</code>
+    </p>
+
+    <h4><a name="StreamIO">Stream I/O</a></h4>
+    <p>
+      I/O is performed using subclasses of the <code>Stream</code> class.
+      To read or write a text file, use a <code>FileStream</code>
+      which is a subclass of <code>ReadWriteStream</code>.
+    </p>
+    <p>
+      The following code writes to a new text file.
+      The <code>nextPutAll</code> method writes all elements of a collection
+      to the stream.  Note that the <code>String</code> class
+      inherits from <code>AbstractCollection</code>.
+      Each character in the string is an element of the collection.
+    </p>
+    <div class="code"><pre>
+fs := FileStream newFileNamed: 'foo.txt'.
+fs nextPutAll: 'line 1'; cr.
+fs nextPutAll: 'line 2'.
+fs.close
+</pre></div>
+    <p>The following code reads the text file.</p>
+    <div class="code"><pre>
+fs := FileStream fileNamed: 'foo.txt'.
+[fs atEnd] whileFalse: [
+  | line |
+  line := fs upTo: Character cr. 
+  Transcript show: line.
+]. 
+fs.close
+</pre></div>
+    <p>
+      To obtain the content of a stream as a String, send the
+      <code>contents</code> message to it.
+    </p>
+    <p>
+      The <code>close</code> method doesn't do anything.
+      Data can continue to be written to the stream after it is called.
+    </p>
+    <p>
+      To work with stdin and stdout of the current process,
+      load and use the OSProcess package.
+      The README file says that Mac OS X isn't supported yet.
+      To load the OSProcess package, 
+      red-click the desktop and select the following:
+      open..., Universe Browser (basic), System, OSProcess,
+      "select package" button and "Install Selections" button.
+      Here's an example of using it:
+    </p>
+    <div class="code"><pre>
+process := ThisOSProcess thisOSProcess.
+stdin := process stdIn. "acts like a Stream"
+stdout := process stdOut.
+stderr := process stdErr.
+stderr print: Time now; cr. "put the time of day on my stderr output"
+</pre></div>
+
+    <h4><a name="Benchmarks">Benchmarks</a></h4>
+    <p>
+      To find out how long it takes to run a section of code, do the following:
+    </p>
+    <div class="code"><pre>
+ms := [
+  <i>code goes here</i>
+] timeToRun
+</pre></div>
+
+    <h4><a name="Reflection">Reflection</a></h4>
+    <p>
+      To determine whether a variable refers to an object of a given type
+      use <code>isMemberOf</code> (instance of given class)
+      or <code>isKindOf</code> (instance of given class or a subclass).
+      For example:
+    </p>
+    <div class="code"><pre>
+v := 5.
+(v isKindOf: Integer) ifTrue: [ Transcript show: 'an Integer!' ]
+</pre></div>
+
+    <h4><a name="WebApps">Web Applications</a></h4>
+    <p>
+      The most popular framework for developing web applications using Smalltalk
+      is <a href="Seaside.html">Seaside</a>.
+    </p>
+
+    <h3><a name="SqueakEnvironment">Squeak Environment</a></h3>
+
+    <p>
+      Squeak is a descendent of Smalltalk-80.
+      It was created by Alan Kay and Dan Ingalls while they worked at Apple,
+      and continued at Disney.
+      It is moving toward, but not yet compliant, with ANSI Smalltalk.
+      Squeak can be downloaded from
+      <a href="http://www.squeak.org/Download/">http://www.squeak.org/Download/</a>.
+      For versions targeted at developers, look for "Squeak-Dev" on that page.
+    </p>
+    <p>
+      There are four files associated with Squeak.
+    </p>
+    <ol>
+      <li>a machine-specific virtual machine (VM)</li>
+      <li>an image file that stores objects,
+        including those representing the current state of the user interface</li>
+      <li>a .sources file that contains all the source code</li>
+      <li>a .changes file that stores changes you make to the source,
+        including classes you add</li>
+    </ol>
+    <p>
+      The Squeak virtual machine is implmented entirely in Smalltalk code
+      and tested that way.  When a new release is made, that Smalltalk code
+      is run through a tool that translates it to C code
+      which is compiled and linked to create a new VM executable.
+    </p>
+    <p>
+      Prebuilt versions of Squeak can be downloaded for many platforms.
+      To get Squeak for Ubuntu, select Applications...Add/Remove...,
+      select the "All" category, and search for "Squeak".
+    </p>
+
+    <h4><a name="WorldMenu">World Menu</a></h4>
+    <p>
+      The main menu in Squeak is displayed by yellow-clicking on the desktop.
+      This is called the "World menu".
+      A large amount of functionality can be accessed from this menu.
+    </p>
+    <ul>
+      <li>items for saving the current state
+        in the current image ("save" or "save and quit")
+        or a new image (save as...)</li>
+      <li>items for quitting Squeak ("save and quit" or just "quit")</li>
+      <li>"open..." to open another menu
+        from which many tools can be opened</li>
+      <li>"windows..." to open another menu
+        from which many window-related operations can be performed,
+        including finding buried windows</li>
+    </ul>
+
+    <h4><a name="StartingAndQuitting">Starting and Quitting</a></h4>
+    <p>
+      To start Squeak, double-click on a .image file.
+      To quit Squeak, select World...save and quit or World...quit.
+    </p>
+
+    <h4><a name="Windows">Windows</a></h4>
+    <p>
+      To collapse or uncollapse a window
+      click the circle icon on the far right end of the title bar.
+    </p>
+
+    <h4><a name="Configuration">Configuration</a></h4>
+    <p>
+      Here are some common configuration changes for new images.
+    </p>
+    <ul>
+      <li>to swap the yellow and blue mouse buttons, select
+        World...Preferences &amp; Services...Preferences Browser...general...swapMouseButtons and press the "save" button</li>
+      <li>to disable automatic entry of matching parens, quotes and so on,
+        select World...Preferences &amp; Services...Preference Browser...
+        developer image and uncheck ecompletionSmartCharacters
+        and press the "save" button</li>
+      <li>to select a desktop wallpaper image, open a File List,
+        select a graphic file (such as altitude1600.jpg
+        from http://www.visualparadox.com/scenic.htm)
+        and press the "background" button</li>
+      <li>to change desktop color,
+        World...appearance...set desktop color...
+        and drag the eye dropper through the color bar
+        (also see "set gradient color..." and "use texture background"
+        which are mutually exclusive options)</li>
+      <li>to change fonts (especially code font),
+        World...appearance...system fonts...
+        (a good code font is BitstreamVeraSansMono,12 Point,Normal)</li>
+      <li>to switch between full screen and running in a window,
+        World...appearance...full screen on and
+        World...appearance...full screen off</li>
+      <li>to allow more than one keyword in keyword messages
+        on the same line when pretty print is used,
+        change the <code>maxArgumentsPerLine</code> method
+        in the <code>RBFormatter</code> class
+        to answer something higher than one.</li>
+      <li>to move all the flaps to the bottom,
+        World...flaps...put shared flaps on bottom</li>
+      <li>install <a href="http://wiki.squeak.org/squeak/5984">FreeType</a>
+        to get better looking fonts (CAUSES ERRORS IN OMNIBROWSER!)</li>
+    </ul>
+
+    <h4><a name="MouseButtons">Mouse Buttons</a></h4>
+    <p>
+      In Smalltalk development environments the mouse buttons
+      are referred to as red, yellow and blue.
+      These are mapped differently under different OSes.
+      The mappings are summarized in the table below.
+    </p>
+    <table border="1">
+      <tr>
+        <th>Button</th>
+        <th>Windows</th>
+        <th>Mac OS X</th>
+        <th>Linux/UNIX</th>
+      </tr>
+      <tr>
+        <td>red</td>
+        <td>left</td>
+        <td>left</td>
+        <td>left</td>
+      </tr>
+      <tr>
+        <td>yellow</td>
+        <td>right</td>
+        <td>option-click or wheel-click</td>
+        <td>middle</td>
+      </tr>
+      <tr>
+        <td>blue</td>
+        <td>alt-left</td>
+        <td>right or cmd-click or ctrl-click</td>
+        <td>right</td>
+      </tr>
+    </table>
+
+    <p>
+      The yellow and blue buttons can be swapped by opening the World menu,
+      selecting "Preference Browser", selecting "developer image",
+      and enabling "swapMouseButtons".
+    </p>
+
+    <h4><a name="Flaps">Flaps</a></h4>
+    <p>
+      "Flaps" are tabs that appear around the edges of the main window.
+      Red-clicking them opens a drawer full of tools/applications.
+      Red-clicking them again, or red-clicking another flap on the same edge,
+      closes the drawer.
+      To enable repositioning of the flaps, turn off "automatic flap layout".
+    </p>
+    <p>
+      To move all the flags to the bottom edge of the main window,
+      open the World menu, select "flaps..."
+      and select "put shared flaps on bottom".
+    </p>
+
+    <h4><a name="KeyboardShortcuts">Keyboard Shortcuts</a></h4>
+    <p>
+      Many keyboard shortcuts start with the ctrl or alt key.
+      On a Mac the command (Apple) key can be used
+      instead of either of these in most cases.
+    </p>
+    <p>
+      To find given text in the current method,
+      press ctrl-f and enter the text in a dialog.<br/>
+      To find the next occurrence, press ctrl-g.<br/>
+      To set the search string to the text that is selected, press ctrl-h.<br/>
+      The text that is found can be replaced by
+      typing over it while it is highlighted.<br/>
+      To make the same replacement in the next occurrence, press ctrl-j.<br/>
+      To make the same replacement in all occurrences, press ctrl-J.
+    </p>
+    <p>
+      To find all occurrences of given text in all methods,
+      enter the text in a window such as a Workspace, select it,
+      yellow-click, and select more...method source with it.
+      Other items on the more menu include
+      "selectors containing it", "method strings with it",
+      "class names containing it" and "class comments with it".
+    </p>
+
+    <h4><a name="Workspace">Workspace</a></h4>
+    <p>
+      This tool is useful for trying snippets of code.
+      To get one, drag one out of the "Tools" flap
+      or select World...open...workspace.
+      Enter expresssions, select them and use commands such as
+      browse it (ctrl-b), do it (ctrl-d), explore it (ctrl-I),
+      inspect it (ctrl-i) and print it (ctrl-p).
+    </p>
+
+    <h4><a name="Transcript">Transcript</a></h4>
+    <p>
+      This tool is useful for viewing the output of code.
+      To get one, drag one out of the "Tools" flap
+      or select World...open...transcript.
+      To send output to it, enter
+      "<code>Transcript show: <i>expression</i></code>" in a Workspace
+      and do it.
+      This is basically equivalent to <code>System.out.print</code> in Java.
+      To add a carriage return and make it like <code>System.out.println</code>,
+      enter "<code>Transcript show: <i>expression</i>; cr</code>".
+      To clear the window, press ctrl-a to select everything and press delete
+      or enter "<code>Transcript clear</code>".
+      When more than one Transcript window is open, output goes to all of them.
+    </p>
+    <p>
+      The Smalltalk equivalent of Java's <code>toString</code> method,
+      which returns the string represenation of an object,
+      is the <code>printString</code> method.
+      This is invoked when a "print it" is performed on an object.
+    </p>
+    <p>
+      A new, labelled Transcript window can be opened from code.
+    </p>
+    <div class="code"><pre>
+ts := TranscriptStream new.
+ts open. "opens window with default title of Transcript".
+ts openLabel: 'My Transcript'. "opens window with custom title"
+ts show: 'Hello'
+</pre></div>
+    <p>
+      For simple cases, this can be combined on one line as
+      "<code>TranscriptStream new open; show: '<i>some message</i>'</code>".
+    </p>
+    <p>
+      <code>Transcript</code> is a global variable that refers to a
+      <code>TranscriptStream</code>.
+    </p>
+    <p>
+      Another option for displaying small amounts of output is to use
+      "<code>self inform: <i>some-string</i></code>"
+      which displays a string in a dialog.
+    </p>
+
+    <h4><a name="SystemBrowser">System Browser</a></h4>
+    <p>
+      A "browser" allows viewing and editing of classes and methods.
+      One way to open a browser is to open the "Tools" flap
+      and drag out a "System Browser".
+      Another way is to enter "<i>class-name</i> browse" in a Workspace
+      and "do it" by pressing ctrl-d.
+    </p>
+    <p>
+      Classes are grouped in categories.
+      Methods within classes are grouped in protocols.
+      Common protocols include "accessing", "adding", "comparing",
+      "converting", "copying", "displaying", "enumerating", "formatting",
+      "instance creation", "printing", "removing" and "testing".
+      The System Browser has four panes across the top
+      for categories, classes, protocols and methods.
+      The bottom pane, called the "edit pane",
+      is for browsing, editing and adding classes and methods.
+    </p>
+    <p>
+      To select a category, click on it's name in the category pane.
+      To scroll closer to it, click in the cagtegory pane
+      and type the first letter.
+    </p>
+    <p>
+      The buttons at the bottom of the class pane
+      control what is displayed in other panes.
+      Press the "instance" button to display instance methods in the method pane.
+      Press the "class" button to display class methods in the method pane.
+      Press the "?" button to see the comment for the selected class
+      in the edit pane.
+    </p>
+    <p>
+      To move a method to another protocol, drag its name from the method pane
+      to its new protocol in the protocol pane.
+    </p>
+    <p>
+      The buttons above the edit pane
+      control what is displayed in other windows.
+      To display a Hierarchy Browser for the current class,
+      double-click it in the class pane or
+      select it in the class pane and
+      press the "hierarchy" button or ctrl-h.
+      This displays all superclasses and subclasses of the current class.
+      Unlike the System Browser, this tool allows browsing all the classes
+      in the inheritance hierarchy of a given class in a single window.
+      Another way to see the superclasses and subclasses of a given class
+      is to enter "<i>Class-Name</i> printHierarchy" in a Workspace
+      and "print it" (ctrl-p).
+    </p>
+    <p>
+      The last button at the top of the edit pane defaults to "source".
+      To enable pretty printing (formatting) of the code that happens
+      automatically when changes are saved, press the "source" button
+      and select "pretty print" or "color print".
+    </p>
+    <p>
+      When a method is selected so that its code is displayed in the edit pane,
+      to view its class definition in the edit pane,
+      yellow-click the method to deselect it.
+    </p>
+
+    <h4><a name="OmniBrowser">OmniBrowser</a></h4>
+    <p>
+      In a Squeak-Dev image it defaults to using "OB Package Browser"
+      in place of "System Browser".  This is also known as the "OmniBrowser".
+    </p>
+    <p>
+      Unlike the System Browser,
+      this has back (&lt;&lt;) and forward (>>) buttons
+      just above the editor pane for moving between recently browsed classes.
+    </p>
+    <p>
+      In the editor pane, by default it automatically outputs
+      matching characters as you type for
+      single quotes, double quotes, parentheses, square brackets, and so on.
+      If you find this annoying, it can be disabled.
+      On the World menu, select "Preferences &amp; Services"..."Preference Browser".
+      Select the "developer image" category.
+      Disable ecompletionSmartCharacters.
+    </p>
+    <p>
+      Icons in front of method names provide extra information.
+      For a description of what they mean, see
+      <a href="http://smallwiki.unibe.ch/hermion/icons/">http://smallwiki.unibe.ch/hermion/icons/</a>.      
+    </p>
+    <p>
+      It get hints on issues with code, yellow-click a category, class or method
+      and select open...code critics.
+    </p>
+
+    <h4><a name="VariableReferences">Variable References</a></h4>
+    <p>
+      To find all the references to a given instance or class variable
+      within a class, yellow-click the class in OmniBrowser and select
+      an option from the open environment submenu such as
+      class variable references, instance variable reader,
+      instance variable references, and instance variable writer.
+    </p>
+
+    <h4><a name="Inspector">Inspector</a></h4>
+    <p>
+      An Inspector is used to examine the variables in a given object.
+      Select a variable in the upper-left pane to
+      display its value in the upper-right pane.
+      The value in the upper-right pane can be modified.
+      After changing it, press ctrl-s to save the change.
+      The lower pane is used to enter code can be executed.
+      For example, when inspecting a Dictionary object the code
+      <code>self at: 'foo' put: 'bar'</code> can be entered.
+      To execute this, select the code and press ctrl-d (do it).
+    </p>
+
+    <h4><a name="MethodFinder">Method Finder</a></h4>
+    <p>
+      This tool is useful for viewing the output of code.
+      To get one, drag one out of the "Tools" flap
+      or select World...open...method finder.
+      Enter part of a method name and press enter
+      to get a list of all method names that contain it.
+      Click a method name in the list to see the class that defines it.
+    </p>
+    <p>
+      To find all messages containing the selected string,
+      press ctrl-W.
+    </p>
+
+    <h4><a name="FileList">File List</a></h4>
+      This tool is useful for viewing files in the file system
+      and performing "fileins" on .st files.
+      To get one, drag one out of the "Tools" flap
+      or select World...open...file list.
+      To open a text file from the file system,
+      navigate to the directory in the left pane
+      and select the file in the right pane.
+      If the file contains Smalltalk code (*.st),
+      add it to the image by pressing the "fileIn" button
+      at the far right end of the button bar
+      To change the way files in the right pane are sorted
+      press the "name", "date" or "size" buttons in the button bar.
+    </p>
+
+    <h4><a name="Senders">Senders</a></h4>
+    <p>
+      To find the methods that send a given message,
+      select the message in a browser or enter it in a Workspace
+      and press alt-n.
+      This is a great way to find example uses of a message.
+    </p>
+
+    <h4><a name="Implementers">Implementers</a></h4>
+    <p>
+      To find the classes that implement a given message,
+      select the message in a browser or enter it in a Workspace
+      and press alt-m.
+    </p>
+
+    <h4><a name="BrowseDoInspectPrintIt">Browse/Do/Inspect/Print It</a></h4>
+    <p>
+      When no text is selected, these commands operate on
+      the entire current line.
+    </p>
+    <p>
+      To browse a class in a new System Browser, select its name in any window
+      and press ctrl-b.  To use the same System Browser, press ctrl-B.
+      To choose from a list of recently browsed classes,
+      yellow-click in the category pane and
+      select "recent classes" or press ctrl-r.
+    </p>
+    <p>
+      To print the result of the last statement in the Workspace,
+      press ctrl-p or yellow-click and select "print it".
+      The output will be selected.  Press the delete key to delete it.
+    </p>
+    <p>
+      To inspect the result of the last statement in an Inspector dialog,
+      press ctrl-i or yellow-click and select "inspect it".
+      This shows the class of the result in the title bar
+      and allows all instance variables of the object to be examined.
+    </p>
+    <p>
+      To execute the statements without printing,
+      press ctrl-d or yellow-click and select "do it".
+    </p>
+
+    <h4><a name="Packages">Packages</a></h4>
+    <p>
+      Packages are Smalltalk applications and libraries that can be
+      downloaded and installed in your image.
+      One way to download new packages or upgrade existig packages
+      is to press "Package Universe Browser" button on the desktop.
+      Another way is to open the "Tools" flap and
+      drag out a SqueakMap "Package Loader".
+    </p>
+    <p>
+      In the Package Universe Browser, press the "update list from network"
+      button to get a list of available packages.
+      For each package to be installed, click its name in the left pane
+      and press the "select package" button.
+      After all the selections have been made,
+      press the "Install Selections" button at the bottom.
+      Press the "select all upgrades" button to select
+      upgrades to all currently installed packages.
+    </p>
+    <p>
+      In the SqueakMap Package Loader, red-click a category in the
+      lower-left pane to limit the packages displayed in the upper-left pane.
+      Red-click a package name in the upper-left pane
+      to see a description of it in the right pane.
+      Yellow-click a package in the upper-right pane and select "Install"
+      to install it.
+    </p>
+    <p>
+      Another tool to examine is <a href="#Monticello">Monticello</a>.
+    </p>
+
+    <h4><a name="CreateCategory">Create Category</a></h4>
+    <p>
+      To create a new category, yellow-click in the category pane
+      of a System Browser and select "add item...".
+    </p>
+
+    <h4><a name="CreateClass">Create Class</a></h4>
+    <p>
+      To create a new class, red-click its category in a System Browser.
+      This will display a template for the new class in the bottom pane
+      with the following content:
+    </p>
+    <div class="code"><pre>
+Object subclass: #NameOfSubclass
+  instanceVariableNames: ''
+  classVariableNames: ''
+  poolDictionaries: ''
+  category: '<i>category-name</i>'
+</pre></div>
+    <p>
+      This creates a new class by sending a message to its superclass.
+      Modify the base class if necessary (defaults to <code>Object</code>)
+      and change "NameOfSubclass" to the name of the new class as a symbol.
+      Add names of instance variables, class variables and pool dictionaries.
+      Press ctrl-s to save it.
+      The class will be given a comment of "THIS CLASS HAS NO COMMENT!".
+      Change that to a better comment and press ctrl-s again.
+    </p>
+    <p>
+      Classes are represented by objects from the <code>Class</code> class
+      that are referred to by a global variable with the same name as the class.
+    </p>
+
+    <h4><a name="DeleteClass">Delete Class</a></h4>
+    <p>
+      Select the class in the class pane of a System Browser and press ctrl-x
+      or yellow-click the class name and select "remove class".
+    </p>
+
+    <h4><a name="FindClass">Find Class</a></h4>
+    <p>
+      To find a class in a System Browser
+      when you don't know what category it is in,
+      click in the category pane and press ctrl-f or
+      yellow-click in the category pane and select "find class...".
+      Enter all or part of the name.
+      Select the class from the list of matching classes.
+      It's category will be highlighted in the category pane
+      and also shown in the class definition after "category:".
+    </p>
+    <p>
+      To browse a class that has been browsed recently,
+      yellow-click in the category pane and
+      select "recent classes...".
+    <p>
+      To browse a class whose name is selected in the bottom pane
+      of a System Browser, press ctrl-b.
+    </p>
+
+    <h4><a name="CreateNewObject">Create New Object</a></h4>
+    <p>
+      To create an object from a class named "Foo"
+      and assign it to a variable,
+      use "<code>foo := Foo new.</code>".
+      This invokes the <code>new</code> method in the
+      <code>Class</code> object for the <code>Foo</code> class.
+      The <code>Class</code> class is a subclass of the
+      <code>Behavior</code> class which defines the <code>new</code> method.
+      That calls <code>basicNew</code> and <code>initialize</code>.
+      If the class has an instance <code>initialize</code> method,
+      it will be invoked.
+      This is a good place to initialize instance variables to default values.
+      In most cases, the first thing an initialize method should do is
+      send the initialize message to its superclass with
+      <code>super initialize</code>.
+    </p>
+    <p>
+      If data must be specified in order to properly construct new objects,
+      write class methods that accept the data, create a new instance,
+      and initialize it with the supplied data.  For example:
+    </p>
+    <div class="code"><pre>
+create: total
+  "creates a new Math instance with a given starting value for total"
+  ^self new
+    total: total;
+    yourself
+</pre></div>
+    <p>
+      This can be invoked as follows: 
+      "<code>m := Math create: 3.</code>".
+    </p>
+    <p>
+      There are five ways, involving four classes, in which objects can be
+      created without using the <code>new</code> method.
+    </p>
+    <ol>
+      <li><code>String</code> -
+        <code>'<i>text</i>'</code></li>
+      <li><code>Point</code> -
+        <code><i>x</i>@<i>y</i></code> </li>
+      <li><code>BlockClosure</code> -
+        <code>[ <i>statements</i> ]</code></li>
+      <li>literal <code>Array</code> -
+        <code>#( <i>element1</i> <i>element2</i> ... )</code></li>
+      <li>dynamic <code>Array</code> -
+        { <i>expression1</i>. <i>expression2</i>. ... }</li>
+    </ol>
+    <p>
+      All of these involve syntax that the compiler must recognize except
+      <code>@</code> which is a binary method in the <code>Number</code> class.
+      The last two that create arrays are specific to Squeak.
+    </p>
+
+    <h4><a name="BrowseEditMethod">Browse or Edit Method</a></h4>
+    <p>
+      To browse or edit an existing method in a System Browser:
+    </p>
+    <ol>
+      <li>select its class</li>
+      <li>select its protocol or "-- all --"</li>
+      <li>select the "instance" or "class" button
+        at the bottom of the class pane
+        (only methods of that type will be listed in the method pane)</li>
+      <li>select the method name</li>
+    </ol>
+    <p>
+      The code will be displayed in the edit pane.
+    </p>
+
+    <h4><a name="AddMethod">Add Method</a></h4>
+    <p>
+      To add a method to a class, select the class in a System Browser,
+      press either the "instance" or "class" button depending on the method type,
+      select the protocol for the method (may need to add a new one),
+      modify the code template for the method in the bottom pane,
+      and press ctrl-s to compile it to bytecode and save it.
+    </p>
+    <p>
+      Here's an example of a class method in a class named "Math".
+      It uses keyword parameters "add" and "and".
+      It uses a temporary variable named "sum".
+      It returns a value (^).
+      Note the lack of a period at the end of the last line.
+    </p>
+    <div class="code"><pre>
+add: n1 and: n2
+  "adds two numbers"
+
+  | sum |
+  sum := n1 + n2.
+  ^sum
+</pre></div>
+    <p>
+      Here's an example of some instance method in a class named "Math".
+    </p>
+    <div class="code"><pre>
+initialize
+  "initializes a new Math object"
+  total := 0
+
+total
+  "retrieves the running total"
+  ^total
+
+add: value
+  "adds value to the running total"
+  total := total + value
+</pre></div>
+
+    <h4><a name="DeleteMethod">Delete Method</a></h4>
+    <p>
+      To delete a method, yellow-click its name in the method pane
+      of a System Browser and select "remove method".
+    </p>
+
+    <h4><a name="MethodArguments">Method Arguments</a></h4>
+    <p>
+      Method arguments cannot have default values.
+      To simulate this, create overloaded methods where those that take
+      fewer parameters call those that take more with default values
+      for their missing parameters.
+    </p>
+
+    <h4><a name="CodeFormatting">Code Formatting</a></h4>
+    <p>
+    To format the code of the method being viewed in a browser,
+    yellow-click and select "pretty print".
+    </p>
+    <p>
+      The class that controls pretty print is <code>RBFormatter</code>.
+      It can be customized.  For example,
+      the method <code>maxArgumentsPerLine</code> defaults to 1 which
+      causes each keyword in a keyword message to be on a separate line.
+      Consider changing this to 5.
+    </p>
+
+    <h4><a name="KeyboardInput">Keyboard Input</a></h4>
+    <p>
+      TODO: How does this work?
+      One way to prompt the user for input is to use the FillInTheBlank class.
+      For example,
+      <code>name := FillInTheBlank request: 'Enter your name'</code>.
+    </p>
+
+    <h4><a name="FileInOut">Filein/Fileout</a></h4>
+    <p>
+      The code for a class can be saved to a text file,
+      possibly edited outside the Squeak enviroment,
+      and read back in.
+      To save the code for a class to a text file,
+      yellow-click the class in a System Browser class pane
+      and select "fileout".
+      A file with the same name as the class and a ".st" file extension
+      will be written to the directory containing the currently running image.
+      To read in a text file containing code for a class,
+      open the "Tools" flap, drag out a "File List", select the file,
+      and press the "filein" button in the upper-right corner.
+    </p>
+
+    <h4><a name="UnitTests">Unit Tests</a></h4>
+    <p>
+      The preferred framework for implementating unit tests is
+      <a href="http://sunit.sourceforge.net/">SUnit</a>.
+      Create classes that inherit from <code>TestCase</code>.
+      In the protocol "running", add <code>setUp</code> and
+      <code>tearDown</code> methods if needed.
+      In the protocol "tests", add methods that begin with "test".
+    </p>
+    <p>
+      In the test methods,
+      use "<code>self assert: (<i>boolean-expression</i>)</code>"
+      and "<code>self deny: (<i>boolean-expression</i>)</code>"
+      to specify assertions.
+      For testing exceptions there are <code>should:raise:</code>
+      and <code>shouldnt:raise:</code> methods.
+      All of these assertion methods take an optional
+      <code>description:</code> argument.
+    </p>
+    <p>
+      When an assertion fails, it's description string is displayed in the
+      title bar of the window that is displayed when a failed test is selected.
+      The description strings are also displayed in the Transcript window
+      if the test case overrides the <code>isLogging</code> method
+      to return <code>true</code>.
+    </p>
+    <p>
+      To run the tests, open the Tools flap and drag out an "SUnit Runner".
+      Select the categories and test classes to be run.
+      Press the "Run Selected" button.
+      If all the tests pass, the bar in the upper-right will be green.
+      If test failures occur, the bar will be yellow and
+      the test methods with failures will be listed in the right-middle panel.
+      If errors are encountered, the bar will be red and
+      the test methods with errors will be listed in the right-bottom panel.
+      Clicking on the name of a test method with a failure or error
+      will display a window containing a stack trace
+      (referred to as a "walkback stack") for the method.
+    </p>
+    <p>
+      In <a href="#OmniBrowser">OmniBrowser</a>, all the tests in a category
+      can be run by yellow-clicking a category in the category pane
+      and selecting "run the tests" or pressing ctrl-t.
+      A summary of the results is displayed in a dialog,
+      but details are not displayed in a "Test Runner" window.
+    </p>
+
+    <h4><a name="Debugger">Debugger</a></h4>
+    <p>
+      To set breakpoints, add "<code>self halt.</code>" statements in the code.
+      When a breakpoint is hit, a debugger window will be displayed.
+      It allows inspection and modification of
+      instance and local/temporary variables.
+      Source code can be viewed and modified in the debugger.
+      It also provide buttons for controlling continued execution
+      such as Into (step into a message send), Over (step over a message send),
+      Through (step into a block), Proceed (close debugger and continue)
+      and Restart (go back to beginning of current method).
+    </p>
+    <p>
+      In <a href="#OmniBrowser">OmniBrowser</a>,
+      methods containing a call to "<code>self halt.</code>"
+      will have a red flag icon in front of them in the method pane.
+    </p>
+    <p>
+      To debug code in a Workspace, select the code,
+      yellow-click and select "debug it".
+    </p>
+
+    <h4><a name="Monticello">Monticello</a></h4>
+    <p>
+      This tool is a distributed versioning system.
+      It is the primary means in which Squeak developers
+      backup and distribute their code.
+      To open a Monticello Browser, drag one out of the Tools flap
+      or select World...open...Monticello Browser.
+    </p>
+    <p>
+      To backup a package locally, select it in the left pane,
+      select the "package-cache" directory in the right pane,
+      and press the "Save" button.
+      This will create a .mcz file which is a Monticello zip file containing
+      the code for the package (snapshot/source.st) and a few other files.
+    </p>
+    <p>
+      To save a package on SqueakSource:
+    </p>
+    <ol>
+      <li>Browse to
+        <a href="http://www.squeaksource.com">http://www.squeaksource.com</a>.
+      </li>
+      <li>If you haven't yet registered,
+        click the "Register Member" link to register yourself.
+        Otherwise, click the "Login" link and login.</li>
+      <li>Click the "Register Project" link to register your project.
+        The URL for your project will be
+        http://www.squeaksource.com/{project-name}.</li>
+      <li>In the Monicello Browser, press the "+Repository" button.</li>
+      <li>Select "HTTP".</li>
+      <li>In the HTTP Repository template that is displayed,
+        change the location to the project URL,
+        change the user to your initials as entered in SqueakSource,
+        and change the password to what was entered in SqueakSource.</li>
+      <li>Select the package to be saved in the left pane.</li>
+      <li>Select the SqueakSource repository URL in the right pane.</li>
+      <li>Press the "Save" button.</li>
+      <li>Enter a comment for the new version.</li>
+      <li>A new version of the project will be saved on SqueakSource
+        and also in the local package-cache directory.</li>
+      <li>Repeat steps 7 through 10 each time significant changes
+        are made to the package.</li>
+    </ol>
+    <p>
+      To retrieve a package from SqueakSource:
+    </p>
+    <ol>
+      <li>In the Monicello Browser, press the "+Repository" button.</li>
+      <li>Select "HTTP".</li>
+      <li>In the HTTP Repository template that is displayed,
+        change the location to the project URL,
+        change the user to your initials as entered in SqueakSource,
+        and change the password to what was entered in SqueakSource.</li>
+      <li>Select the package URL to be retreived in the right pane.</li>
+      <li>Press the "Open" button.</li>
+      <li>In the "Repository" dialog that is displayed, select the ".mcz" file
+        and press the "Load" button.</li>
+      <li>The package should now appear in System Browsers.</li>
+    </ol>
+
+    <h4><a name="Refactoring">Refactoring</a></h4>
+    <p>
+      There are many refactoring options available in browsers.
+      Yellow-click a class in the class pane or a method in the method pane
+      and select an item from the refactor submenus.
+    </p>
+
+    <h4><a name="Fonts">Fonts</a></h4>
+    <p>
+      To change the fonts used in the Squeak environment,
+      open the World menu and select appearance...system fonts...
+      Fonts used in existing windows won't be changed.
+      To see new fonts, close the windows and open new ones.
+      A good font is Accujen size 10 or 12.
+      To install additional True Type fonts (.ttf files),
+      download them, open a File List tool, select a .ttf file,
+      and press the "install ttf" button.
+    </p>
+
+    <h4><a name="SVI">SVI</a></h4>
+    <p>
+      SVI is a text editor for Squeak that supports Vim and Emacs commands.
+      It is used in place of the default PluggableTextMorph.
+      To install it, open a World menu, select open...SqueakMap Package Loader,
+      open the SVI tree node, yellow-click the version you want,
+      and select "install.
+      This didn't work! I'm trying to find a solution.
+    </p>
+    
+    <h4><a name="Projects">Projects</a></h4>
+    <p>
+      Squeak projects are like separate working environments,
+      each with its own set of open windows on the desktop ...
+      like virtual desktops.
+      The can be used to separate work on different projects,
+      or separate work on difference aspects of the same project
+      (such as model classes vs. view classes).
+      They can improve coding efficiency because switching between projects
+      is faster than opening or expanding Browsers.
+    </p>
+    <p>
+      On the World menu there are items to
+      create a new project ("open...morphic project"),
+      switch to the previous project ("previous project"),
+      switch to a selected project ("jump to project..."),
+      save a project to a file ("save project on file...") and
+      load a project from a file ("load project from file...").
+      The main or default project is named "New Changes".
+    </p>
+    <p>
+      After creating a new project, give it a name by changing the text
+      at the bottom of the mini project window icon.
+    </p>
+    <p>
+      Projects are saved in ".pr" files.
+      When saved locally, they are in the Squeaklets subdirectory
+      of the current image.
+    </p>
+    <p>
+      Projects can be nested.
+    </p>
+
+    <h4><a name="Morphic">Morphic</a></h4>
+    <p>
+      Morphic is a library for building Squeak GUIs.
+      A "morph" is similar to a widget in other GUI toolkits.
+      Supplied morphs include
+      <code>CheckboxMorph</code>,
+      <code>DropDownChoiceMorph</code>,
+      <code>DropListMorph</code>,
+      <code>ImageMorph</code>,
+      <code>LabelMorph</code>,
+      <code>MenuItemMorph</code>,
+      <code>MovieMorph</code>,
+      <code>ProgressBarMorph</code>,
+      <code>SimpleButtonMorph</code>,
+      <code>TextFieldMorph</code> and
+      <code>TreeListMorph</code>.
+      All the morphs visible on the desktop are submorphs of the "world" morph.
+      The mouse cursor is referred to as the "hand" and
+      it is an instance of <code>HandMorph</code>.
+    </p>
+    <p>
+      Here's a simple example of creating a button that
+      when pressed displays text in a Transcript window.
+    </p>
+    <div class="code"><pre>
+button := PluggableButtonMorph
+  on: [Transcript show: 'You pressed it!'; cr]
+  getState: nil 
+  action: #value.
+button label: 'Press Me!'.
+button position: 100@100; openInWorld
+</pre></div>
+    <p>
+      Morph layout can be done automatically or
+      it can be controlled by layout morphs.
+      The most commonly used of these is <code>AlignmentMorph</code>
+      which arranges morphs from left to right in a single row
+      or from top to bottom in a single column.
+      The <code>AlignmentMorph</code> <code>newSpacer:</code> method
+      adds space between morphs.
+    </p>
+    <p>
+      User interations with morphs are represented by
+      <code>MorphicEvent</code> objects.
+      When mouse and keyboard events occur, messages such as
+      <code>mouseDown</code>, <code>mouseMove</code>, <code>mouseUp</code>
+      and <code>keyStroke</code> are sent to morph objects.
+    </p>
+    <p>
+      If a morph is dropped on another morph, the target morph is asked
+      whether it can handle the dropped morph by sending the message
+      <code>wantsDroppedMorph: aMorph event: evt</code> to it.
+      If this returns true then the message
+      <code>wantsDroppedMorph: aMorph event: evt</code> is sent to it.
+      After the target processes the drop, the source of the drop will be sent
+      the message <code>justDroppedInto: aMorph event: evt</code>.
+    </p>
+    <p>
+      To determine the class of a morph that is currently displayed,
+      blue-click to get the halo, press the "debug" button (the wrench),
+      and select "browse morph class".
+      Windows are created using the <code>SystemWindow</code> class.
+      Select "explore morph" to see the "submorphs".
+    </p>
+    <p>
+      For more inforamation, see
+      <a href="http://stephane.ducasse.free.fr/FreeBooks/CollectiveNBlueBook/morphic.final.pdf">An Introduction to Morphic</a>.
+    </p>
+    <p>
+      There are many alternatives to Morphic.  These include
+      Polymorphic,
+      <a href="http://tweakproject.org/">Tweak</a> and
+      <a href="http://wxsqueak.org/">wxSqueak</a>.
+    </p>
+    
+    <h4><a name="StartupAndShutdown">Startup and Shutdown</a></h4>
+    <p>
+      When a Squeak image starts up,
+      it calls the class <code>startUp</code> method in each class listed
+      in the collection referred to by the <code>SystemDictionary</code>
+      class variable <code>StartUpList</code>.
+      When a Squeak image shuts down,
+      it calls the class <code>shutDown</code> method in each class listed
+      in the collection referred to by the <code>SystemDictionary</code>
+      class variable <code>ShutDownList</code>.
+      The <code>SystemDictionary</code> class initialize method
+      adds many classes to these lists.
+    </p>
+    <p>
+      The only instance of <code>SystemDictionary</code> is held
+      in the global variable <code>Smalltalk</code>.
+      Classes are added to these lists by sending the messages
+      <code>addToStartUpList</code> and <code>addToShutDownList</code>
+      to <code>Smalltalk</code>.
+      Classes are removed from these lists by sending the messages
+      <code>removeFromStartUpList</code> and <code>removeFromShutDownList</code>
+      to <code>Smalltalk</code>.
+    </p>
+    <p>
+      To see what is currently in these lists, view the class definition
+      of <code>SystemDictionary</code> in a browser, select the class variable
+      <code>StartUpList</code> or <code>ShutDownList</code>,
+      and press ctrl-I to "explore it".
+      In some cases it's important for the order of classes in these lists
+      to be opposite of each other.
+    </p>
+
+    <h4><a name="RunningHeadless">Running Headless</a></h4>
+    <p>
+      Under Mac OS X, to make "squeak" available as a command,
+      open a Terminal window and cd to any directory in your PATH.
+      Create a symbolic link by entering
+      "ln -s "$SQUEAK_VM_DIR/Squeak<i>version</i>.app/Contents/MacOS/Squeak VM Opt" squeak".
+      When Squeak is started from a Terminal window using this command
+      it doesn't run properly.  It doesn't respond to mouse events
+      and the <code>-headless</code> option doesn't work!
+    </p>
+    <p>
+      To run a Smalltalk script without starting the GUI,
+      create a text file with a "<code>.st</code>" file extension,
+      add a sequence of Smalltalk statements in it, and
+      run "<code>squeak -headless $SQUEAK_IMAGE <i>full-file-path</i>.st</code>".
+    </p>
+    <p>
+      Here's an example of such a script.
+      Note that temporary variables don't need to be declared.
+    </p>
+    <div class="code"><pre>
+"The file is written in the directory of the image."
+fs := FileStream fileNamed: 'FileIODemo.txt'.
+fs nextPutAll: 'line 1'; cr.
+fs nextPutAll: 'line 2'.
+fs close.
+</pre></div>
+    <p>
+      This runs the script, but there are two issues.
+      First, a splash screen is displayed.
+      To prevent this, rename or delete the "splash.bmp" file
+      in the Squeak VM directory.
+      Second, the VM doesn't exit automatically.
+      To make it exit when the script finishes, add the following line
+      to the end of the script.
+    </p>
+    <div class="code"><pre>
+SmalltalkImage current quitPrimitive
+</pre></div>
+
+    <h4>Persistence</h4>
+    <p>
+      There are many ways to implement persistence in Smalltalk including
+      ActiveRecord (from Cincom),
+      GLORP,
+      GOODS,
+      Gemstone/S,
+      ImageSegments,
+      Magma,
+      OmniBase,
+      PostgreSQL,
+      Prevayler,
+      ReferenceStreams,
+      Roe,
+      SIXX,
+      SQLite,
+      and simply saving the image.
+    </p>
+
+    <h4><a name="FFI">Foreign Function Interface (FFI)</a></h4>
+    <p>
+      <a href="http://wiki.squeak.org/squeak/1414">FFI</a>
+      is used to call functions that are typically implemented in C.
+    </p>
+
+    <h4><a name="Miscellaneous">Miscellaneous</a></h4>
+    <p>
+      The remaining information either needs to be
+      merged with the information above or deleted.
+    </p>
+
+    <ul>
+      <li><a href="http://wiki.squeak.org/squeak/49">
+        .changes files</a></li>
+      <li><a href="http://wiki.squeak.org/squeak/3318">
+        class prefix registry</a></li>
+      <li><a href="http://wiki.squeak.org/squeak/3563">
+        distributing Squeak applications</a><br/>
+        One way is to add the main class to the startup list with
+        <code>SystemDictionary addToStartUpList: <i>class-name</i>.</code>
+        The class is required to understand the <code>#startUp:</code> message,
+        which will be sent to it when the image is loaded and started.
+        <code>#startUp:</code> accepts a Boolean telling it
+        whether the image is resuming (newly started).
+        Also see <a href="http://wiki.squeak.org/squeak/518">
+        How to lockdown an image for release</a>.
+      </li>
+      <li><a href="http://wiki.squeak.org/squeak/2213">
+        .image files</a></li>
+      <li><a href="http://wiki.squeak.org/squeak/3022">
+        .sources files</a></li>
+      <li><a href="http://wiki.squeak.org/squeak/676">
+        virtual machine</a></li>
+    </ul>
+
+    <pre>
+From Matthew Fulmer:
+When you run code, it is compiled into a method called UndefinedObject>>DoIt,
+then that method is run, then deleted.
+The source code of that method is the code you run.
+It happens when running a doit from the workspace, or when filing-in code.
+
+Squeak version control is automatic! (describe this)
+    </pre>
+
+    <hr />
+    <p style="text-align:center">
+      Copyright &#169; 2008 Object Computing, Inc. All rights reserved.
+    </p>
+  </body>
+</html>

@@ -1,0 +1,552 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR.html1/DTD.html1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999.html">
+  <head>
+    <title>Abator</title>
+    <link rel="stylesheet" type="text/css" href="../common.css"/>
+  </head>
+  <body>
+    <h2>Abator</h2>
+    
+    <h3>Contents</h3>
+    <a href="#Introduction">Introduction</a><br/>
+    <a href="#Installing">Installing</a><br/>
+    <a href="#ExampleDatabase">Example Database</a><br/>
+    <a href="#Configuration">Configuration</a><br/>
+    <a href="#RunningAbator">Running Abator</a><br/>
+    <a href="#InsertingData">Inserting Data</a><br/>
+    <a href="#Queries">Queries</a><br/>
+    <a href="#Logging">Logging</a><br/>
+    <a href="#MappedStatements">Mapped Statements</a><br/>
+
+    <a name="Introduction"/>
+    <h3>Introduction</h3>
+    <p>
+      <a target="_blank" href="http://ibatis.apache.org/abator.html">Abator</a>
+      is a code generator for iBATIS.
+      The website says "abator" means "one who abates a nuisance".
+      "Abate" means to become less intense.
+    </p>
+    <p>
+      Abator gathers information from a database schema and
+      generates the following types of files.
+      <ul>
+        <li>SqlMap.xml file for each selected table</li>
+        <li>Java Bean model class for each table</li>
+        <li>key class for each table that
+          has a composite primary key</li>
+        <li>example class for each table that is used specify
+          search criteria used with the DAO selectByExample method</li>
+        <li>DAO interface for each table that provides methods for
+          inserting, updating, selecting, and deleting table records</li>
+          <li>DAO classes that implements each DAO interface</li>
+      </ul>
+    </p>
+    <p>
+      Detailed documentation on Abator can be found <a target="_blank"
+      href="http://ibatis.apache.org/docs/tools/abator">here</a>.
+    </p>
+
+    <a name="Installing"/>
+    <h3>Installing <a class="toplink" href="#top">top</a></h3>
+    <p>
+      To install Abator for use with Java, download from <a target="_blank"
+      href="http://ibatis.apache.org/abator.html">here</a> and unzip it.
+      See the link "Abator 1.0.0 w/Binaries and Source".
+      This will result in a directory name "abator-1".
+    </p>
+    <p>
+      The doc directory contains HTML documentation with index.html
+      as the starting point.
+    </p>
+    <p>
+      The abator-1 directory contains abator.jar.
+    </p>
+
+    <a name="ExampleDatabase"/>
+    <h3>Example Database <a class="toplink" href="#top">top</a></h3>
+    <p>
+      Our example database is named "music".
+      It has two tables.
+      The "artists" table has the columns "id" and "name".
+      The "recordings" table has the columns
+      "id", "name", "year" and "artist_id".
+      The id columns are the primary keys of their tables.
+      The recordings table artist_id column is a foreign key reference
+      to the artists table id column.
+      SQL for creating the database is in the following file
+      named "createTables.sql".
+    </p>
+    <p>
+      Note that SQL is sometimes not portable between databases.
+      In this example, were using the type "text" which is supported
+      by MySQL, but not by all relational databases.
+      Also, the way that primary keys are configured to
+      "auto increment" varies across databases.
+    </p>
+    <pre><div class="code">drop database if exists music;
+create database music;
+use music;
+
+drop table if exists artists;
+create table artists (
+  id int not null auto_increment,
+  name text,
+  primary key (id)
+);
+
+drop table if exists recordings;
+create table recordings (
+  id int not null auto_increment,
+  name text,
+  year int,
+  artist_id int,
+  primary key (id)
+);</div></pre>
+    <p>
+      When using MySQL, this can be run with a command like the following.
+    </p>
+    <pre><div class="code">mysql -uroot < createTables.sql</div></pre>
+    
+    <a name="Configuration"/>
+    <h3>Configuration <a class="toplink" href="#top">top</a></h3>
+    <p>
+      The first step in using Abator is to create 
+      an XML configuration file that specifies
+      the following information.
+      <ul>
+        <li>JDBC driver class</li>
+        <li>location of JAR that contains it</li>
+        <li>connection URL</li>
+        <li>database username and password</li>
+        <li>package for generated model classes</li>
+        <li>directory for generated model classes</li>
+        <li>directory for generated iBATIS SQL map XML files</li>
+        <li>package for generated DAO classes</li>
+        <li>directory for generated DAO classes</li>
+        <li>mapping of table names to model class names</li>
+      </ul>
+    </p>
+    <p>
+      Here's an example of an Abator configuration file
+      named AbatorConfig.xml. This uses XML entities
+      to provide a single place to modify certain values
+      and avoid repeating them in the XML.
+      For an explanation of the
+      generatorSet attribute of the abatorContext element
+      see <a target="_blank"
+      href="http://ibatis.apache.org/docs/tools/abator/reference/extending.html">here</a>.
+    </p>
+    <pre><div class="code">
+&lt;?xml version="1.0" encoding="UTF-8"?>
+&lt;!DOCTYPE abatorConfiguration
+  PUBLIC "-//Apache Software Foundation//DTD Abator for iBATIS Configuration 1.0//EN"
+  "http://ibatis.apache.org/dtd/abator-config_1_0.dtd" [
+
+  &lt;!ENTITY connector "mysql-connector-java-5.0.4">
+  &lt;!ENTITY dbName "music">
+  &lt;!ENTITY mysqlDir "/Users/Mark/Documents/Programming/Databases/MySQL">
+  &lt;!ENTITY mysqlJAR "&mysqlDir;/&connector;/&connector;-bin.jar">
+  &lt;!ENTITY packagePrefix "com.ociweb.music">
+  &lt;!ENTITY target "gen">
+]>
+
+&lt;abatorConfiguration>
+
+  &lt;abatorContext id="MySQLTables" generatorSet="Java5">
+
+    &lt;jdbcConnection driverClass="com.mysql.jdbc.Driver"
+      connectionURL="jdbc:mysql://localhost:3306/&dbName;"
+      userId="root" password="">
+      &lt;classPathEntry location="&mysqlJAR;" />
+    &lt;/jdbcConnection>
+
+    &lt;javaModelGenerator targetPackage="&packagePrefix;.model"
+      targetProject="&target;">
+      &lt;property name="enableSubPackages" value="true" />
+      &lt;property name="trimStrings" value="true" />
+    &lt;/javaModelGenerator>
+
+    &lt;sqlMapGenerator targetPackage="sqlmaps"
+      targetProject="&target;">
+      &lt;property name="enableSubPackages" value="true" />
+    &lt;/sqlMapGenerator>
+
+    &lt;daoGenerator type="SPRING" targetPackage="&packagePrefix;.dao"
+      targetProject="&target;">
+      &lt;property name="enableSubPackages" value="true" />
+    &lt;/daoGenerator>
+
+    &lt;table schema="&dbName;"
+      tableName="artists" domainObjectName="Artist">
+      &lt;generatedKey column="id" sqlStatement="MySQL" identity="true"/>
+      &lt;!-- The next line is needed because Abator
+           doesn't understand the MySQL type TEXT. -->
+      &lt;columnOverride column="name" jdbcType="VARCHAR" />
+    &lt;/table>
+
+    &lt;table schema="&dbName;"
+      tableName="recordings" domainObjectName="Recording">
+      &lt;generatedKey column="id" sqlStatement="MySQL" identity="true"/>
+      &lt;!-- The next line is needed because Abator
+           doesn't understand the MySQL type TEXT. -->
+      &lt;columnOverride column="name" jdbcType="VARCHAR" />
+    &lt;/table>
+
+  &lt;/abatorContext>
+
+&lt;/abatorConfiguration>
+</div></pre>
+
+    <a name="RunningAbator"/>
+    <h3>Running Abator <a class="toplink" href="#top">top</a></h3>
+    <p>
+      The following libraries are required to run the Abator tool
+      and run the resulting code.
+      <ul>
+        <li>Abator</li>
+        <li>iBATIS</li>
+        <li>JUnit 4</li>
+        <li>Log4J</li>
+        <li>Spring</li>
+        <li>Jakarta Commons DBCP (comes with Spring)</li>
+        <li>Jakarta Commons Logging (comes with Spring)</li>
+        <li>Jakarta Commons Pool (comes with Spring)</li>
+        <li>MySQL JDBC driver</li>
+      </ul>
+    </p>
+    <p>
+      Abator can be run from Ant.
+      Here's our Ant build.properties file.
+    </p>
+    <pre><div class="code">
+programming.dir=/Users/Mark/Documents/Programming
+java.dir=${programming.dir}/Languages/Java
+
+abator.dir=${java.dir}/iBATIS/abator-1
+abator.jar=${abator.dir}/abator.jar
+
+ibatis.dir=${java.dir}/iBATIS/ibatis-2
+ibatis.jar=${ibatis.dir}/lib/ibatis-2.3.0.677.jar
+
+junit.dir=${java.dir}/JUnit/junit4.1
+junit.jar=${junit.dir}/junit-4.1.jar
+
+log4j.dir=${java.dir}/Log4J/logging-log4j-1.2.14
+log4j.jar=${log4j.dir}/dist/lib/log4j-1.2.14.jar
+
+mysql.dir=${programming.dir}/Databases/MySQL
+
+spring.dir=${java.dir}/Spring/spring-framework-2.0.2
+jakarta.commons.dbcp.jar=${spring.dir}/lib/jakarta-commons/commons-dbcp.jar
+jakarta.commons.logging.jar=${spring.dir}/lib/jakarta-commons/commons-logging.jar
+jakarta.commons.pool.jar=${spring.dir}/lib/jakarta-commons/commons-pool.jar
+spring.jar=${spring.dir}/dist/spring.jar
+
+connector=mysql-connector-java-5.0.4
+mysql.driver.jar=${mysql.dir}/${connector}/${connector}-bin.jar
+
+test=*
+</div></pre>
+    <p>
+      Here's our Ant build.xml file that includes an "abator" target
+      and many other targets that will be discussed later.
+    </p>
+    <pre><div class="code">
+&lt;project name="AbatorDemo" default="test">
+
+  &lt;property file="build.properties"/>
+
+  &lt;path id="classpath">
+    &lt;pathelement location="build/classes"/>
+    &lt;!-- The next line is for generated SqlMap XML files. -->
+    &lt;pathelement location="gen/sqlmaps"/>
+    &lt;pathelement location="${abator.jar}"/>
+    &lt;pathelement location="${ibatis.jar}"/>
+    &lt;pathelement location="${jakarta.commons.dbcp.jar}"/>
+    &lt;pathelement location="${jakarta.commons.logging.jar}"/>
+    &lt;pathelement location="${jakarta.commons.pool.jar}"/>
+    &lt;pathelement location="${junit.jar}"/>
+    &lt;pathelement location="${log4j.jar}"/>
+    &lt;pathelement location="${mysql.driver.jar}"/>
+    &lt;pathelement location="${spring.jar}"/>
+  &lt;/path>
+
+  &lt;target name="abator" depends="prepare"
+    description="generates files for using iBATIS and Spring DAO">
+    &lt;!-- Set the overwrite attribute to
+         true to overwrite existing files with the same name or
+         false to save newly generated files with a unique name
+         (dot number at end) -->
+    &lt;taskdef name="abator" classpath="${abator.jar}"
+      classname="org.apache.ibatis.abator.ant.AbatorAntTask"/>
+    &lt;abator overwrite="false" configfile="AbatorConfig.xml" verbose="false"/>
+  &lt;/target>
+
+  &lt;target name="clean" depends="clean.test"
+    description="deletes all generated files">
+    &lt;delete dir="build"/>
+    &lt;delete dir="gen"/>
+  &lt;/target>
+
+  &lt;target name="clean.test" description="deletes all generated files">
+    &lt;delete dir="test"/>
+  &lt;/target>
+
+  &lt;target name="compile" depends="abator"
+    description="compiles source files">
+    &lt;javac srcdir="gen" destdir="build/classes"
+      classpathref="classpath" deprecation="on" debug="on"/>
+    &lt;javac srcdir="src/java" destdir="build/classes"
+      classpathref="classpath" deprecation="on" debug="on"/>
+  &lt;/target>
+
+  &lt;target name="load" depends="compile"
+    description="deletes all records from the database and loads new ones">
+    &lt;java classname="com.ociweb.music.LoadDB"
+      classpathref="classpath" fork="true"/>
+  &lt;/target>
+
+  &lt;target name="prepare">
+    &lt;mkdir dir="build/classes"/>
+    &lt;mkdir dir="gen"/>
+    &lt;copy todir="build/classes">
+      &lt;fileset dir=".">
+        &lt;include name="Item.xml"/>
+        &lt;include name="Store.xml"/>
+        &lt;include name="SqlMapConfig.xml"/>
+        &lt;include name="log4j.properties"/>
+      &lt;/fileset>
+    &lt;/copy>
+  &lt;/target>
+
+  &lt;target name="run" depends="compile"
+    description="runs the client application">
+    &lt;java classname="com.ociweb.demo.Client"
+      classpathref="classpath" fork="true"/>
+  &lt;/target>
+
+  &lt;target name="test" depends="clean.test, compile"
+   description="runs all JUnit tests">
+    &lt;mkdir dir="test"/>
+    &lt;junit fork="yes" printsummary="yes">
+      &lt;classpath refid="classpath"/>
+      &lt;batchtest todir="test">
+        &lt;fileset dir="src/java" includes="**/${test}Test.java"/>
+      &lt;/batchtest>
+      &lt;formatter type="xml"/>
+    &lt;/junit>
+    &lt;junitreport toDir="test">
+      &lt;fileset dir="test"/>
+      &lt;report format="frames" todir="test"/>
+    &lt;/junitreport>
+    &lt;exec os="Windows" executable="cmd.exe">
+      &lt;arg line="/c start test/index.html"/>
+    &lt;/exec>
+    &lt;exec os="Mac OS X" executable="open">
+      &lt;arg line="-a /Applications/Safari.app test/index.html"/>
+    &lt;/exec>
+  &lt;/target>
+
+&lt;/project>
+</div></pre>
+
+    <a name="InsertingData"/>
+    <h3>Inserting Data <a class="toplink" href="#top">top</a></h3>
+    <p>
+      Now we need to put some data in the database.
+      The following Java application demonstrates how to do this.
+      The methods <code>getArtist</code> and <code>addRecording</code>
+      are used to simplify the process.
+    </p>
+    <pre><div class="code">
+package com.ociweb.music;
+
+import com.ociweb.music.dao.*;
+import com.ociweb.music.model.*;
+import java.util.*;
+
+public class LoadDB {
+
+  private ArtistDAO artistDAO;
+  private RecordingDAO recordingDAO;
+
+  private Map&lt;String, Artist> artists = new HashMap&lt;String, Artist>();
+
+  public static void main(String[] args) {
+    new LoadDB();
+  }
+
+  private LoadDB() {
+    DAOHelper helper = new DAOHelper();
+    artistDAO = helper.getArtistDAO();
+    recordingDAO = helper.getRecordingDAO();
+
+    // Delete all records from the artists table.
+    artistDAO.deleteByExample(new ArtistExample());
+
+    // Delete all records from the recordings table.
+    recordingDAO.deleteByExample(new RecordingExample());
+
+    String name = "Deathcab For Cutie";
+    addRecording(name, "We Have the Facts and We're Voting Yes", 2000);
+    addRecording(name, "The Photo Album", 2001);
+    addRecording(name, "You Can Play These Songs With Chords", 2002);
+    addRecording(name, "Transatlanticism", 2003);
+    addRecording(name, "Plans", 2005);
+
+    name = "Regina Spektor";
+    addRecording(name, "Begin To Hope", 2006);
+    addRecording(name, "Soviet Kitch", 2003);
+  }
+
+  private Artist getArtist(String name) {
+    Artist artist = artists.get(name);
+    if (artist == null) {
+      artist = new Artist();
+      artist.setName(name);
+      int id = artistDAO.insert(artist);
+      artists.put(name, artist);
+    }
+    return artist;
+  }
+
+  private void addRecording(String artistName, String name, int year) {
+    Artist artist = getArtist(artistName);
+
+    Recording recording = new Recording();
+    recording.setArtistId(artist.getId());
+    recording.setName(name);
+    recording.setYear(year);
+
+    int id = recordingDAO.insert(recording);
+  }
+}
+</div></pre>
+
+    <a name="Queries"/>
+    <h3>Queries <a class="toplink" href="#top">top</a></h3>
+    <p>
+      We're ready to write queries now.
+      The following application demonstrates a few queries.
+    </p>
+    <pre><div class="code">
+package com.ociweb.music;
+
+import com.ociweb.music.dao.*;
+import com.ociweb.music.model.*;
+import java.util.*;
+
+public class Client {
+
+  private ArtistDAO artistDAO;
+  private RecordingDAO recordingDAO;
+
+  public static void main(String[] args) {
+    new Client();
+  }
+
+  private Client() {
+    DAOHelper helper = new DAOHelper();
+    artistDAO = helper.getArtistDAO();
+    recordingDAO = helper.getRecordingDAO();
+
+    // Output the names of all the Artists in ascending order.
+    System.out.println("All artists");
+    List&lt;Artist> artists =
+      artistDAO.selectByExample(new ArtistExample());
+    sortArtists(artists);
+    Artist artist = null;
+    for (Artist a : artists) {
+      System.out.println("  " + a.getName());
+      artist = a; // retain a reference to the last Artist
+    }
+
+    // Get the id of the last Artist.
+    int id = artist.getId();
+
+    // Output the name of the artists with a given id.
+    System.out.println("\nArtist with id=" + id);
+    artist = artistDAO.selectByPrimaryKey(id);
+    System.out.println("  " + artist.getName());
+
+    // Output the names of all recordings from 2003 in ascending order.
+    System.out.println("\n2003 Recordings");
+    RecordingExample recordingExample = new RecordingExample();
+    RecordingExample.Criteria recordingCriteria =
+      recordingExample.createCriteria();
+    recordingCriteria.andYearEqualTo(2003);
+    List&lt;Recording> recordings =
+      recordingDAO.selectByExample(recordingExample);
+    sortRecordings(recordings);
+    for (Recording r : recordings) {
+      artist = artistDAO.selectByPrimaryKey(r.getArtistId());
+      System.out.println("  " + r.getName() +
+        " by " + artist.getName());
+    }
+  }
+
+  private void sortArtists(List&lt;Artist> list) {
+    Comparator&lt;Artist> artistComparator = new ArtistComparator();
+    Collections.sort(list, artistComparator);
+  }
+
+  private void sortRecordings(List&lt;Recording> list) {
+    Comparator&lt;Recording> recordingComparator = new RecordingComparator();
+    Collections.sort(list, recordingComparator);
+  }
+
+  static class ArtistComparator
+  implements Comparator&lt;Artist> {
+    public int compare(Artist artist1, Artist artist2) {
+      return artist1.getName().compareTo(artist2.getName());
+    }
+  }
+
+  static class RecordingComparator
+  implements Comparator&lt;Recording> {
+    public int compare(Recording recording1, Recording recording2) {
+      return recording1.getName().compareTo(recording2.getName());
+    }
+  }
+}</div></pre>
+
+    <p>
+      The output from this code follows.
+    </p>
+    <pre><div class="code">All artists
+  Deathcab For Cutie
+  Regina Spektor
+
+Artist with id=2
+  Regina Spektor
+
+2003 Recordings
+  Soviet Kitch by Regina Spektor
+  Transatlanticism by Deathcab For Cutie</div></pre>
+
+    <a name="Logging"/>
+    <h3>Logging <a class="toplink" href="#top">top</a></h3>
+    <p>
+      See the instructions for configuring iBATIS logging
+      <a href="iBATIS.html#Logging">here</a>.
+    </p>
+
+    <a name="MappedStatements"/>
+    <h3>Mapped Statements <a class="toplink" href="#top">top</a></h3>
+    <p>
+      The "selectByExample" methods in the generated DAO classes can only
+      perform queries that examine the columns of the single table
+      associated with the DAO. To perform a query that requires a join,
+      mapped statements can be added to the generated SqlMap.xml files
+      as described in the iBATIS notes
+      <a href="iBATIS.html#MappedStatements">here</a>.
+    </p>
+
+    <hr />
+    <p style="text-align:center">
+      Copyright &#169; 2007 Object Computing, Inc. All rights reserved.
+    </p>
+  </body>
+</html>

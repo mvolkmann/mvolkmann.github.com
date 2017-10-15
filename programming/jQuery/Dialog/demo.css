@@ -1,0 +1,12 @@
+.invalid {
+  border: solid red 2px;
+}
+
+#message {
+  color: red;
+  font-weight: bold;
+}
+
+th {
+  text-align: right;
+}

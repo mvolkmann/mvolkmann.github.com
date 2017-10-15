@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+  "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>Twitter User Lookup</title>
+    <link rel="stylesheet" type="text/css" href="demo.css"/>
+    <script type="text/javascript" src="../jquery-1.4.2.min.js"></script>
+    <script type="text/javascript" src="demo.js"></script>
+  </head>
+  <body>
+    <h1>Twitter User Lookup</h1>
+    <form action="" method="post">
+      <table>
+        <tr>
+          <td class="label">Twitter Username:</td>
+          <td>
+            <input id="username" name="username"
+              type="text" size="20" value="mark_volkmann"/>
+            <input id="lookup" type="button" value="Lookup"/>
+          </td>
+        </tr>
+        <tr>
+          <td class="label">Name:</td>
+          <td id="name"/>
+        </tr>
+        <tr>
+          <td class="label">Location:</td>
+          <td id="location"/>
+        </tr>
+        <tr>
+          <td class="label">Home Page:</td>
+          <td><a id="homepage" href=""></a></td>
+        </tr>
+        <tr>
+          <td class="label">Photo:</td>
+          <td><img id="photo" src="" alt=""/></td>
+        </tr>
+      </table>
+    </form>
+  </body>
+</html>

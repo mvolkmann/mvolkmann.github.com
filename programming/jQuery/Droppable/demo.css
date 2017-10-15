@@ -1,0 +1,29 @@
+#container {
+  background-color: linen;
+  border: solid black 3px;
+  height: 300px;
+  width: 300px;
+}
+
+.bucket {
+  background-color: yellow;
+  border: solid black 3px;
+  height: 100px;
+  text-align: center;
+  width: 100px;
+}
+
+.item {
+  border: solid black 2px;
+  color: white;
+  height: 30px;
+  line-height: 30px; /* centers text vertically */
+  text-align: center;
+  width: 75px;
+}
+
+.compatibleTarget { border-color: red; }
+.overTarget { border-color: green; }
+.food { background-color: orange; }
+.sport { background-color: blue; }
+.title { font-weight: bold; }

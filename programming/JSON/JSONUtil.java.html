@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR.html1/DTD.html1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999.html">
+  <head>
+    <title>JSONUtil.java</title>
+    <link rel="stylesheet" type="text/css" href="../../common.css"/>
+  </head>
+  <body>
+    <h2>JSONUtil.java</h2>
+    
+    <pre><div class="code">package com.ociweb.json;
+
+import java.util.*;
+import net.sf.json.*;
+import org.apache.commons.beanutils.DynaBean;
+import org.apache.commons.beanutils.DynaClass;
+import org.apache.commons.beanutils.DynaProperty;
+
+import static com.ociweb.lang.SystemUtil.*;
+
+public class JSONUtil {
+
+  private Map&lt;String, Class> classMap = new HashMap&lt;String, Class>();
+
+  /**
+   * Adds a mapping that is used when converting from a JSON map
+   * to a Java Bean.  Values of map entries with the given key
+   * will be converted to Java Beans with the given Class.
+   */
+  public void addMapping(String key, Class clazz) {
+    classMap.put(key, clazz);
+  }
+
+  /**
+   * Converts a JSON string representing an array
+   * to an array of Java Beans of a given Class.
+   */
+  public Object[] fromJSONArray(String json, Class clazz) {
+    JSONArray ja = JSONArray.fromString(json);
+    return JSONArray.toArray(ja, clazz, classMap);
+  }
+
+  /**
+   * Converts a JSON string representing an array
+   * to a java.util.List that contains Java Beans of a given Class.
+   */
+  public List fromJSONList(String json, Class clazz) {
+    JSONArray ja = JSONArray.fromString(json);
+    return JSONArray.toList(ja, clazz, classMap);
+  }
+
+  /**
+   * Converts a JSON string representing an object
+   * to a Java Bean object of a given Class.
+   */
+  public Object fromJSONObject(String json, Class clazz) {
+    JSONObject jo = JSONObject.fromString(json);
+    return JSONObject.toBean(jo, clazz, classMap);
+  }
+
+  /**
+   * Pretty prints a JSONArray or JSONObject.
+   */
+  private void prettyPrint(JSON j) {
+    out(j.toString(2));
+  }
+
+  /**
+   * Pretty prints a JSON string that represents an array.
+   */
+  public void prettyPrintArray(String json) {
+    prettyPrint(JSONArray.fromString(json));
+  }
+
+  /**
+   * Pretty prints a JSON string that represents an object.
+   */
+  public void prettyPrintObject(String json) {
+    prettyPrint(JSONObject.fromString(json));
+  }
+
+  /**
+   * Converts a java.util.List to a JSON string.
+   */
+  public String toJSON(List list) {
+    JSONArray ja = JSONArray.fromCollection(list);
+    return ja.toString();
+  }
+
+  /**
+   * Converts a Java Bean to a JSON string.
+   */
+  public String toJSON(Object object) {
+    JSONObject jo = JSONObject.fromObject(object);
+    return jo.toString();
+  }
+
+  /**
+   * Converts an array of booleans, numbers, strings and Java Beans
+   * to a JSON string.
+   */
+  public String toJSON(Object[] array) {
+    JSONArray ja = JSONArray.fromArray(array);
+    return ja.toString();
+  }
+}</div></pre>
+
+    <hr/>
+    <p style="text-align:center">
+      Copyright &#169; 2007 Object Computing, Inc. All rights reserved.
+    </p>
+  </body>
+</html>

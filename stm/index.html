@@ -1,0 +1,51 @@
+<html>
+  <head>
+    <title>Mark Volkmann's STM Page</title>
+    <link rel="stylesheet" type="text/css" href="common.css"/>
+  </head>
+  <!--body style="background:lightblue"-->
+  <body style="background:#EEF">
+    <h1 style="color:green; vertical-align:middle">
+      Mark Volkmann's Software Transactional Memory (STM) Page
+    </h1>
+    <p>
+      This page contains resources related to
+      Software Transactional Memory.
+    </p>
+
+    <ul>
+      <li><a href="article.html">latest version</a> of my article,
+        updated on 9/4/09</li>
+      <li>
+        <a href="http://thestrangeloop.com/">Strange Loop 2009</a> conference
+        STM slides -
+        <a href="STM_1up.pdf">1 up</a>,
+        <a href="STM_2up.pdf">2 up</a>
+      </li>
+    </ul>
+
+    <h3>Article Change History</h3>
+    <ol>
+      <li>9/1/09 - fixed lots of reported typos</li>
+      <li>9/2/09 - clarified that race conditions are errors</li>
+      <li>9/2/09 - added a paragraph explaining that Clojure STM
+        uses both locks and a lock-free strategy</li>
+      <li>9/2/09 - clarified that
+        the TVal next field refers to a newer commited value and
+        the TVal prior field refers to an older commited value</li>
+      <li>9/2/09 - clarified the reason that
+        RegEx extends Error instead of Exception</li>
+      <li>9/2/09 - clarified the use of a timeout
+        within the blockAndBail method of LockingTransaction</li>
+      <li>9/2/09 - in the discussion of the first commit step
+        within the description of the LockingTransaction run method,
+        explained how the timing of an ensure call can result in a retry
+        and added a question about why that is allowed</li>
+      <li>9/2/09 - resolved the question about why the
+        sets field in LockingTransaction is needed
+        instead of just using the keys in the vals field map</li>
+      <li>9/4/09 - noted that getHistoryCount method could
+        acquired a read lock instead of a write lock</li>
+    </ol>
+  </body>
+</html>

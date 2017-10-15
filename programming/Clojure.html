@@ -1,0 +1,2346 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR.html1/DTD.html1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>Clojure</title>
+    <link rel="stylesheet" type="text/css" href="../common.css"/>
+  </head>
+  <body>
+    <h2>Clojure</h2>
+    
+    <h3><a name="Contents">Quick Links</a></h3>
+    <p>
+      <a href="http://clojure.org/api/">Clojure API</a>
+      from Rich Hickey<br />
+      <a href="http://clj-doc.s3.amazonaws.com/tmp/doc-1116/index.html">clj-doc</a>
+      from Mark McGranaghan<br />
+      <a href="http://tinyurl.com/clojure-classes/">class diagram</a> from Chris Houser<br />
+      <a href="http://en.wikibooks.org/wiki/Clojure_Programming">Wikibooks Clojure Programming</a><br />
+      <a href="http://en.wikibooks.org/wiki/Learning_Clojure">Wikibooks Learning Clojure</a><br />
+      <a href="http://en.wikibooks.org/wiki/Clojure_Programming/Examples/API_Examples">Wikibooks Clojure API Examples</a><br />
+      <a href="http://clojure-euler.wikispaces.com/">Project Euler Code</a><br />
+      <a href="ClojureCodingGuidelines.html">Clojure Coding Guidelines</a><br />
+      <a href="ClojureSnake.html">Clojure Snake Game</a><br />
+      <a href="#builtins">Builtins</a>
+      <a href="#categories">Categories</a>
+      <a href="#shortcuts">Shortcuts</a>
+      <a href="#syntax">Syntax</a>
+    </p>
+
+    <h3><a name="categories">Categories</a></h3>
+    <p>
+      The following table categories Clojure functions.
+    </p>
+    <table border="1">
+      <tr>
+        <th>Category</th>
+        <th>Functions/Macros</th>
+      </tr>
+      <tr>
+        <td>arrays</td>
+        <td>
+          aclone
+          aget
+          alength
+          amap
+          areduce
+          aset
+          aset-boolean
+          aset-byte
+          aset-char
+          aset-double
+          aset-float
+          aset-int
+          aset-long
+          aset-short
+          double-array
+          float-array
+          int-array
+          into-array
+          long-array
+          make-array
+        </td>
+      </tr>
+      <tr>
+        <td>bindings</td>
+        <td>
+          binding
+          declare
+          def
+          defonce
+          let
+          if-let
+          with-local-vars
+        </td>
+      </tr>
+      <tr>
+        <td>bitwise operations</td>
+        <td>
+          bit-and
+          bit-and-not
+          bit-clear
+          bit-flip
+          bit-not
+          bit-or
+          bit-set
+          bit-shift-left
+          bit-shift-right
+          bit-test
+          bit-xor
+        </td>
+      </tr>
+      <tr>
+        <td>bytecode</td>
+        <td>
+          compile
+          gen-class
+          gen-interface
+        </td>
+      </tr>
+      <tr>
+        <td>Clojure code access</td>
+        <td>
+          load
+          load-file
+          load-reader
+          load-string
+          loaded-libs
+          require
+          source
+          use
+        </td>
+      </tr>
+      <tr>
+        <td>conditional logic</td>
+        <td>
+          cond
+          condp
+          if
+          if-let
+          when
+          when-not
+        </td>
+      </tr>
+      <tr>
+        <td>conversions</td>
+        <td>
+          bigdec
+          bigint
+          byte
+          char
+          double
+          float
+          int
+          long
+          num
+          short
+        </td>
+      </tr>
+      <tr>
+        <td>exception handling</td>
+        <td>
+          assert
+          cast
+          finally
+          throw
+          throw-if
+        </td>
+      </tr>
+      <tr>
+        <td>functions and methods</td>
+        <td>
+          comp
+          complement
+          constantly
+          declare
+          defn
+          defn-
+          defmethod
+          defmulti
+          fn
+          partial
+        </td>
+      </tr>
+      <tr>
+        <td>input/output</td>
+        <td>
+          file-seq
+          flush
+          line-seq
+          newline
+          pr
+          pr-str
+          prn
+          printf
+          println
+          with-in-str
+          with-open
+        </td>
+      </tr>
+      <tr>
+        <td>iteration</td>
+        <td>
+          dotimes
+          for
+          iterate
+          loop
+          recur
+          while
+        </td>
+      </tr>
+      <tr>
+        <td>Java interop.</td>
+        <td>
+          .
+          ..
+          add-classpath
+          bean
+          comparator
+          construct-proxy
+          enumeration-seq
+          get-proxy-class
+          import
+          iterator-seq
+          memfn
+          new
+          proxy
+          set!
+        </td>
+      </tr>
+      <tr>
+        <td>list operations</td>
+        <td>
+          list
+          list*
+        </td>
+      </tr>
+      <tr>
+        <td>logical expressions and predicates</td>
+        <td>
+          =
+          ==
+          <
+          <=
+          >
+          >=
+          and
+          associative?
+          class?
+          coll?
+          compare
+          decimal?
+          delay?
+          distinct?
+          empty?
+          even?
+          every?
+          false?
+          float?
+          fn?
+          identical?
+          ifn?
+          instance?
+          integer?
+          isa?
+          keyword?
+          list?
+          macro?
+          map?
+          neg?
+          nil?
+          not
+          not=
+          not-any?
+          not-empty?
+          not-every?
+          number?
+          odd?
+          or
+          pos?
+          reversible?
+          seq?
+          set?
+          some
+          vector?
+          zero?
+        </td>
+      </tr>
+      <tr>
+        <td>macros</td>
+        <td>
+          definline
+          defmacro
+          macro?
+          macroexpand
+          macroexpand-1
+        </td>
+      </tr>
+      <tr>
+        <td>map operations</td>
+        <td>
+          array-map
+          assoc
+          assoc-in
+          contains?
+          dissoc
+          find
+          get
+          hash-map
+          key
+          keys
+          max-key
+          merge
+          min-key
+          merge-with
+          pmap
+          select-keys
+          sorted-map
+          sorted-map-by
+          update-in
+          vals
+        </td>
+      </tr>
+      <tr>
+        <td>math</td>
+        <td>
+          +
+          -
+          *
+          /
+          dec
+          inc
+          max
+          min
+          quot
+          rand
+          rand-int
+          rem
+        </td>
+      </tr>
+      <tr>
+        <td>namespaces</td>
+        <td>
+          alias
+          all-ns
+          create-ns
+          find-ns
+          find-var
+          in-ns
+          namespace
+          ns
+          ns-aliases
+          ns-imports
+          ns-interns
+          ns-name
+          ns-publics
+          ns-refers
+          ns-resolve
+          ns-unalias
+          ns-unmap
+        </td>
+      </tr>
+      <tr>
+        <td>quoting and unquoting</td>
+        <td>
+          eval
+          quote
+        </td>
+      </tr>
+      <tr>
+        <td>reflection and metadata</td>
+        <td>
+          ancestors
+          bases
+          class
+          doc
+          find-doc
+          instance?
+          isa?
+          meta
+          ns-publics
+          ns-resolve
+          parents
+          with-meta
+        </td>
+      </tr>
+      <tr>
+        <td>regular expressions</td>
+        <td>
+          re-find
+          re-groups
+          re-matcher
+          re-pattern
+          re-seq
+        </td>
+      </tr>
+      <tr>
+        <td>sequence operations to retrieve a single item</td>
+        <td>
+          ffirst
+          first
+          nth
+          second
+          last
+          peek
+        </td>
+      </tr>
+      <tr>
+        <td>sequence operations to retrieve multiple item</td>
+        <td>
+          butlast
+          drop
+          drop-last
+          drop-while
+          filter
+          frest
+          pop
+          nthrest
+          rest
+          rseq
+          take
+          take-nth
+          take-while
+        </td>
+      </tr>
+      <tr>
+        <td>sequence operations to do other things</td>
+        <td>
+          apply
+          cache-seq
+          concat
+          conj
+          cons
+          count
+          cycle
+          distinct
+          doall
+          dorun
+          doseq
+          empty
+          <i>flatten</i>
+          fnseq
+          iterate
+          interleave
+          interpose
+          into
+          lazy-cat
+          lazy-cons
+          map
+          mapcat
+          partition
+          range
+          remove
+          repeat
+          repeatedly
+          replicate
+          reverse
+          sort
+          sort-by
+          split-at
+          split-with
+        </td>
+      </tr>
+      <tr>
+        <td>set operations</td>
+        <td>
+          disj
+          hash-set
+          set
+          set?
+          sorted-set
+        </td>
+      </tr>
+      <tr>
+        <td>string and character operations</td>
+        <td>
+          char-escape-string
+          char-name-string
+          format
+          str
+          string?
+          subs
+        </td>
+      </tr>
+      <tr>
+        <td>structs</td>
+        <td>
+          accessor
+          create-struct
+          defstruct
+          get-in
+          struct
+          struct-map
+        </td>
+      </tr>
+      <tr>
+        <td>threads and concurrency</td>
+        <td>
+          add-watcher
+          agent
+          agent-errors
+          await
+          await-for
+          clear-agent-errors
+          get-validator
+          locking
+          monitor-enter
+          monitor-exit
+          send
+          send-off
+        </td>
+      </tr>
+      <tr>
+        <td>transactions and refs</td>
+        <td>
+          alter
+          commute
+          deref
+          dosync
+          ensure
+          ref
+          sync
+        </td>
+      </tr>
+      <tr>
+        <td>vector operations</td>
+        <td>
+          get
+          nth
+          split-at
+          split-with
+          subvec
+          vec
+          vector
+          vector?
+        </td>
+      </tr>
+      <tr>
+        <td>miscellaneous</td>
+        <td>
+          ->
+          alter-var-root
+          comment
+          delay
+          delay?
+          derive
+          descendants
+          do
+          doto
+          force
+          gensym
+          hash
+          identity
+          intern
+          keyword
+          make-hierarchy
+          name
+          preduce
+          reduce
+          symbol
+          time
+          var
+        </td>
+      </tr>
+      <tr>
+        <td></td>
+        <td>
+        </td>
+      </tr>
+    </table>
+
+    <h3><a name="syntax">Syntax</a></h3>
+    <p>
+      The following characters have special meaning in Clojure syntax.
+    </p>
+    <table border="1">
+      <tr>
+        <th>Character</th>
+        <th>Meaning</th>
+        <th>Examples</th>
+      </tr>
+      <tr>
+        <td>;</td>
+        <td>comment</td>
+        <td>; This is a comment that extends to the end of the line.</td>
+      </tr>
+      <tr>
+        <td>=</td>
+        <td>expression+</td>
+        <td>
+          This tests for equality (same as the Java equals method).
+          If any argument is nil then false is returned.
+        </td>
+        <td>(= "bar" (subs "foobar" 3)) -> true</td>
+      </tr>
+      <tr>
+        <td>==</td>
+        <td>number+</td>
+        <td>for testing numbers</td>
+        <td>(== 2 2.0 (+ 1 1)) -> true</td>
+      </tr>
+      <tr>
+        <td>/</td>
+        <td>used for namespace scoping of functions AND
+          static member access (fields and methods)</td>
+        <td>
+          (my-ns/my-function arg)<br />
+          Math/PI<br />
+          (System/getProperty "user.name")
+        </td>
+      </tr>
+      <tr>
+        <td>\</td>
+        <td>character</td>
+        <td>\a \b \1 \2 \@ \space \tab \newline</td>
+      </tr>
+      <tr>
+        <td>"</td>
+        <td>string</td>
+        <td>"This is a string."</td>
+      </tr>
+      <tr>
+        <td>:</td>
+        <td>keyword</td>
+        <td>:name</td>
+      </tr>
+      <tr>
+        <td>'</td>
+        <td>
+          This has several uses.
+          It can appear before a name to create a symbol.
+          It can appear before a list to "quote" it
+          which prevents evaluation where
+          the first item is treated as the name of a function.
+          It can also appear before a vector which quotes
+          every item inside it to prevent their evaluation.
+        </td>
+        <td>'(+ 2 3) -> (+ 2 3) ; without the quote it would evalute to 5</td>
+      </tr>
+      <tr>
+        <td>`</td>
+        <td>appears before a list to "backquote" it which prevents
+          immediate evaluation and resolves symbols to their namespaces</td>
+        <td>`(+ 2 3) -> (clojure.core/+ 2 3)</td>
+      </tr>
+      <tr>
+        <td>( )</td>
+        <td>list</td>
+        <td>("one" 2 :three) or (list "one" 2 :three)</td>
+      </tr>
+      <tr>
+        <td>[ ]</td>
+        <td>vector</td>
+        <td>["one" 2 :three] or (vector "one" 2 :three)</td>
+      </tr>
+      <tr>
+        <td>#{ }</td>
+        <td>set</td>
+        <td>#{"red" "green" "blue"}</td>
+      </tr>
+      <tr>
+        <td>{ }</td>
+        <td>map</td>
+        <td>{:key1 "value1" :key2 2}</td>
+      </tr>
+      <tr>
+        <td>~</td>
+        <td>forces evaluation of a sublist inside a backquoted list</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>&</td>
+        <td>precedes the last argument to a function,
+          followed by a space, to set the last argument to a list
+          of the remaining arguments</td>
+        <td>(defn foo [p1 p2 & remaining] ...)</td>
+      </tr>
+      <tr>
+        <td>_</td>
+        <td>anonymous parameter name; used when a function requires
+          a certain number of parameters, but doesn't use all of them</td>
+        <td>(fn [p1 _ p3] (+ p1 p3))</td>
+      </tr>
+      <tr>
+        <td>#'name</td>
+        <td>a reader macro that expands to (var name)</td>
+        <td>(meta #'str)</td>
+      </tr>
+      <tr>
+        <td>^name</td>
+        <td>a reader macro that expands to (meta name) to retrieve
+          the map of metadata associated with an object</td>
+        <td>^object</td>
+      </tr>
+      <tr>
+        <td>#^java-class-name</td>
+        <td>
+          This is the metadata dispatch macro that causes
+          the form after it to be added to the metadata
+          for the form after that.
+          As a special case, #^java-class is equivalent to
+          #^{:tag java-class} .
+          This provides a type hint to help the compiler
+          avoid using reflection, thereby improving performance.
+          Note that this is not equivalent to <code>with-meta</code>.
+        </td>
+        <td>#^String</td>
+      </tr>
+      <tr>
+        <td>#(function arg*)</td>
+        <td>returns a closure instead of invoking the function</td>
+        <td>#(prn "Hello")</td>
+      </tr>
+      <tr>
+        <td>@ref</td>
+        <td>
+          a reader macro that expands to (deref ref);
+          If outside a transaction,
+          returns the most recently committed value.
+          If inside a transaction, returns the "in transaction value".
+        </td>
+        <td>@myRef</td>
+      </tr>
+    </table>
+
+    <h3><a name="shortcuts">Shortcuts</a></h3>
+    <p>
+      The following syntax shortcuts are supported.
+    </p>
+    <table border="1">
+      <tr>
+        <th>Long Form</th>
+        <th>Short Form</th>
+      </tr>
+      <tr>
+        <td>(list 1 2 3)</td>
+        <td>'(1 2 3) or (quote (1 2 3))</td>
+      </tr>
+      <tr>
+        <td>(fn [arg*] body)</td>
+        <td>#(body) using %1, %2, ... for arguments (or just % if there is only one argument)</td>
+      </tr>
+      <tr>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td></td>
+        <td></td>
+      </tr>
+    </table>
+
+    <h3><a name="builtins">Builtins</a></h3>
+    <p>
+      The table below documents some of the functions, macros and
+      special forms I have encountered so far in my study of Clojure.
+    </p>
+    <p>
+      For more information on these,
+      run <code>(doc <i>name</i>)</code> in a REPL.
+    </p>
+    <table border="1">
+      <tr>
+        <th width="110px">Name</th>
+        <th width="150px">Arguments</th>
+        <th width="300px">Description</th>
+        <th width="340px">Example</th>
+      </tr>
+      <tr>
+        <td>.</td>
+        <td>
+          instance-expr member-symbol<br />
+          instance-expr method-symbol arg*<br />
+          instance-expr (method-symbol arg*)<br />
+          classname-symbol member-symbol<br />
+          classname-symbol method-symbol arg*<br />
+          classname-symbol (method-symbol arg*)<br />
+        </td>
+        <td>
+          This is a way to access Java methods.
+          The dot is read "in the scope of".
+          Using the next form, <code>.<i>member</i>,</code> is preferred.
+        </td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>.<i>member</i></td>
+        <td>target arg*</td>
+        <td>
+          This is the same as <code>(. target member arg*)</code>,
+          however, this form is preferred.
+        </td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>..</td>
+        <td>
+          instance-expr member+<br />
+          classname-symbol member+
+        </td>
+        <td>This invokes multiple methods on the same receiver
+          or returns several instance variable values.</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>=</td>
+        <td>expr1 expr2</td>
+        <td>
+          This determines if two expressions evaluate to the same value.
+          Also see not=.
+        </td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>add-classpath</td>
+        <td>string or URL object</td>
+        <td>This adds to the Java classpath.</td>
+        <td>(add-classpath "./lib")</td>
+      </tr>
+      <tr>
+        <td>aget</td>
+        <td>java-array index</td>
+        <td>This returns the value at the given index in a Java array.</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>all-ns</td>
+        <td>none</td>
+        <td>This returns a sequence of all namespaces.</td>
+        <td>(all-ns)</td>
+      </tr>
+      <tr>
+        <td>and</td>
+        <td>expression*</td>
+        <td>
+          This evaluates the expressions from left to right,
+          stopping and returning false as soon as
+          one of them evaluates to nil or false.
+          If none do, the value of the last expression is returned.
+        </td>
+        <td>(and (< x 10) y) -> false or y</td>
+      </tr>
+      <tr>
+        <td>apply</td>
+        <td>function collection</td>
+        <td>
+          This returns a non-lazy sequence of the results of
+          invoking the function using
+          each item in the collection as an argument
+          instead of passing the collection as a single argument.
+          It expands the list into individual arguments.
+          Compare this to <code>map</code> which is lazy.
+        </td>
+        <td>
+          (apply + '(1 2 3)) -> 6<br />
+          (apply + [1 2 3]) -> 6
+        </td>
+      </tr>
+      <tr>
+        <td>array-map</td>
+        <td></td>
+        <td>
+          This creates an array map which is a map that maintains input order.
+        </td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>assoc</td>
+        <td>map (key value)+  or<br />
+          vector (index value)+</td>
+        <td>
+           When passed a map,
+           this creates a new one that is a copy of the one passed
+           with some number of key/value pairs added or replaced.
+           When passed a vector,
+           this creates a new one that is a copy of the one passed
+           with some number of values set at specified, existing indexes.
+           Indexes must be from zero to one past the last index used.
+       </td>
+       <td>
+         (assoc myMap :a 1 :b 2)<br/>
+         (assoc myVector 2 "two" 3 "three")
+       </td>
+      </tr>
+      <tr>
+        <td>await</td>
+        <td>agent+</td>
+        <td>This blocks the current thread until all dispatched actions
+          from this thread or agent to the specified agents have completed.</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>bean</td>
+        <td></td>
+        <td>This returns a map of the JavaBean properties
+          in a given Java object.</td>
+        <td>(bean java.awt.Color/YELLOW)</td>
+      </tr>
+      <tr>
+        <td>binding-values</td>
+        <td></td>
+        <td></td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>bit-shift-left</td>
+        <td></td>
+        <td></td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>bit-shift-right</td>
+        <td></td>
+        <td></td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>boolean</td>
+        <td>x</td>
+        <td>This coerces x to a boolean value.</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>byte</td>
+        <td>x</td>
+        <td>This coerces x to a byte value.</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>char</td>
+        <td>x</td>
+        <td>This coerces x to a char value.</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>class</td>
+        <td>x</td>
+        <td>This returns the Java class of x.</td>
+        <td>
+          (class true) -> java.lang.Boolean<br />
+          (class 19) -> java.lang.Integer<br />
+          (class 3.14) -> java.lang.Double<br />
+          (class :foo) -> clojure.lang.Keyword<br />
+          (class "foo") -> java.lang.String<br />
+          (class []) -> clojure.lang.PersistentVector<br />
+          (class '()) -> clojure.lang.PersistentList$EmptyList<br />
+          (class #{}) -> clojure.lang.PersistentHashSet<br />
+          (class {}) -> clojure.lang.PersistentHashMap
+        </td>
+      </tr>
+      <tr>
+        <td>commute</td>
+        <td>ref function arg*</td>
+        <td>
+          This must be called inside a transaction
+          (commonly created with <code>dosync</code>).
+          It modifies the value of a ref inside that transaction.
+          Also see <code>dosync</code> and <code>update-in</code>.
+        </td>
+        <td>(dosync (commute myStruct update-in [:field] function))</td>
+      </tr>
+      <tr>
+        <td>comp</td>
+        <td>function+</td>
+        <td>
+          This returns a new function that is a composition
+          of the specified functions from right to left.
+          When the new function is invoked
+          it applies the right-most function to the arguments,
+          then the next function to the left to that result,
+          and so on, returning the last result.
+        </td>
+        <td>
+          (def remove-ends (comp rest reverse rest reverse))<br />
+          (remove-ends [1 2 3 4]) -> (2 3)
+        </td>
+      </tr>
+      <tr>
+        <td>concat</td>
+        <td>collection*</td>
+        <td>This returns a lazy sequence of the concatenation
+          of the items in the collections.</td>
+        <td>(concat [1 2] [3 4]) -> (1 2 3 4)</td>
+      </tr>
+      <tr>
+        <td>cond</td>
+        <td>(test expression)*</td>
+        <td>
+          This is like a switch statement.
+          It returns the result of the expression
+          for the first test that evaluates to true,
+          or nil if none evaluate to true.
+          Also see if.
+        </td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>conj</td>
+        <td>collection item</td>
+        <td>
+          This returns a new collection with item added or "conjoined".
+          Where it is added depends on the collection type.
+          To append all the items in another vector,
+          use (reduce conj vector1 vector2).
+          Note how the argument order and the return type
+          differs from that of <code>cons</code>.
+          Also see <code>concat</code> and <code>into</code>.
+        </td>
+        <td>
+          (conj [1 2] 3) -> [1 2 3]<br />
+          (conj [1 2] [3 4]) -> [1 2 [3 4]]</td>
+        </td>
+      </tr>
+      <tr>
+        <td>cons</td>
+        <td>item seq</td>
+        <td>
+          This returns a new <b>sequence</b> where
+          x is the first element and seq is the rest.
+          Note how the argument order and the return type
+          differs from that of <code>conj</code>.
+          Also see <code>concat</code> and <code>into</code>.
+        </td>
+        <td>
+          (cons 3 [1 2]) -> (3 1 2)<br />
+          (cons [1 2] [3 4]) -> [[1 2] 3 4]
+        </td>
+      </tr>
+      <tr>
+        <td>count</td>
+        <td>collection</td>
+        <td>
+          This returns the number of items in the collection,
+          including strings.
+        </td>
+        <td>
+          (count [1 3 7 9]) -> 4<br />
+          (count "text") -> 4
+        </td>
+      </tr>
+      <tr>
+        <td>create-ns</td>
+        <td>symbol</td>
+        <td>This creates a namespace with the given name if it doesn't exist
+          and returns it.</td>
+        <td>(create-ns 'my-namespace)</td>
+      </tr>
+      <tr>
+        <td>cycle</td>
+        <td>collection</td>
+        <td>This returns a lazy sequence that repeats
+          the items in the collection infinitely.</td>
+        <td>(take 7 (cycle [1 2 3])) -> (1 2 3 1 2 3 1)</td>
+      </tr>
+      <tr>
+        <td>dec</td>
+        <td>number</td>
+        <td>This returns a number one less than the given number.</td>
+        <td>(dec 3.14) -> 2.14</td>
+      </tr>
+      <tr>
+        <td>declare</td>
+        <td>name*</td>
+        <td>This makes forward declarations which are necessary
+          to define functions that use other functions
+          that haven't been defined yet.</td>
+        <td>(declare future-function)</td>
+      </tr>
+      <tr>
+        <td>def</td>
+        <td></td>
+        <td></td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>defmacro</td>
+        <td></td>
+        <td>This transforms a form into another form on behalf of
+          the compiler.</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>defmethod</td>
+        <td></td>
+        <td></td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>defmulti</td>
+        <td></td>
+        <td>This is part of a definition of multiple methods
+          from which one is selected at runtime based on the result
+          of passing the argument to a specified function.</td>
+        <td>
+          (defmulti what-am-i class)
+          (defmethod what-am-i [arg] Number "I am a Number")
+          (defmethod what-am-i [arg] String "I am a String")
+          (defmethod what-am-i [arg] :default "I am something else")
+        </td>
+      </tr>
+      <tr>
+        <td>defn</td>
+        <td>name doc-string? [param*] expr*</td>
+        <td>
+          This defines a function.  It is a macro that translates to
+          <code>(def name (fn [param*] expr*))</code>.
+          Also see fn.
+        </td>
+        <td>(defn times_two "returns number times two" [number]
+              (* number 2))</td>
+      </tr>
+      <tr>
+        <td>defn-</td>
+        </td>
+        <td>&nbsp;</td>
+        <td>
+          This is the same as defn, but the function defined isn't public.
+          That means the function isn't visible when in other namespaces.
+          To call a function in another namespace, precede the
+          function name with the namespace and a slash.
+        </td>
+        <td>
+          (ns my-ns)<br />
+          (defn- add2 [x] (+ x 2))<br />
+          (ns user)<br />
+          (my-ns/add2 3)<br />
+          gives an IllegalStateException because add2 is
+          private to the my-ns namespace
+        </td>
+      </tr>
+      <tr>
+        <td>do</td>
+        <td>expression*</td>
+        <td>
+          This evaluates each expression in order
+          and returns the value of the last.
+          If no expressions are supplied it returns nil.
+        </td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>doall</td>
+        <td>collection</td>
+        <td>
+          This evaluates all the items in a lazy sequence
+          which causes all of them to reside in memory.
+          This can be used to force the side effects
+          of the item evaluations to occur.
+          It can also be used to safely retrieve values
+          from a mutable Java collection.
+        </td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>doc</td>
+        <td>name</td>
+        <td>This prints documentation for the given name.</td>
+        <td>(doc rem)</td>
+      </tr>
+      <tr>
+        <td>dorun</td>
+        <td></td>
+        <td></td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>doseq</td>
+        <td>[item-symbol sequence] body</td>
+        <td>This iterates through each item in the sequence,
+          sets item-symbol to refer to it,
+          and executes the body.
+          It returns nil.
+        </td>
+        <td>
+          (doseq [item [1 2 3]] (prn item))
+          ; prints each item in the vector [1 2 3] on a separate line
+        </td>
+      </tr>
+      <tr>
+        <td>dosync</td>
+        <td></td>
+        <td></td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>dotimes</td>
+        <td>[name n] body</td>
+        <td>
+          This executes the body n times,
+          binding the integers 0 through n-1 
+          to the specified name for each iteration.
+        </td>
+        <td>(dotimes [i 3] (println i))</td>
+      </tr>
+      <tr>
+        <td>doto</td>
+        <td>instance-expr (instanceMethodName-symbol arg*)*</td>
+        <td>
+          This evaluates instance-expr to obtain an object,
+          calls all the instance methods on it, passing the supplied arguments,
+          and returns the object.
+          It is similar to cascaded messages in Smalltalk,
+          ending with <code>yourself</code>.
+        </td>
+        <td>(doto (new java.util.HashMap) (put "a" 1) (put "b" 2))</td>
+      </tr>
+      <tr>
+        <td>double</td>
+        <td>x</td>
+        <td>This coerces x to a double value.</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>drop</td>
+        <td>n sequence</td>
+        <td>
+          This returns a lazy sequence that includes
+          all but the first n items in the sequence.
+        </td>
+        <td>(drop 2 [1 2 3 4]) -> (3 4)</td>
+      </tr>
+      <tr>
+        <td>drop-last</td>
+        <td>n? sequence</td>
+        <td>
+          This returns a lazy sequence that includes
+          all but the last n items in the sequence.
+          n defaults to 1.
+        </td>
+        <td>(drop-last 2 [1 2 3 4]) -> (1 2)</td>
+      </tr>
+      <tr>
+        <td>drop-while</td>
+        <td>predicate collection</td>
+        <td>
+          This returns a lazy sequence that includes
+          all the items in sequence starting with the first one
+          where the predicate returns nil.
+        </td>
+        <td>(drop-while #(odd? %) [1 3 2 3 4]) -> (2 3 4)</td>
+      </tr>
+      <tr>
+        <td>eval</td>
+        <td></td>
+        <td>This evaluates a list by treating the first item
+          as a function name and the rest as arguments to it.</td>
+        <td>(eval '(+ 1 2)) -> 3</td>
+      </tr>
+      <tr>
+        <td>even?</td>
+        <td>arg</td>
+        <td>This determines whether the argument is even.
+          Also see <code>odd?</code>.</td>
+        <td>(even? 2) -> true</td>
+      </tr>
+      <tr>
+        <td>every</td>
+        <td></td>
+        <td></td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>filter</td>
+        <td>predicate-function collection</td>
+        <td>This returns a lazy sequence of
+          all the items in the collection
+          for which the predicate function returns true.</td>
+        <td>(filter #(zero? (rem % 3)) [2 3 4 5 6 7]) -> (3 6)
+          which are the numbers that are evenly divisible by 3</td>
+      </tr>
+      <tr>
+        <td>finally</td>
+        <td></td>
+        <td></td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>find-doc</td>
+        <td>[re-string-or-pattern]</td>
+        <td>This finds all functions whose name or documentation
+          match the regex.</td>
+        <td>(find-doc "^re-")</td>
+      </tr>
+      <tr>
+        <td>find-ns</td>
+        <td>symbol</td>
+        <td>This returns the namespace whose name matches the given symbol.</td>
+        <td>(find-ns 'clojure.xml)</td>
+      </tr>
+      <tr>
+        <td>flatten</td>
+        <td>collection</td>
+        <td>
+           This returns a lazy sequence that is a flattened version
+           of a given collection.  Items in subcollections become
+           top-level items in the new sequence.
+           This is in the clojure.contrib.seq-utils library.
+         </td>
+         <td>(flatten '([1 2 [3 4] 5 6] (\a (\b) \c)))
+           -> (1 2 3 4 5 6 \a \b \c)</td>
+      </tr>
+      <tr>
+        <td>float</td>
+        <td>x</td>
+        <td>This coerces x to a float value.</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>fn</td>
+        <td>name? ([param*] expression*)+</td>
+        <td>
+          This defines a function that can be overloaded based on the arity.
+          If name is omitted then an anonymous function is created.
+          Also see defn.
+        </td>
+        <td>
+          These are equivalent.<br />
+          (fn [a b] (+ a b))<br />
+          #(+ %1 %2)<br />
+          Here are functions that simple return their single argument.<br />
+          (fn [x] x)<br />
+          #(do %) ; % is short for %1, useful when there is only one argument
+        </td>
+      </tr>
+      <tr>
+        <td>fn?</td>
+        <td>expression</td>
+        <td>This tests whether an expression evaluates to a function.</td>
+        <td>(fn? first) -> true</td>
+      </tr>
+      <tr>
+        <td>for</td>
+        <td>[sequence-expression+] expression</td>
+        <td>
+           This interates through the cartesian product
+           of all the sequence expressions and
+           evaluates the expression for each one.
+        </td>
+        <td>
+          (for [x (range 0 3)] x) -> (0 1 2)<br />
+          (for [x (range 0 3) y (range 0 2)] (+ (* x 10) y)) -> (0 2 10 11 20 21)
+        </td>
+      </tr>
+      <tr>
+        <td>format</td>
+        <td>format-string arg*</td>
+        <td>This returns a string created from
+          a format string and arguments.</td>
+        <td>(format "%s is %d years old." "Mark" 47)
+          -> "Mark is 47 years old."</td>
+      </tr>
+      <tr>
+        <td>gensym</td>
+        <td>prefix-string?</td>
+        <td>This returns a new symbol with a unique name
+            that is the prefix followed by an integer.
+            If no prefix is supplied then "G" is used.</td>
+        <td>(gensym "foo") -> foo45</td>
+      </tr>
+      <tr>
+        <td>get</td>
+        <td>map key not-found-value?</td>
+        <td>
+          This returns the value for a key in a map.
+          If the key isn't present the nil or not-found-value is returned.
+        </td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>identical?</td>
+        <td>a b</td>
+        <td>Determines whether a and b refer to the same object.</td>
+        <td>(identical? a b)</td>
+      </tr>
+      <tr>
+        <td>if</td>
+        <td>test then else?</td>
+        <td>
+          This begins by evaluating <i>test</i>.
+          If <i>test</i> doesn't evaluate to nil or false,
+          it evaluates and return <i>then</i>.
+          Otherwise it evaluates and returns <i>else</i>.
+          Also see cond.
+        </td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>if-let</td>
+        <td>binding* test then else?</td>
+        <td>
+          This is the same as if, but allows bindings before the test.
+        </td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>import</td>
+        <td>(package-symbol class-name-symbols*)+</td>
+        <td>
+          This imports Java classes into the current default namespace.
+        </td>
+        <td>(import '(java.text DateFormat SimpleDateFormat) '(java.util Date List))</td>
+      </tr>
+      <tr>
+        <td>in-ns</td>
+        <td>symbol</td>
+        <td>This creates the namespace if it doesn't exist
+          and changes the default namespace to it.</td>
+          It is recommended to use this for changing the default namespaces
+          instead of <code>ns</code>.
+        <td>(in-ns 'java)</td>
+      </tr>
+      <tr>
+        <td>inc</td>
+        <td>number</td>
+        <td>This returns a number one greater than the given number.</td>
+        <td>(inc 3.14) -> 4.14</td>
+      </tr>
+      <tr>
+        <td>instance?</td>
+        <td>class expr</td>
+        <td>This evaluates <i>expr</i> and determines whether the result
+          is an instance of the given class.</td>
+      <td>(instance? Number (+ 1 2)) -> true</td>
+      </tr>
+      <tr>
+        <td>int</td>
+        <td>x</td>
+        <td>This coerces x to an int value.</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>integer?</td>
+        <td>expression</td>
+        <td>This tests whether an expression evaluates to an integer.</td>
+        <td>(integer? (+ 1 2 3))</td>
+      </tr>
+      <tr>
+        <td>interleave</td>
+        <td>collection+</td>
+        <td>This return a lazy sequence of the first item in each
+          collection, followed by the second in each, and so on.
+          Extra items are omitted.</td>
+        <td>
+          (interleave [1 2] [3 4 5]) -> (1 3 2 4)<br />
+          (interleave [1 2 3] [4 5]) -> (1 4 2 5)
+        </td>
+      </tr>
+      <tr>
+        <td>interpose</td>
+        <td>separator collection</td>
+        <td>
+          This returns a lazy sequence containing all the items
+          in the collection separated by the separator.
+          Also see <code>str</code> to get a single string
+          from a collection of them.
+        </td>
+        <td>(interpose " " '("one", "two", "three"))
+          -> ("one" " " "two" " " "three")</td>
+      </tr>
+      <tr>
+        <td>into</td>
+        <td>to-collection from-collection</td>
+        <td>
+          This returns a new collection containing
+          all the items in to-collection followed by
+          all the items in from-collection.
+          Also see <code>conj</code> and <code>cons</code>.
+        </td>
+        <td>(into [1 2] [3 4]) -> [1 2 3 4]</td>
+      </tr>
+      <tr>
+        <td>into-array</td>
+        <td>type? sequence</td>
+        <td>
+          This creates a Java array from the items in a sequence.
+          The type of the array will be the specified type,
+          or the type of the first item if omitted.
+        </td>
+        <td>(into-array [1 3 7])</td>
+      </tr>
+      <tr>
+        <td>iterate</td>
+        <td>function x</td>
+        <td>This returns a lazy sequence of x, (f x), (f (f x)), etc.</td>
+        <td>(take 3 (iterate inc 0)) -> (0 1 2)</td>
+      </tr>
+      <tr>
+        <td>last</td>
+        <td>collection</td>
+        <td>This returns the last item in a collection.</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>lazy-cat</td>
+        <td>collection+</td>
+        <td>
+          This returns a lazy sequence of the items in
+          all the collections from left to right.
+          The collection expressions aren't evaluated
+          until they are needed.
+        </td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>lazy-cons</td>
+        <td>first-expression rest-expression</td>
+        <td>This returns a lazy sequence of the items in
+          the two expressions which aren't evaluated until needed.</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>let</td>
+        <td>[binding*] expression*</td>
+        <td>
+          This performs the variable bindings specified in the square brackets
+          and then evaluates the expressions in order.
+        </td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>list</td>
+        <td>expr*</td>
+        <td>This creates a list containing all the arguments.</td>
+        <td>
+          (list 1 2 3) -> (1 2 3)<br />
+          '(1 2 3) -> (1 2 3)
+        </td>
+      </tr>
+      <tr>
+        <td>list?</td>
+        <td>arg</td>
+        <td>This determines whether arg is a list.</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>load-file</td>
+        <td>file-name</td>
+        <td>This reads and evaluates the contents of a given file.</td>
+        <td>(load-file "mycode.clj")</td>
+      </tr>
+      <tr>
+        <td>long</td>
+        <td>x</td>
+        <td>This coerces x to a long value.</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>loop</td>
+        <td>[binding*] expression*</td>
+        <td>
+          This does the same things let does,
+          but also establishes a recursion point at the top of the loop.
+          It stops executing when a pass does not invoke recur.
+          Also see <code>recur</code>.
+        </td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>macro?</td>
+        <td>x</td>
+        <td>
+          This tests whether x is a macro.
+          It is in clojure.contrib.pred.
+        </td>
+        <td>(macro? 'and) -> true</td>
+      </tr>
+      <tr>
+        <td>macroexpand</td>
+        <td></td>
+        <td></td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>macroexpand-1</td>
+        <td></td>
+        <td></td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>map</td>
+        <td>function collection+</td>
+        <td>
+          This returns a lazy sequence containing the results of passing
+          corresponding items in each collection
+          as arguments to the function.
+          It is often used with a function that takes a single argument
+          and a single collection.
+          Compare this to <code>apply</code>.
+        </td>
+        <td>
+          (map #(* % %) [1 2 3]) -> (1 4 9) ; squares all the items<br />
+          (map (fn [a b] (+ a b)) [1 2 3] [2 3 4]) -> (3 5 7)<br />
+          (map #(+ %1 %2) [1 2 3] [2 3 4]) -> (3 5 7)<br />
+        </td>
+      </tr>
+      <tr>
+        <td>map?</td>
+        <td>arg</td>
+        <td>This determines whether arg is a map.</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>mapcat</td>
+        <td>function collection+</td>
+        <td>
+          This returns the result of applying concat
+          to the result of applying map to the function and collections.
+          The function must return a collection.
+        </td>
+        <td>
+          (mapcat #(replicate 3 %) (range 4)) -> (0 0 0 1 1 1 2 2 2 3 3 3)
+        </td>
+      </tr>
+      <tr>
+        <td>memfn</td>
+        <td>name arg*</td>
+        <td>This creates a function from a Java method
+          so it can be used
+          as a first-class object,
+          for example, to pass it to another function.</td>
+        <td>
+          (memfn charAt i) ; expects to be passed a Java String
+          on which charAt will be invoked
+          and an integer that will be passed to charAt
+        </td>
+      </tr>
+      <tr>
+        <td>merge-with</td>
+        <td>function map+</td>
+        <td>This returns a map that results from conj-ing
+          the rest of the maps to the first one.
+          The function is used to get the value for keys
+          that occurs in more than one of the maps.</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>meta</td>
+        <td>obj</td>
+        <td>
+          This returns the metadata for a given object
+          or nil if it has none.
+          It is useful for finding the source code
+          that defines a given function.
+        </td>
+        <td>
+          (meta (var first))<br />
+          (meta #'first)<br />
+          ^#'first
+        </td>
+      </tr>
+      <tr>
+        <td>monitor-enter</td>
+        <td>x</td>
+        <td>Use the locking macro instead.</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>monitor-exit</td>
+        <td>x</td>
+        <td>Use the locking macro instead.</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>namespace</td>
+        <td>x</td>
+        <td>This returns the namespace string of a symbol or keyword.</td>
+        <td>(namespace 'foo) CAN'T GET THIS TO WORK!</td>
+      </tr>
+      <tr>
+        <td>neg?</td>
+        <td>x</td>
+        <td>This determines if x is less than zero.
+          Also see <code>pos?</code> and <code>zero?</code>.</td>
+        <td>(neg? 3) -> true</td>
+      </tr>
+      <tr>
+        <td>new</td>
+        <td>classname-symbol arg*</td>
+        <td>
+          This constructs a new object from a Java class.
+          If the Java class has been imported into the current namespace
+          then it can be referred to by just the class name.
+          Otherwise the package-qualified name must be used.
+          A shorthand for this is <code>(classname. arg*)</code>.
+        </td>
+        <td>
+          (new Date)<br />
+          (new java.io.Date)<br />
+          (Date.)<br />
+          (java.util.Date.)
+        </td>
+      </tr>
+      <tr>
+        <td>not=</td>
+        <td>expr1 expr2</td>
+        <td>
+          This determines if two expressions evaluate to different values.
+          Also see =.
+        </td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>ns</td>
+        <td></td>
+        <td>
+          This sets the default namespace, creates it if it doesn't exist,
+          and can also import Java classes into the namespace.
+          It is recommended to use this for defining new namespaces
+          at the top of a .clj file instead of <code>in-ns</code>.
+        </td>
+        <td>
+          (ns foo)<br />
+          (ns foo (:import (java.util Date List))<br />
+        </td>
+      </tr>
+      <tr>
+        <td>ns-publics</td>
+        <td>namespace</td>
+        <td>This returns a map of the public functions and macros
+          in the given namespace.</td>
+        <td>(sort (map first (ns-publics 'clojure.core)))</td>
+      </tr>
+      <tr>
+        <td>ns-resolve</td>
+        <td>namespace symbol</td>
+        <td>This returns the var or class to which the symbol will be
+          resolved in the namespace, or nil if it isn't known.</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>nth</td>
+        <td>collection index</td>
+        <td>This returns the item in the collection at the given index.</td>
+        <td>(nth [2 5 7] 1) -> 5</td>
+      </tr>
+      <tr>
+        <td>number?</td>
+        <td>expression</td>
+        <td>This tests whether an expression evaluates to a number.</td>
+        <td>(number? 3.14)</td>
+      </tr>
+      <tr>
+        <td>odd?</td>
+        <td>arg</td>
+        <td>This determines whether the argument is odd.
+          Also see <code>even?</code>.</td>
+        <td>(odd? 2) -> false</td>
+      </tr>
+      <tr>
+        <td>or</td>
+        <td>expression*</td>
+        <td>
+          This evaluates the expressions from left to right,
+          stopping and returning true as soon as
+          one of them evaluates to true.
+          If none do, the value of the last expression is returned.
+        </td>
+        <td>(or (< x 10) y) -> true or y</td>
+      </tr>
+      <tr>
+        <td>partial</td>
+        <td>function arg*</td>
+        <td>
+          This returns a new function that
+          accepts any number of arguments,
+          adds them to end of the list of arguments specified here,
+          and passes all of them to the specified function.
+        </td>
+        <td>
+          (def times2 (partial * 2))<br />
+          (times2 3 4) -> 34
+        </td>
+      </tr>
+      <tr>
+        <td>peek</td>
+        <td>collection</td>
+        <td>
+          For a list, this returns the first item.
+          For a vector, this returns the last item.
+          The reason for the differnce is that conj adds items
+          to different ends of these collection types.
+        </td>
+        <td>
+          (peek '(1 2 3)) -> 1 
+          (peek [1 2 3]) -> 3 
+        </td>
+      </tr>
+      <tr>
+        <td>pop</td>
+        <td>collection</td>
+        <td>
+          For a list, this returns a new list without the first item.
+          For a vector, this returns a new vector without the last item.
+          The reason for the differnce is that conj adds items
+          to different ends of these collection types.
+        </td>
+        <td>
+          (pop '(1 2 3)) -> (2 3)
+          (pop [1 2 3]) -> [1 2]
+        </td>
+      </tr>
+      <tr>
+        <td>pos?</td>
+        <td>x</td>
+        <td>This determines if x is greater than zero.
+          Also see <code>neg?</code> and <code>zero?</code>.</td>
+        <td>(pos? 3) -> true</td>
+      </tr>
+      <tr>
+        <td>pr</td>
+        <td>expr*</td>
+        <td>
+          This prints the value of each expression,
+          separated by spaces, without a newline at the end.
+          Also see <code>prn</code> and <code>println</code>.
+        <td>(pr "Hello!")</td>
+      </tr>
+      <tr>
+        <td>pr-str</td>
+        <td>arg*</td>
+        <td>This prints the arguments to a string and returns it.</td>
+        <td>(pr-str 19 \x) -> "19 x"</td>
+      </tr>
+      <tr>
+        <td>prn</td>
+        <td>expr*</td>
+        <td>
+          This prints the value of each expression,
+          separated by spaces, with a newline at the end.
+          Also see <code>pr</code> and <code>println</code>.
+        </td>
+        <td>(prn "Hello" 19) -> "Hello" 19</td>
+      </tr>
+      <tr>
+        <td>printf</td>
+        <td>format arg*</td>
+        <td>This prints formatted output.</td>
+        <td>(printf "price of %s is %.2f" "car" (/ 10000 3.0))<br />
+          price of car is 3333.33</td>
+      </tr>
+      <tr>
+        <td>println</td>
+        <td></td>
+        <td>
+          This prints the value of each expression,
+          separated by spaces, with a newline at the end.
+          Also see <code>pr</code> and <code>prn</code>.
+        </td>
+        <td>(println "Hello" 19) -> Hello 19</td>
+      </tr>
+      <tr>
+        <td>proxy</td>
+        <td></td>
+        <td>This creates in instance of a proxy class that
+          extends a given class and implements the given interfaces.</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>quot</td>
+        <td>dividend divisor</td>
+        <td>This performs integer division
+          where the float result is truncated.</td>
+        <td>(quot 5 3) -> 1</td>
+      </tr>
+      <tr>
+        <td>quote</td>
+        <td>form</td>
+        <td>
+          This returns the unevaluated <i>form</i>.
+          It is useful for avoiding treating the first item in a list
+          as a function name.</td>
+        <td>(quote (a b c)) is the same as '(a b c)</td>
+      </tr>
+      <tr>
+        <td>rand</td>
+        <td>n</td>
+        <td>This returns a random floating point number
+          between 0 (inclusive) and n (exclusive).</td>
+        <td>(rand 1)</td>
+      </tr>
+      <tr>
+        <td>rand-int</td>
+        <td>n</td>
+        <td>This returns a random integer between 0 (inclusive)
+          and n (exclusive).</td>
+        <td>(rand-int 10)</td>
+      </tr>
+      <tr>
+        <td>range</td>
+        <td>
+          end<br />
+          start end<br />
+          start end step<br />
+        </td>
+        <td>
+          This returns a lazy sequence of numbers.
+          start defaults to zero and step defaults to 1.
+          start is inclusive and end is exclusive.
+        </td>
+        <td>(range 2 10 2) -> (2 4 6 8)</td>
+      </tr>
+      <tr>
+        <td>re-find</td>
+        <td>regex string</td>
+        <td>This returns the regex matches, if any, in the string.
+          If groups are specified using parens in the regex
+          then a vector of matches is returned.</td>
+        <td>(re-find #"\d+" "ab19cd") -> "19"</td>
+      </tr>
+      <tr>
+        <td>re-groups</td>
+        <td></td>
+        <td>This returns the groups of matches
+          from the most recent match/find.</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>re-matcher</td>
+        <td>regex string</td>
+        <td>This returns an instance of <code>java.util.regex.Matcher</code>.
+          This can be passed to <code>re-find</code>.</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>re-matches</td>
+        <td>regex string</td>
+        <td>This returns the match, if any, in the string.</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>re-pattern</td>
+        <td>regex</td>
+        <td>This returns an instance of <code>java.util.regex.Pattern</code>
+          which can be passed to <code>re-matcher</code>.</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>re-seq</td>
+        <td>regex string</td>
+        <td>This returns a lazy sequence of
+          the regex matches in a string.</td>
+        <td>(re-seq #"\w+" "red green blue") 
+          -> ("red" "green" "blue")
+        </td>
+      </tr>
+      <tr>
+        <td>recur</td>
+        <td>expression*</td>
+        <td>
+          This makes a recursive call to the current function
+          using specified parameters.
+          Also see <code>loop</code>.
+        </td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>reduce</td>
+        <td>
+          function collection<br />
+          function value collection
+        </td>
+        <td>
+          This is like the <code>inject</code> function in Ruby.
+          The function must accept two arguments.
+          If a value is specified then the first result is obtained by
+          passing it and the first item in the collection to the function.
+          If no value is specified then the first result is obtained by
+          passing the first two items in the collection to the function.
+          After that, each result along with
+          the next item in the collection is passed to the function
+          until all items in the collection are processed.
+          The final result from the function is returned.
+        </td>
+        <td>
+          (reduce * (range 1 4)) -> 6<br />
+          (reduce conj [1 2] [3 4]) -> [1 2 3 4]
+        </td>
+      </tr>
+      <tr>
+        <td>ref</td>
+        <td>initial-value validation-function</td>
+        <td>
+          This creates and returns a Ref with an initial value and
+          an optional validation function that takes one argument.
+          New values are passed to the validation function
+          when a transaction is being committed.
+          The validation function should throw an exception
+          if the new value isn't valid.
+        </td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>rem</td>
+        <td>dividend divisor</td>
+        <td>This is the modulo function.
+          It returns the integer remainder of a division.</td>
+        <td>(rem 5 3) -> 2</td>
+      </tr>
+      <tr>
+        <td>remove</td>
+        <td>predicate collection</td>
+        <td>This returns a lazy sequence of the items in the collection
+          for which the predicate returns false.</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>repeat</td>
+        <td>expression</td>
+        <td>This returns an infinite, lazy sequence of
+          evaluations of the expression.</td>
+        <td>(take 3 (repeat 19)) -> (19 19 19)</td>
+      </tr>
+      <tr>
+        <td>repeatedly</td>
+        <td>function</td>
+        <td>This returns an infinite, lazy sequence of
+          calls to the function which must take no arguments.</td>
+        <td>(take 3 (repeatedly some-function))</td>
+      </tr>
+      <tr>
+        <td>replicate</td>
+        <td>n x</td>
+        <td>This returns a lazy sequence containing n occurrences of x.</td>
+        <td>(replicate 3 "Ho!") -> ("Ho!" "Ho!" "Ho!")</td>
+      </tr>
+      <tr>
+        <td>require</td>
+        <td></td>
+        <td>This loads libraries of Clojure code.</td>
+        <td>
+          (require '[clojure.contrib.str-utils :as util])<br />
+          Now functions like str-join can be invoked with (util/str-join ...)
+        </td>
+      </tr>
+      <tr>
+        <td>rseq</td>
+        <td>vector-or-sorted-map</td>
+        <td>This returns a reverse sequence for
+          a given vector or sorted-map.</td>
+        <td>(rseq [1 2 3]) -> (3 2 1)</td>
+      </tr>
+      <tr>
+        <td>reverse</td>
+        <td>sequence</td>
+        <td>Creates a sequence in the reverse order.</td>
+        <td>(reverse "abc")</td>
+      </tr>
+      <tr>
+        <td>second</td>
+        <td>sequence</td>
+        <td>This returns the second item in a sequence.
+          It is a shorthand for (first (rest sequence)).</td>
+        <td>(second [:a :b :c]) -> :b</td>
+      </tr>
+      <tr>
+        <td>send</td>
+        <td></td>
+        <td>This dispatches an action to an agent
+          and returns the agent immediately.</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>seq?</td>
+        <td>x</td>
+        <td>Determines whether x implements the ISeq interface.</td>
+        <td>
+          (seq? '(1 2 3)) -> true
+          (seq? [1 2 3]) -> false
+          (seq? (seq [1 2 3])) -> true
+          (seq? #{1 2 3}) -> false
+          (seq? {:a 1 :b 2}) -> false
+        </td>
+      </tr>
+      <tr>
+        <td>set</td>
+        <td>collection</td>
+        <td>This returns a set of containing all the
+          distinct elements in collection.</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>set?</td>
+        <td>arg</td>
+        <td>This determines whether arg is a set.</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>set!</td>
+        <td></td>
+        <td>This sets an instance field or static field in a Java object.</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>short</td>
+        <td>x</td>
+        <td>This coerces x to a short value.</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>some</td>
+        <td></td>
+        <td></td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>sort</td>
+        <td>
+          collection<br />
+          comparator collection
+        </td>
+        <td>
+          This returns a sorted sequence of the items in the collection.
+          If no <code>java.util.Comparator</code> is supplied,
+          the <code>compare</code> method of the objects is used.
+        </td>
+        <td>(sort ["grape" "banana" "apple"]) -> ("apple" "banana" "grape")</td>
+      </tr>
+      <tr>
+        <td>sort-by</td>
+        <td>
+          key-function collection<br />
+          key-function comparator collection
+        </td>
+        <td>
+          This returns a sorted sequence of the items in the collection.
+          If no <code>java.util.Comparator</code> is supplied,
+          the <code>compare</code> method of the
+          key-function return values is used.
+        </td>
+        <td>
+          Sort strings by their length.<br />
+          (sort-by (fn [item] (count item)) ["grape" "banana" "pear"]) -> ("pear" "grape" "banana")</td>
+      </tr>
+      <tr>
+        <td>sorted-set</td>
+        <td></td>
+        <td>
+          This creates a set that maintains its items in sorted order.
+        </td>
+        <td>(into (sorted-set) [7 3 1]) -> #{1 3 7}</td>
+      </tr>
+      <tr>
+        <td>split-at</td>
+        <td>n collection</td>
+        <td>This splits a collection into two lists
+          and places them in a vector which is returned.
+          It is a shorthand for [(take n collection) (drop n collection)].
+      </td>
+        <td>(split-at 3 [1 2 3 4 5 6]) -> [(1 2 3) (4 5 6)]
+      </td>
+      </tr>
+      <tr>
+        <td>split-with</td>
+        <td>predicate collection</td>
+        <td>This returns a vector of sub-collections,
+          split using the given predicate function.</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>str</td>
+        <td>expr*</td>
+        <td>This converts each argument to a string and concatenates them.</td>
+        <td>(str 1 "two" 3) -> "1two3"</td>
+      </tr>
+      <tr>
+        <td>string?</td>
+        <td>expression</td>
+        <td>This tests whether an expression evaluates to a string.</td>
+        <td>(string? "foo")</td>
+      </tr>
+      <tr>
+        <td>subvec</td>
+        <td>
+          vector start<br />
+          vector start end<br />
+        </td>
+        <td>
+          This returns a new vector containing
+          a subset of the items in vector.
+          start is inclusive and end is exclusive.
+          end defaults to (count vector).
+          The resulting vector shares a part of the structure
+          of the original, so this is very fast.
+        </td>
+        <td>(subvec [2 5 7 10] 1 3) -> [5 7]</td>
+      </tr>
+      <tr>
+        <td>symbol</td>
+        <td>namespace name</td>
+        <td>This creates a symbol with a given name
+          in a given namespace.
+          Also see <code>defsym</code>.</td>
+        <td>(defsym (symbol "user" "bar") 42) ; sets the bar symbol in the user namespace to 42 - THIS DOESN'T WORK!</td>
+      </tr>
+      <tr>
+        <td>take</td>
+        <td>n collection</td>
+        <td>This returns a lazy sequence of the first n elements
+          in the given collection.</td>
+        <td>(take 3 (repeat 19)) -> (19 19 19)</td>
+      </tr>
+      <tr>
+        <td>take-nth</td>
+        <td>n collection</td>
+        <td>This returns a lazy sequence of
+          every nth item in the collection starting with the first.</td>
+        <td>(take-nth 2 [1 2 3 4 5 6]) -> (1 3 5)</td>
+      </tr>
+      <tr>
+        <td>take-while</td>
+        <td>predicate lazy-seq</td>
+        <td>This returns items from a lazy sequence
+          while the predicate returns true.</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>throw</td>
+        <td>expression</td>
+        <td>
+          This evaluates an expression that should return a Throwable object
+          and then throws that.
+        </td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>throws</td>
+        <td></td>
+        <td></td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>time</td>
+        <td>expression</td>
+        <td>This evaluates an expression, prints the time it took,
+          and returns the value of the expression.
+          Often this is used together with <code>dotimes</code>.</td>
+        <td>(time (* 11 12 13))</td>
+      </tr>
+      <tr>
+        <td>update-in</td>
+        <td>struct [key-sequence] function arg*</td>
+        <td>
+          This updates a value in a nested, associative structure.
+          Also see <code>dosync</code> and <code>commute</code>.
+        </td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>use</td>
+        <td></td>
+        <td>
+          This loads libraries of Clojure code, like <code>require</code>,
+          and it imports the functions into the current namespace.</td>
+        <td>
+          (use '[clojure.contrib.pred])<br />
+          (use '[clojure.contrib.str-utils :only (str-join)])
+        </td>
+      </tr>
+      <tr>
+        <td>var</td>
+        <td>symbol</td>
+        <td>
+          This resolves <i>symbol</i> to a var and returns the var.
+          A shorthand for <code>(var symbol)</code>
+          is <code>#'symbol</code>.
+        </td>
+        <td>
+          (var first)<br />
+          (meta #'first)
+        </td>
+      </tr>
+      <tr>
+        <td>vec</td>
+        <td>collection</td>
+        <td>This creates a new vector containing
+          the contents of the collection.</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>vector</td>
+        <td>expr*</td>
+        <td>This creates a new vector containing
+          the values of the expressions.</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>vector?</td>
+        <td>arg</td>
+        <td>This determines whether arg is a vector.</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>when</td>
+        <td>test body</td>
+        <td>
+          If the test evaluates to true,
+          this evaluates all the expressions in the body
+          as if they were inside a <code>do</code>.
+          Also see <code>when-not</code>.
+        </td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>when-not</td>
+        <td>test body</td>
+        <td>
+          If the test evaluates to false,
+          this evaluates all the expressions in the body
+          as if they were inside a <code>do</code>.
+          Also see <code>when</code>.
+        </td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>with-in-str</td>
+        <td>string body</td>
+        <td>
+          This evaluates body in a context where stdin
+          comes from a new StringReader on the string.
+        </td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>with-meta</td>
+        <td>obj map</td>
+        <td>This returns a new object of the same type and value as obj,
+          with the map as its metadata.</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>with-open</td>
+        <td>[binding*] body</td>
+        <td>
+          This evaluates the body in a try
+          with the specified bindings in effect,
+          typically to open a resource that must later be closed.
+          When finished it calls <code>(.close name)</code>
+          where <code>name</code> is the first binding.
+        </td>
+        <td>
+           (with-open [fw (new java.io.FileWriter "temp.txt")]
+             (.write fw "line 1\n")
+             (.write fw "line 2\n"))
+         </td>
+      </tr>
+      <tr>
+        <td>zero?</td>
+        <td>arg</td>
+        <td>This determines whether the argument is zero.
+          Also see <code>neg?</code> and <code>pos?</code>.</td>
+        <td>(zero? foo)</td>
+      </tr>
+      <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td>&nbsp;</td>
+      </tr>
+    </table>
+
+    <hr />
+    <p style="text-align:center">
+      Copyright &#169; 2008 Object Computing, Inc. All rights reserved.
+    </p>
+  </body>
+</html>

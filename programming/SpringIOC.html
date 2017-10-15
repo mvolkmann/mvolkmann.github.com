@@ -1,0 +1,467 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR.html1/DTD.html1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999.html">
+  <head>
+    <title>Spring IOC</title>
+    <link rel="stylesheet" type="text/css" href="../common.css"/>
+  </head>
+  <body>
+    <a name="top"/>
+    <h2>Spring Inversion of Control (IOC)</h2>
+    
+    <h3>Contents</h3>
+    <a href="#Introduction">Introduction</a><br/>
+    <a href="#Installing">Installing</a><br/>
+    <a href="#Usage">Usage</a><br/>
+    <a href="#Example">Example</a><br/>
+    <a href="#XMLConfigurationDetails">XML Configuration Details</a><br/>
+
+    <a name="Introduction"/>
+    <h3>Introduction</h3>
+    <p>
+      Inversion of control is a technique that allows object configuration
+      to be moved out of code and into a configuration file.
+      With Spring IOC, this is typically done with an XML file.
+      Some of the key features of Spring IOC are
+      setter injection, constructor injection and auto-wiring.
+      These are demonstrated in the example below.
+    </p>
+    <p>
+      Javadoc for all of the Spring Framework can be found
+      <a target="_blank" href="http://static.springframework.org/spring/docs/2.0.x/api/index.html">here</a>.
+    </p>
+
+    <a name="Installing"/>
+    <h3>Installing <a class="toplink" href="#top">top</a></h3>
+    <p>
+      Spring can be downloaded from <a target="_blank"
+      href="http://www.springframework.org">here</a>.
+      To use it from Java applications, insure that spring.jar,
+      found in the dist subdirectory, is in the classpath.
+    </p>
+
+    <a name="Usage"/>
+    <h3>Usage <a class="toplink" href="#top">top</a></h3>
+    <p>
+      The basic steps to use Spring IOC are:
+      <ol>
+        <li>
+          Write Java Bean classes, with get and set methods
+          for each property to be configured by Spring.
+          These can optionally implement interfaces.
+        </li>
+        <li>
+          Create an XML file the describes the Java Beans to be configured.
+          Beans can also be described using a Java property file,
+          but using XML is more common.
+        </li>
+        <li>
+          Use an <a target="_blank" href="http://static.springframework.org/spring/docs/2.0.x/api/org/springframework/beans/factory/xml/XmlBeanFactory.html">
+          XMLBeanFactory</a> to create configured beans.
+          There are other ways to read bean descriptions,
+          but using an XmlBeanFactory is more common.
+        </li>
+      </ol>
+    </p>
+
+    <p>
+      Here is the basic layout of a Spring XML configuration file.
+    </p>
+      
+    <pre><div class="code">
+&lt;?xml version="1.0" encoding="UTF-8"?>
+&lt;!DOCTYPE beans
+  PUBLIC "-//SPRING//DTD BEAN//EN"
+  "http://www.springframework.org/dtd/spring-beans.dtd">
+&lt;beans>
+  &lt;bean ...>...&lt;/bean>+
+&lt;/beans></div></pre>
+
+    <p>
+      XMLBeanFactory validates the XML, so the DOCTYPE is required.
+    </p>
+
+    <p>
+      To use an XMLBeanFactory, write code similar to this.
+    </p>
+
+    <pre><div class="code">
+import org.springframework.beans.factory.BeanFactory;
+import org.springframework.beans.factory.xml.XmlBeanFactory;
+import org.springframework.core.io.FileSystemResource;
+
+...
+
+BeanFactory beanFactory =
+  new XmlBeanFactory(new FileSystemResource("spring-beans.xml"));
+// Also consider using ClassPathResource.
+MyBeanInterface bean = (MyBeanInterface) beanFactory.getBean("myBeanId");</div></pre>
+
+    <p>
+      To read the XML file from the WAR of a web app.,
+      use <a target="_blank" href="http://static.springframework.org/spring/docs/2.0.x/api/org/springframework/core/io/ClassPathResource.html">ClassPathResource</a>
+      instead of
+      <a target="_blank" href="http://static.springframework.org/spring/docs/2.0.x/api/org/springframework/core/io/FileSystemResource.html">FileSystemResource</a>.
+      To read the XML file from a URL, use <a target="_blank" href="http://static.springframework.org/spring/docs/2.0.x/api/org/springframework/core/io/UrlResource.html">UrlResource</a>.
+      See the javadoc for
+      <a target="_blank" href="http://static.springframework.org/spring/docs/2.0.x/api/org/springframework/core/io/Resource.html">org.springframework.core.io.Resource</a>
+      for more options.
+    </p>
+
+    <a name="Example"/>
+    <h3>Example <a class="toplink" href="#top">top</a></h3>
+    <p>
+      This example demonstrates the following.
+      <ul>
+        <li>setter injection with primitive values -
+          creating a Config bean</li>
+        <li>constructor injection with primitive values -
+          creating a Config bean</li>
+        <li>setter injection with bean values -
+          create a MyServiceImpl that has a Config property</li>
+        <li>auto-wiring -
+          creating an Insurance bean that has a Car property</li>
+      </ul>
+    </p>
+
+    <p>
+      Here is the XML configuration file, spring-beans.xml.
+      Note how the property names match the get/set methods
+      in the associated bean classes.
+    </p>
+    <pre><div class="code">
+&lt;?xml version="1.0" encoding="UTF-8"?>
+&lt;!DOCTYPE beans
+  PUBLIC "-//SPRING//DTD BEAN//EN"
+  "http://www.springframework.org/dtd/spring-beans.dtd">
+
+&lt;beans>
+
+  &lt;!-- This demonstrates setter injection. -->
+  &lt;bean id="config1" class="com.ociweb.springdemo.Config">
+    &lt;!-- can specify value with a child element -->
+    &lt;property name="color">
+      &lt;value>yellow&lt;/value>
+    &lt;/property>
+    &lt;!-- can specify value with an attribute -->
+    &lt;property name="number" value="19"/>
+  &lt;/bean>
+
+  &lt;!-- This demonstrates constructor injection. -->
+  &lt;bean id="config2" class="com.ociweb.springdemo.Config">
+    &lt;constructor-arg value="yellow"/>
+    &lt;constructor-arg value="19"/>
+  &lt;/bean>
+
+  &lt;!-- This demonstrates setter injection of another bean. -->
+  &lt;bean id="myService1" class="com.ociweb.springdemo.MyServiceImpl">
+     &lt;property name="config" ref="config1"/>
+  &lt;/bean>
+
+  &lt;!-- This bean doesn't need an id because it will be
+       associated with another bean via autowire by type. -->
+  &lt;bean class="com.ociweb.springdemo.Car">
+    &lt;property name="make" value="Honda"/>
+    &lt;property name="model" value="Prelude"/>
+    &lt;property name="year" value="1997"/>
+    &lt;property name="color" value="black"/>
+  &lt;/bean>
+
+  &lt;!-- This demonstrates auto-wiring by type. -->
+  &lt;!-- Valid values for the autowire attribute are
+  no, byName, byType, constructor, autodetect and default. -->
+  &lt;bean id="insurance1" class="com.ociweb.springdemo.InsuranceImpl"
+    autowire="byType">
+     &lt;!-- If Insurance had properties that couldn't be set by type,
+          child elements such as the following would be needed. -->
+     &lt;!--property name="otherProperty" value="otherValue"/-->
+  &lt;/bean>
+
+&lt;/beans>
+</div></pre>
+
+    <p>
+      Here is the Config class.
+      Note how the get/set methods for color and number
+      match the property names in the "config1" bean
+      in the XML configuration file.
+      Also, note how the Config class has a constructor that accepts
+      the constructor-arg values in the "config2" bean
+      in the XML configuration file.
+    </p>
+    <pre><div class="code">
+package com.ociweb.springdemo;
+
+public class Config {
+
+  private String color;
+  private int number;
+
+  public Config() {}
+
+  public Config(String color, int number) {
+    this.color = color;
+    this.number = number;
+  }
+
+  public void setColor(String color) { this.color = color; }
+  public String getColor() { return color; }
+
+  public void setNumber(int number) { this.number = number; }
+  public int getNumber() { return number; }
+
+  public String toString() {
+    return "Config: color=" + color + ", number=" + number;
+  }
+}
+</div></pre>
+
+    <p>
+      Here is the MyService interface.
+      Note how the getConfig/setConfig methods
+      match the config property of the "myService1" bean
+      in the XML configuration file.
+      The Config bean that will be passed to the setConfig method
+      is the one with an id of "config1".
+    </p>
+    <pre><div class="code">
+package com.ociweb.springdemo;
+
+public interface MyService {
+
+  public void setConfig(Config config);
+  public Config getConfig();
+
+  public void doSomething();
+}
+</div></pre>
+
+    <p>
+      Here is the MyServiceImpl class.
+      It implements the MyService interface.
+    </p>
+    <pre><div class="code">
+package com.ociweb.springdemo;
+
+public class MyServiceImpl implements MyService {
+
+  private Config config;
+
+  public Config getConfig() { return config; }
+  public void setConfig(Config config) { this.config = config; }
+
+  public void doSomething() {
+    System.out.println("config = " + config);
+  }
+}
+</div></pre>
+
+    <p>
+      Here is the Car class.
+      Note how the get/set methods for color, make, model and year
+      match the property names in the Car bean
+      in the XML configuration file.
+    </p>
+    <pre><div class="code">
+package com.ociweb.springdemo;
+
+public class Car {
+
+  private String color;
+  private String make;
+  private String model;
+  private int year;
+
+  public String getColor() { return color; }
+  public String getMake() { return make; }
+  public String getModel() { return model; }
+  public int getYear() { return year; }
+
+  public void setColor(String color) { this.color = color; }
+  public void setMake(String make) { this.make = make; }
+  public void setModel(String model) { this.model = model; }
+  public void setYear(int year) { this.year = year; }
+
+  public String toString() {
+    return year + " " + make + " " + model + " in " + color;
+  }
+}
+</div></pre>
+
+    <p>
+      Here is the Insurance interface.
+      Note how the getCar/setCar methods
+      do not match any property name in the insurance1 bean
+      in the XML configuration file.
+      This is because auto-wiring is being used.
+      There must be only one configured bean that is a
+      com.ociweb.springdemo.Car object.
+      Since this interface has get/set methods for that type of object,
+      it will be configured with that one Car bean.
+    </p>
+    <pre><div class="code">
+package com.ociweb.springdemo;
+
+public interface Insurance {
+
+  public void setCar(Car car);
+  public Car getCar();
+
+  public void getQuote();
+}
+</div></pre>
+
+    <p>
+      Here is the InsuranceImpl class.
+      It implements the Insurance interface.
+    </p>
+    <pre><div class="code">
+package com.ociweb.springdemo;
+
+public class InsuranceImpl implements Insurance {
+
+  private Car car;
+
+  public Car getCar() { return car; }
+  public void setCar(Car car) { this.car = car; }
+
+  public void getQuote() {
+    System.out.println("quote for " + car + " is ?");
+  }
+}
+</div></pre>
+
+    <p>
+      Here is the class that obtains and uses beans
+      that are created and configured using Spring IOC.
+    </p>
+    <pre><div class="code">
+package com.ociweb.springdemo;
+
+import org.springframework.beans.factory.BeanFactory;
+import org.springframework.beans.factory.xml.XmlBeanFactory;
+import org.springframework.core.io.FileSystemResource;
+
+public class Demo {
+
+  public static void main(String[] args) {
+    BeanFactory beanFactory =
+      new XmlBeanFactory(new FileSystemResource("spring-beans.xml"));
+
+    // Get a bean configured from primitive values.
+    Config config = (Config) beanFactory.getBean("config1");
+    System.out.println("config = " + config);
+
+    // Get a bean configured from another bean.
+    MyService myService = (MyService) beanFactory.getBean("myService1");
+    myService.doSomething();
+
+    // Get a bean configured through auto-wire by type.
+    Insurance insurance = (Insurance) beanFactory.getBean("insurance1");
+    System.out.println("insurance is for " + insurance.getCar());
+  }
+}
+</div></pre>
+
+    <a name="XMLConfigurationDetails"/>
+    <h3>XML Configuration Details
+      <a class="toplink" href="#top">top</a></h3>
+    <p>
+      For details on the syntax of the XML configuration files,
+      see <a target="_blank"
+      href="http://www.springframework.org/docs/reference/springbeansdtd.html">spring-beans-2.0.dtd</a>.
+    </p>
+    <p>
+      The allowed attributes of the beans element are
+      <ul>
+        <li>default-autowire</li>
+        <li>default-dependency-check</li>
+        <li>default-destroy-method</li>
+        <li>default-init-method</li>
+        <li>default-lazy-init</li>
+        <li>default-merge</li>
+      </ul>
+    </p>
+    <p>
+      The allowed child elements of the beans element are
+      <ul>
+        <li>description?</li>
+        <li>import*</li>
+        <li>alias*</li>
+        <li>bean*</li>
+      </ul>
+    </p>
+
+    <p>
+      The allowed attributes of the bean element are
+      <ul>
+        <li>abstract</li>
+        <li>autowire</li>
+        <li>autowire-candidate</li>
+        <li>class</li>
+        <li>dependency-check</li>
+        <li>depends-on</li>
+        <li>destroy-method</li>
+        <li>factory-bean</li>
+        <li>factory-method</li>
+        <li>id</li>
+        <li>init-method</li>
+        <li>lazy-init</li>
+        <li>name</li>
+        <li>parent</li>
+        <li>scope</li>
+      </ul>
+    </p>
+    <p>
+      The allowed child elements of the bean element are
+      <ul>
+        <li>description?</li>
+        <li>meta*</li>
+        <li>constructor-arg*</li>
+        <li>property*</li>
+        <li>lookup-method*</li>
+        <li>replaced-method*</li>
+      </ul>
+    </p>
+
+    <p>
+      The constructor-arg element, a child of bean elements,
+      is used in constructor injection.
+    </p>
+    <p>
+      The allowed attributes of the constructor-arg element are
+      <ul>
+        <li>value - a literal value (can also use value child element)</li>
+        <li>ref - id of a bean to use as the value, conflicts with value</li>
+        <li>index - index of the argument in the constructor starting at zero<br/>
+          This is not needed if constructor-arg elements
+          appear in the correct order.</li>
+        </li>
+        <li>type - type of an arg in the ctor</li>
+      </ul>
+      Note that index and type are only needed to avoid<
+      selecting the wrong overloaded constructor.
+    </p>
+    <p>
+      The allowed child elements of the constructor-arg element are
+      <ul>
+        <li>description?</li>
+        <li>(bean|ref|idref|value|null|list|set|map|props)?</li>
+      </ul>
+    </p>
+
+    <p>
+      The meta element, a child of bean elements,
+      is used to attach arbitrary metadata to beans.
+      It has key and value attributes.
+      It is not used by Spring, but could be used by
+      custom code that parses this XML.
+    </p>
+
+    <hr />
+    <p style="text-align:center">
+      Copyright &#169; 2007 Object Computing, Inc. All rights reserved.
+    </p>
+  </body>
+</html>

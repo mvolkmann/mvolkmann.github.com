@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR.html1/DTD.html1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999.html">
+  <head>
+    <title>Recording.java</title>
+    <link rel="stylesheet" type="text/css" href="../../common.css"/>
+  </head>
+  <body>
+    <h2>Recording.java</h2>
+    
+    <pre><div class="code">package com.ociweb.demo;
+
+import com.ociweb.lang.ObjectUtil;
+import java.util.*;
+
+/**
+ * This is just a Java Bean.
+ */
+public class Recording {
+
+  private Artist artist;
+  private List&lt;Track> tracks = new ArrayList&lt;Track>();
+  private String title;
+  private int year;
+
+  public Recording() {}
+  public Recording(Artist artist, String title, int year) {
+    // Note that JSON-lib can't handle circular dependencies
+    // so the Recording objects can't hold a reference to their Artist
+    // because the Artist holds a reference to them.
+    // This is why we're not holding onto the Artist here.
+    //this.artist = artist;
+    this.title = title;
+    this.year = year;
+  }
+
+  public void addTrack(Track track) {
+    tracks.add(track);
+  }
+
+  public Track addTrack(String name, int rating) {
+    Track t = new Track(this, name, rating);
+    addTrack(t);
+    return t;
+  }
+
+  public boolean equals(Object obj) {
+    if (obj == null) return false;
+    if (obj == this) return true;
+    if (!(obj instanceof Recording)) return false;
+    Recording r = (Recording) obj;
+
+    boolean sameArtist =
+      artist == null ? r.artist == null :
+      ObjectUtil.equals(artist.getName(), r.artist.getName());
+
+    return sameArtist &&
+      ObjectUtil.equals(title, r.title) &&
+      year == r.year;
+  }
+
+  public Artist getArtist() { return artist; }
+  public void setArtist(Artist artist) { this.artist = artist; }
+
+  public String getTitle() { return title; }
+  public void setTitle(String title) { this.title = title; }
+
+  public List&lt;Track> getTracks() { return tracks; }
+  public void setTracks(List&lt;Track> tracks) {
+    this.tracks = tracks;
+  }
+
+  public int getYear() { return year; }
+  public void setYear(int year) { this.year = year; }
+
+  public String toString() {
+    return "Recording: " + title +
+      " by " + (artist == null ? "null" : artist.getName()) +
+      " from " + year;
+  }
+}</div></pre>
+
+    <hr/>
+    <p style="text-align:center">
+      Copyright &#169; 2007 Object Computing, Inc. All rights reserved.
+    </p>
+  </body>
+</html>

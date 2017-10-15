@@ -1,0 +1,3 @@
+#!/bin/sh
+ant -buildfile build-oci.xml
+#ant -buildfile build-home.xml

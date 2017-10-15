@@ -1,0 +1,77 @@
+  <target name="bookmarks" description="creates bookmarks.html">
+    <xslt in="bookmarks.xml" style="bookmarks.xslt" out="bookmarks.html"/>
+  </target>
+
+  <target name="copy.files"
+    description="copies some files to this directory">
+
+    <copy todir=".">
+      <fileset dir="/Users/Mark/Documents/OCI/SVN/projects/Save-A-Lot/website">
+        <include name="common.css"/>
+      </fileset>
+    </copy>
+
+    <copy todir="programming">
+      <fileset dir="/Users/Mark/Documents/OCI/SVN/projects/Save-A-Lot/website/programming">
+        <include name="Abator.html"/>
+        <include name="ActiveRecord.html"/>
+        <include name="ActiveRecord/**"/>
+        <include name="GWT.html"/>
+        <include name="GWT_IDEA.html"/>
+        <include name="iBATIS.html"/>
+        <include name="Java5.html"/>
+        <include name="JavaLogging.html"/>
+        <include name="JSON.html"/>
+        <include name="JSON/**"/>
+        <include name="Log4J.html"/>
+        <include name="SpringIOC.html"/>
+        <include name="SpringTransactions.html"/>
+        <include name="XStream.html"/>
+        <include name="XStream/**"/>
+      </fileset>
+    </copy>
+
+    <copy todir="images">
+      <fileset dir="/Users/Mark/Documents/OCI/SVN/projects/Save-A-Lot/website/images">
+        <include name="*.gif"/>
+        <include name="*.jpg"/>
+        <include name="*.png"/>
+      </fileset>
+    </copy>
+
+  </target>
+
+  <target name="release" depends="bookmarks, copy.files"
+    description="copies files to Charter web space">
+
+    <echo>copying non-binary files to ${server}</echo>
+    <ftp server="${server}" userid="${username}" password="${password}"
+      newer="yes" binary="no" passive="yes">
+      <fileset dir=".">
+        <include name="**/*.css"/>
+        <include name="**/*.html"/>
+        <include name="**/*.jnlp"/>
+        <include name="**/*.js"/>
+        <include name="**/*.php"/>
+        <include name="**/*.xml"/>
+      </fileset>
+    </ftp>
+
+    <echo>copying binary files to ${server}</echo>
+    <ftp server="${server}" userid="${username}" password="${password}"
+      newer="yes" binary="yes" passive="yes">
+      <fileset dir=".">
+        <include name="**/*.air"/>
+        <include name="**/*.class"/>
+        <include name="**/*.gif"/>
+        <include name="**/*.jar"/>
+        <include name="**/*.jpeg"/>
+        <include name="**/*.jpg"/>
+        <include name="**/*.mp3"/>
+        <include name="**/*.pdf"/>
+        <include name="**/*.png"/>
+        <include name="**/*.swf"/>
+        <include name="**/*.zip"/>
+      </fileset>
+    </ftp>
+  </target>

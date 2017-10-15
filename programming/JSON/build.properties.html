@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR.html1/DTD.html1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999.html">
+  <head>
+    <title>JSON build.properties</title>
+    <link rel="stylesheet" type="text/css" href="../../common.css"/>
+  </head>
+  <body>
+    <h2>JSON build.properties</h2>
+    
+    <pre><div class="code">programming.dir=/Users/Mark/Documents/Programming
+java.dir=${programming.dir}/Languages/Java
+
+# The following JAR comes from http://json-lib.sourceforge.net/.
+json.lib.dir=${java.dir}/JSON/JSON-lib
+json.lib.jar=${json.lib.dir}/json-lib-1.0b2-jdk15.jar
+
+# The following JARs come from http://jakarta.apache.org/commons/.
+# JSON-lib depends on these.
+commons.dir=${java.dir}/JakartaCommons
+commons.beanutils.dir=${commons.dir}/Beanutils/commons-beanutils-1.7.0
+commons.beanutils.jar=${commons.beanutils.dir}/commons-beanutils.jar
+commons.lang.dir=${commons.dir}/Lang/commons-lang-2.2
+commons.lang.jar=${commons.lang.dir}/commons-lang-2.2.jar
+commons.logging.dir=${commons.dir}/Logging/commons-logging-1.1
+commons.logging.jar=${commons.logging.dir}/commons-logging-1.1.jar
+
+# The following JAR comes from http://ezmorph.sourceforge.net/.
+# JSON-lib depends on this.
+ezmorph.jar=${json.lib.dir}/ezmorph-1.0.jar
+
+junit.dir=${java.dir}/JUnit/junit4.1
+junit.jar=${junit.dir}/junit-4.1.jar
+
+test=*</div></pre>
+
+    <hr/>
+    <p style="text-align:center">
+      Copyright &#169; 2007 Object Computing, Inc. All rights reserved.
+    </p>
+  </body>
+</html>

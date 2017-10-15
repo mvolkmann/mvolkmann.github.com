@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>BOX Grammar</title>
+    <link rel="stylesheet" type="text/css" href="box.css"/>
+  </head>
+
+  <body>
+    <div class="title">BOX Grammar</div>
+
+    <div class="grammar">[1] BOX ::= Encoding Node*</div>
+
+    <div class="grammar">[2] Encoding ::= 'A' | 'U'</div>
+    <div class="grammarComment">'A' for ASCII, 'U' for UTF-8</div>
+
+    <div class="grammar">[3] Node ::= (TypeCode TextSpec) | (TypeCodePlus Index)</div>
+    <div class="grammarComment">
+      1st option if first time the text is encountered; 2nd option otherwise
+    </div>
+
+    <div class="grammar">[4] TypeCode ::= 0 | 10 | ... | 90</div>
+    <div class="grammarComment">
+      See <a href="boxTypeCodes.html">this</a> for meaning of the values.
+    </div>
+
+    <div class="grammar">[5] TypeCodePlus ::= TypeCode <i>plus</i> IndexLength</div>
+
+    <div class="grammar">[6] IndexLength ::= 1 | 2 | 4</div>
+
+    <div class="grammar">[7] TextSpec ::= Length Text</div>
+
+    <div class="grammar">[8] Length ::= <i>a two byte integer</i></div>
+
+    <div class="grammar">[9] Text ::= <i>ASCII or UTF-8 text</i></div>
+
+    <div class="grammar">[10] Index ::= <i>a one, two or four-byte integer</i></div>
+  </body>
+</html>

@@ -1,0 +1,126 @@
+body {
+  /*background-color: linen;*/
+  background-color: #EEE;
+}
+
+div.code {
+  /* background: aliceblue; */
+  background: white;
+  border: dashed black 1px;
+  clear: both;
+  float: left;
+  font-family: monospace;
+  margin-bottom: 15px;
+  padding: 5px;
+  whitespace: pre;
+}
+
+div.code pre {
+  margin: 0;
+}
+
+h1 {
+  color: red;
+}
+
+h2 {
+  /* background: navajowhite; */
+  background: peachpuff;
+  border: solid darksalmon 5px;
+  padding: 5px;
+}
+
+h3 {
+  background: lightyellow;
+  border: solid black 1px;
+  clear: both;
+  padding: 5px;
+}
+
+h4 {
+  clear: both;
+}
+
+div, h1, h2, h3, ol, li, p, ul {
+  clear: both;
+}
+
+td {
+  vertical-align: top;
+  padding: 5px;
+}
+
+th {
+  background: thistle;
+}
+
+.abstract {
+  background: #F69;
+}
+
+.comment {
+  color: green;
+}
+
+.concrete {
+  background: #9F9;
+}
+
+.error {
+  border: dashed red 1px;
+  color: red;
+  font-weight: bold;
+}
+
+.header {
+  background: thistle;
+}
+
+.highlight {
+  color: red;
+}
+
+.level1 {
+  border-top: solid red 3pt;
+  color: purple;
+  font-size: 18pt;
+  font-weight: bold;
+  margin-bottom: 5px;
+  margin-top: 5px;
+}
+
+.level2 {
+  color: green;
+  font-size: 16pt;
+  font-weight: bold;
+}
+
+.level3, .level4, .level5 {
+  color: red;
+  font-size: 14pt;
+  font-weight: bold;
+}
+
+.mark {
+  color: black;
+  font-size: 12pt;
+  font-style: italic;
+}
+
+.no {
+  background: tomato;
+}
+
+.quote {
+  color: purple;
+  font-style: italic;
+  font-weight: bold;
+}
+
+.toplink {
+  font-size: small;
+}
+
+.yes {
+  background: lightgreen;
+}

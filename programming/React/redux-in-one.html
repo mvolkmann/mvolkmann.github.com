@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Redux in One</title>
+    <meta charset="utf-8">
+  </head>
+  <body>
+    <h1>Redux in One</h1>
+    <p>R. Mark Volkmann, Object Computing, Inc.</p>
+
+    <p>
+      <a href="https://github.com/reactjs/redux" target="_blank">Redux</a>
+      is a library for managing web application state.
+      It is frequently used with
+      <a href="https://facebook.github.io/react/" target="_blank">React</a>,
+      but can be used with other web frameworks/libraries.
+    </p>
+    <p>
+      I love Redux!  However, it does have a bit of a learning curve
+      and is overkill for small to medium sized web applications.
+      To use it one must learn about action types, action objects,
+      action creators, dispatch, and reducers.  Often other libraries
+      are added to the mix such as
+      <a href="https://github.com/reactjs/react-redux" target="_blank">react-redux</a>,
+      <a href="https://github.com/gaearon/redux-thunk" target="_blank">react-thunk</a>,
+      <a href="https://github.com/BerkeleyTrue/redux-epic" target="_blank">redux-epic</a>,
+      <a href="https://github.com/redux-saga/redux-saga" target="_blank">redux-saga</a>, and
+      <a href="https://github.com/jeffbski/redux-logic" target="_blank">redux-logic</a>.
+    </p>
+    <p>
+      One of the beautiful things about React is its simplicity.
+      Adding in all this complexity for state management spoils that,
+      especially for beginners.
+      But there is a much simpler approach that maintains
+      some of the spirit of Redux without the complexity.
+    </p>
+    <p>
+      Before I describe it, allow me to make some statements,
+      some of which might be controversial.
+    </p>
+    <ol>
+      <li>
+        If there will only ever be one of a thing in a program
+        and you can trust the developers not to do something unintended with it,
+        it's okay to put it in a global variable.
+      </li>
+      <li>
+        An alternative to polluting the global namespace is to
+        attach a value to an object that all users of the value can access.
+      </li>
+      <li>
+      In a React application, the <code>React</code> object is available
+        to all code that cares about state.
+      </li>
+      <li>Tradeoffs are worthwhile in some cases.</li>
+      <li>If you don't like these tradeoffs, please use Redux.</li>
+    </ol>
+    <p>
+      Okay, with all of that out of the way it's time to present
+      an alternative to Redux.  Ready?  Here it is!
+    </p>
+    <pre>
+      React.setState = this.setState.bind(this);</pre>
+    <p>
+      That's it. Done!
+    </p>
+    <p>
+      You can read about the setState method
+      <a href="https://facebook.github.io/react/docs/react-component.html#setstate" target="_blank">here</a>.
+    </p>
+    <p>
+      Do this in the constructor of the topmost component.
+      Call this from any component that needs to modify state.
+      Every time this is called, the one state object used throughout the app
+      (like the one store used in Redux) is updated.
+      This assumes you will pass all data needed by components to them through props.
+      Then the entire UI is rerendered, so any components that rely on the state change will get it.
+      Of course this is fast due to the virtual DOM.
+      In cases where it is not fast enough, components can
+      implement <code>componentShouldUpdate</code> to improve performance.
+    </p>
+    <p>
+      I'm very interested in feedback on this idea.
+      Please email me <a href="mailto:r.mark.volkmann@gmail.com">here</a>.
+    </p>
+  </body>
+</html>

@@ -1,0 +1,12 @@
+@charset "UTF-8";
+
+.label {
+    font-weight: bold;
+    text-align: right;
+}
+
+#map {
+    border: solid red 1px;
+    width: 400px;
+    height: 400px;
+}

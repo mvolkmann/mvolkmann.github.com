@@ -1,0 +1,161 @@
+<?xml version="1.0"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>NBP DynamicAction</title>
+    <link rel="stylesheet" type="text/css" href="common.css"/>
+  </head>
+
+  <body>
+    <div class="title">DynamicAction</div>
+
+    <p>
+      The <code>DynamicAction</code> class is a custom class that is used to
+      cause the menu item and/or toolbar button associated with an action
+      to appear when a given <code>TopComponent</code> is activated
+      and disappear when it is deactivated.
+      For information on using it, see
+      <a href="nbp_actions.html#conditional">here</a>.
+    </p>
+    <p>
+      This class uses two other custom classes,
+      <code><a href="nbp_MenuHelper.html">MenuHelper</a></code> and
+      <code><a href="nbp_ToolbarHelper.html">ToolbarHelper</a></code>.
+    </p>
+
+    <div class="code"><pre>
+package com.halliburton.gui;
+
+import java.awt.Component;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import javax.swing.JComponent;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JToolBar;
+import org.openide.util.actions.CallableSystemAction;
+import org.openide.windows.TopComponent;
+
+/**
+ * This class controls the visibility of the menu item and toolbar button
+ * associated with this action based on the active TopComponent.
+ * When this action is enabled, the menu item and toolbar button are displayed.
+ * When this action is disabled, they are hidden.
+ * If the menu bar containing the menu item becomes empty, it is hidden.
+ * If the toolbar containing the toolbar button becomes empty, it is hidden.
+ * When the menu item is made visible again,
+ * if the menu was hidden then it is made visible.
+ * When the toolbar button is made visible again,
+ * if the toolbar was hidden then it is made visible.
+ *
+ * Actions that want this behavior should extend this class.
+ *
+ * @author R. Mark Volkmann, Object Computing, Inc.
+ */
+public abstract class DynamicAction extends CallableSystemAction
+implements PropertyChangeListener {
+
+    private Class topComponentClass;
+    private Component toolbarButton;
+    private JMenu menu;
+    private JMenuBar menuBar;
+    private JMenuItem menuItem;
+    private JToolBar toolbar;
+    private int menuPosition;
+
+    /**
+     * Creates a DynamicAction.
+     * @param topComponentClass the Class of the TopComponent whose activation
+     *                          state should trigger visibility changes
+     */
+    public DynamicAction(Class topComponentClass) {
+        this.topComponentClass = topComponentClass;
+
+        // Listen for changes in the active TopComponent.
+        TopComponent.getRegistry().addPropertyChangeListener(this);
+    }
+
+    /**
+     * This is overridden to ensure that the same menu item object
+     * is used throughout the lifetime of this action.
+     */
+    @Override
+    public JMenuItem getMenuPresenter() {
+        if (menuItem == null) menuItem = super.getMenuPresenter();
+        return menuItem;
+    }
+
+    /**
+     * This is overridden to ensure that the same toolbar button object
+     * is used throughout the lifetime of this action.
+     */
+    @Override
+    public Component getToolbarPresenter() {
+        if (toolbarButton == null) toolbarButton = super.getToolbarPresenter();
+        return toolbarButton;
+    }
+
+    /**
+     * This is called when TopComponent property changes occur.
+     */
+    public void propertyChange(PropertyChangeEvent evt) {
+        // If the type of property change isn't an activation then return.
+        String propertyName = evt.getPropertyName();
+        if (!TopComponent.Registry.PROP_ACTIVATED.equals(propertyName)) return;
+
+        // Enable this action if the correct TopComponent is activated.
+        TopComponent tc = TopComponent.getRegistry().getActivated();
+        boolean enabled = tc.getClass() == topComponentClass;
+        setEnabled(enabled);
+
+        // The menu item associated with this action
+        // should only be visible when this action is enabled.
+        setMenuVisibility(tc, enabled);
+
+        // The toolbar button associated with this action
+        // should only be visible when this action is enabled.
+        setToolbarVisibility(tc, enabled);
+    }
+
+    /**
+     * Sets the visibility of the menu item associated with
+     * the action that was passed to the constructor of this class.
+     */
+    public void setMenuVisibility(JComponent component, boolean visible) {
+        JMenuItem item = getMenuPresenter();
+        if (item == null) return;
+
+        if (menu == null) {
+            menuBar = <a href="nbp_MenuHelper.html">MenuHelper</a>.getMenuBar(component);
+            menu = <a href="nbp_MenuHelper.html">MenuHelper</a>.getMenu(menuBar, item);
+            menuPosition = <a href="nbp_MenuHelper.html">MenuHelper</a>.getMenuPosition(menuBar, menu);
+        }
+
+        <code><a href="nbp_MenuHelper.html">MenuHelper</a></code>.setMenuItemVisible(
+            menuBar, menu, menuPosition, item, visible);
+    }
+
+    /**
+     * Sets the visibility of the toolbar button associated with
+     * the action that was passed to the constructor of this class.
+     * @param component any visible component that can be used to find ...
+     */
+    public void setToolbarVisibility(JComponent component, boolean visible) {
+        JComponent button = (JComponent) getToolbarPresenter();
+        if (button == null) return;
+
+        if (toolbar == null) {
+            toolbar = <a href="nbp_ToolbarHelper.html">ToolbarHelper</a>.getToolbar(
+                component.getTopLevelAncestor(), button);
+        }
+
+        <a href="nbp_ToolbarHelper.html">ToolbarHelper</a>.setToolbarButtonVisible(toolbar, button, visible);
+    }
+}
+</pre></div>
+  </body>
+</html>

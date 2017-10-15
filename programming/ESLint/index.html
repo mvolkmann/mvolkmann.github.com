@@ -1,0 +1,1368 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <meta charset="utf-8">
+
+    <meta name="description" content="ESLint">
+    <meta name="keywords" content="SETT, OCI, JavaScript, ESLint, linting">
+    <meta name="author" content="R. Mark Volkmann">
+    <title>SETT January 2017 - ESLint</title>
+
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="http://ociweb.com/sett/rss.xml">
+    <link rel="stylesheet" href="styles/SETT.css">
+    <link rel="stylesheet" href="styles.css">
+
+    <!-- Used for syntax highlighting. -->
+    <link href="alexgorbatchev/shCore.css" rel="stylesheet">
+    <link href="alexgorbatchev/shThemeDefault.css" rel="stylesheet">
+
+    <style>
+      code {
+        font-family: "Consolas", "Bitstream Vera Sans Mono", "Courier New", Courier, monospace !important;
+      }
+
+      #ast-explorer {
+        width: 80%;
+      }
+    </style>
+  </head>
+  <body>
+    <!--#include virtual="header.shtml" -->
+
+    <h1>ESLint, Don't Write JavaScript Without It!</h1>
+
+    <p class="author">
+      by<br/>
+      R. Mark Volkmann
+      <br/>Object Computing, Inc. (OCI)
+    </p>
+
+    <h2>Introduction</h2>
+
+    <p>
+      <a href="http://eslint.org/" target="_blank">ESLint</a>
+      is, as the website describes, the
+      "pluggable linting utility for JavaScript and <a href="https://facebook.github.io/jsx/" target="_blank">JSX</a>."
+      Linters reports many syntax errors and potential run-time errors.
+      ESLint also reports deviations from specified coding guidelines.
+      Error messages identify the violated rules,
+      making it easy to adjust their configuration
+      if you disagree with the defaults.
+    </p>
+    <p>
+      Languages that require compilers have a way to
+      give feedback to developers before code is executed.
+      Since JavaScript doesn't require a compiler,
+      linters are needed to play that role.
+    </p>
+    <p>
+      Alternatives to ESLint exist, such as
+      <a href="http://www.jslint.com/" target="_blank">JSLint</a> and
+      <a href="http://jshint.com/" target="_blank">JSHint</a>,
+      but none compare in terms of the number of rules supported,
+      ability to configure the rules, and ability to add custom rules.
+    </p>
+    <p>
+      While you can write JavaScript code without using a linter,
+      that's a bit like playing football without a helmet
+      or taking food out of an oven without mitts.
+      Somebody is going to get hurt.
+    </p>
+
+    <h2>Common Complaints</h2>
+    <p>
+      Some say that making all the changes
+      suggested by ESLint takes too much time.
+      Fortunately, ESLint supports a "fix" mode that
+      automates making many of the changes.
+      There are several ways to accomplish this.
+      Running <code>eslint --fix <i>file-path</i></code>
+      from a terminal/command-line modifies a file in-place.
+      Editor/IDE plugins allow this to be done with a single keyboard shortcut.
+      Version control systems like Git can run this on checkout and checkin of files.
+    </p>
+    <p>
+      Often developer teams cannot agree on the rules to be enforced.
+      One solution is for each developer to have their own
+      ESLint configuration file and run ESLint in fix mode on files
+      as they are checked out.
+      The team can have an official project ESLint configuration files
+      and run ESLint in fix mode on files as they are checked in.
+      Everybody wins!
+    </p>
+
+    <h2>Installing</h2>
+    <p>
+      To install ESLint globally:
+      <pre>npm install -g eslint</pre>
+    </p>
+    <p>
+      npm is installed automatically when
+      <a href="https://nodejs.org/en/" target="_blank">Node.js</a>
+      is installed.
+      For details on npm, see
+      <a href="https://docs.npmjs.com/" target="_blank">https://docs.npmjs.com/</a>.
+    </p>
+    <p>
+      To install ESLint locally within a project:
+      <pre>
+npm install --save-dev eslint</pre>
+
+    <h2>Rules</h2>
+    <p>
+      No rules are enforced by default.
+      Desired rules must be configured.
+      A list of built-in rules and documentation on them can be found at
+      <a href="http://eslint.org/docs/rules/" target="_blank">
+      http://eslint.org/docs/rules/</a>.
+    </p>
+
+    <h2>Configuration</h2>
+    <p>
+      There are several ways to configure ESLint including:
+    </p>
+    <ul>
+      <li>
+        JSON in a file named <code>.eslintrc.json</code><br>
+        While JSON doesn't support comments,
+        this file can include JavaScript comments.
+        This is the most popular option.
+      </li>
+      <li>
+        JavaScript in a file named <code>.eslintrc.js</code>
+      </li>
+      <li>
+        YAML in a file named <code>.eslintrc.yaml</code>
+      </li>
+      <li>
+        inside <code>package.json</code>
+        using the <code>eslintConfig</code> property
+      </li>
+    </ul>
+    <p>
+      Use of a file named simply <code>.eslintrc</code>
+      containing JSON or YAML is deprecated.
+    </p>
+    <p>
+      ESLint searches upward from current directory for these files.
+      It combines settings in all of the configuration files found
+      with settings in the closest files taking precedence.
+      A configuration file in the home directory
+      is only used if no other configuration files are found.
+    </p>
+    <p>
+      Rule configuration files can specify values for these properties:
+    </p>
+    <table>
+      <tr><th>Name</th><th>Description</th></tr>
+      <tr>
+        <td><code>env</code></td>
+        <td>
+          This is a list of environments in which your code can run.
+          Each environment adds globals (described next).
+          A list of supported environments can be found at
+          <a href="http://eslint.org/docs/user-guide/configuring#specifying-environments" target="_blank">
+          http://eslint.org/docs/user-guide/configuring</a>.
+          Common values include <code>browser</code>, <code>es6</code>, <code>node</code>, <code>jasmine</code>, <code>jest</code>, and <code>mocha</code>.
+        </td>
+      </tr>
+      <tr>
+        <td><code>globals</code></td>
+        <td>
+          This is a list of acceptable global variables
+          and whether they can be modified
+          (modification isn't typically allowed).
+        </td>
+      </tr>
+      <tr>
+        <td><code>parser</code></td>
+        <td>
+          By default, ESLint uses the
+          <a href="https://github.com/eslint/espree" target="_blank">Espree</a> parser
+          to parse the code it checks.
+          This property can specify a different parser.
+          If using newer JS features,
+          <a href="https://flowtype.org/" target="_blank">Flow</a>
+          type annotations, or
+          <a href="https://facebook.github.io/jsx/" target="_blank">JSX</a>,
+          run "<code>npm install -g babel-eslint</code>" and
+          change this property to "<code>babel-eslint</code>".
+          Another compatible parser is
+          <a href="http://esprima.org/" target="_blank">Esprima</a>.
+          Work is underway to create an ESLint-compatible TypeScript parser.
+          See <a href="https://github.com/eslint/typescript-eslint-parser" target="_blank">https://github.com/eslint/typescript-eslint-parser</a>.
+        </td>
+      </tr>
+      <tr>
+        <td><code>parserOptions</code></td>
+        <td>
+          This specifies the ECMA version,
+          source type ("module" or "script"; see next section),
+          and extra features (such as JSX).
+        </td>
+      </tr>
+      <tr>
+        <td><code>plugins</code></td>
+        <td>
+          This specifies a set of plugins to use.
+          Plugins supplement the rules and environments provided by ESLint.
+        </td>
+      </tr>
+      <tr>
+        <td><code>rules</code></td>
+        <td>
+          This specifies the rules to be enforced (or not) and their configuration.
+          It will almost certainly be the largest part of the configuration.
+        </td>
+      </tr>
+      <tr>
+        <td><code>extends</code></td>
+        <td>
+          This is a string or array of strings
+          that refer to other configuration files.
+          The values are either relative file references
+          or names of installed npm packages that contain an ESLint configuration file.
+          Popular examples include
+          <code>"airbnb"</code>, <code>"google"</code>, and <code>"standard"</code>.
+          The npm package names for these have the prefix <code>"eslint-config-"</code>.
+          Rule settings in the current file override settings for
+          the same rules in configurations being extended.
+          All the built-in rules that are recommended by the ESLint team
+          can be enabled by extending <code>"eslint:recommended"</code>.
+          These rules have a check mark in front of them on the
+          <a href="http://eslint.org/docs/rules/" target="_blank">
+          rules page</a>.
+        </td>
+      </tr>
+    </table>
+
+    <h2>Scripts vs. Modules</h2>
+    <p>
+      Each JavaScript file in an application is treated either as a script or a module.
+      The differences are described in the following table:
+    </p>
+    <table>
+      <tr><th></th><th>Scripts</th><th>Modules</th></tr>
+      <tr>
+        <td>Default Mode</td>
+        <td>non-strict</td>
+        <td><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Strict_mode" target="_blank">strict</a></td>
+      </tr>
+      <tr>
+        <td>Top-level Variables</td>
+        <td>global</td>
+        <td>local to module</td>
+      </tr>
+      <tr>
+        <td>Top-level value of <code>this</code></td>
+        <td><code>window</code></td>
+        <td><code>undefined</code></td>
+      </tr>
+      <tr>
+        <td>Can use <code>import</code> statements</td>
+        <td>no</td>
+        <td>yes</td>
+      </tr>
+    </table>
+    <p>
+      Typically, most <code>.js</code> files should be treated as modules.
+    </p>
+
+    <h2>Plugins</h2>
+    <p>
+      ESLint plugins provide additional rules and environments.
+      A list of availble plugins can be found at
+      <a href="https://github.com/dustinspecker/awesome-eslint#plugins" target="_blank">
+      https://github.com/dustinspecker/awesome-eslint#plugins</a>.
+    </p>
+    <p>
+      Popular ESLint plugins include:
+    </p>
+    <ul>
+      <li>
+        <b>eslint-plugin-html</b><br>
+        <a href="https://github.com/BenoitZugmeyer/eslint-plugin-html" target="_blank">https://github.com/BenoitZugmeyer/eslint-plugin-html</a>
+        <br>
+        This enables checking JavaScript embedded in HTML files.
+      </li>
+      <li>
+        <b>eslint-plugin-flowtype</b><br>
+        <a href="https://github.com/gajus/eslint-plugin-flowtype" target="_blank">https://github.com/gajus/eslint-plugin-flowtype</a>
+        <br>
+        This provides rules for Flow type annotations.
+      </li>
+      <li>
+        <b>eslint-plugin-react</b><br>
+        <a href="https://github.com/yannickcr/eslint-plugin-react" target="_blank">https://github.com/yannickcr/eslint-plugin-react</a>
+        <br>
+        This provides React-specific linting rules.
+      </li>
+      <li>
+        <b>For test code, consider these plugins:</b><br>
+        <a href="https://github.com/lo1tuma/eslint-plugin-mocha" target="_blank">eslint-plugin-mocha</a>,
+        <a href="https://github.com/turbo87/eslint-plugin-chai-expect" target="_blank">eslint-plugin-chai-expect</a>, and
+        <a href="https://github.com/tlvince/eslint-plugin-jasmine" target="_blank">eslint-plugin-jasmine</a>.
+      </li>
+    </ul>
+
+    <h2>Configuration File Creation</h2>
+    <p>
+      To create an initial configuration file, run <code>eslint --init</code>.
+      This asks a series of yes/no and multiple choice questions about your preferences.
+      Alternatively, it can inspect a set of files you specify to infer your preferences.
+      After this configuration file is created, it can be customized.
+    </p>
+    <p>
+      Here is an example session using rules from an existing style guide:
+    </p>
+    <pre class="brush:plain" xml:space="preserve">
+eslint-plugin-volkmann$ eslint --init
+? How would you like to configure ESLint? Use a popular style guide
+? Which style guide do you want to follow? Google
+? What format do you want your config file to be in? JSON
+Successfully created .eslintrc.json file in /Users/Mark/Documents/programming/languages/javascript/eslint/eslint-plugin-volkmann</pre>
+    <p>
+      Here is an example session based on answers to questions:
+    </p>
+    <pre class="brush:plain" xml:space="preserve">
+eslint-plugin-volkmann$ eslint --init
+? How would you like to configure ESLint? Answer questions about your style
+? Are you using ECMAScript 6 features? Yes
+? Are you using ES6 modules? Yes
+? Where will your code run? Browser
+? Do you use CommonJS? No
+? Do you use JSX? Yes
+? Do you use React Yes
+? What style of indentation do you use? Spaces
+? What quotes do you use for strings? Single
+? What line endings do you use? Unix
+? Do you require semicolons? Yes
+? What format do you want your config file to be in? JSON
+Successfully created .eslintrc.json file in /Users/Mark/Documents/programming/languages/javascript/eslint/eslint-plugin-volkmann</pre>
+
+    <h2>JSON Configuration</h2>
+    <p>
+      Here's an example of a JSON-based configuration file
+      that would typically be in a file named <code>.eslintrc.json</code>.
+    </p>
+    <pre class="brush:js" xml:space="preserve">
+{
+  "env": {
+    "browser": true,
+    "es6": true,
+    "jest": true,
+    "node": true
+  },
+
+  "globals": {
+    "$": false
+  },
+
+  "parser": "babel-eslint",
+
+  "parserOptions": {
+    "ecmaVersion": 7,
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "jsx": true
+    }
+  },
+  "plugins": [
+    "html",
+    "react"
+  ],
+
+  "rules": {
+    "brace-style": ["error", "1tbs"], // stands for "one true brace style"
+    ... many more rules go here ...
+  }
+}
+    </pre>
+    <p>
+      The syntax for specifying rules is:
+    </p>
+    <code>"<i>name</i>": <i>setting</i></code>
+    or<br>
+    <code>"<i>name</i>": [<i>setting</i>, <i>config</i>]</code><br>
+    where <code><i>setting</i></code> is one of<br>
+    <code>"off"</code> or <code>0</code><br>
+    <code>"warn"</code> or <code>1</code><br>
+    <code>"error"</code> or <code>2</code><br>
+    and <code><i>config</i></code> is rule-specific.
+
+    <p>
+      For a comprehensive set of configured rules,
+      consider my configuration file at
+      <a href="https://github.com/mvolkmann/MyUnixEnv/blob/master/.eslintrc.json" target="_blank">https://github.com/mvolkmann/MyUnixEnv/blob/master/.eslintrc.json</a>.
+      Feel free to use this file as a starting point for your customizations.
+    </p>
+
+    <h2>Running ESLint</h2>
+    <p>
+      To lint a specific file:
+      <code>eslint <i>file-path</i></code>.
+    </p>
+    <p>
+      To lint all JavaScript files in and below the current directory:
+      <code>eslint **/*.js</code>.
+    </p>
+    <p>
+      To lint all files in and below the current directory:
+      <code>eslint **</code>.
+      Typically, it is desirable to only run ESLint on <code>.js</code> files.
+    </p>
+    <p>
+      To run ESLint using an npm script, add the following
+      in the <code>scripts</code> section
+      of <code>package.json</code>:
+      <pre>
+"eslint": "eslint **/*.js"</pre>
+      This can be run by entering <code>npm run eslint</code>.
+    </p>
+    <p>To lint JavaScript in HTML files:</p>
+    <ul>
+      <li>Enter <code>npm install -g eslint-plugin-html</code></li>
+      <li>Register this plugin in <code>.eslintrc.json</code>
+        as in the "JSON Configuration" example above on line 23.</li>
+   </ul>
+    <p>
+      To ignore certain files,
+      list the directories and files to ignore
+      in the file <code>.eslintignore</code>
+      in the project root directory.
+    </p>
+    <p>
+      For more details on configuring ESLint, see
+      <a href="http://eslint.org/docs/user-guide/configuring" target="_blank">
+      http://eslint.org/docs/user-guide/configuring</a>.
+    </p>
+
+    <h2>Command-line Options</h2>
+    <p>
+      To specify a configuration file to use
+      rather than automatically search for one:<br>
+      <code>eslint -c <i>config-file-path</i> <i>files-to-check</i></code>
+    </p>
+    <p>
+      To run on files with an extension other than <code>.js</code>:<br>
+      <code>eslint --ext <i>extension</i> <i>files-to-check</i></code><br>
+      A common example is the <code>jsx</code> extension.
+    </p>
+    <p>
+      To fix all fixable errors:<br>
+      <code>eslint --fix <i>files-to-check-and-fix</i></code><br>
+      This fixes many, but not all, rule violations in source files.
+    </p>
+    <p>
+      To skip fixes for a certain rule:<br>
+      <code>eslint --fix --rule '<i>some-rule</i>: off' <i>some-file</i>.js</code><br>
+      To skip fixes for multiple rules, specify the <code>--rule</code> option
+      multiple times.
+    </p>
+    <p>
+      To cache checked files so they are only rechecked if they change:<br>
+      <code>eslint --cache</code><br>
+      This creates the file <code>.eslintcache</code>.
+      Add <code>--debug</code> to verify that caching is working.
+      Look for output lines containing "<code>Linting</code>".
+    </p>
+    <p>
+      For information on more command-line options, enter:<br>
+      <code>eslint --help</code>
+    </p>
+
+    <h2>Output Formatters</h2>
+    <p>
+      The ESLint output format can be specified with the command-line option
+      <code>-f {formatter-name}</code>.
+      There is no option for specifying this in an ESLint configuration file.
+      There are many formatting options to choose from.
+      Some formatters produce output suitable for feeding into other tools.
+      For details, see <a href="http://eslint.org/docs/user-guide/formatters/" target="_blank">
+      http://eslint.org/docs/user-guide/formatters/</a>.
+    </p>
+    <p>
+      Recommended formatters include <code>stylish</code> (the default)
+      and <code>codeframe</code>.
+    </p>
+    <p>
+      Here is an example of stylish output that describes errors for
+      a custom rule that we'll build later in this article:
+    </p>
+    <pre class="brush:plain" xml:space="preserve">
+/Users/Mark/Documents/programming/languages/javascript/eslint/eslint-plugin-volkmann/bad-code.js
+   2:17  error  prefer x**2 over multiplication  volkmann/exponentiation-operator
+   3:15  error  prefer x**3 over multiplication  volkmann/exponentiation-operator
+   7:18  error  prefer x**2                      volkmann/exponentiation-operator
+   8:16  error  prefer x**3                      volkmann/exponentiation-operator
+  12:17  error  prefer (x * 2)**(3 + 4)          volkmann/exponentiation-operator
+
+&#x2716; 5 problems (5 errors, 0 warnings)</pre>
+
+    <p>
+      Here is an example of the same errors using the codeframe formatter:
+    </p>
+    <pre class="brush:plain" xml:space="preserve">
+error: prefer x**2 over multiplication (volkmann/exponentiation-operator) at bad-code.js:2:17:
+  1 | const x = 3;
+> 2 | const squared = x * x;
+    |                 ^
+  3 | const cubed = x * x * x;
+  4 | console.log('squared =', squared);
+  5 | console.log('cubed =', cubed);
+
+
+error: prefer x**3 over multiplication (volkmann/exponentiation-operator) at bad-code.js:3:15:
+  1 | const x = 3;
+  2 | const squared = x * x;
+> 3 | const cubed = x * x * x;
+    |               ^
+  4 | console.log('squared =', squared);
+  5 | console.log('cubed =', cubed);
+  6 |
+
+
+error: prefer x**2 (volkmann/exponentiation-operator) at bad-code.js:7:18:
+   5 | console.log('cubed =', cubed);
+   6 |
+>  7 | const squared2 = Math.pow(x, 2);
+     |                  ^
+   8 | const cubed2 = Math.pow(x, 3);
+   9 | console.log('squared2 =', squared2);
+  10 | console.log('cubed2 =', cubed2);
+
+
+error: prefer x**3 (volkmann/exponentiation-operator) at bad-code.js:8:16:
+   6 |
+   7 | const squared2 = Math.pow(x, 2);
+>  8 | const cubed2 = Math.pow(x, 3);
+     |                ^
+   9 | console.log('squared2 =', squared2);
+  10 | console.log('cubed2 =', cubed2);
+  11 |
+
+
+error: prefer (x * 2)**(3 + 4) (volkmann/exponentiation-operator) at bad-code.js:12:17:
+  10 | console.log('cubed2 =', cubed2);
+  11 |
+> 12 | const complex = Math.pow(x * 2, 3 + 4);
+     |                 ^
+  13 | console.log('complex =', complex);
+  14 |
+
+
+5 errors found.</pre>
+
+    <h2>Integrating with IDEs and Editors</h2>
+    <p>
+      Many integrations are supported.  These are summarized at
+      <a href="http://eslint.org/docs/user-guide/integrations" target="_blank">
+      http://eslint.org/docs/user-guide/integrations</a>.
+    </p>
+    <p>
+      For Vim,
+      install the Syntastic plugin at
+      <a href="https://github.com/scrooloose/syntastic" target="_blank">
+      https://github.com/scrooloose/syntastic</a>
+      and add the following line to <code>.vimrc</code>:<br>
+      <code>let g:syntastic_javascript_checkers=['eslint']</code>
+    </p>
+    <p>
+      For Emacs, use the Flycheck syntax checking extension at
+      <a href="http://codewinds.com/blog/2015-04-02-emacs-flycheck-eslint-jsx.html" target="_blank">
+      http://codewinds.com/blog/2015-04-02-emacs-flycheck-eslint-jsx.html</a>.
+    </p>
+    <p>
+      For Atom, see
+      <a href="https://atom.io/packages/linter-eslint" target="_blank">
+      https://atom.io/packages/linter-eslint</a> or
+      <a href="https://atom.io/packages/eslint" target="_blank">
+      https://atom.io/packages/eslint</a>.
+    </p>
+    <p>
+      For Code, see
+      <a href="https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint" target="_blank">
+      https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint</a>.
+    </p>
+    <p>
+      For WebStorm/IDEA, see
+      <a href="https://plugins.jetbrains.com/plugin/7494" target="_blank">
+      https://plugins.jetbrains.com/plugin/7494</a>.
+    </p>
+
+    <h2>Overriding Rules in Source Files</h2>
+    <p>
+      To disable all rules in the current scope until re-enabled:
+    </p>
+    <pre>
+/* eslint-disable */
+<i>code-lines</i>
+/* eslint-enable */</pre>
+    <p>
+      To disable specific rules in the current scope until re-enabled:
+    </p>
+    <pre>
+/* eslint-disable <i>rule1</i>, <i>rule2</i>, ... */
+<i>code-lines</i>
+/* eslint-enable <i>rule1</i>, <i>rule2</i>, ... */</pre>
+    <p>
+      To disable all rules for a single line:
+      <pre>
+<i>code-line</i> // eslint-disable-line</pre>
+      or
+      <pre>
+// eslint-disable-next-line
+<i>code-line</i></pre>
+    </p>
+    <p>
+      To disable specific rules for a single line:
+      <pre>
+<i>code-line</i> // eslint-disable-line <i>rule1</i>, <i>rule2</i>, ...</pre>
+      or
+      <pre>
+// eslint-disable-next-line <i>rule1</i>, <i>rule2</i>, ...
+<i>code-line</i></pre>
+    </p>
+
+    <h2>Specifying Globals in Source Files</h2>
+    <p>
+      In addition to listing global variables in an ESLint configuration file,
+      these can be specified in source files that use them.
+    </p>
+    <p>
+      To allow use of read-only global variables in the current scope:
+      <pre>/* global <i>name1</i>, <i>name2 </i>*/</pre>
+    </p>
+    <p>
+      To allow use of modifiable global variables in the current scope:
+      <pre>/* global <i>name1</i>: true, <i>name2</i>: true */</pre>
+    </p>
+    <p>
+      The default is <code>false</code> meaning read-only.
+    </p>
+    <p>
+      Include these comments at top of a file for file scope.
+    </p>
+
+    <h2>Checking for Unused Rules</h2>
+    <p>
+      New versions of ESLint and its plugins often add support for new rules.
+      These must be specified in an ESLint configuration file
+      to take advantage of them.
+      The npm package
+      <a href="https://www.npmjs.com/package/eslint-find-rules/" target="_blank">
+      eslint-find-rules</a>
+      finds supported rules in ESLint and plugins that are not specified
+      in the current ESLint configuration file.
+    </p>
+    <p>
+      This must run from npm.  Follow these steps:
+    </p>
+    <ol>
+      <li>Select a project to use for performing this check.</li>
+      <li><code>cd</code> to the root directory of the project.</li>
+      <li>
+        <code>npm install --save-dev eslint eslint-find-rules eslint-plugin-*</code><br>
+        where <code>eslint-plugin-*</code> represents
+        each of the optional plugins being used.
+      </li>
+      <li>
+        Add the following script to package.json:<br>
+        <code>"efr": "eslint-find-rules --unused ~/.eslintrc.json --no-error"</code><br>
+        This can point to a shared ESLint configuration file
+        such as <code>~/.eslintrc.json</code> or one that is project-specific.
+      </li>
+      <li>
+        <code>npm run efr</code><br>
+        When adding configuration for new rules, it's easy to add syntax errors
+        and invalid rule configurations.  This command will output a stacktrace
+        describing such errors.
+     </li>
+    </ol>
+
+    <h2>Custom ESLint Plugins</h2>
+    <p>
+      Adding custom rules to ESLint is easier than you probably imagine.
+      To demonstrate this, we'll build a plugin that contains one rule.
+      The rule looks for code that could use the ES2016 exponentiation operator.
+      The following table shows examples of code that it would flag
+      and the fix it would apply.
+    </p>
+    <table>
+      <tr>
+        <th>Offending Code</th>
+        <th>Fixed Code</th>
+      </tr>
+      <tr>
+        <td><code>x * x</code></td>
+        <td><code>x**2</code></td>
+      </tr>
+      <tr>
+        <td><code>x * x * x</code></td>
+        <td><code>x**3</code></td>
+      </tr>
+      <tr>
+        <td><code>x * x * x * y * y</code></td>
+        <td><code>x**3 * y**2</code></td>
+      </tr>
+      <tr>
+        <td><code>Math.pow(x, 2)</code></td>
+        <td><code>x**2</code></td>
+      </tr>
+      <tr>
+        <td><code>Math.pow(x * y, a + b)</code></td>
+        <td><code>(x * y)**(a + b)</code></td>
+      </tr>
+    </table>
+
+    <h3>Steps</h3>
+    <p>
+      The steps to implement, test, package, deploy, install,
+      and use custom rules are:
+    </p>
+    <ol>
+      <li>
+        Write code that violates the rules to be created.
+        Here's a good starting point:
+        <pre class="brush:js" xml:space="preserve">
+const x = 3;
+const squared = x * x;
+const cubed = x * x * x;
+console.log('squared =', squared);
+console.log('cubed =', cubed);
+
+const squared2 = Math.pow(x, 2);
+const cubed2 = Math.pow(x, 3);
+console.log('squared2 =', squared2);
+console.log('cubed2 =', cubed2);
+
+const complex = Math.pow(x * 2, 3 + 4);
+console.log('complex =', complex);</pre>
+      </li>
+      <li>
+        Use AST Explorer <a href="https://astexplorer.net/" target="_blank">
+        https://astexplorer.net/</a>
+        to see the abstract syntax tree for this code.
+        We'll discuss AST Explorer more later.
+      </li>
+      <li>Implement the rules.</li>
+      <li>Test the rules.</li>
+      <li>
+        Package the rules as a plugin by placing them in a Github repository
+        whose name matches "<code>eslint-plugin-<i>name</i></code>".
+      </li>
+      <li>
+        Deploy the plugin by entering <code>npm publish</code>.
+        Each time this is done, the version in
+        <code>package.json</code> must be bumped.
+        This command requires an npm account that can be created by running these commands:
+        <pre>
+npm set init.author.name "<i>Your Name</i>"
+npm set init.author.email "<i>your-email-address</i>"
+npm set init.author.url "<i>your-blog-or-home-page-url</i>"
+npm adduser</pre>
+      </li>
+      <li>
+        Install the plugin by entering
+        <code>npm install -g eslint-plugin-<i>name</i></code> for global use or
+        without the <code>-g</code> option to install in a specific project.
+      </li>
+      <li>
+        Configure use of the rules by modifying an ESLint configuration file,
+        the global one or one that is project-specific.
+      </li>
+    </ol>
+    <p>
+      Custom rules can be tested and used without
+      packaging, deploying, and installing.
+      The steps to do this are described later.
+    </p>
+
+    <h3>Plugin File Structure</h3>
+    <p>
+      The recommended file structure for a plugin is:
+    </p>
+    <pre>
+package.json
+index.js
+lib/rules
+  <i>my-rule</i>.js
+tests/lib/rules
+  <i>my-rule</i>.js</pre>
+
+    <h3>Plugin index.js</h2>
+    <p>
+      This file uses <code>require</code> to pull in
+      all the rule definition files in the plugin
+      and provides a default configuration for them.  An example follows:
+    </p>
+    <pre class="brush:js" xml:space="preserve">
+module.exports = {
+  rules: {
+    /* eslint-disable global-require */
+    'exponentiation-operator': require('./lib/rules/exponentiation-operator')
+  },
+  configs: {
+    all: {
+      parserOptions: {
+        ecmaVersion: 7
+      },
+      rules: {
+        'volkmann/exponentiation-operator': 'error'
+      }
+    }
+  }
+};</pre>
+
+    <h3>AST Explorer</h3>
+    <p>
+      This is a free, web-based tool for viewing the abstract syntax tree
+      of a snippet of JavaScript code.
+      To use it, browse <a href="https://astexplorer.net/" target="_blank">
+      https://astexplorer.net/</a>, enter code in the left pane,
+      and see the corresponding AST in the right pane.
+      Select code in the left pane to cause the corresponding part
+      of the AST to be highlighted in the right pane.
+    </p>
+    <img id="ast-explorer" src="./ast-explorer.png">
+
+    <h3>Rule Code</h3>
+    <p>
+      The content of the file <code>lib/rules/exponentiation-operator.js</code>
+      is provided below.
+    </p>
+    <p>
+      The <code>create</code> method returns an object with methods
+      that will be invoked using the
+      <a href="https://en.wikipedia.org/wiki/Visitor_pattern" target="_blank">visitor pattern</a>.
+      When AST nodes are encountered, the corresponding method,
+      if one is defined, is invoked.
+      In this case the two methods are
+      <code>BinaryExpression</code> and <code>CallExpression</code>.
+      When a nested <code>BinaryExpression</code> is found,
+      this code processes all its descendants.
+      Later this method will be called again for nested expressions
+      that have already been processed, so we need to skip those.
+      ESLint doesn't allow modifying AST nodes,
+      so we can't just add a "processed" flag on them.
+      This is why we use the array <code>processedStarts</code>.
+    </p>
+    <pre class="brush:js" xml:space="preserve">
+/**
+ * This looks for expressions like "x * x * x"
+ * and replaces them with "x**3".
+ * The example above is parsed as a BinaryExpression times x.
+ * The BinaryExpression is parsed as x * x.
+ * So x * x * x would be parsed as (x * x) * x.
+ * This also replaces expressions like "Math.pow(x, 3)"
+ * with "x**3". 
+ * @fileoverview Prefer exponentiation operator over multiplication and Math.pow.
+ * @author R. Mark Volkmann
+ */
+module.exports = {
+  meta: {
+    docs: {
+      description: 'prefer ** over multiplication',
+      category: 'Stylistic Issues',
+      recommended: true
+    },
+    fixable: 'code',
+    schema: [ // This is a JSON schema format description of a rule’s options.
+      // Include this option for "x ** 2".  Exclude for "x**2".
+      {enum: ['spaceAround']}
+    ]
+  },
+  create(context) {
+    const processedStarts = [];
+    return {
+      BinaryExpression(node) {
+        // This code only cares about multiplication operators.
+        if (node.operator !== '*') return;
+
+        let exponent = 2; // We know it is at least this.
+
+        // BinaryExpressions have left and right operands.
+        let {left, right} = node;
+
+        // This rule only handles BinaryExpressions where
+        // the right operand is an identifier.
+        if (right.type !== 'Identifier') return;
+
+        // Avoid processing nested BinaryExpressions multiple times.
+        if (processedStarts.includes(right.start)) return;
+
+        const {name} = right;
+
+        // Increase exponent for each additional * BinaryExpression
+        // that uses the same operand name.
+        while (left.type === 'BinaryExpression') {
+          // If we find an operator other than *, this rule cannot be applied.
+          if (left.operator !== '*') return;
+
+          // Switch to the nested operands.
+          right = left.right;
+          left = left.left;
+
+          // All the identifier names must match.
+          if (right.name !== name) return;
+
+          // Keep track of BinaryExpressions that have already been processed.
+          processedStarts.push(right.start);
+
+          exponent++;
+        }
+
+        // This rule only handles cases where the most deeply nested
+        // BinaryExpression has a left operator that is an Identifier.
+        if (left.type === 'Identifier' && left.name === name) {
+          // Process spaceAround option.
+          const space = context.options.includes('spaceAround') ? ' ' : '';
+
+          // Report the rule violation.
+          const text = left.name + space + '**' + space + exponent;
+          context.report({
+            node,
+            message: 'prefer ' + text + ' over multiplication',
+            // If running in --fix mode, apply this fix.
+            fix(fixer) {
+              // Warning: When the spaceAround option is not used,
+              // the fix for the built-in space-infix-ops rule
+              // will add spaces back around **.
+
+              // Only one fixer method can be called
+              // and its result must be returned.
+              return fixer.replaceText(node, text);
+            }
+          });
+        }
+      }, // end of BinaryExpression method
+
+      CallExpression(node) {
+        const {callee} = node;
+        if (callee.object.name !== 'Math') return;
+        if (callee.property.name !== 'pow') return;
+
+        function getCode(arg) {
+          const sourceCode = context.getSourceCode();
+          const needParens = arg.type === 'BinaryExpression';
+          const code = sourceCode.getText(arg);
+          return needParens ? '(' + code + ')' : code;
+        }
+
+        const [base, exponent] = node.arguments;
+        const baseCode = getCode(base);
+        const exponentCode = getCode(exponent);
+        const text = baseCode + '**' + exponentCode;
+
+        context.report({
+          node,
+          message: 'prefer ' + text,
+          fix(fixer) {
+            return fixer.replaceText(node, text);
+          }
+        });
+      }
+    };
+  }
+};</pre>
+
+    <h3>Code Fixes</h3>
+    <p>
+      In addition to flagging rule violations,
+      ESLint rules can fix the offending code.
+      To do this, the rule must include a <code>fix</code> method
+      in the object passed to <code>context.report</code>
+      (as seen at line 77 of the example rule code above).
+      This method is passed a fixer which is a <code>RuleFixer</code> object
+      defined in <a href="https://github.com/eslint/eslint/blob/master/lib/util/rule-fixer.js" target="_blank">
+      <code>eslint/lib/util/rule-fixer.js</code></a>.
+      Methods on the fixer object are described at
+      <a href="http://eslint.org/docs/developer-guide/working-with-rules#applying-fixes" target="_blank">
+      http://eslint.org/docs/developer-guide/working-with-rules#applying-fixes</a>.
+    </p>
+
+    <p>
+      In the fixer method descriptions below,
+      a "token" refers to a piece of text that is actually in the code,
+      whereas a "node" refers to an abstract representation
+      of what the code means (credit goes to Teddy Katz for this explanation).
+      A range is an array containing start and end indexes.
+      AST nodes have a range property with this kind of value.
+    </p>
+    <table>
+      <tr>
+        <th>Fixer Method</th>
+        <th>Description</th>
+      </tr>
+      <tr>
+        <td><code>insertTextAfter(nodeOrToken, text)</code></td>
+        <td>inserts text after the given node or token</td>
+      </tr>
+      <tr>
+        <td><code>insertTextAfterRange(range, text)</code></td>
+        <td>inserts text after the given range</td>
+      </tr>
+      <tr>
+        <td><code>insertTextBefore(nodeOrToken, text)</code></td>
+        <td>inserts text before the given node or token</td>
+      </tr>
+      <tr>
+        <td><code>insertTextBeforeRange(range, text)</code></td>
+        <td>inserts text before the given range</td>
+      </tr>
+      <tr>
+        <td><code>remove(nodeOrToken)</code></td>
+        <td>removes the given node or token</td>
+      </tr>
+      <tr>
+        <td><code>removeRange(range)</code></td>
+        <td>removes text in the given range</td>
+      </tr>
+      <tr>
+        <td><code>replaceText(nodeOrToken, text)</code></td>
+        <td>replaces the text in the given node or token</td>
+      </tr>
+      <tr>
+        <td><code>replaceTextRange(range, text)</code></td>
+        <td>replaces the text in the given range</td>
+      </tr>
+    </table>
+
+    <p>
+      For more detail on implementing custom rules than is presented here, see
+      <a href="http://eslint.org/docs/developer-guide/working-with-rules" target="_blank">
+      http://eslint.org/docs/developer-guide/working-with-rules</a>.
+    </p>
+
+    <h2>Rule Tests</h2>
+    <p>
+      Tests for rules are placed in the <code>tests/lib/rules</code> directory
+      in files with the same names as the files that implement the rules.
+    </p>
+    <p>
+      ESLint uses <a href="https://mochajs.org/" target="_blank">Mocha</a> for testing rules.
+      The steps to configure this are:
+    </p>
+    <ol>
+      <li><code>npm install --save-dev mocha</code></li>
+      <li>
+        Add the following line in the scripts section of package.json:<br>
+        <code>"test": "mocha tests/lib/rules"</code>
+      </li>
+    </ol>
+    <p>
+      Here's the test file for our rule,
+      in <code>tests/lib/rules/exponentiation-operator.js</code>.
+    </p>
+    <pre class="brush:js" xml:space="preserve">
+/**
+ * @fileoverview Tests for exponentiation operator
+ * @author R. Mark Volkmann
+ */
+const RuleTester = require('eslint').RuleTester;
+const ruleName = 'exponentiation-operator';
+const rule = require('../../../lib/rules/' + ruleName);
+
+const ruleTester = new RuleTester();
+
+ruleTester.run(ruleName, rule, {
+  valid: [
+    {code: 'x**2', parserOptions: {ecmaVersion: 7}},
+    {code: 'x**3', parserOptions: {ecmaVersion: 7}}
+  ],
+  invalid: [
+    {
+      code: 'x * x',
+      errors: [
+        {
+          message: 'prefer x**2 over multiplication',
+          type: 'BinaryExpression'
+        }
+      ],
+      output: 'x**2'
+    },
+    {
+      code: 'x * x * x',
+      options: ['spaceAround'],
+      errors: [
+        {
+          message: 'prefer x ** 3 over multiplication',
+          type: 'BinaryExpression'
+        }
+      ],
+      output: 'x ** 3'
+    },
+    {
+      code: 'x * x * x * x',
+      errors: [
+        {
+          message: 'prefer x**4 over multiplication',
+          type: 'BinaryExpression'
+        }
+      ],
+      output: 'x**4'
+    },
+    {
+      code: 'x * x * y',
+      errors: [
+        {
+          message: 'prefer x**2 over multiplication',
+          type: 'BinaryExpression'
+        }
+      ],
+      output: 'x**2 * y'
+    },
+    {
+      code: 'Math.pow(x, 2)',
+      errors: [
+        {
+          message: 'prefer x**2',
+          type: 'CallExpression'
+        }
+      ],
+      output: 'x**2'
+    },
+    {
+      code: 'Math.pow(x * y, a + b)',
+      errors: [
+        {
+          message: 'prefer (x * y)**(a + b)',
+          type: 'CallExpression'
+        }
+      ],
+      output: '(x * y)**(a + b)'
+    },
+  ] // end of invalid
+});</pre>
+    <p>
+      To run the tests:
+      <code>npm test</code>
+    </p>
+
+
+    <h2>Using Custom Rules Without Deploying</h2>
+    <p>
+      Custom rules don't need to be deployed to npm and installed
+      in order to use them.  This is useful for rules that are
+      project-specific, rules that aren't intended to be deployed
+      to npm, or for testing rules that haven't been deployed yet.
+    </p>
+    <p>
+      The steps to achieve this are:
+    </p>
+    <ol>
+      <li>
+        Place rule implementation files in a common directory.
+      </li>
+      <li>
+        Add configuration for the custom rules to the
+        ESLint configuration file that will be used.
+      </li>
+      <li>
+        Run <code>eslint</code> with the <code>--rulesdir</code> option
+        set to the directory from step 1.
+      </li>
+    </ol>
+    <p>
+      For example, to use our "exponentiation-operator" rule
+      from the directory containing the <code>lib</code> directory
+      which contains <code>rules/exponentiation-operator.js</code>,
+      we could add the following line to <code>.eslintrc.json</code>:
+      <pre>
+"exponentiation-operator": ["error", "spaceAround"]</pre>
+      Then we can run ESLint with <code>eslint --rulesdir lib/rules <i>some-filename</i>.js</code>
+    </p>
+
+    <h2>Running Rule Tests</h2>
+    <p>
+      To run the tests, enter <code>npm test</code> or just <code>npm t</code>.
+    </p>
+    <p>
+      Here's the output from our test.
+    </p>
+    <pre class="brush:plain" xml:space="preserve">
+> mocha tests/lib/rules
+
+  exponentiation-operator
+    valid
+      &#x2713; x**2 (47ms)
+      &#x2713; x**3
+    invalid
+      &#x2713; x * x
+      &#x2713; x * x * x
+      &#x2713; x * x * x * x
+      &#x2713; x * x * y
+      &#x2713; Math.pow(x, 2)
+      &#x2713; Math.pow(x * y, a + b)
+
+  8 passing (75ms)</pre>
+
+    <h2>Configuring Files to be Checked</h2>
+    <p>
+      Files under <code>node_modules</code> are not checked.
+      This is good because it's likely that JavaScript files
+      found there will violate many of the rules you have configured.
+    </p>
+    <p>
+      Files in other locations can be ignored by listing either the files or
+      the directories that contain them in the <code>.eslintignore</code> file.
+      The command line options <code>--ignore-path</code> and
+      <code>--ignore-pattern</code> can also be used to exclude files.
+      Warning messages listing the ignored files will be output.
+      Include the <code>--quiet</code> option to suppress these.
+    </p>
+
+    <h2>Summary</h2>
+    <p>
+      I hope this article has provided you with
+      everything you need to know to use ESLint.
+      You should also feel ready to begin implementing your own ESLint rules.
+      Please feel free to send questions and feedback to
+      <a href="mailto:mark@ociweb.com" target="_blank">mark at ociweb.com</a>.
+    </p>
+    <p>
+      Thank you very much to Charles Sharp for reviewing this article!
+      He makes everything I write better.
+      Also, thanks to Kent C. Dodds for making me aware of AST Explorer.
+    </p>
+
+    <h2>References</h2>
+    <ul>
+      <li>AST Explorer -
+        <a href="https://astexplorer.net/" target="_blank">
+        https://astexplorer.net/</a>
+      </li>
+      <li>Atom ESLint plugins -
+        <a href="https://atom.io/packages/linter-eslint" target="_blank">
+        https://atom.io/packages/linter-eslint</a> and
+        <a href="https://atom.io/packages/eslint" target="_blank">
+        https://atom.io/packages/eslint</a>
+      </li>
+      <li>Awesome List of ESLint Plugins -
+        <a href="https://github.com/dustinspecker/awesome-eslint#plugins" target="_blank">
+        https://github.com/dustinspecker/awesome-eslint#plugins</a>
+      </li>
+      <li>Code ESLint Plugin -
+        <a href="https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint" target="_blank">
+        https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint</a>
+      </li>
+      <li>ESLint -
+        <a href="http://eslint.org/" target="_blank">
+        http://eslint.org/</a>
+      </li>
+      <li>ESLint Built-in Rules -
+        <a href="http://eslint.org/docs/rules/" target="_blank">
+        http://eslint.org/docs/rules/http://eslint.org/docs/user-guide/</a>
+      </li>
+      <li>ESLint Developer Guide -
+        <a href="http://eslint.org/docs/developer-guide/" target="_blank">
+        http://eslint.org/docs/user-guide/</a>
+      </li>
+      <li>ESLint User Guide -
+        <a href="http://eslint.org/docs/user-guide/" target="_blank">
+        http://eslint.org/docs/user-guide/</a>
+      </li>
+      <li>eslint-find-rules -
+        <a href="https://www.npmjs.com/package/eslint-find-rules/" target="_blank">
+        eslint-find-rules</a>
+      </li>
+      <li>eslint-plugin-chai-expect -
+        <a href="https://github.com/turbo87/eslint-plugin-chai-expect" target="_blank">eslint-plugin-chai-expect</a>, and
+      </li>
+      <li>eslint-plugin-flowtype -
+        <a href="https://github.com/gajus/eslint-plugin-flowtype" target="_blank">https://github.com/gajus/eslint-plugin-flowtype</a>
+      </li>
+      <li>eslint-plugin-html -
+        <a href="https://github.com/BenoitZugmeyer/eslint-plugin-html" target="_blank">https://github.com/BenoitZugmeyer/eslint-plugin-html</a>
+      </li>
+      <li>eslint-plugin-jasmine -
+        <a href="https://github.com/tlvince/eslint-plugin-jasmine" target="_blank">eslint-plugin-jasmine</a>
+      </li>
+      <li>eslint-plugin-mocha -
+        <a href="https://github.com/lo1tuma/eslint-plugin-mocha" target="_blank">eslint-plugin-mocha</a>
+      </li>
+      <li>eslint-plugin-react -
+        <a href="https://github.com/yannickcr/eslint-plugin-react" target="_blank">https://github.com/yannickcr/eslint-plugin-react</a>
+      </li>
+      <li>eslint-watch -
+        <a href="https://github.com/rizowski/eslint-watch" target="_blank">
+        http://eslint.org/docs/user-guide/</a>
+      </li>
+      <li>Espree parser -
+        <a href="https://github.com/eslint/espree" target="_blank">https://github.com/eslint/espree</a>
+      </li>
+      <li>Esprima parser -
+        <a href="http://esprima.org/" target="_blank">http://esprima.org/</a>
+      </li>
+      <li>Flow -
+        <a href="https://flowtype.org/" target="_blank">https://flowtype.org/</a>
+      </li>
+      <li>Flycheck Emacs Plugin (docs from Jeff Barczewski) -
+        <a href="http://codewinds.com/blog/2015-04-02-emacs-flycheck-eslint-jsx.html" target="_blank">
+        http://codewinds.com/blog/2015-04-02-emacs-flycheck-eslint-jsx.html</a>
+      </li>
+      <li>JSHint -
+        <a href="http://jshint.com/" target="_blank">http://jshint.com/</a>
+      </li>
+      <li>JSLint -
+        <a href="http://www.jslint.com/" target="_blank">http://www.jslint.com/</a>
+      </li>
+      <li>JSX -
+        <a href="https://facebook.github.io/jsx/" target="_blank">
+        https://facebook.github.io/jsx/</a>
+      </li>
+      <li>Mark Volkmann's ESLint Configuration File -
+        <a href="https://github.com/mvolkmann/MyUnixEnv/blob/master/.eslintrc.json" target="_blank">https://github.com/mvolkmann/MyUnixEnv/blob/master/.eslintrc.json</a>
+      </li>
+      <li>Mocha -
+        <a href="https://mochajs.org/" target="_blank">
+        https://mochajs.org/</a>
+      </li>
+      <li>Node.js -
+        <a href="https://nodejs.org/en/" target="_blank">https://nodejs.org/en/</a>
+      </li>
+      <li>npm -
+        <a href="https://docs.npmjs.com/" target="_blank">https://docs.npmjs.com/</a>
+      </li>
+      <li>RuleFixer class definition -
+        <a href="https://github.com/eslint/eslint/blob/master/lib/util/rule-fixer.js" target="_blank">
+        https://github.com/eslint/eslint/blob/master/lib/util/rule-fixer.js</a>
+      </li>
+      <li>strict mode -
+        <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Strict_mode" target="_blank">
+        https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Strict_mode</a>
+      </li>
+      <li>Syntastic Vim Plugin -
+        <a href="https://github.com/scrooloose/syntastic" target="_blank">
+        https://github.com/scrooloose/syntastic</a>
+      </li>
+      <li>TSLint -
+        <a href="http://palantir.github.io/tslint" target="_blank">
+        http://palantir.github.io/tslint</a>
+      </li>
+      <li>TypeScript ESLint parser -
+        <a href="https://github.com/eslint/typescript-eslint-parser" target="_blank">https://github.com/eslint/typescript-eslint-parser</a>.
+      </li>
+      <li>visitor pattern -
+        <a href="https://en.wikipedia.org/wiki/Visitor_pattern" target="_blank">https://en.wikipedia.org/wiki/Visitor_pattern</a>
+      </li>
+      <li>WebStorm/IDEA ESLint plugin -
+        <a href="https://plugins.jetbrains.com/plugin/7494" target="_blank">
+        https://plugins.jetbrains.com/plugin/7494</a>
+      </li>
+      <li>"Writing custom ESLint rules" article by Kenneth Truyers -
+        <a href="https://www.kenneth-truyers.net/2016/05/27/writing-custom-eslint-rules/" target="_blank">
+        https://www.kenneth-truyers.net/2016/05/27/writing-custom-eslint-rules/</a>
+      </li>
+    </ul>
+
+    <!--#include virtual="footer.shtml" -->
+    <script src="alexgorbatchev/shCore.js"></script>
+    <script src="alexgorbatchev/shAutoloader.js"></script>
+
+    <script src="alexgorbatchev/shBrushJScript.js"></script>
+    <script src="alexgorbatchev/shBrushPlain.js"></script>
+
+    <script type="text/javascript">SyntaxHighlighter.all()</script>
+  </body>
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html> 
+<html> 
+  <head> 
+    <title>Page Title</title> 
+    <link rel="stylesheet"
+      href="http://code.jquery.com/mobile/1.0a3/jquery.mobile-1.0a3.min.css"/>
+    <script type="text/javascript"
+      src="http://code.jquery.com/jquery-1.4.3.min.js">
+    </script>
+    <script type="text/javascript"
+      src="http://code.jquery.com/mobile/1.0a3/jquery.mobile-1.0a3.min.js">
+    </script>
+  </head> 
+  <body> 
+    <div data-role="page" id="page1">
+      <div data-role="header">
+        <h1>Page One Header</h1>
+      </div>
+      <div data-role="content">
+        <p>Page One Content</p>
+        <a href="#page2">Forward to Second</a>
+      </div>
+      <div data-role="footer">
+        <h4>Page One Footer</h4>
+      </div>
+    </div>
+    <div data-role="page" id="page2">
+      <div data-role="header">
+        <h1>Page Two Header</h1>
+      </div>
+      <div data-role="content">
+        <p>Page Two Content</p>
+        <a href="#page1">Back to First</a>
+      </div>
+      <div data-role="footer">
+        <h4>Page Two Footer</h4>
+      </div>
+    </div>
+  </body>
+</html>

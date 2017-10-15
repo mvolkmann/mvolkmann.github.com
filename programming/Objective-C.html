@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR.html1/DTD.html1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>Objective-C</title>
+    <link rel="stylesheet" type="text/css" href="../common.css"/>
+  </head>
+  <body>
+    <h2>Objective-C</h2>
+    
+    <h3>Things I Hate</h3>
+    <ol>
+      <li>having a .h and .m file for each class violates DRY</li>
+      <li>allows all C syntax including pointer arithmetic</li>
+      <li>asterisk required in declaration of all object variables,
+        but -&gt; is not used to access their methods</li>
+      <li>literal string syntax @"text"</li>
+      <li>@property and @synthesize should be combined</li>
+      <li>no automatic garbage collection under iOS</li>
+      <li>very verbose methods in provided classes
+        like <code>NSString</code></li>
+      <li>instance variables are defined in interfaces, not classes</li>
+      <li>syntax difference between using categories and protocols
+        is arbitrary and not easy to remember;
+        &lt;<i>protocol</i>&gt; vs. (<i>category</i>)</li>
+      <li>method parameter and return types inside parens</li>
+      <li>method type designator conflicts with UML syntax;
+        + means class method, not public;
+        - means instance method, not private</li>
+      <li>the word "mutable" is used incorrectly in collection class names;
+        means size can change;
+        not being mutable means size is fixed;
+        data can change regardless</li>
+      <li>categories seem like they should be used to
+        add a set of methods to multiple classes,
+        but it appears they are usually used to
+        add methods to a single class</li>
+      <li>standard categories are needed for builtin classes like NSString
+        to provide less verbose methods; it seems many people roll their own</li>
+      <li>the syntax for "block closures" is so ugly that Objective-C
+        may as well not have closures at all</li>
+      <li>must import .h files into corresponding .m files</li>
+      <li>boolean values are <code>YES</code> and <code>NO</code>,
+        not <code>true</code> and <code>false</code></li>
+      <li>no support for namespaces or packages so
+        class naming conventions are used instead</li>
+      <li>can't use [ ] syntax for all calls; some require C syntax
+        so code will contain a mixture of calling syntaxes</li>
+      <li>when a method calls another method in the same class,
+        that method definition must appear earlier in the source file
+        or warnings will appear (but it will still work)</li>
+      <li>no simple way to concatenate strings</li>
+      <li>no support for generics</li>
+      <li>no private methods</li>
+      <li>implementing mutually referential classes requires tricks</li>
+    </ol>
+
+    <hr />
+    <p style="text-align:center">
+      Copyright &#169; 2011 Object Computing, Inc. All rights reserved.
+    </p>
+  </body>
+</html>

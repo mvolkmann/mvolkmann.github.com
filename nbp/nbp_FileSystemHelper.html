@@ -1,0 +1,103 @@
+<?xml version="1.0"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>NBP FileSystemHelper</title>
+    <link rel="stylesheet" type="text/css" href="common.css"/>
+  </head>
+
+  <body>
+    <div class="title">FileSystemHelper</div>
+
+    <p>
+      This class is used by the
+      <code><a href="nbp_MenuHelper.html">MenuHelper</a></code> and
+      <code><a href="nbp_ToolbarHelper.html">ToolbarHelper</a></code> classes.
+    </p>
+
+    <div class="code"><pre>
+package com.halliburton.gui;
+
+import java.io.IOException;
+import org.openide.filesystems.FileObject;
+import org.openide.filesystems.FileSystem;
+import org.openide.filesystems.Repository;
+import org.openide.loaders.DataFolder;
+import org.openide.loaders.DataObject;
+
+/**
+ * This class provides helper methods for working with
+ * NetBeans Platform System Filesystem resources.
+ * @author R. Mark Volkmann, Object Computing, Inc.
+ */
+public class FileSystemHelper {
+
+    /**
+     * Adds an action shadow file.
+     * @param pathPrefix the Filesystem path prefix
+     * @param actionCategory the category name where the action is registered
+     * @param actionClass the action Class to be trigger by the menu item
+     */
+    public static void addActionShadow(
+        String pathPrefix, String actionCategory, Class actionClass) {
+
+        String classString = getInstanceString(actionClass);
+        String instanceString = classString + ".instance";
+        String actionPath = "/Actions/" + actionCategory + "/" + instanceString;
+
+        FileSystem fs = Repository.getDefault().getDefaultFileSystem();
+        FileObject menuFO = fs.findResource(pathPrefix);
+        DataFolder menuDF = DataFolder.findFolder(menuFO);
+        FileObject actionFO = fs.findResource(actionPath);
+
+        try {
+            if (actionFO == null) {
+                actionFO = menuFO.createData(actionPath);
+            }
+
+            DataObject actionDO = DataObject.find(actionFO);
+            actionDO.createShadow(menuDF);
+            actionFO.setAttribute("noIconInMenu", false);
+            actionFO.setAttribute("originalFile", instanceString);
+        } catch (IOException e) {
+            System.err.println(e);
+        }
+    }
+
+    /**
+     * Deletes an action shadow file.
+     * @param pathPrefix the Filesystem path prefix
+     * @param actionClass the action Class to be trigger by the menu item
+     */
+    public static void deleteActionShadow(
+        String pathPrefix, Class actionClass) {
+
+        String classString = getInstanceString(actionClass);
+        String shadowPath = pathPrefix + "/" + classString + ".shadow";
+
+        FileSystem fs = Repository.getDefault().getDefaultFileSystem();
+        FileObject shadowFO = fs.findResource(shadowPath);
+
+        if (shadowFO != null) {
+            try {
+                System.out.println(
+                    "FileSystemHelper.deleteActionShadow: deleting "
+                    + shadowFO);
+                shadowFO.delete();
+            } catch (IOException e) {
+                System.err.println(e);
+            }
+        }
+    }
+
+    private static String getInstanceString(Class clazz) {
+        String classString = clazz.getName();
+        return classString.replace('.', '-');
+    }
+}
+</pre></div>
+  </body>
+</html>

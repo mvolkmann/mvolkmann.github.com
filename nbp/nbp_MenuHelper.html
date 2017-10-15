@@ -1,0 +1,133 @@
+<?xml version="1.0"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>NBP MenuHelper</title>
+    <link rel="stylesheet" type="text/css" href="common.css"/>
+  </head>
+
+  <body>
+    <div class="title">MenuHelper</div>
+
+    <p>
+      This class is used by the
+      <code><a href="nbp_DynamicAction.html">DynamicAction</a></code> class.
+      It uses the
+      <code><a href="nbp_FileSystemHelper.html">FileSystemHelper</a></code>
+      class.
+      This needs to be enhanced to allow:
+    </p>
+    <ul>
+      <li>specification of the position of a new menu item within its menu</li>
+      <li>insertion of menu separators</li>
+    </ul>
+
+    <div class="code"><pre>
+package com.halliburton.gui;
+
+import java.awt.Component;
+import javax.swing.JComponent;
+import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+
+/**
+ * This class provides helper methods for working with Swing menus.
+ * @author R. Mark Volkmann, Object Computing, Inc.
+ */
+public class MenuHelper {
+
+    /**
+     * Adds a menu item to a given menu.
+     * @param menuName the name of the menu where the item should be added
+     * @param actionCategory the category name where the action is registered
+     * @param actionClass the action Class to be trigger by the menu item
+     */
+    public static void addMenuItem(
+        String menuName, String actionCategory, Class actionClass) {
+
+        <a href="nbp_FileSystemHelper.html">FileSystemHelper</a>.addActionShadow(
+            "/Menu/" + menuName, actionCategory, actionClass);
+    }
+
+    /**
+     * Deletes a menu item from a given menu.
+     * @param menuName the name of the menu where the item should be deleted
+     * @param actionClass the action Class to be trigger by the menu item
+     */
+    public static void deleteMenuItem(String menuName, Class actionClass) {
+
+        <a href="nbp_FileSystemHelper.html">FileSystemHelper</a>.deleteActionShadow("/Menu/" + menuName, actionClass);
+    }
+
+    /**
+     * Gets the first JMenu that contains a given JMenuItem
+     * or returns null if none are found.
+     */
+    public static JMenu getMenu(JMenuBar menuBar, JMenuItem menuItem) {
+        int menuCount = menuBar.getMenuCount();
+
+        for (int i = 0; i &lt; menuCount; i++) {
+            JMenu menu = menuBar.getMenu(i);
+            Component[] components = menu.getMenuComponents();
+            for (Component c : components) {
+                if (c == menuItem) return menu;
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * Gets the position of a given JMenu within a JMenuBar
+     * or returns -1 if it isn't found.
+     */
+    public static int getMenuPosition(JMenuBar menuBar, JMenu menu) {
+        int menuCount = menuBar.getMenuCount();
+
+        for (int i = 0; i &lt; menuCount; i++) {
+            if (menuBar.getMenu(i) == menu) return i;
+        }
+
+        return -1;
+    }
+
+    /**
+     * Gets the JMenuBar associated with a given JComponent.
+     */
+    public static JMenuBar getMenuBar(JComponent component) {
+        JFrame frame = (JFrame) component.getTopLevelAncestor();
+        return frame.getJMenuBar();
+    }
+
+    /**
+     * Sets the visibility of a menu item and possibly its menu.
+     */
+    public static void setMenuItemVisible(
+        JMenuBar menuBar, JMenu menu, int position,
+        JMenuItem menuItem, boolean visible) {
+
+        if (menuBar == null || menu == null) return;
+
+        if (visible) {
+            menu.add(menuItem);
+
+            // If the menu isn't currently in the menu bar, add it.
+            if (!menuBar.isAncestorOf(menu)) menuBar.add(menu, position);
+        } else {
+            menu.remove(menuItem);
+
+            // If the menu is empty, remove it from the menu bar.
+            if (menu.getItemCount() == 0) menuBar.remove(menu);
+        }
+
+        menuBar.revalidate();
+    }
+}
+</pre></div>
+  </body>
+</html>

@@ -1,0 +1,35 @@
+body {
+  font-family: arial;
+  margin: 0;
+  padding: 5px;
+  /*
+  border-right: solid red 1px;
+  width: 480px;
+  */
+}
+
+.label {
+  color: blue;
+  font-weight: bold;
+}
+
+#logo {
+  background-color: tan;
+  background-repeat: no-repeat;
+  height: 75px;
+  width: 100%;
+}
+
+/* For small screens ... */
+@media screen and (max-width: 480px) {
+  #logo { background-image: url('ociLogoSmall.png'); }
+  * { font-size: 14pt; }
+}
+
+/* For large screens ... */
+@media screen and (min-width: 480px) {
+  #logo { background-image: url('ociLogoLarge.png'); }
+  * { font-size: 20pt; }
+  .label { float: left; }
+  input { clear: left; }
+}

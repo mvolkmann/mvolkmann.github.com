@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="Web Site" default="release">
+  <property name="server" value="webpages.charter.net"/>
+  <property name="username" value="volkmann2"/>
+  <property name="password" value="java19"/>
+
+  <target name="bookmarks" description="creates bookmarks.html">
+    <xslt in="bookmarks.xml" style="bookmarks.xslt" out="bookmarks.html"/>
+  </target>
+
+  <target name="copy.files"
+    description="copies some files to this directory">
+    <copy todir=".">
+      <fileset dir="/Users/Mark/Documents/OCI/SVN/projects/Save-A-Lot/website">
+        <include name="ActiveRecord.html"/>
+        <include name="GWT.html"/>
+        <include name="iBATIS.html"/>
+      </fileset>
+    </copy>
+  </target>
+
+  <target name="release" depends="bookmarks, copy.files"
+    description="copies files to Charter web space">
+    <ftp server="${server}" userid="${username}" password="${password}"
+      newer="yes" binary="no">
+      <fileset dir=".">
+        <include name="**/*.css"/>
+        <include name="**/*.html"/>
+      </fileset>
+    </ftp>
+    <ftp server="${server}" userid="${username}" password="${password}"
+      newer="yes" binary="yes">
+      <fileset dir=".">
+        <include name="**/*.class"/>
+        <include name="**/*.gif"/>
+        <include name="**/*.jpeg"/>
+        <include name="**/*.jpg"/>
+      </fileset>
+    </ftp>
+  </target>
+
+</project>

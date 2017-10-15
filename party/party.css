@@ -1,0 +1,31 @@
+@charset "UTF-8";
+
+@font-face {
+  font-family: Kulminoituva;
+  src: url("fonts/Kulminoituva.ttf");
+}
+
+@font-face {
+  font-family: QuicksandBook;
+  src: url("fonts/Quicksand_Book.otf");
+}
+
+* {
+  font-family: QuicksandBook;
+  font-size: 18pt;
+  line-height: 24pt;
+}
+
+body {
+  background-color: #EFF;
+}
+
+h1 {
+  font-family: Kulminoituva;
+  font-size: 72pt;
+  line-height: 78pt;
+}
+
+h2 {
+  font-size: 48pt;
+}

@@ -1,0 +1,75 @@
+/* This only works in WebKit browsers. */
+
+#container {
+  height: 638px; /* image height */
+  width: 456px; /* image width */
+  -webkit-perspective: 1000px;
+  /*-webkit-perspective-origin: center bottom;*/
+}
+
+.card {
+  height: 100%;
+  width: 100%;
+  -webkit-transform-style: preserve-3d; /* specify on children also */
+  -webkit-transition: -webkit-transform 2s;
+}
+
+.face {
+  height: 100%;
+  width: 100%;
+  text-align: center;
+
+  /* allow faces to overlap at their
+     default position of 0, 0 within card */
+  position: absolute;
+
+  -webkit-backface-visibility: hidden; /* hide when rotated to back */
+  -webkit-transform-style: preserve-3d; /* specify on parent also */
+}
+
+.face, .face * {
+  border-radius: 30px;
+}
+
+.back {
+  background-color: green;
+  color: white;
+  font: bold 24pt fantasy;
+
+  /* initially rotate back face to back */
+  -webkit-transform: rotateY(180deg);
+}
+
+.card:hover {
+  /* rotate both faces nested in card */
+  -webkit-transform: rotateY(180deg);
+}
+
+.back > div {
+  margin: 0 auto; /* centers horizontally */
+  width: 350px;
+}
+
+/* for all lines on back */
+.back > div > div {
+  border: solid black 2px;
+  color: black;
+  margin: 20px;
+  padding: 20px;
+}
+
+.back > div > :nth-child(1) {
+  background-color: red;
+  margin-top: 100px;
+  -webkit-transform: translateZ(50px) rotateX(20deg);
+}
+
+.back > div > :nth-child(2) {
+  background-color: orange;
+  -webkit-transform: translateZ(100px);
+}
+
+.back > div > :nth-child(3) {
+  background-color: yellow;
+  -webkit-transform: translateZ(150px) rotateX(-20deg);
+}

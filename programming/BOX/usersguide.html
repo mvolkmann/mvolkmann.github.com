@@ -1,0 +1,88 @@
+<?xml version="1.0"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>BOX User's Guide</title>
+    <link rel="stylesheet" type="text/css" href="box.css"/>
+  </head>
+
+  <body>
+    <div class="title">User's Guide</div>
+
+    <div class="subtitle">CLASSPATH</div>
+    <p>Here's a list of what must be in your CLASSPATH.</p>
+    <ul>
+      <li>box.jar</li>
+      <li>xerces.jar</li>
+      <li>xalan.jar</li>
+      <li>log4j.jar or lumberjack.jar</li>
+    </ul>
+
+    <div class="subtitle">BOX Details</div>
+    <p>
+      See <a href="example.html">example</a>.
+    </p>
+
+    <div class="subtitle">Usage Code Examples</div>
+
+    <br/><hr/>
+    <p>
+      To encode a DOM document into BOX,
+    </p>
+    <div class="codeI">Document doc = ...;</div>
+    <div class="codeI">OutputStream os = ...;</div>
+    <div class="codeI">boolean useASCII = true or false;</div>
+    <div class="codeI">boolean trimWhitespace = true or false;</div>
+    <div class="codeI">BOXDOMEncoder encoder = new BOXDOMEncoderImpl();</div>
+    <div class="codeI">encoder.encode(doc, os, useASCII, trimWhitespace);</div>
+
+    <br/><hr/>
+    <p>
+      To decode BOX into a DOM document,
+    </p>
+    <div class="codeI">InputStream is = ...;</div>
+    <div class="codeI">BOXDOMDecoder decoder = new BOXDOMDecoderImpl();</div>
+    <div class="codeI">Document doc = decoder.decode(is);</div>
+
+    <br/><hr/>
+    <p>
+      To decode BOX into a series of SAX events,
+    </p>
+    <div class="codeI">InputStream is = ...;</div>
+    <div class="codeI">ContentHandler contentHandler = ...;</div>
+    <div class="codeI">LexicalHandler lexicalHandler = ...;</div>
+    <div class="codeI">BOXSAXDecoder decoder = new BOXSAXDecoderImpl();</div>
+    <div class="codeI">Document doc = decoder.decode(is, contentHandler, lexicalHandler);</div>
+    <p>
+      The ContentHandler is required.
+      The Lexical Handler can be null if you do not wish to process comments.
+    </p>
+
+    <hr/>
+    <p>
+      To encode BOX without a DOM Document,
+    </p>
+    <div class="codeI">OutputStream os = ...;</div>
+    <div class="codeI">boolean useASCII = true or false;</div>
+    <div class="codeI">boolean trimWhitespace = true or false;</div>
+    <div class="codeI">BOXEmitter be = new BOXEmitter(os, useASCII, trimWhitespace);</div>
+    <br/>
+    <div class="codeI">// Now make lots of calls like the following.</div>
+    <div class="codeI">be.emitComment(<i>text</i>);</div>
+    <div class="codeI">be.emitProcessingInstruction(<i>target</i>, <i>value</i>);</div>
+    <div class="codeI">be.emitNamespaceDeclaration(<i>prefix</i>, <i>uri</i>);</div>
+    <div class="codeI">be.emitAttribute(<i>name</i>);</div>
+    <div class="codeI">be.emitElementStart(<i>name</i>);</div>
+    <div class="codeI">be.emitText(<i>text</i>);</div>
+    <div class="codeI">be.emitElementEnd();</div>
+    <p>
+      Make sure that <span class="code">emitNamespaceDeclaration</span> and
+      <span class="code">emitAttribute</span> are called
+      <b>before</b> calling <span class="code">emitElementStart</span>
+      for the element to which they belong!
+    </p>
+  </body>
+</html>

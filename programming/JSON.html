@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR.html1/DTD.html1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999.html">
+  <head>
+    <title>JSON</title>
+    <link rel="stylesheet" type="text/css" href="../common.css"/>
+  </head>
+  <body>
+    <h2>JavaScript Object Notation (JSON)</h2>
+    
+    <h3>Introduction</h3>
+    <p>
+      JSON is a simple, text-based way of marshaling object data.
+      Objects are represented by collections of key/value pairs
+      (a.k.a hashes).
+      Values can be any of the following types:
+      number, string, boolean (true or false), null, object or array.
+      Arrays are collections of values.
+      The syntax is described
+      <a target="_blank" href="http://www.json.org">here</a>.
+    </p>
+    <p>
+      There are libraries available for many programming languages
+      that marshal objects to JSON strings and
+      unmarshal JSON strings to objects.
+      A list of these can be found near the bottom of
+      <a target="_blank" href="http://www.json.org">this</a> page.
+    </p>
+
+    <h3>Example</h3>
+    <p>
+      This example will demonstrate using the Java library
+      <a target="_blank" href="http://json-lib.sourceforge.net/">
+        Json-lib</a>. It relies on the following additional libraries.
+      <ul>
+        <li><a target="_blank" href="http://jakarta.apache.org/commons/beanutils/">Jakarta Commons Beanutils</a></li>
+        <li><a target="_blank" href="http://jakarta.apache.org/commons/lang/">Jakarta Commons Lang</a></li>
+        <li><a target="_blank" href="http://jakarta.apache.org/commons/logging/">Jakarta Commons Logging</a></li>
+        <li><a target="_blank" href="http://ezmorph.sourceforge.net/">Ezmorph</a></li>
+        <li><a target="_blank" href="http://www.junit.org/index.htm">JUnit</a></li>
+      </ul>
+    </p>
+    <p>
+      The data in this example represents musical artists, their recordings,
+      and tracks on those recordings.
+      There is a Java Bean class for each of these kinds of data named
+      <a href="JSON/Artist.java.html">Artist</a>,
+      <a href="JSON/Recording.java.html">Recording</a> and
+      <a href="JSON/Track.java.html">Track</a>.
+    </p>
+    <p>
+      The example is built and run using Ant.  For details, see
+      <a href="JSON/build.properties.html">build.properties</a> and
+      <a href="JSON/build.xml.html">build.xml</a>.
+    </p>
+    <p>
+      A few utility classes were written to simplify the code.
+      These include
+      <a href="JSON/ObjectUtil.java.html">ObjectUtil</a>,
+      <a href="JSON/SystemUtil.java.html">SystemUtil</a> and
+      <a href="JSON/JSONUtil.java.html">JSONUtil</a>.
+    </p>
+    <p>
+      Once armed with the preceding code, using JSON can be as simple
+      as the following code implemented as a JUnit 4 test case.
+    </p>
+
+    <pre><div class="code">package com.ociweb.demo;
+
+import com.ociweb.json.*;
+import java.util.*;
+import org.junit.*;
+
+import static com.ociweb.lang.SystemUtil.*;
+import static org.junit.Assert.*;
+
+public class JSONUtilTest {
+
+  private JSONUtil jsonUtil = new JSONUtil();
+
+  @Before public void setup() {
+    // Whenever a key in a JSON object is "recordings",
+    // tread the value as an array of Recording objects.
+    jsonUtil.addMapping("recordings", Recording.class);
+  }
+
+  /**
+   * This tests converting a object to JSON when the object
+   * has a field that holds a collection of references to other objects.
+   */
+  @Test public void testObjectConvert() {
+    Artist a = new Artist("Regina Spektor");
+    a.addRecording("Soviet Kitch", 2003);
+    a.addRecording("Begin To Hope", 2006);
+
+    Object expected = a;
+    String json = jsonUtil.toJSON(expected);
+    Object actual = jsonUtil.fromJSONObject(json, Artist.class);
+    assertEquals(expected, actual);
+  }
+
+  /**
+   * This tests converting an array of objects to JSON when the objects
+   * have a field that holds a collection of references to other objects.
+   */
+  @Test public void testArrayConvert() {
+    List&lt;Artist> artists = new ArrayList&lt;Artist>();
+
+    Artist a = new Artist("Deathcab For Cutie");
+    artists.add(a);
+    Recording r =
+      a.addRecording("We Have the Facts and We're Voting Yes", 2000);
+    a.addRecording("The Photo Album", 2001);
+    a.addRecording("You Can Play These Songs With Chords", 2002);
+    a.addRecording("Transatlanticism", 2003);
+    a.addRecording("Plans", 2005);
+
+    a = new Artist("Regina Spektor");
+    artists.add(a);
+    r = a.addRecording("Begin To Hope", 2006);
+    
+    r.addTrack("20 Years Of Snow", 4);
+    r = a.addRecording("Soviet Kitch", 2003);
+    r.addTrack("Chemo Limo", 4);
+    r.addTrack("Somedays", 5);
+
+    Object[] expected = artists.toArray();
+    String json = jsonUtil.toJSON(expected);
+    Object[] actual = jsonUtil.fromJSONArray(json, Artist.class);
+    assertEquals(expected, actual);
+  }
+
+  /**
+   * This tests converting a collection to JSON.
+   */
+  @Test public void testCollectionConvert() {
+    List&lt;String> colors = new ArrayList&lt;String>();
+    colors.add("red");
+    colors.add("green");
+    colors.add("blue");
+
+    List&lt;String> expected = colors;
+    String json = jsonUtil.toJSON(expected);
+    List actual = jsonUtil.fromJSONList(json, String.class);
+    assertEquals(expected, actual);
+  }
+}</div></pre>
+
+    <hr />
+    <p style="text-align:center">
+      Copyright &#169; 2007 Object Computing, Inc. All rights reserved.
+    </p>
+  </body>
+</html>

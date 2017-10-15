@@ -1,0 +1,14 @@
+#container {
+  margin-left: 10px;
+  width: 400px;
+}
+
+/* To style the handles ... */
+#slider .ui-slider-handle {
+}
+
+.value {
+  font-family: monospace;
+  font-size: 14pt;
+  position: absolute;
+}

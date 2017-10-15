@@ -1,0 +1,75 @@
+<!DOCTYPE html> <!--manifest="cache.manifest"-->
+<html>
+  <head>
+    <title>Running Calculator</title>
+
+    <link rel="stylesheet" href="runcalc.css"/>
+    <link rel="stylesheet"
+      href="http://code.jquery.com/mobile/1.0a3/jquery.mobile-1.0a3.min.css"/>
+
+    <script type="text/javascript"
+      src="http://code.jquery.com/jquery-1.4.3.min.js">
+    </script>
+    <script type="text/javascript" src="calc.js"></script>
+    <script type="text/javascript" src="runcalc.js"></script>
+    <script type="text/javascript"
+      src="http://code.jquery.com/mobile/1.0a3/jquery.mobile-1.0a3.min.js">
+    </script>
+  </head>
+  <body>
+
+    <div id="inputPage" data-role="page">
+
+      <div data-role="content">
+
+        <div data-role="fieldcontain">
+          <label for="distanceInput">Distance:</label>
+          <input id="distanceInput" type="text"/>
+        </div>
+
+        <fieldset data-role="controlgroup" data-type="horizontal">
+          <input type="radio" name="unit" id="milesRadio" checked="checked"/>
+          <label for="milesRadio">Miles</label>
+
+          <input type="radio" name="unit" id="kmsRadio"/>
+          <label for="kmsRadio">Kilometers</label>
+        </fieldset>
+
+        <select id="distanceSelect">
+          <option value="5K">5K</option>
+          <option value="5 mile">5 mile</option>
+          <option value="10K">10K</option>
+          <option value="10 mile">10 mile</option>
+          <option value="Half Marathon">Half Marathon</option>
+          <option value="Marathon">Marathon</option>
+        </select>
+
+        <div data-role="fieldcontain">
+          <label for="timeInput">Time:</label>
+          <input id="timeInput" type="text"
+          placeholder="hh:mm:ss"/>
+        </div>
+
+        <button id="calcButton">Calculate</button>
+
+        <!--div data-role="fieldcontain"-->
+          <label for="paceSpan">Pace:</label>
+          <span id="paceSpan">unknown</span>
+          <label>per mile</label>
+        <!--/div-->
+
+      </div> <!-- content -->
+
+    </div> <!-- page -->
+
+    <div id="imgPage" data-role="page">
+      <!--img src="Chicago2004.jpg" width="49%"
+        alt="Chicago Marathon 2004"/-->
+      <img src="NewYork2006.jpg" width="49%"
+        alt="New York Marathon 2006"/>
+      <img src="LittleRock2007.jpg" width="49%"
+        alt="Little Rock Marathon 2007"/>
+    </div>
+
+  </body>
+</html>

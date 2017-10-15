@@ -1,0 +1,55 @@
+8
+
+dir
+2
+svn+ssh://oci-svn/oci/Halliburton/doc/images
+svn+ssh://oci-svn/oci/Halliburton
+
+
+
+2008-10-21T14:53:00.275212Z
+2
+volkmanm
+
+
+svn:special svn:externals svn:needs-lock
+
+MathGUI.png
+file
+5
+
+
+
+2008-10-21T22:54:46.000000Z
+513456c4afff5d85e46e04e2766fc494
+2008-10-22T21:56:24.158078Z
+5
+volkmanm
+has-props
+
+halliburton_logo.gif
+file
+
+
+
+
+2008-10-21T14:51:52.000000Z
+dd58d39604e5602d59ab145de8594af8
+2008-10-21T14:53:00.275212Z
+2
+volkmanm
+has-props
+
+landmark_logo.jpg
+file
+
+
+
+
+2008-10-21T14:51:57.000000Z
+255d5ddffca36b7582e3cab84d4274d7
+2008-10-21T14:53:00.275212Z
+2
+volkmanm
+has-props
+

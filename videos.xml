@@ -1,0 +1,20 @@
+<!-- URls to videos should look like the following.
+  http://www.youtube.com/get_video.php?video_id={it}&amp;t={t}
+-->
+<videos>
+  <video>
+    <description>JKL Fish Heads Animated</description>
+    <id>XkabjjOwS18</id>
+    <t>OEgsToPDskJnW2QN-LkX6KLdDYE6HAJa</t>
+  </video>
+  <video>
+    <description>Bianca Ryan from America's Got Talent</description>
+    <id>ozDh4NQveJs</id>
+    <t>OEgsToPDskJELRzQN7M97w-3uDxdIr9q</t>
+  </video>
+  <video>
+    <description>Albi the Racist Dragon</description>
+    <id>g9Qu3iP3RYA</id>
+    <t>OEgsToPDskKUs5rhlgNYILOHEKv8NQjd</t>
+  </video>
+</videos>

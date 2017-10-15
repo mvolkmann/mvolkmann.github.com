@@ -1,0 +1,198 @@
+<?xml version="1.0"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>Decision Space (DS) Services</title>
+    <link rel="stylesheet" type="text/css" href="common.css"/>
+  </head>
+
+  <body>
+    <div class="title">Decision Space (DS) Services</div>
+
+    <h3>DS Service Registration</h3>
+    <p>
+      The build process,
+      initiated by running "<code>lgcbuild modules</code>",
+      looks for classes with a
+      "<code>public static void register(Registrar registrar)</code>" method.
+      An example of such a class is <code>LaunchBarChart</code>.
+      Those methods call the <code>registerService</code> method
+      on the <code>Registrar</code>,
+      passing it a string name for the service
+      and a class object for the service implementation.
+      The build process runs those methods
+      and outputs XML that describes the mappings
+      from service names to implementation classes.
+    </p>
+    <p>
+      The flow for this processing is as follows:
+    </p>
+    <ol>
+      <li><code>lgcbuild.sh</code></li>
+      <li><code>../lgcbuild/ivy/build/master.sh</code></li>
+      <li><code>ant lgcbuild.xml</code>
+        (see the <code>module.register</code> target)</li>
+      <li><code>com.lgc.infra.services.RegistrarTask</code> (custom Ant task;
+        see methods <code>execute</code>, <code>registerDir</code>
+        and <code>registerClasses</code>;
+        runs <code>registerService</code> methods in service classes)</li>
+      <li><code>com.lgc.infra.services.RegistrarImpl</code> stores bindings
+        by calling the <code>put</code> method on an
+        <code>com.lgc.java.util.prefs.InMemoryPreferences</code> object.<br />
+        <code>InMemoryPreferences</code>
+        extends <code>CustomPreferences</code>
+        extends <code>AbstractPreferences</code>
+        extends <code>Preferences</code>.<br />
+        The <code>put</code> method is abstract in <code>Preferences</code>,
+        but defined in <code>AbstractPreferences</code>
+        to call <code>putSpi</code>
+        which is abstract in <code>AbstractPreferences</code>,
+        but defined in <code>InMemoryPreferences</code> to encode the binding
+        as a new DOM element with key and value attributes.
+      </li>
+      <li><code>com.lgc.infra.services.RegistrationInfoCreator</code>
+        (see methods <code>execute</code> and
+        <code>persistRegistrationInfo</code>)</li>
+      <li><code>com.lgc.infra.services.RegistrarHelper</code>
+        (see <code>invokeRegisterMethod</code> method)
+        <span style="color:red">This is where the <code>register</code> method
+        in service implementation classes gets invoked!</span>
+      </li>
+      <li><code>com.lgc.infra.services.ComponentToRegisterFilter</code></li>
+      <li><code>com.lgc.infra.services.RegistrarHelper</code></li>
+      <li><code>com.lgc.java.util.prefs.PreferencesManager</code>
+        (see the <code>exportPreferences</code> method;
+        writes <code>build/classes/META-INF/AppworksRegistration.xml</code>
+        which is used at startup to register services)</li>
+    </ol>
+
+    <p>
+      Some of the services requested from
+      <code>ServiceImpl.getService(String)</code> during startup include:
+    </p>
+    <ul>
+      <li><code>ApplicationProgressHandler</code> </li>
+      <li><code>CommandLineParser</code></li>
+      <li><code>ApplicationSession</code></li>
+      <li><code>SessionDirectory</code></li>
+      <li><code>StateSessionDelegate</code></li>
+    </ul>
+    <p>
+      Many services are requested multiple times.
+    </p>
+
+    <h3>DS Service Collections</h3>
+    <p>
+      <code>com.lgc.infra.services.Services</code> is an interface that
+      provides access to a collection of services.
+      It describes methods for modifying and querying a collection.
+      <code>com.lgc.infra.services.ServicesImpl</code> is a class that
+      implements that interface.
+      A <code>ServicesImpl</code> object is analogous to
+      a NetBeans Platform <code>Lookup</code> object.
+    </p>
+    <p>
+      Three commonly used levels of service collections are
+      application (<code>AppServicesFactory</code>),
+      window (<code>CAWFrame</code>)
+      and "panel" (<code>DefaultDnDTabbedView</code>).
+      <code>AppServicesFactory</code> holds service mappings in a
+      singleton <code>Services</code> object, so it is similar to the
+      NetBeans Platform concept of the global <code>Lookup</code>.
+      Any Java class can have its own service collection
+      and make it available to "sub-objects".
+      Often this is done by implementing the <code>Client</code> interface,
+      but this isn't required.
+      All a class has to do to make a service collection available
+      to objects from other classes is provide access to
+      an object that implements the <code>Service</code> interface.
+    </p>
+
+    <h3>Implementating a DS Service</h3>
+    <p>
+      The general steps to implement a Decision Space service
+      are as follows:
+    </p>
+    <ol>
+      <li>Write a class that has a
+        "<code>public static void register(Registar registrar)</code>"
+        method.</li>
+      <li>Add a line like the following in the method:<br />
+        <code>registar.registerService("{short-name}", {service-class});</code>.
+      </li>
+      <li>Make sure the class is in the build classpath.</li>
+    </ol>
+
+    <h3>Using a DS Service</h3>
+    <p>
+      The general steps to use a Decision Space service
+      are as follows:
+    </p>
+    <ol>
+      <li>
+        Write a class that extends the <code>AbstractClient</code> class
+        which implements the <code>Client</code> interface.
+        This interface has two methods:
+        "<code>void setServices(Services services)</code>" and
+        "<code>Services getServices()</code>".
+        The <code>AbstractClient</code> class provides a
+        <code>Services</code> field and implements the both methods
+        in the <code>Client</code> interface.
+      </li>
+      <li>
+        <p>
+          Override the <code>setServices</code> method
+          to call <code>super.setServices(services)</code>
+          and then use the <code>Services</code> object to obtain references
+          to any service objects the class will need to use.
+          For example,
+        </p> 
+        <div class="code"><pre>
+try {
+    _statusBar = (AWStatusBar) getServices().getService("StatusBar");
+} catch (ServiceNotFoundException e) {
+     _logger.log(Level.WARNING, "Could not find the StatusBar service", e);
+}
+</pre></div>
+        <p>
+          In the code above, <code>AWStatusBar</code> is an interface that
+          the service with the name "StatusBar" implements.
+        </p>
+      </li>
+
+      <li>Invoke methods on the service object.</li>
+    </ol>
+
+    <h3>DS Service Constraints</h3>
+    <p>
+      A <code>ServiceConstraint</code> is used to specify restrictions on
+      the service object associated with a given service name.
+      There are only two kinds of constraints,
+      "immutability" and "mustConformClasses".
+    </p>
+    <p>
+      Making a service immutable means that once a string name is bound
+      to a service implementation object, that string name cannot be bound
+      to a different service implementation object later within the current JVM.
+    </p>
+    <p>
+      Providing a list of classes to which a service "must conform"
+      means that the service implementation object must be from a class
+      that implements all the interfaces in the list
+      and inherits from all the classes in the list.
+    </p>
+    <p>
+      <code>ServiceConstraintImpl</code> is the only class that implements
+      the <code>ServiceConstraint</code> interface.
+      All the constraints must be specified in the constructor.
+    </p>
+    <p>
+      The only classes that create instances of
+      <code>ServiceConstraintImpl</code> are <code>RegistrarImpl</code>,
+      <code>ServiceConstraintsMapImpl</code> and <code>ServicesImpl</code>.
+    </p>
+  </body>
+</html>

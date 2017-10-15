@@ -1,0 +1,902 @@
+<!DOCTYPE bookmarks SYSTEM "bookmarks.dtd">
+
+<bookmarks>
+
+  <topic name="Books">
+    <mark name="AbeBooks" href="http://www.abebooks.com"/>
+    <mark name="AddALL"
+      desc="book search and price comparison"
+      href="http://www.addall.com"/>
+    <mark name="Amazon" href="http://www.amazon.com"/>
+    <mark name="Bartleby" desc="great books online"
+      href="http://bartleby.com"/>
+    <mark name="Bookpool" href="http://www.bookpool.com"/>
+    <mark name="BookServer" href="http://www.archive.org/bookserver"/>
+    <mark name="Free Online Books" href="http://pspxworld.com"/>
+    <mark name="MySimon" href="http://www.mysimon.com"/>
+    <mark name="Nerd Books" href="http://www.nerdbooks.com"/>
+    <mark name="Overstock" href="http://www.overstock.com"/>
+    <mark name="Pragmatic Bookshelf"
+      href="http://www.pragmaticprogrammer.com/bookshelf"/>
+  </topic>
+
+  <topic name="Cars">
+    <mark name="Kelley Blue Book" href="http://kbb.com"/>
+    <mark name="Tire Rack" href="http://www.tirerack.com"/>
+    <mark name="True Cost of Ownership"
+      href="http://www.edmunds.com/apps/cto/intro.do"/>
+  </topic>
+
+  <topic name="Chess">
+    <mark name="Jeremy's highest ranking"
+      href="http://www.uschess.org/ratings/top/0602/genList.php?filename=18.txt&amp;&amp;pheader=Top%20Age%2018"/>
+    <mark name="U.S. Chess Federation" href="http://www.uschess.org"/>
+  </topic>
+
+  <topic name="Dogs">
+    <mark name="Andauer Whippets"
+      href="http://andauerwhippets.tripod.com/"
+      desc="owner of Rudy's father, Dominick"/>
+    <mark name="Dresslers Dog Supplies"
+      href="http://www.dresslersdog.com"/>
+    <mark name="Harmony Whippets"
+      desc="where we got Rudy"
+      href="http://www.harmonywhippets.com"/>
+  </topic>
+
+  <topic name="Dictionaries/Encyclopedias">
+    <mark name="Dictionary.com" href="http://dictionary.reference.com"/>
+    <mark name="Merriam-Webster" href="http://m-w.com"/>
+    <mark name="Urban Dictionary" href="http://www.urbandictionary.com"/>
+    <mark name="Wikipedia" href="http://www.wikipedia.com"/>
+  </topic>
+
+  <topic name="Education">
+    <mark name="MIT Open Courseware"
+      href="http://ocw.mit.edu/OcwWeb/web/courses/courses/index.htm"/>
+    <mark name="MIT video lectures"
+      href="http://mitworld.mit.edu/video_index.php"/>
+    <mark name="Missouri 529 College Savings Plan (MOST)"
+      href="https://missourimost.s.upromise.com/"/>
+    <mark name="St. Charles Community College"
+      href="http://www.stchas.edu"/>
+    <mark name="UC Berkeley lectures"
+      href="http://youtube.com/ucberkeley"/>
+    <mark name="University of Missouri at Columbia"
+      href="http://www.mizzou.edu"/>
+    <mark name="University of Missouri at St. Louis"
+      href="http://www.umsl.edu"/>
+  </topic>
+
+  <topic name="Entertainment">
+    <mark name="43 Things"
+      href="http://www.43things.com/person/mvolkmann"/>
+    <mark name="AMC Theatres"
+      href="http://www.amctheatres.com"/>
+    <mark name="Criminal Searches" href="http://criminalsearches.com/"/>
+    <mark name="This American Life"
+      href="http://www.thislife.org"/>
+    <mark name="The Bitterest Pill"
+      href="http://www.thebitterestpill.com"/>
+    <mark name="Internet Movie Database"
+      href="http://www.imdb.com"/>
+    <mark name="Life in the Office"
+      desc="&quot;The Office&quot; inside info., sound clips, quotes and more"
+      href="http://www.lifeintheoffice.com"/>
+    <mark name="The Office" desc="NBC T.V. show"
+      href="http://www.nbc.com/The_Office"/>
+    <mark name="Sauce Restaurant Guide"
+      href="http://www.saucemagazine.com/restguide.php"/>
+    <mark name="Wehernberg Theatres"
+      href="http://www.wehrenberg.com"/>
+  </topic>
+
+  <topic name="Family">
+    <mark name="Richard von Volkmann-Leander"
+      href="http://en.wikipedia.org/wiki/Richard_von_Volkmann"/>
+  </topic>
+
+  <topic name="File Sharing">
+    <mark name="RapidShare" href="http://www.rapidshare.com/"/>
+  </topic>
+
+  <topic name="Finance">
+    <mark name="Bank of America" href="http://www.bankofamerica.com"/>
+    <mark name="Charles Schwab" href="https://www.schwab.com"/>
+    <mark name="Discover" href="http://www.discovercard.com"/>
+    <mark name="Scottrade" href="http://www.scottrade.com"/>
+  </topic>
+
+  <topic name="Humor">
+    <mark name="Angry Alien"
+      desc="30-second versions of popular movies acted by bunnies"
+      href="http://angryalien.com"/>
+    <mark name="Church of the Flying Spaghetti Monster"
+      href="http://www.venganza.org"/>
+    <mark name="Don't Buy Stuff You Cannot Afford"
+      href="http://danwho.net/mp/index.php?id=snl_dontbuystuff"/>
+    <mark name="Missile Guidance"
+      href="http://www.aoe.vt.edu/~cdhall/Space/AFGUID.wav"/>
+    <mark name="The Onion"
+      href="http://www.onion.com"/>
+    <mark name="Housewife Scam"
+      href="http://www.theonion.com/content/node/39495"/>
+    <mark name="PowerPoint Suicide"
+      href="http://www.theonion.com/content/node/30903"/>
+  </topic>
+
+  <topic name="Language Translation">
+    <mark name="Babel Fish"
+      href="http://babelfish.altavista.com/translate.dyn"/>
+    <mark name="Google Language Tools"
+      href="http://www.google.com/language_tools?hl=en"/>
+  </topic>
+
+  <topic name="Macintosh">
+    <mark name="Apple Feedback"
+      href="http://www.apple.com/feedback"/>
+    <mark name="Apple Home"
+      href="http://www.apple.com"/>
+    <mark name="Cocoa vi Input Manager"
+      desc="patches the Cocoa Text System to add a vi-like command mode"
+      href="http://www.corsofamily.net/jcorso/vi/"/>
+    <mark name="iRed Lite"
+      desc="software for Apple Remotes - can control PowerPoint"
+      href="http://www.filewell.com/iRedLite/"/>
+    <mark name=".Mac Welcome"
+      href="http://www.mac.com/WebObjects/Welcome"/>
+    <topic name="Quicksilver">
+      <mark name="Get To Know"
+        href="http://lifehacker.com/software/quicksilver/?view=full"/>
+      <mark name="Video Extravaganza"
+        href="http://lifehacker.com/software/quicksilver/hack-attack-the-quicksilver-video-extravaganza-250949.php"/>
+    </topic>
+    <mark name="VersionTracker"
+      href="http://www.versiontracker.com/macosx/"/>
+  </topic>
+
+  <topic name="Maps">
+    <mark name="Google Earth" href="http://earth.google.com"/>
+    <mark name="Google Maps" href="http://maps.google.com"/>
+    <mark name="MapQuest" href="http://www.mapquest.com"/>
+  </topic>
+
+  <topic name="Medical">
+    <mark name="Calories Burned Estimator"
+      href="http://www.healthstatus.com/calculate/cbc"/>
+    <mark name="Mayo Clinic" href="http://www.mayoclinic.com"/>
+    <mark name="St. Louis Pollen and Mold"
+      href="http://www.stlouisco.com/doh/pollen/Index.cfm"/>
+    <mark name="WebMD" href="http://webmd.com"/>
+  </topic>
+
+  <topic name="Music">
+    <mark name="Deezer" href="http://www.deezer.com"
+       desc="listen to full songs for free"/>
+    <mark name="Last.fm" href="http://www.last.fm"/>
+    <mark name="Pandora" href="http://www.pandora.com/"/>
+  </topic>
+
+  <topic name="OCI">
+    <mark name="Book Library"
+      href="https://internal.ociweb.com/library"/>
+    <mark name="CAIT"
+      href="http://www.cait.wustl.edu"/>
+    <mark name="CAIT Attendance Policy"
+        href="https://internal.ociweb.com/CAIT_Attendance_Policy_2008.pdf"/>
+    <mark name="Class Schedules"
+      href="https://internal.ociweb.com/classSched.pl"/>
+    <mark name="Employee Directory"
+      href="http://internal.ociweb.com/directory"/>
+    <mark name="Employee Handbook"
+      href="http://internal.ociweb.com/EmployeeHandbook"/>
+    <mark name="Home"
+      href="http://www.ociweb.com"/>
+    <mark name="JBoss Support"
+      href="http://jboss.ociweb.com/support/"/>
+    <topic name="JNB">
+      <mark name="Articles"
+        href="http://www.ociweb.com/articles/publications/jnb.html"/>
+      <mark name="Author Guide"
+        href="http://www.ociweb.com/jnb/JavaNewsBriefAuthorGuide.html"/>
+      <mark name="Schedule"
+        href="https://wiki.ociweb.com/wiki/tiki-index.php?page=JavaNewsBriefSchedule"/>
+    </topic>
+    <mark name="Java Lunch Schedule"
+      href="https://wiki.ociweb.com/wiki/tiki-index.php?page=JavaLunchSchedule"/>
+    <mark name="Mailing Lists"
+      href="https://lists.ociweb.com/mailman/listinfo"/>
+    <mark name="Internal/Private"
+      href="https://internal.ociweb.com"/>
+    <mark name="Project Open"
+      href="https://project.ociweb.com"/>
+    <mark name="Request Tracker (RT)"
+      href="https://support.ociweb.com"/>
+    <mark name="Software Development Process"
+      desc="(SDP) a local link"
+      href="file:///Users/Mark/Documents/OCI/SVN/oci/internal/SDP/OCI_SDP.html"/>
+    <mark name="Strategy Wiki"
+      href="https://stratwiki.ociweb.com"/>
+    <mark name="System Admin. Requests"
+      desc="sends email to Chuck Renner and Bill Bird"
+      href="mailto:sysadmin-requests@ociweb.com"/>
+    <mark name="WebMail"
+      href="https://mail.ociweb.com/horde2"/>
+    <mark name="Website Statistics"
+      desc="username/password in Address Book"
+      href="https://ssl.ociweb.com/usage/"/>
+    <mark name="Wiki - new"
+      href="https://wiki.ociweb.com/wiki/tiki-index.php"/>
+    <mark name="Wiki - old"
+      href="https://internal.ociweb.com/wiki/oci"/>
+  </topic>
+
+  <topic name="Personal Web Sites">
+    <mark name="MySpace"
+      href="http://www.myspace.com/55880988"/>
+    <mark name="Volkmann"
+      href="http://webpages.charter.net/volkmann2"/>
+    <mark name="Volkmann .Mac"
+      href="http://web.mac.com/r.mark.volkmann/iWeb/Site/Welcome.html"/>
+    <mark name="Whalen"
+      href="http://webpages.charter.net/trwstork"/>
+  </topic>
+
+  <topic name="Programming">
+
+    <topic name="Adobe">
+      <topic name="ActionScript 3">
+        <mark name="Language Reference"
+            href="http://livedocs.adobe.com/flash/9.0/ActionScriptLangRefV3/"/>
+      </topic>
+      <topic name="AIR">
+        <mark name="main site" href="http://www.adobe.com/products/air/"/>
+        <mark name="Adobe AIR for JavaScript Developers Pocket Guide"
+            href="http://www.adobe.com/go/airjavascriptpocketguide/"/>
+      </topic>
+      <topic name="Flex 3">
+        <mark name="main site" href="http://www.adobe.com/products/flex/"/>
+        <mark name="flex.org" href="http://flex.org/"/>
+        <mark name="LiveDocs Language Reference"
+          description="includes Flash and MXML APIs"
+          href="http://livedocs.adobe.com/flex/3/langref/"/>
+        <mark name="LiveDocs top" href="http://livedocs.adobe.com/flex/3/"/>
+        <mark name="Resources"
+          href="http://www.adobe.com/support/documentation/en/flex/"/>
+        <mark name="Wiki Getting Started"
+          href="http://learn.adobe.com/wiki/display/Flex/"/>
+      </topic>
+      <topic name="MXML">
+        <mark name="Language Reference"
+            href="http://livedocs.adobe.com/flex/3/langref/"/>
+      </topic>
+      <topic name="WebKit">
+        <mark name="main site" href="http://webkit.org"/>
+      </topic>
+    </topic>
+
+    <topic name="AJaX">
+    </topic>
+
+    <topic name="Character Sets">
+      <mark name="ASCII" href="http://www.asciitable.com/"/>
+      <mark name="Unicode" href="http://unicode.org/charts/"/>
+    </topic>
+
+    <topic name="Benchmarks">
+      <mark name="Computer Language Benchmarks Game"
+        href="http://shootout.alioth.debian.org"/>
+    </topic>
+
+    <topic name="Blogs">
+      <mark name="Alex Miller" href="http://tech.puredanger.com/"/>
+      <mark name="Bob Lee" href="http://crazybob.org/index.php"/>
+      <mark name="Brian Gilstrap" href="http://viewfromthefringe.blogspot.com/"/>
+      <mark name="Charles Nutter - JRuby" href="http://headius.blogspot.com/"/>
+      <mark name="Dale Wilson" href="http://wilsond.blogspot.com/"/>
+      <mark name="Eric Burke" href="http://stuffthathappens.com/blog/"/>
+      <mark name="Joel Spolsky" href="http://www.joelonsoftware.com/"/>
+      <mark name="Kyle Cordes" href="http://kylecordes.com/"/>
+      <mark name="Mike Easter" href="http://codetojoy.blogspot.com/"/>
+      <mark name="Steve Jacobs" href="http://stevecycles.blogspot.com/"/>
+      <mark name="Tim Bray" href="http://www.tbray.org/ongoing/"/>
+      <mark name="Weiqi Gao" href="http:http://criminalsearches.com///www.weiqigao.com/blog/"/>
+    </topic>
+
+    <topic name="Compilers">
+      <mark name="How difficult is it to write a compiler?"
+        href="http://tratt.net/laurie/tech_articles/articles/how_difficult_is_it_to_write_a_compiler"/>
+    </topic>
+
+    <topic name="CSS">
+      <mark name="CSS Reference" href="http://xhtml.com/en/css/reference"/>
+      <mark name="CSS Repertoire" href="http://u2d.com/css"/>
+    </topic>
+
+    <topic name="Databases">
+      <topic name="MySQL">
+      </topic>
+      <mark name="OODBs flawed"
+        desc="post from Austin Ziegler on ruby-talk"
+        href="http://blade.nagaokaut.ac.jp/cgi-bin/scat.rb/ruby/ruby-talk/239575"/>
+      <topic name="SQLite">
+        <mark name="main site" href="http://www.sqlite.org"/>
+        <mark name="intro. video"
+          description="Google Video featuring the author Richard Hibb"
+          href="http://video.google.com/videoplay?docid=-5160435487953918649"/>
+      </topic>
+    </topic>
+
+    <topic name="Editors and IDEs">
+      <mark name="Eclipse" href="http://www.eclipse.org"/>
+      <mark name="Eclipse Plug-ins" href="http://www.eclipse.org/community/plugins.html"/>
+      <topic name="IDEA">
+        <mark name="JetBrains" href="http://www.jetbrains.com"/>
+        <mark name="IdeaVIM" desc="Vim plugin for IDEA"
+          href="http://ideavim.sourceforge.net/"/>
+      </topic>
+      <topic name="Vim">
+        <mark name="home" href="http://www.vim.org"/>
+        <mark name="macVim" href="http://wiki.macvim.org/wiki/"/>
+        <mark name="lots of themes!"
+          href="http://www.cs.cmu.edu/~maverick/VimColorSchemeTest/index-pl.html"/>
+        <mark name="Seven Habits of Effective text editing 2.0"
+          desc="Google Talk video with Bram Moolenaar"
+          href="http://video.google.com/videoplay?docid=2538831956647446078&amp;q=engedu+vim"/>
+        <mark name="Vim-Ruby info. at RubyGarden"
+          href="http://wiki.rubygarden.org/Ruby/page/show/VimRubySupport"/>
+        <mark name="The Cult of vi"
+          href="http://www.splange.freeserve.co.uk/misc/vi.html"/>
+      </topic>
+    </topic>
+
+    <topic name="Functional Programming">
+      <mark name="SICP in Other Languages"
+        href="http://www.codepoetics.com/wiki/index.php?title=Topics:SICP_in_other_languages"/>
+    </topic>
+
+    <topic name="HTML">
+      <mark name="Browser-safe Colors"
+        href="http://www.primeshop.com/html/216colrs.htm"/>
+      <mark name="HTML 4.01 Specification"
+        href="http://www.w3.org/TR/html4"/>
+      <mark name="Color Blendy"
+        href="http://colorblendy.com/"
+        desc="select a color on left and right, then press buttons in middle to select a third, compatible color"/>
+      <mark name="Color Scheme Designer"
+        href="http://colorschemedesigner.com/"/>
+    </topic>
+
+    <topic name="HTTP">
+      <mark name="Status Codes"
+        href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html"/>
+      <mark name="Geocode Information" desc="from LimeWire"
+        href="http://geo.links.limewire.com/geo/"/>
+    </topic>
+
+    <topic name="Icons">
+      <mark name="Icon King" href="http://icon-king.com"/>
+    </topic>
+
+    <mark name="koders"
+      desc="search through lots of source code on the web"
+      href="http://www.koders.com"/>
+
+    <topic name="Languages">
+
+      <topic name="C">
+      </topic>
+
+      <topic name="C++">
+        <mark name="cplusplus.com" href="http://cplusplus.com"/>
+        <mark name="Dinkum Compleat Libraries Reference"
+          href="http://www.dinkumware.com/manuals/"/>
+      </topic>
+
+      <topic name="C#">
+        <mark name="How Do I in C#?"
+          href="http://msdn2.microsoft.com/en-US/library/ms186211.aspx"/>
+      </topic>
+
+      <topic name="Clojure">
+        <mark name="main site" href="http://clojure.org/"/>
+        <mark name="Programming Clojure book"
+          href="http://pragprog.com/titles/shcloj/programming-clojure"/>
+      </topic>
+
+      <topic name="Groovy">
+        <mark name="API doc" href="http://groovy.codehaus.org/apidocs"/>
+        <mark name="Home" href="http://groovy.codehaus.org"/>
+        <mark name="My JNB"
+          href="http://www.ociweb.com/jnb/jnbFeb2004.html"/>
+      </topic>
+
+      <topic name="Haskell">
+        <mark name="main site" href="http://www.haskell.org/"/>
+        <mark name="Learn You a Haskell for Great Good!"
+          href="http://learnyouahaskell.com/"/>
+        <mark name="Real World Haskell book"
+          href="http://book.realworldhaskell.org/"/>
+      </topic>
+
+      <topic name="Java">
+
+        <topic name="API documentation">
+          <mark name="Hibernate"
+            href="http://www.hibernate.org/hib_docs/v3/api"/>
+          <mark name="iBATIS"
+            href="http://ibatis.apache.org/docs/java/user"/>
+          <mark name="Java"
+            href="http://java.sun.com/reference/api"/>
+          <mark name="JUnit"
+            href="http://junit.sourceforge.net/javadoc_40"/>
+          <mark name="Log4J"
+            href="http://logging.apache.org/log4j/docs/api"/>
+          <mark name="NetBeans Platform"
+            href="http://bits.netbeans.org/dev/javadoc/index.html"/>
+          <mark name="SoyLatte"
+            desc="X11-based port of Java 6 for Mac OS X on Intel processors"
+            href="http://landonf.bikemonkey.org/static/soylatte/"/>
+          <mark name="Spring"
+            href="http://static.springframework.org/spring/docs/2.0.x/api/index.html"/>
+        </topic>
+
+        <topic name="Ant">
+          <mark name="Manual"
+            href="http://ant.apache.org/manual/index.html"/>
+        </topic>
+
+        <topic name="Aspect-Oriented Programming (AOP)">
+          <topic name="AspectJ">
+            <mark name="home" href="http://www.eclipse.org/aspectj/"/>
+            <mark name="runtime API"
+              href="http://www.eclipse.org/aspectj/doc/released/runtime-api/"/>
+            <mark name="Java 5 reflection and annotation API"
+              href="http://www.eclipse.org/aspectj/doc/released/aspectj5rt-api/"/>
+            <mark name="weaver API"
+              href="http://www.eclipse.org/aspectj/doc/released/weaver-api/"/>
+          </topic>
+        </topic>
+
+        <topic name="Conventions">
+          <mark name="Sun Code Conventions for Java"
+            href="http://java.sun.com/docs/codeconv/"/>
+          <mark name="Sun How to Write Javadoc"
+            href="http://java.sun.com/j2se/javadoc/writingdoccomments/"/>
+        </topic>
+
+        <topic name="Database Access">
+          <mark name="Abator" desc="code generator for iBATIS"
+            href="http://ibatis.apache.org/abator.html"/>
+          <mark name="Groovy Object Relational Mapping" desc="(GORM)"
+            href="http://grails.codehaus.org/GORM"/>
+          <mark name="Hibernate" href="http://www.hibernate.org"/>
+          <mark name="iBATIS" href="http://ibatis.apache.org"/>
+          <mark name="Java Persistence API" desc="(JPA)"
+            href="http://java.sun.com/javaee/technologies/entapps/persistence.jsp"/>
+          <mark name="JDBC" href="http://java.sun.com/javase/technologies/database/"/>
+        </topic>
+
+        <topic name="EJB">
+          <mark name="JBoss TrailBlazer"
+            desc="teaches how to use EJB 3.0 with JBoss 4"
+            href="http://trailblazer.demo.jboss.com/EJB3Trail"/>
+        </topic>
+
+        <mark name="Example code"
+          desc='supplement to the "Java Developers Almanac"'
+          href="http://www.exampledepot.com"/>
+
+        <mark name="Gateway Java User Group"
+          href="http://www.gatewayjug.org"/>
+        <mark name="Home" href="http://java.sun.com"/>
+
+        <topic name="Java for Mac OS X">
+          <mark name="Features"
+            href="http://www.apple.com/macosx/features/java/"/>
+          <mark name="Finding Your Way Around"
+            href="http://developer.apple.com/documentation/Java/Conceptual/Java14Development/index.html#//apple_ref/doc/uid/TP30001142"/>
+        </topic>
+
+        <topic name="J2EE Servers">
+          <mark name="JBoss" href="http://www.jboss.org"/>
+          <topic name="Apache Tomcat">
+            <mark name="home" href="http://tomcat.apache.org/"/>
+            <mark name="Configuring and Using Apache Tomcat"
+              href="http://www.coreservlets.com/Apache-Tomcat-Tutorial/"/>
+          </topic>
+        </topic>
+
+        <topic name="Logging">
+          <mark name="Log4J" href="http://logging.apache.org/log4j"/>
+        </topic>
+
+        <topic name="Maven">
+          <mark name="Home" href="http://maven.apache.org"/>
+          <mark name="Guides" href="http://maven.apache.org/guides/"/>
+          <mark name="User Guide"
+            href="http://maven.apache.org/reference/user-guide.html"/>
+        </topic>
+
+        <mark name="No Fluff Just Stuff Symposiums"
+          href="http://www.nofluffjuststuff.com"/>
+
+        <topic name="Portlets">
+          <mark name="Introduction to JSR 168 from Sun"
+            href="http://developers.sun.com/portalserver/reference/techart/jsr168/pb_whitepaper.pdf"/>
+        </topic>
+
+        <topic name="Spring Framework">
+          <mark name="home page"
+            href="http://www.springframework.org"/>
+          <mark name="Spring DAOs with iBATIS"
+            href="http://static.springframework.org/spring/docs/2.0.x/reference/orm.html#orm-ibatis"/>
+        </topic>
+
+        <mark name="St. Louis Java User Group"
+          href="http://www.ociweb.com/javasig"/>
+        <mark name="St. Louis JUG Yahoo! Group"
+          href="http://groups.yahoo.com/group/stljug"/>
+
+        <topic name="Swing">
+          <mark name="Beans Binding"
+            desc="JSR-295"
+            href="https://beansbinding.dev.java.net/"/>
+          <mark name="EventBus"
+            href="https://eventbus.dev.java.net/"/>
+          <mark name="Filthy Rich Clients"
+            href="http://www.filthyrichclients.org"/>
+          <mark name="FoxTrot"
+            desc="for using threads with Swing"
+            href="http://foxtrot.sourceforge.net/"/>
+          <mark name="GNU gettext"
+            desc="translates strings for internationalization"
+            href="http://www.gnu.org/software/autoconf/manual/gettext/Java.html"/>
+          <mark name="Glazed Lists"
+            href="http://publicobject.com/glazedlists/"/>
+          <mark name="JGoodies"
+            href="http://www.jgoodies.com/"/>
+          <mark name="modzswing"
+            desc="Mozilla web browser for use in Swing"
+            href="http://mozswing.mozdev.org/"/>
+          <mark name="Swing Applications Framework"
+            desc="JSR-296"
+            href="https://appframework.dev.java.net/"/>
+          <mark name="Swing Applications Framework javadoc"
+            desc="JSR-296"
+            href="https://appframework.dev.java.net/nonav/javadoc/AppFramework-1.03/"/>
+          <mark name="SwingLabs"
+            href="http://swinglabs.org"/>
+          <mark name="SwingX"
+            desc="extensions to Swing; part of the SwingLabs project"
+            href="https://swingx.dev.java.net/"/>
+          <mark name="SwingX javadoc"
+            href="http://swinglabs.org/hudson/job/SwingX%20Continuous%20Build/javadoc/"/>
+        </topic>
+
+        <topic name="Testing">
+          <mark name="Cactus" href="http://jakarta.apache.org/cactus"/>
+          <mark name="EasyMock"
+            desc="tool for generating mock object code"
+            href="http://www.easymock.com/"/>
+          <mark name="HttpUnit" href="http://httpunit.sourceforge.org"/>
+          <mark name="JUnit" href="http://www.junit.org"/>
+          <mark name="Mock Objects"
+            desc="IBM article"
+            href="http://www-128.ibm.com/developerworks/library/j-mocktest.html"/>
+        </topic>
+      </topic>
+
+      <topic name="JavaFX Script">
+        <mark name="main site" href="http://openjfx.dev.java.net/"/>
+        <mark name="language refererence"
+          href="http://openjfx.java.sun.com/current-build/doc/JavaFX-Language.html"/>
+        <mark name="API docs" href="https://openjfx.dev.java.net/nonav/api/"/>
+        <mark name="java.net article"
+          href="https://openjfx.dev.java.net/Learning_More_About_JavaFX.html"/>
+      </topic>
+
+      <topic name="JavaScript">
+        <mark name="Douglas Crawford articles"
+          href="http://javascript.crockford.com/javascript.html"/>
+        <topic name="Libraries">
+          <mark name="Behaviour" href="http://www.bennolan.com/behaviour"/>
+          <mark name="Dojo" href="http://dojotoolkit.org"/>
+          <mark name="MochiKit" href="http://mochikit.org"/>
+          <mark name="Prototype" href="http://www.prototypejs.org"/>
+          <mark name="Rico" href="http://openrico.org"/>
+          <mark name="Sarissa"
+            href="http://sarissa.sourceforge.net"/>
+          <mark name="script.aculo.us" href="http://script.aculo.us"/>
+          <mark name="Yahoo! User Interface Library (YUI)"
+            href="http://developer.yahoo.com/yui/"/>
+        </topic>
+      </topic>
+
+      <topic name="JRuby">
+        <mark name="JRuby Home" href="http://www.jruby.org"/>
+        <mark name="Nabble Forums"
+          desc="search of JRuby dev and user mailing list archives"
+          href="http://www.nabble.com/JRuby-f14106.html"/>
+        <mark name="JRuby Wiki" href="http://www.headius.com/jrubywiki"/>
+        <topic name="Blogs">
+          <mark name="Charles Nutter"
+            href="http://headius.blogspot.com"/>
+          <mark name="Tom Enebo"
+            href="http://www.bloglines.com/blog/ThomasEEnebo"/>
+          <mark name="Ola Bini" href="http://ola-bini.blogspot.com"/>
+        </topic>
+      </topic>
+
+      <topic name="Lisp &amp; variants (Clojure has its own topic)">
+        <mark name="&quot;Revenge Of The Nerds&quot; 2002 Paul Graham article"
+          href="http://www.paulgraham.com/icad.html"/>
+        <mark name="&quot;On Lisp&quot; book"
+          href="http://paulgraham.com/onlisp.html"/>
+        <mark name="&quot;Practical Common Lisp&quot; book"
+          href="http://www.gigamonkeys.com/book"/>
+        <mark name="&quot;Succinctness Is Power&quot; 2002 Paul Graham article"
+          href="http://paulgraham.com/power.html"/>
+      </topic>
+      
+      <topic name="Ruby">
+        <topic name="ActiveRecord">
+          <mark name="ActiveRecord"
+            desc="O/R mapping framework"
+            href="http://ar.rubyonrails.org"/>
+          <mark name="Composite Keys ActiveRecord Plug-in"
+            href="http://compositekeys.rubyforge.org"/>
+        </topic>
+        <mark name="Camping" href="http://code.whytheluckystiff.net/camping/"/>
+        <mark name="Google style and usage guide"
+          href="http://www.caliban.org/ruby/rubyguide.shtml"/>
+        <mark name="Hackety Hack"
+          desc="Why the Lucky Stiff tool for learning Ruby"
+          href="http://hacketyhack.net"/>
+        <mark name="Home" href="http://www.ruby-lang.org/en"/>
+        <mark name="Mongrel"
+          desc="web server"
+          href="http://mongrel.rubyforge.org"/>
+        <mark name="One-Click Installer (OCI)"
+          desc="Windows Ruby installer"
+          href="http://rubyforge.org/projects/rubyinstaller"/>
+        <mark name="Pickaxe book - 1st edition"
+          href="http://www.rubycentral.com/book"/>
+        <mark name="Ruby Kitchen Sink"
+          desc="search engine for Ruby-related content"
+          href="http://rubykitchensink.ca"/>
+        <mark name="Ruby-Doc" href="http://www.ruby-doc.org"/>
+        <mark name="Shoes" href="http://code.whytheluckystiff.net/shoes"
+          desc="GUI toolkit from WhyTheLuckyStiff"/>
+        <mark name="St. Louis Ruby User Group Google Group"
+          href="http://groups.google.com/group/stlruby"/>
+        <mark name="St. Louis Ruby User Group Wiki"
+          href="http://www.stlruby.org/ruwiki/ruwiki.cgi"/>
+        <mark name="Try Ruby" desc="an interactive tutorial"
+          href="http://tryruby.hobix.com/"/>
+        <mark name="Why's Poignant Guide to Ruby"
+          href="http://poignantguide.net/ruby/"/>
+        <mark name="XRuby"
+          desc="a Ruby to Java bytecode compiler"
+          href="http://code.google.com/p/xruby"/>
+        <mark name="ZenTest"
+          desc="suite of testing tools"
+          href="http://zentest.rubyforge.org/ZenTest"/>
+      </topic>
+
+      <topic name="Scala">
+        <mark name="Programming Scala"
+          desc="O'Reilly book by Dean Wampler"
+          href="http://programming-scala.labs.oreilly.com/"/>
+      </topic>
+
+      <topic name="Scheme">
+      </topic>
+
+      <topic name="Smalltalk">
+        <mark name="The World of Smalltalk" href="http://www.world.st"
+          desc="a collection of Smalltalk-related information"/>
+        <mark name="Smalltalk.org" href="http://www.smalltalk.org"/>
+        <mark name="Design Principles Behind Smalltalk"
+          href="http://users.ipa.net/~dwighth/smalltalk/byte_aug81/design_principles_behind_smalltalk.html"/>
+        <mark name="learning"
+          href="http://www.smalltalk.org/smalltalk/learning.html"/>
+        <mark name="free online books"
+          href="http://www.iam.unibe.ch/~ducasse/FreeBooks.html"/>
+        <mark name="Squeak" href="http://www.squeak.org"/>
+        <mark name="Squeak Smalltalk grammar"
+          href="http://wiki.squeak.org/squeak/409"/>
+        <mark name="versions/implementations"
+          href="http://www.smalltalk.org/versions/"/>
+        <mark name="Squeak by Example open-source book"
+          href="http://www.iam.unibe.ch/~scg/SBE/"/>
+      </topic>
+    </topic>
+
+    <topic name="Miscellaneous">
+      <mark name="PeopleData" desc="people search" href="http://pipl.com"/>
+      <mark name="Scalable computer programming languages"
+        href="http://www.cs.caltech.edu/~mvanier/hacking/rants/scalable_computer_programming_languages.html"/>
+    </topic>
+
+    <topic name="Parser Generators">
+      <topic name="ANTLR">
+        <mark name="home page" href="http://www.antlr.org"/>
+        <mark name="documentation"
+          href="http://www.antlr.org/wiki/display/ANTLR3/ANTLR+v3+documentation"/>
+      </topic>
+    </topic>
+
+    <topic name="Processes">
+      <mark name="If they come, how will they build it?"
+        desc="stresses the importance of documentation for new developers on a project"
+        href="http://www.hacknot.info/hacknot/action/showEntry?eid=97"/>
+      <topic name="SEI/CMMI">
+      </topic>
+      <topic name="XP">
+        <mark name="St. Louis XP User Group"
+          href="http://xpstl.org"/>
+      </topic>
+    </topic>
+
+    <topic name="UML">
+      <mark name="gliffy" href="http://www.gliffy.com"/>
+      <mark name="Violet" href="http://horstmann.com/violet/"/>
+    </topic>
+
+    <topic name="UNIX">
+    </topic>
+
+    <topic name="Version Control">
+      <topic name="ClearCase">
+        <mark name="Rational Clearcase Commands Reference"
+          href="http://www.ipnom.com/ClearCase-Commands/config_spec.html"/>
+        <mark name="IBM Cheat Sheet"
+          href="http://www-128.ibm.com/developerworks/rational/library/836.html"/>
+        <mark name="Red Book"
+          href="http://svnbook.red-bean.com/nightly/en/svn-book.html"/>
+        <mark name="YoLinux Tutorial"
+          href="http://www.yolinux.com/TUTORIALS/ClearcaseCommands.html"/>
+      </topic>
+      <topic name="CVS">
+      </topic>
+      <topic name="Git">
+        <mark name="Home" href="http://git.or.cz"/>
+        <mark name="Pro Git book" href="http://progit.org/book/"/>
+      </topic>
+      <topic name="Subversion">
+        <mark name="Home" href="http://subversion.tigris.org"/>
+      </topic>
+    </topic>
+
+    <topic name="Web App. Frameworks">
+      <topic name="Echo2">
+      </topic>
+      <topic name="Google Web Toolkit (GWT)">
+        <mark name="Home" href="http://code.google.com/webtoolkit"/>
+      </topic>
+      <topic name="Java Server Faces (JSF)">
+      </topic>
+      <topic name="Spring Web MVC">
+      </topic>
+      <topic name="Struts">
+      </topic>
+      <topic name="Struts 2">
+      </topic>
+      <topic name="Lively Kernel from Sun Labs">
+        <mark name="home page" href="http://research.sun.com/projects/lively/"/>
+      </topic>
+      <topic name="Tapestry">
+      </topic>
+      <topic name="Wicket">
+      </topic>
+    </topic>
+
+    <topic name="Web Services">
+      <mark name="Andre Tost: My top 10 Web service issues"
+        href="http://www-128.ibm.com/developerworks/websphere/techjournal/0608_col_tost/0608_col_tost.html"/>
+      <topic name="REST">
+        <mark name="JSON"
+          desc="JavaScript Object Notation"
+          href="http://www.json.org"/>
+        <mark name="My JNB article"
+          desc="from November 2004"
+          href="http://www.ociweb.com/jnb/jnbNov2004.html"/>
+      </topic>
+    </topic>
+
+    <topic name="XML">
+      <mark name="JAXP" href="http://java.sun.com/webservices/jaxp"/>
+      <mark name="JDOM" href="http://www.jdom.org"/>
+      <mark name="oXygen XML editor" href="http://www.oxygenxml.com"/>
+      <topic name="RELAX NG">
+        <mark name="10 Reasons To Use Relax NG"
+          href="http://www.griffinbrown.co.uk/blog/PermaLink,guid,9aebb083-a961-42b1-9748-a57e06a0f19a.aspx"/>
+      </topic>
+      <mark name="Saxon" href="http://saxon.sourceforge.net"/>
+      <topic name="Schematron">
+        <mark name="news from Rick Jelliffe on 2/19/07"
+          href="http://www.oreillynet.com/xml/blog/2007/02/schematron_news.html"/>
+      </topic>
+      <mark name="WAX" desc="Writing API for XML"
+        href="http://www.ociweb.com/wax/"/>
+      <mark name="Xalan" href="http://xalan.apache.org/"/>
+      <mark name="Xerces" href="http://xerces.apache.org/"/>
+      <mark name="Xerces APIs"
+        href="http://xerces.apache.org/xerces2-j/api.html"/>
+    </topic>
+  </topic>
+
+  <topic name="Reference">
+    <mark name="Wikipedia" href="http://www.wikipedia.com"/>
+  </topic>
+
+  <topic name="Sports">
+    <mark name="ESPN" href="http://espn.go.com"/>
+    <topic name="Running">
+      <mark name="Anybody Can Do It Speech"
+        href="http://cricketjohnson.blogspot.com/2008/05/marathon-season-anyone-can-do-it-speech.html"/>
+      <mark name="ESPN Track and Field News Wire"
+        href="http://sports.espn.go.com/espn/wire?sportId=1700"/> 
+      <mark name="Feed The Warrior"
+        desc="Lance Armstrong TV commercial for Dick's"
+        href="http://www.youtube.com/watch?v=YO8_N4YkEns&amp;NR=1"/>
+      <mark name="Nova Marathon Challenge"
+        href="http://www.pbs.org/wgbh/nova/marathon/program.html"/>
+      <mark name="Running Calculator"
+        href="http://www.coolrunning.com/engine/4/4_1/96.shtml"/>
+      <topic name="Marathons">
+        <mark name="Boston"
+          href="http://www.bostonmarathon.com"/>
+        <mark name="Chicago"
+          href="http://www.chicagomarathon.com"/>
+        <mark name="Little Rock"
+          href="http://www.littlerockmarathon.com"/>
+        <mark name="London"
+          href="http://www.london-marathon.co.uk"/>
+        <mark name="Marine Corps"
+          href="http://www.marinemarathon.com"/>
+        <mark name="New York"
+          href="http://www.newyorkmarathon.com"/>
+        <mark name="St. Louis"
+          href="http://www.stlouismarathon.com"/>
+        <mark name="Marathon Running Will Help You Succeed In Business"
+          href="http://zaletabakman.ca/2007/08/16/marathon-running-will-help-you-succeed-in-business/"/>
+        <mark name="Motivation To Run A Marathon"
+          href="http://www.videojug.com/interview/motivation-to-run-a-marathon-2"/>
+      </topic>
+      <mark name="Running Is Life"
+        desc="video from Brooks"
+        href="http://blip.tv/file/504334/"/>
+      <mark name="Stretching"
+        href="http://www.runnersworld.com/article/0,7120,s6-241-287--7001-0,00.html?cm_mmc=training-_-2007_10_23-_-training-_-Does%20Stretching%20Prevent%20Injuries%3f"/>
+      <topic name="Stores">
+        <mark name="eFootWear"
+          href="http://www.efootwear.com"/>
+        <mark name="Fleet Feet St. Louis"
+        href="http://www.fleetfeetstl.com"/>
+         <mark name="Running Warehouse"
+          href="http://www.runningwarehouse.com"/>
+      </topic>
+      <mark name="St. Louis Track Club"
+        href="http://www.stlouistrackclub.com"/>
+      <mark name="St. Louis Ultrarunners Group (SLUG)"
+        href="http://www.stlouisultrarunnersgroup.net/"/>
+    </topic>
+  </topic>
+
+  <topic name="Science">
+    <mark name="How Stuff Works" href="http://www.howstuffworks.com"/>
+  </topic>
+  
+  <topic name="Slide Rules">
+    <mark name="Greg's Slide Rules" href="http://sliderule.ozmanor.com/"/>
+  </topic>
+  
+  <topic name="Weather">
+    <mark name="AccuWeather Saint Charles Hour by Hour Forecast"
+      href="http://wwwa.accuweather.com/forecast-hourly.asp?partner=accuweather&amp;myadc=1&amp;traveler=0&amp;zipcode=63304&amp;metric=0"/>
+    <mark name="The Weather Channel" href="http://www.weather.com"/>
+  </topic>
+
+</bookmarks>

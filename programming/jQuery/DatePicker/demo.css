@@ -1,0 +1,10 @@
+/* Each day in the datepicker is rendered by
+   an anchor tag inside a td tag. */
+.special a {
+  color: red !important; /* to override properties jQuery assigns */
+
+}
+
+label {
+  font-weight: bold;
+}

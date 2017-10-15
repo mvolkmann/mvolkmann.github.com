@@ -1,0 +1,3 @@
+cp -fR * /Users/Mark/Documents/VolkmannWebSite/nbp
+cd /Users/Mark/Documents/VolkmannWebSite
+./release

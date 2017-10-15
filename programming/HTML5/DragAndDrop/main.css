@@ -1,0 +1,41 @@
+@charset "UTF-8";
+
+*[draggable=true] {
+  cursor: move;
+}
+
+body {
+  background-color: linen;
+}
+
+#board {
+  border-collapse: collapse;
+}
+
+.darkSquare {
+  background-color: gray;
+}
+
+.lightSquare {
+  background-color: white;
+}
+
+.validSquare {
+  background-color: green;
+}
+
+.darkSquare, .lightSquare {
+  border: solid red 3px;
+  padding: 0px;
+  height: 50px;
+  width: 50px;
+}
+
+.over {
+  border: solid green 3px;
+}
+
+.piece {
+  height: 42px;
+  width: 42px;
+}

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>new (WAX)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File lib/wax.rb, line 58</span>
+  <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">writer</span>=<span class="ruby-identifier">$stdout</span>, <span class="ruby-identifier">version</span>=<span class="ruby-keyword kw">nil</span>)
+    <span class="ruby-ivar">@attr_on_new_line</span> = <span class="ruby-keyword kw">false</span>
+    <span class="ruby-ivar">@check_me</span> = <span class="ruby-keyword kw">true</span>
+    <span class="ruby-ivar">@close_stream</span> = <span class="ruby-identifier">writer</span> <span class="ruby-operator">!=</span> <span class="ruby-identifier">$stdout</span>
+    <span class="ruby-ivar">@dtd_specified</span> = <span class="ruby-keyword kw">false</span>
+    <span class="ruby-ivar">@in_commented_start</span> = <span class="ruby-keyword kw">false</span>
+    <span class="ruby-ivar">@dtd_file_path</span> = <span class="ruby-keyword kw">nil</span>
+    <span class="ruby-ivar">@entity_defs</span> = []
+    <span class="ruby-ivar">@has_content</span> = <span class="ruby-ivar">@has_indented_content</span> = <span class="ruby-keyword kw">false</span>
+    <span class="ruby-ivar">@indent</span> = <span class="ruby-value str">'  '</span>
+    <span class="ruby-ivar">@namespace_uri_to_schema_path_map</span> = {}
+    <span class="ruby-ivar">@parent_stack</span> = []
+    <span class="ruby-ivar">@pending_prefixes</span> = []
+    <span class="ruby-ivar">@prefixes_stack</span> = []
+    <span class="ruby-ivar">@state</span> = <span class="ruby-identifier">:in_prolog</span>
+    <span class="ruby-ivar">@writer</span> = <span class="ruby-identifier">writer</span> 
+    <span class="ruby-ivar">@xslt_specified</span> = <span class="ruby-keyword kw">false</span>
+    <span class="ruby-identifier">use_non_windows_cr</span>
+    <span class="ruby-identifier">write_xml_declaration</span>(<span class="ruby-identifier">version</span>)
+  <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

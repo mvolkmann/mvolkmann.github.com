@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR.html1/DTD.html1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999.html">
+  <head>
+    <title>Spring IOC</title>
+    <link rel="stylesheet" type="text/css" href="../common.css"/>
+  </head>
+  <body>
+    <a name="top"/>
+    <h2>Spring Transactions</h2>
+    
+    <h3>Introduction</h3>
+    <p>
+      Spring can manage transactions for databases and other resources
+      such as JMS connections. Transactions can be demarcated in code
+      or they can be specified declaratively using Java annotations.
+      These notes focus on the declarative approach.
+    </p>
+    <p>
+      For more details, see the Spring manual chapter on transactions
+      <a target="_blank" href="http://static.springframework.org/spring/docs/2.0.x/reference/transaction.html">here</a>.
+    </p>
+
+    <h3>Spring Configuration</h3>
+    <p>
+      Here's an example of a spring configuration file,
+      typically named <code>spring-beans.xml</code>,
+      that configures the use of declarative transactions.
+    </p>
+    <pre><div class="code">
+&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;beans xmlns="http://www.springframework.org/schema/beans"
+  xmlns:aop="http://www.springframework.org/schema/aop"
+  xmlns:tx="http://www.springframework.org/schema/tx"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="
+    http://www.springframework.org/schema/aop
+    http://www.springframework.org/schema/aop/spring-aop-2.0.xsd
+    http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+    http://www.springframework.org/schema/tx
+    http://www.springframework.org/schema/tx/spring-tx-2.0.xsd"&gt;
+
+  &lt;bean id="dataSource"
+    class="org.springframework.jndi.JndiObjectFactoryBean"&gt;
+    &lt;property name="jndiName" value="java:jdbc/{database-jndi-name}"/&gt;
+  &lt;/bean&gt;
+
+  &lt;!-- If using iBATIS, this will be needed. --&gt;
+  &lt;bean id="sqlMapClient"
+    class="org.springframework.orm.ibatis.SqlMapClientFactoryBean"&gt;
+    &lt;property name="configLocation" value="/WEB-INF/SqlMapConfig.xml"/&gt;
+    &lt;property name="dataSource" ref="dataSource"/&gt;
+  &lt;/bean&gt;
+
+  &lt;!-- This sets up Spring declarative transactions
+       using @Transactional annotations. --&gt;
+  &lt;tx:annotation-driven transaction-manager="transactionManager"/&gt;
+  &lt;aop:aspectj-autoproxy/&gt;
+  &lt;bean id="transactionManager"
+    class="org.springframework.jdbc.datasource.DataSourceTransactionManager"&gt;
+    &lt;property name="dataSource" ref="dataSource"/&gt;
+  &lt;/bean&gt;
+
+  &lt;!-- Classes that use the @Transactional annotation must
+       have their instances loaded using Spring's getBean method. --&gt;
+  &lt;bean id="{bean-name}" class="{package-qualified-class-name}"/&gt;
+
+&lt;/beans&gt;
+</div></pre>
+
+    <h3>Declaring Transactions</h3>
+    <p>
+      Any Java method that needs to run inside a transaction
+      should be preceded by an <code>@Transactional</code> annotation.
+      Use of this annotation is described in section <a target="_blank"
+      href="http://static.springframework.org/spring/docs/2.0.x/reference/transaction.html#transaction-declarative-annotations">9.5.6 Using @Transactional</a> in the Spring manual.
+      Properties for specifying non-default transactional behavior
+      can be specified on this annotation.
+      For details on the supported properties, see section <a target="_blank"
+      href="http://static.springframework.org/spring/docs/2.0.x/reference/transaction.html#transaction-declarative-attransactional-settings">9.5.6.1 @Transactional settings</a>
+      in the Spring manual.
+    </p>
+
+    <h3>Loading Instances</h3>
+    <p>
+      The following imports are needed in Java source files that
+      load Spring "beans" and use the <code>@Transactional</code>
+      annotation.
+    </p>
+    <pre><div class="code">
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.transaction.annotation.Transactional;
+</div></pre>
+    <p>
+      Typically classes whose instances will be loaded as Spring "beans"
+      implement an interface.  Instances are declared in code to
+      have the interface type rather than the class type.
+      This allows loading instances from any class
+      that implements the interface.
+    </p>
+    <p>
+      The following code is recommended to load a Spring "bean".
+    </p>
+    <pre><div class="code">
+    ApplicationContext ctx =
+      new ClassPathXmlApplicationContext("spring-beans.xml");
+    {bean-interface} bean = ({bean-interface}) ctx.getBean("{bean-name}");
+</div></pre>
+
+    <hr />
+    <p style="text-align:center">
+      Copyright &#169; 2007 Object Computing, Inc. All rights reserved.
+    </p>
+  </body>
+</html>

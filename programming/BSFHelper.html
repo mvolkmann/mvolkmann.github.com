@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR.html1/DTD.html1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999.html">
+  <head>
+    <title>BSFHelper.java</title>
+    <link rel="stylesheet" type="text/css" href="../common.css"/>
+  </head>
+  <body>
+    <h2>BSFHelper.java</h2>
+    
+    <pre><div class="code">package com.ociweb.bsf;
+
+import java.io.*;
+import org.apache.bsf.BSFException;
+import org.apache.bsf.BSFManager;
+
+/**
+ * This class provides methods that make it easier to
+ * use the BSF to work with JRuby code.
+ * jruby.jar and bsf.jar must be in the classpath.
+ */
+public class BSFHelper {
+  
+  private static final String LANGUAGE = "ruby";
+  private static final int COLUMN_NO = -1;
+  private static final int LINE_NO = -1;
+
+  private BSFManager manager;
+
+  public BSFHelper() {
+    // Register the JRuby engine with BSF.
+    String engine = "org.jruby.javasupport.bsf.JRubyEngine";
+    String[] extensions = {"rb"};
+    BSFManager.registerScriptingEngine(LANGUAGE, engine, extensions);
+
+    manager = new BSFManager();
+  }
+
+  /**
+   * Declares a global variable that Ruby code can use
+   * to access a given Java object.
+   */
+  public void declareBean(String name, Object bean)
+  throws BSFException {
+    manager.declareBean(name, bean, bean.getClass());
+  }
+
+  /**
+   * Evaluates a Ruby expression and returns its value.
+   */
+  public Object evalExpression(String expression)
+  throws BSFException {
+    String source = "(java)";
+    return manager.eval(LANGUAGE, source, LINE_NO, COLUMN_NO, expression);
+  }
+
+  /**
+   * Evaluates a file of Ruby code and
+   * returns the value of the last expression.
+   */
+  public Object evalFile(String rubyFilePath)
+  throws BSFException, IOException {
+    String source = rubyFilePath;
+    String expression = readFile(rubyFilePath);
+    return manager.eval(
+      LANGUAGE, source, LINE_NO, COLUMN_NO, expression);
+  }
+
+  /**
+   * Executes a file of Ruby code.
+   */
+  public void execExpression(String expression)
+  throws BSFException {
+    String source = "(java)";
+    manager.exec(LANGUAGE, source, LINE_NO, COLUMN_NO, expression);
+  }
+
+  /**
+   * Executes a file of Ruby code.
+   */
+  public void execFile(String rubyFilePath)
+  throws BSFException, IOException {
+    String source = rubyFilePath;
+    String expression = readFile(rubyFilePath);
+    manager.exec(LANGUAGE, source, LINE_NO, COLUMN_NO, expression);
+  }
+
+  /**
+   * Reads the entire content of a given file into a String and returns it.
+   */
+  private static String readFile(String filePath)
+  throws IOException {
+    FileReader fr = new FileReader(filePath);
+    BufferedReader br = new BufferedReader(fr);
+    String content = "";
+
+    while (true) {
+      String line = br.readLine();
+      if (line == null) break;
+      content += line + '\n';
+    }
+
+    return content;
+  }
+}</div></pre>
+
+    <hr />
+    <p style="text-align:center">
+      Copyright &#169; 2007 Object Computing, Inc. All rights reserved.
+    </p>
+  </body>
+</html>

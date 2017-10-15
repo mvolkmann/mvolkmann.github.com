@@ -1,0 +1,1090 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+
+  <meta name="description" content="JavaScript Iterators and Generators">
+  <meta name="keywords" content="SETT, OCI, JavaScript, ES2015, ES6, iterable, iterator, generator">
+  <meta name="author" content="R. Mark Volkmann">
+  <title>SETT January 2016 - Angular 2 vs. React</title>
+
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="http://ociweb.com/sett/rss.xml">
+  <link rel="stylesheet" href="styles/SETT.css">
+  <link rel="stylesheet" href="styles.css">
+
+  <!--Used for syntax highlighting.  -->
+  <link href="http://alexgorbatchev.com/pub/sh/current/styles/shCore.css" rel="stylesheet">
+  <link href="http://alexgorbatchev.com/pub/sh/current/styles/shThemeDefault.css" rel="stylesheet">
+
+  <style>
+    code {
+      font-family: "Consolas", "Bitstream Vera Sans Mono", "Courier New", Courier, monospace !important;
+    }
+  </style>
+</head>
+<body>
+<!--#include virtual="header.shtml" -->
+
+<h1>Comparison of Angular 2 and React</h1>
+
+<p class="author">
+  by<br/>
+  R. Mark Volkmann and Lance Finney
+  <br/>Object Computing, Inc. (OCI)
+</p>
+
+<h2>Introduction</h2>
+
+<p>
+  This article compares two popular web app frameworks,
+  Angular 2 (beta.0) and React (0.14).
+  It does not provide detailed explanations on how to use them.
+  There are many other web tutorials that provide that level of detail.
+  The focus of this article is to show side-by-side comparisons
+  of the corresponding pieces in a sample application.
+</p>
+<p>
+  Lance has been working with Angular 2 since August 2015.
+  He provided the Angular 2 code here.
+  Lance finds Angular 2 components to be
+  syntactically simpler and semantically more powerful than Angular 1.
+  Angular 2 is now in beta. There may be more breaking changes
+  before the official release.
+</p>
+<p>
+  Mark started investigating React about the same time and has
+  about two weeks of experience in actually using it.
+  He provided the React code here.
+  Mark has been using Angular 1 for almost three years, so he knows that well.
+  He has only read about Angular 2, so he barely knows that.
+</p>
+<p>
+  The Angular team now refers to Angular 1 as "AngularJS"
+  and Angular 2 as "Angular".
+  So we will use "Angular" to refer to Angular 2
+  throughout the rest of this article.
+</p>
+
+<p>
+  This article compares the code for implementing a typical demo Todo app.
+  Some may feel that this app is too small to use as a basis for comparison,
+  but we think it demonstrates enough features to provide value.
+  The main aspects it demonstrates are how components are defined
+  and how events are handled.
+</p>
+
+<p>
+  We attempt to anticipate the things proponents of the two frameworks
+  might say about the code.  These are labelled with
+  AP for "Angular Proponent" and RP for "React Proponent".
+</p>
+
+<h2>Angular Overview</h2>
+<p>
+  The fundamental building blocks of an Angular app are directives.
+  Directives with a view are called components,
+  and these account for the majority of Directives in most apps.
+  The intention is that developers will be able to create
+  easily reusable components for their applications
+  that are also easy to reason about.
+  Angular components will be largely interchangeable with Web Components,
+  so that they will be able to work well with other frameworks.
+</p>
+<p>
+  Angular components have input and output properties
+  to allow interaction with other components.
+  For example, a component could set up its view based on
+  configuration it receives from its parent component
+  and then be notified to change its appearance by
+  an event it receives from a child or sibling component.
+</p>
+<p>
+  Angular is built with significant support for dependency injection
+  (so a component can receive the necessary singleton services)
+  and routing, but that is beyond the scope of this article.
+</p>
+
+<h2>React Overview</h2>
+<p>
+  React emphasizes the use of stateless components that
+  only use data that is passed to them via "props".
+  Props are values specified in JSX attributes.
+  <a href="https://facebook.github.io/react/docs/jsx-in-depth.html" target="_blank">JSX</a>
+  is an HTML-like XML syntax for specifying
+  the DOM representation of components.
+  It is embedded in JavaScript code, colocated with related logic
+  such as component lifecycle methods and event handling methods.
+  Event handling methods can make Ajax calls. They also typically
+  create action objects that describe the event and dispatch them to a "store".
+  A store manages making changes to data used by the application ("state")
+  and notifies interested components when it changes.
+</p>
+<p>
+  One popular state management library,
+  <a href="http://redux.js.org" target="_blank">Redux</a>,
+  holds all app data in a single store.
+  It is considered to be a variant of the
+  <a href="https://facebook.github.io/flux/">Flux</a> architecture.
+  Pure functions called "reducers" are written to handle these actions.
+  Reducers are passed an action object and the current state.
+  They return the new state.
+</p>
+<p>
+  Components can register to listen for state changes.
+  When they are notified, they typically re-render themselves.
+  This is made efficient through the use of a virtual DOM, which is
+  an in-memory representation of what the browser is currently displaying.
+  React creates a new version of the virtual DOM,
+  diffs it against the current version,
+  and only makes the minimal set of required DOM modifications.
+</p>
+<p>
+  One of the most appealing features of React is the way it
+  divides development into distinct tasks.
+  Development of most components begins by only thinking about
+  how to render data passed to it.
+  Then, event handling is considered.  This optionally makes Ajax calls
+  and dispatches actions.  Event handling does not update the UI.
+  Finally, resolver functions are written to update the state
+  based on a provided action.
+</p>
+<img src="react.png" alt="React flow diagram">
+
+<h2>Demo App Overview</h2>
+<p>
+  The code for both versions is in Github at
+  <a href="https://github.com/mvolkmann/react-examples" target="_blank">https://github.com/mvolkmann/react-examples</a>.
+  See the <code>todo</code> (React) and
+  <code>todo-ng2</code> (Angular) directories.
+</p>
+<p>
+  The Angular code uses <a href="http://www.typescriptlang.org/" target="_blank">TypeScript</a>.
+  Surveys of developers interested in Angular reveal that most
+  plan to use TypeScript instead of JavaScript in future apps.
+  This code includes the file <code>tsconfig.json</code>
+  which provides configuration for the TypeScript compiler,
+  but we won't examine that file.
+  <a href="http://palantir.github.io/tslint" target="_blank">TSLint</a>
+  is used to check for potential issues in the TypeScript code.
+</p>
+<p>
+  The React version uses
+  <a href="https://babeljs.io/" target="_blank">Babel</a>
+  to transpile ES6 code to ES5.
+  It uses <a href="http://eslint.org" target="_blank">ESLint</a>
+  to check for potential issues in the JavaScript code.
+  See <code>todo/webpack.config.js</code> for details.
+</p>
+<p>
+  Both versions of the app use
+  <a href="https://webpack.github.io/" target="_blank">webpack</a>
+  to build the app into bundle files.
+  See their <code>todo/webpack.config.js</code> files for details.
+</p>
+<p>
+  Here's a screenshot of the app.
+</p>
+<img src="screenshot.png" alt="Todo app screenshot">
+<p>
+  There are four things a user can do in this app.
+</p>
+<ol>
+  <li>Create a new todo item.</li>
+  <li>Mark (and unmark) a todo item as completed.</li>
+  <li>Delete a todo item.</li>
+  <li>Archive all todo items that have been marked as completed.</li>
+</ol>
+
+<p>
+  The instructions for running both version are the same.
+</p>
+<ol>
+  <li><code>npm install</code></li>
+  <li><code>npm start</code></li>
+</ol>
+
+<h2>Dependencies</h2>
+<p>
+  Both versions have dependencies on npm packages.
+  Here are the <code>package.json</code> files that show these.
+</p>
+
+<table>
+  <tr><th>Angular</th><th>React</th></tr>
+  <tr>
+    <td><pre>
+{
+  "name": "ng2-todo",
+  "version": "1.0.0",
+  "description": "Todo app in Angular",
+  "scripts": {
+    "start": "webpack-dev-server
+      --content-base src --inline --port 8081"
+  },
+  "devDependencies": {
+    "ts-loader": "^0.7.2",
+    "tslint": "^3.0.0-dev.1",
+    "typescript": "^1.7.3",
+    "webpack": "^1.12.9",
+    "webpack-dev-server": "^1.14.0"
+  },
+  "dependencies": {
+    "angular2": "2.0.0-beta.0",
+    "es6-promise": "3.0.2",
+    "es6-shim": "0.33.3",
+    "reflect-metadata": "0.1.2",
+    "rxjs": "5.0.0-beta.0",
+    "zone.js": "0.5.10"
+  }
+}
+</pre></td>
+    <td><pre>
+{
+  "name": "react-todo",
+  "version": "1.0.0",
+  "description": "Todo app in React",
+  "scripts": {
+    "start": "webpack-dev-server
+      --content-base . --inline"
+  },
+  "devDependencies": {
+    "babel-core": "^6.1.2",
+    "babel-loader": "^6.0.1",
+    "babel-preset-es2015": "^6.1.18",
+    "babel-preset-react": "^6.1.2",
+    "eslint": "^1.6.0",
+    "eslint-loader": "^1.0.0",
+    "eslint-plugin-react": "^3.5.1",
+    "webpack": "^1.12.9",
+    "webpack-dev-server": "^1.14.0"
+  },
+  "dependencies": {
+    "react": "^0.14.3",
+    "react-dom": "^0.14.3"
+  }
+}
+</pre></td>
+  </tr>
+</table>
+
+<dl>
+  <dt>AP</dt>
+  <dd>
+    The React <code>package.json</code> file
+    sure lists a lot of dev dependencies.
+  </dd>
+  <dt>RP</dt>
+  <dd>
+    One could view the Babel and ESLint dependencies
+    as providing some of what TypeScript provides.
+    Babel provides tranpilation of ES6 code to ES5.
+    ESLint provides pre-runtime detection of certain coding issues.
+    This is similar to TSLint, which is used in the Angular version.
+  </dd>
+</dl>
+
+<h2>Main HTML</h2>
+<p>
+  The main HTML file for both apps is <code>index.html</code>.
+  These files are very similar.
+  Since both versions are built using webpack,
+  the only JavaScript file they need to reference
+  is <code>bundle.js</code>.
+</p>
+<table>
+  <tr><th>Angular</th><th>React</th></tr>
+  <tr>
+    <td><pre>
+&lt;!DOCTYPE html>
+&lt;html>
+  &lt;head>
+    &lt;title>Angular Todo App&lt;/title>
+    &lt;link rel="stylesheet" href="todo.css">
+  &lt;/head>
+  &lt;body>
+    &lt;todo-list>Loading...&lt;/todo-list>
+    &lt;script src="bundle.js">&lt;/script>
+  &lt;/body>
+&lt;/html>
+</pre></td>
+    <td><pre>
+&lt;!DOCTYPE html>
+&lt;html>
+  &lt;head>
+    &lt;title>React Todo App&lt;/title>
+    &lt;link rel="stylesheet" href="todo.css">
+  &lt;/head>
+  &lt;body>
+    &lt;div id="container">&lt;/div>
+    &lt;script src="build/bundle.js">&lt;/script>
+  &lt;/body>
+&lt;/html>
+</pre></td>
+  </tr>
+</table>
+
+<h2>Styling</h2>
+<p>
+  The CSS is the same for both versions of the app.
+  Here is <code>todo.css</code>.
+</p>
+<table>
+  <tr>
+    <td><pre>
+body {
+  font-family: sans-serif;
+  padding-left: 10px;
+}
+
+button {
+  margin-left: 10px;
+}
+
+li {
+  margin-top: 5px;
+}
+
+ul.unstyled {
+  list-style: none;
+  margin-left: 0;
+  padding-left: 0;
+}
+
+.done-true {
+  color: gray;
+  text-decoration: line-through;
+}
+</pre></td>
+</table>
+
+<h2>Components</h2>
+<p>
+  Both the React and Angular versions use two JavaScript files,
+  one for each of the components, Todo and TodoList.
+</p>
+
+<p>
+  Here are the source files for the TodoList component,
+  which represents the entire UI for the app.
+</p>
+<table>
+  <tr>
+    <th>Angular <code>todoListCmp.ts</code></th>
+    <th>React <code>todo-list.js</code></th>
+  </tr>
+  <tr>
+    <td><pre>
+import 'angular2/bundles/angular2-polyfills';
+import {Component} from 'angular2/core';
+import {bootstrap} from 'angular2/platform/browser';
+import {TodoCmp, ITodo} from "./todoCmp";
+</pre></td>
+    <td><pre>
+import React from 'react';
+import ReactDOM from 'react-dom';
+import Todo from './todo';
+</pre></td>
+  </tr>
+  <tr>
+    <td><pre>
+// Used for type of state property in TodoListCmp class.
+// Both properties are optional.
+interface IState {
+  todos?: ITodo[];
+  todoText?: string;
+}
+</pre></td>
+    <td><pre>
+</pre></td>
+  </tr>
+  <tr>
+    <td><pre>
+// This syntax is called a Decorator and is similar
+// to Annotations in other languages.  Decorators are
+// under consideration to be included in ES2016.
+// The Component decorator indicates that
+// TodoListCmp is a reusable UI building block.
+@Component({
+  // other components used here
+  directives: [TodoCmp],
+  // TodoListCmp's HTML element selector
+  selector: 'todo-list',
+  template: // see value to left of
+            // React render method below
+})
+</pre></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td><pre>
+export class TodoListCmp {
+  private static lastId: number = 0;
+  private state: IState;
+
+  constructor() {
+    this.state = {
+      todos: [
+        TodoListCmp.createTodo('learn Angular', true),
+        TodoListCmp.createTodo('build an Angular app')
+      ]
+    };
+  }
+</pre></td>
+    <td><pre>
+let lastId = 0; // no static class properties in ES6
+
+class TodoList extends React.Component {
+  constructor() {
+    super(); // must call before accessing "this"
+    this.state = {
+      todos: [
+        TodoList.createTodo('learn React', true),
+        TodoList.createTodo('build a React app')
+      ]
+    };
+  }
+</pre></td>
+  </tr>
+  <tr>
+    <td><pre>
+  static createTodo(
+    text: string, done: boolean = false): ITodo {
+    return {id: ++TodoListCmp.lastId, text, done};
+  }
+</pre></td>
+    <td><pre>
+  static createTodo(text, done = false) {
+    return {id: ++TodoList.lastId, text, done};
+  }
+</pre></td>
+  </tr>
+  <tr>
+    <td><pre>
+  get uncompletedCount(): number {
+    return this.state.todos.reduce(
+      (count: number, todo: ITodo) =>
+        todo.done ? count : count + 1,
+      0);
+  }
+</pre></td>
+    <td><pre>
+  get uncompletedCount() {
+    return this.state.todos.reduce(
+      (count, todo) =>
+        todo.done ? count : count + 1,
+      0);
+  }
+</pre></td>
+  </tr>
+  <tr>
+    <td><pre>
+  onAddTodo(): void {
+    const newTodo: ITodo =
+      TodoListCmp.createTodo(this.state.todoText);
+    this.state.todoText = '';
+    this.state.todos = this.state.todos.concat(newTodo);
+  }
+</pre></td>
+    <td><pre>
+  onAddTodo() {
+    const newTodo =
+      TodoList.createTodo(this.state.todoText);
+    this.setState({
+      todoText: '',
+      todos: this.state.todos.concat(newTodo)
+    });
+  }
+</pre></td>
+  </tr>
+  <tr>
+    <td><pre>
+  onArchiveCompleted(): void {
+    this.state.todos =
+      this.state.todos.filter((t: ITodo) => !t.done);
+  }
+</pre></td>
+    <td><pre>
+  onArchiveCompleted() {
+    this.setState({
+      todos: this.state.todos.filter(t => !t.done)
+    });
+  }
+</pre></td>
+  </tr>
+  <tr>
+    <td><pre>
+  onChange(newText: string): void {
+    this.state.todoText = newText;
+  }
+</pre></td>
+    <td><pre>
+  onChange(name, event) {
+    this.setState({[name]: event.target.value});
+  }
+</pre></td>
+  </tr>
+  <tr>
+    <td><pre>
+  onDeleteTodo(todoId: number): void {
+    this.state.todos = this.state.todos.filter(
+      (t: ITodo) => t.id !== todoId);
+  }
+</pre></td>
+    <td><pre>
+  onDeleteTodo(todoId) {
+    this.setState({
+      todos: this.state.todos.filter(
+        t => t.id !== todoId)
+    });
+  }
+</pre></td>
+  </tr>
+  <tr>
+    <td><pre>
+  onToggleDone(todo: ITodo): void {
+    const id: number = todo.id;
+    this.state.todos = this.state.todos.map(
+      (t: ITodo) => t.id === id ?
+        {id, text: todo.text, done: !todo.done} :
+        t);
+  }
+</pre></td>
+    <td><pre>
+  onToggleDone(todo) {
+    const id = todo.id;
+    const todos = this.state.todos.map(t =>
+      t.id === id ?
+        {id, text: todo.text, done: !todo.done} :
+        t);
+    this.setState({todos});
+  }
+</pre></td>
+  </tr>
+  <tr>
+    <td><pre>
+  // This is the value of the <code>@Component template</code>
+  // property above.  It was moved here for
+  // easy comparison with the React render method.
+  `&lt;div>
+    &lt;h2>To Do List&lt;/h2>
+    &lt;div>
+      {{uncompletedCount}} of
+      {{state.todos.length}} remaining
+      &lt;!-- Clicking this button invokes the
+           component method onArchiveCompleted. -->
+      &lt;button (click)="onArchiveCompleted()">
+        Archive Completed
+      &lt;/button>
+    &lt;/div>
+    &lt;br/>
+    &lt;form>
+      &lt;!-- [ngModel] tells where to get the value. -->
+      &lt;!-- (input) tells what to do on value change. -->
+      &lt;input type="text" size="30" autoFocus
+        placeholder="enter new todo here"
+        [ng-model]="state.todoText"
+        (input)="onChange($event.target.value)"/>
+      &lt;button [disabled]="!state.todoText"
+        (click)="onAddTodo()">
+        Add
+      &lt;/button>
+    &lt;/form>
+    &lt;ul class="unstyled">
+      &lt;!--
+        This uses a for loop to generate TodoCmps.
+        #todo defines a variable to use within the loop.
+        [todo] sets a property on each TodoCmp.
+        (onDeleteTodo) and (onToggleDone) are outputs
+        from the TodoCmp, and they call functions
+        on TodoListCmp with emitted values.
+        deleteTodo receives a type of number.
+        toggleDone receives a type of ITodo.
+      -->
+      &lt;todo *ngFor="#todo of state.todos" [todo]="todo"
+        (on-delete-todo)="onDeleteTodo($event)"
+        (on-toggle-done)="onToggleDone($event)">&lt;/todo>
+    &lt;/ul>
+  &lt;/div>`,
+</pre></td>
+    <td><pre>
+  render() {
+    // Can assign part of the generated UI
+    // to a variable and refer to it later.
+    const todos = this.state.todos.map(todo =>
+      &lt;Todo key={todo.id} todo={todo}
+        onDeleteTodo=
+          {this.onDeleteTodo.bind(this, todo.id)}
+        onToggleDone=
+          {this.onToggleDone.bind(this, todo)}/>);
+
+    return (
+      &lt;div>
+        &lt;h2>To Do List&lt;/h2>
+        &lt;div>
+          {this.uncompletedCount} of
+          {this.state.todos.length} remaining
+          &lt;button
+            onClick={() => this.onArchiveCompleted()}>
+            Archive Completed
+          &lt;/button>
+        &lt;/div>
+        &lt;br/>
+        &lt;form>
+          &lt;input type="text" size="30" autoFocus
+            placeholder="enter new todo here"
+            value={this.state.todoText}
+            onChange=
+              {e => this.onChange('todoText', e)}/>
+          &lt;button disabled={!this.state.todoText}
+            onClick={() => this.onAddTodo()}>
+            Add
+          &lt;/button>
+        &lt;/form>
+        &lt;ul className="unstyled">{todos}&lt;/ul>
+      &lt;/div>
+    );
+  }
+</pre></td>
+  </tr>
+  <tr>
+    <td><pre>
+} // end of TodoListCmp class
+
+// Each Angular app needs a bootstrap call
+// to explictly specify the root component.
+// In larger apps, bootstrapping is usually in
+// a separate file with more configuration.
+bootstrap(TodoListCmp);
+</pre></td>
+    <td><pre>
+} // end of TodoList class
+
+// This renders a TodoList component
+// inside a specified DOM element.
+// If TodoList was used in more than one place,
+// this would be moved to a different JavaScript file.
+ReactDOM.render(
+  &lt;TodoList/>,
+  document.getElementById('container'));
+</pre></td>
+  </tr>
+</table>
+
+<dl>
+  <dt>AP</dt>
+  <dd>
+    I see that the render method embeds HTML directly in the JavaScript code.
+    What's up with that?
+    Shouldn't there be a separation between the HTML being rendered
+    and the component logic?
+  </dd>
+  <dt>RP</dt>
+  <dd>
+    That's not HTML, it is JSX.
+    JSX is an HTML-like syntax extension to JavaScript
+    that React components use to specify the DOM to be rendered.
+    The React philosophy is that separating component HTML
+    from its JavaScript code is merely a separation of technologies,
+    not a separation of concerns.  These belong together.
+  </dd>
+  <dt>RP</dt>
+  <dd>
+    JSX looks very similar to HTML, but there are minor differences.
+    It is XML, so all tags must be properly terminated.
+    Names that contain multiple words in HTML are camelcased in JSX (ex. onClick).
+    Two HTML attributes have different names in JSX,
+    <code>class</code> becomes <code>className</code>
+    and <code>for</code> (used on <code>label</code> elements)
+    becomes <code>htmlFor</code>.
+    This is done because <code>class</code> and <code>for</code>
+    are reserved words in JavaScript.
+    XML comments are not supported, but multi-line JavaScript comments are.
+  </dd>
+  <hr>
+
+  <dt>RP</dt>
+  <dd>
+    I see that the Angular2 version uses a decorator
+    to specify several things about the component.
+    React doesn't use an equivalent of "selector"
+    because the name used in the JSX
+    is the same as the name of the component.
+    React doesn't use an equivalent of the decorator
+    property "directives" because it doesn't have to
+    declare other components that it uses.
+  </dd>
+  <dt>AP</dt>
+  <dd>
+    Using selectors simplifies defining styles in CSS
+    or using jQuery to target a particular component.
+  </dd>
+  <hr>
+
+  <dt>RP</dt>
+  <dd>
+    React embeds JSX in components.
+    Is it customary in Angular to embed HTML in JavaScript files using
+    the <code>template</code> property of the @Component decorator?
+  </dd>
+  <dt>AP</dt>
+  <dd>
+    The <code>@Component</code> decorator supports both
+    a <code>template</code> property to define the markup inline,
+    and a <code>templateUrl</code> property
+    to define the markup in a separate file.
+    Generally <code>template</code> is used for shorter components,
+    and <code>templateUrl</code> is used for longer components.
+  </dd>
+  <hr>
+
+  <dt>AP</dt>
+  <dd>
+    React's need to use <code>bind</code> for event handling function
+    isn't intuitive.  The Angular way is easier to read.
+  </dd>
+  <dt>RP</dt>
+  <dd>
+    That is needed because the value of event handling attributes
+    needs to be a function reference, not a call to a function.
+    However, I have to agree that it makes the code look a little confusing.
+    Function <code>bind</code> is a part of JavaScript not often used by developers,
+    but it must be learned in order to use React.
+  </dd>
+  <hr>
+
+  <dt>RP</dt>
+  <dd>
+    There seems to be a fair amount of Angular-specific syntax in the template.
+    Why are some attribute names surrounded with square brackets and parentheses?
+    What's with the * and # characters?
+    Why is it necessary to precede variables with # inside the *ng-for expression,
+    but not when they are referenced outside that?
+  </dd>
+  <dt>AP</dt>
+  <dd>
+    Yes, there is a log of specific syntax, with a comprehensive
+    developer guide on its use.  Here is a summary:
+    <ul>
+      <li>
+        <code>*</code> indicates that the directive modifies the DOM.
+        The most common examples are <code>*ngFor</code>
+        (which loops over an array to build an arbitrary amount of markup)
+        and <code>*ngIf</code> (which includes or excludes markup).
+        These are actually syntactic sugar for more verbose constructs.
+      </li>
+      <li>
+        <code>#</code> indicates the declaration of a variable.
+        In this case, we are defining <code>#todo</code> as the loop variable.
+        Subsequent references use that variable,
+        so they do not need the <code>#</code>.
+      </li>
+      <li>
+        <code>[]</code> indicate a property binding,
+        where the element receives a value from the component
+        (like setting the initial value on an input).
+      </li>
+      <li>
+        <code>()</code> indicate an event binding,
+        where the element produces an event for the component
+        (like invoking a function when a value is changed).
+      </li>
+      <li>
+        It is possible to define 2-way binding like this:
+        <code>[(ngModel)]="componentProperty"</code>.
+        In this example, the element will be populated
+        from <code>componentProperty</code>, and any change in value
+        in the element will propagate to <code>componentProperty</code>.
+      </li>
+    </ul>
+  </dd>
+  <hr>
+
+  <dt>RP</dt>
+  <dd>
+    I see that much of the extra code is related to type checking.
+  </dd>
+  <dt>AP</dt>
+  <dd>
+    Yes, it takes more code to specify the types, but the tradeoff is worthwhile.
+    TypeScript catches many more coding issues at compile time
+    than ESLint does.
+  </dd>
+  <hr>
+</dl>
+
+<p>
+  Here are the source files for the Todo component,
+  which represents a single item in the list.
+</p>
+<table>
+  <tr>
+    <th>Angular <code>todoCmp.ts</code></th>
+    <th>React <code>todo.js</code></th>
+  </tr>
+  <tr>
+    <td><pre>
+import {Component, Input, Output, EventEmitter}
+  from 'angular2/angular2';
+
+export interface ITodo {
+  id: number;
+  text: string;
+  done: boolean;
+}
+
+@Component({
+  selector: 'todo',
+  template: `
+    &lt;li>
+      &lt;input type="checkbox"
+        [checked]="todo.done"
+        (change)="toggleDone()"/>
+      &lt;span [ng-class]="'done-' + todo.done">
+        {{todo.text}}
+      &lt;/span>
+      &lt;button (click)="deleteTodo()">Delete&lt;/button>
+    &lt;/li>`
+})
+export class TodoCmp {
+  // @Input allows this component to receive
+  // initialization values from the containing component.
+  @Input() todo: ITodo;
+  // @Output allows this component to
+  // publish values to the containing component.
+  @Output() onDeleteTodo:
+    EventEmitter&lt;number> = new EventEmitter&lt;number>();
+  @Output() onToggleDone:
+    EventEmitter&lt;ITodo> = new EventEmitter&lt;ITodo>();
+
+  deleteTodo(): void {
+    this.onDeleteTodo.next(this.todo.id);
+  }
+
+  toggleDone(): void {
+    this.onToggleDone.next(this.todo);
+  }
+}
+</pre></td>
+    <td><pre>
+import React from 'react';
+
+// There are three ways to define React components.
+// This is the stateless function component form
+// which only receives data through "props".
+// A props object is passed to this function
+// and destructured.
+const Todo = ({onDeleteTodo, onToggleDone, todo}) =>
+  &lt;li>
+    &lt;input type="checkbox"
+      checked={todo.done}
+      onChange={onToggleDone}/>
+    &lt;span className={'done-' + todo.done}>
+      {todo.text}
+    &lt;/span>
+    &lt;button onClick={onDeleteTodo}>Delete&lt;/button>
+  &lt;/li>;
+
+// Optional validation of props.
+const PropTypes = React.PropTypes;
+Todo.propTypes = {
+  todo: PropTypes.object.isRequired,
+  onDeleteTodo: PropTypes.func.isRequired,
+  onToggleDone: PropTypes.func.isRequired
+};
+
+export default Todo;
+</pre></td>
+</table>
+
+<dl>
+  <dt>AP</dt>
+  <dd>
+    I think that React's stateless function is a really nice feature.
+    The code is significantly simpler than the Angular code.
+  </dd>
+  <dt>RP</dt>
+  <dd>
+    Yeah, I like that too!
+  </dd>
+</dl>
+
+<h2>Other Topics</h2>
+
+<dl>
+  <dt>AP</dt>
+  <dd>
+    Angular is a framework that supplies most of the functionality needed by serious web applications.
+    React is more like a library.  It only supports the view layer.
+    Applications that use React have to choose and install libraries to handle concerns such as
+    routing, REST, and data management.
+  </dd>
+  <dt>RP</dt>
+  <dd>
+    All that is true.  However, there are options for all of these that are well tested
+    and commonly used in React projects.  These include
+    <a href="https://github.com/rackt/react-router" target="_blank">react-router</a> for routing,
+    <a href="https://github.com/github/fetch" target="_blank">Fetch</a> or
+    <a href="https://github.com/mzabriskie/axios" target="_blank">axios</a> for REST,
+    and <a href="http://redux.js.org" target="_blank">Redux</a> for data management.
+  </dd>
+</dl>
+
+<h2>Learning</h2>
+<p>
+  If you choose to use Angular, you will need to learn:
+  <ul>
+    <li>JavaScript</li>
+    <li>Angular decorators</li>
+    <li>Angular template syntax -
+      <code>*</code>, <code>#</code>, <code>[]</code>, and <code>()</code><br>
+      For documentation, see
+      <a href="https://angular.io/docs/ts/latest/guide/template-syntax.html" target="_blank">https://angular.io/docs/ts/latest/guide/template-syntax.html</a>.
+    </li>
+    <li>Angular builtin directives like <code>NgClass</code>, <code>NgFor</code>,
+      <code>NgForm</code>, <code>NgIf</code>, <code>NgModel</code>,
+      <code>NgSelectOption</code>, <code>NgStyle</code>,
+      and <code>NgSwitch</code></li>
+    <li>Angular builtin pipes (called "filters" in Angular 1)</li>
+    <li>observables and RxJS</li>
+    <li>optional - TypeScript (most developers will use this)</li>
+    <li>optional - Angular form/field validation</li>
+    <li>optional - routing to allow different views to have different URLs</li>
+  </ul>
+</p>
+<p>
+  If you choose to use React, you will need to learn:
+  <ul>
+    <li>JavaScript, including Function bind
+      <ul>
+        <li>instead of template syntax and pipes used in Angular,
+          React uses plain JavaScript</li>
+      </ul>
+    </li>
+    <li>JSX (differs from HTML in a few ways that were explained earlier)</li>
+    <li>component lifecycle methods</li>
+    <li>optional - a library like Redux to manage state</li>
+    <li>optional - a library like Immutable to more safely
+      and efficiently manage state</li>
+    <li>optional - a library like react-router to
+      allow different views to have different URLs</li>
+  </ul>
+</p>
+
+<dl>
+  <dt>RP</dt>
+  <dd>
+    Angular builtin directives like <code>NgFor</code> and pipes
+    are handled with plain JavaScript in React.
+    This is why some people say that React feels more like
+    coding in JavaScript than Angular and
+    doesn't require learning as many framework-specific concepts.
+    For example, if we have an array of user objects and
+    want to output their last names in all uppercase,
+    we can do this in Angular:<pre>
+&lt;div ngFor="#user of users">{{user.lastName | uppercase}}&lt;/div></pre>and this in React:<pre>
+users.map(user => &lt;div>{user.lastName.toUpperCase()}&lt;/div>)
+</pre></dd>
+  <dt>AP</dt>
+  <dd>
+    I don't really see one approach is inherently better or worse than
+    the other.  There are some features in the Angular template syntax
+    that I think are nice
+    (like <code>[class.disabled]="disabledProperty"</code>
+    to set the disabled class programmatically), but the same can be done
+    in JavaScript.  Additionally, the Angular team plans to add
+    syntactic sugar as the framework evolves through the Beta period,
+    so it's likely that there will be Angular template constructs that
+    are clearly advantageous by the time the framework is fully released.
+  </dd>
+</dl>
+
+<h2>Summary</h2>
+<p>
+  Both the Angular and React frameworks are strong contenders
+  with sizable user communities and large corporate backing.
+  They have somewhat different philosophies, and these differences
+  will likely cause you to lean toward one over the other.
+  There are many other JavaScript-based web frameworks that could be considered,
+  but none that approach the popularity and support of these two.
+</p>
+
+<h2>References</h2>
+<ul>
+  <li>Angular -
+    <a href="https://angular.io" target="_blank">https://angular.io</a>
+  </li>
+  <li>Angular Air podcast -
+    <a href="http://angular-air.com" target="_blank">http://angular-air.com</a>
+  </li>
+  <li>Adventures in Angular podcast -
+    <a href="https://devchat.tv/adventures-in-angular" target="_blank">https://devchat.tv/adventures-in-angular</a>
+  </li>
+  <li>Angular Egghead.io introductory videos -
+    <a href="https://t.co/mzhinKpgYl" target="_blank">https://t.co/mzhinKpgYl</a>
+  </li>
+  <li>Angular on github -
+    <a href="https://github.com/angular/angular" target="_blank">https://github.com/angular/angular</a>
+  </li>
+  <li>axios -
+    <a href="https://github.com/mzabriskie/axios" target="_blank">https://github.com/mzabriskie/axios</a>
+  </li>
+  <li>Babel -
+    <a href="https://babeljs.io" target="_blank">https://babeljs.io</a>
+  </li>
+  <li>ESLint -
+    <a href="http://eslint.org" target="_blank">http://eslint.org</a>
+  </li>
+  <li>Fetch API -
+    <a href="https://github.com/github/fetch" target="_blank">https://github.com/github/fetch</a>
+  </li>
+  <li>Flux architecture
+    <a href="https://facebook.github.io/flux/" target="_blank">https://facebook.github.io/flux/</a>
+  </li>
+  <li>JSX -
+    <a href="https://facebook.github.io/react/docs/jsx-in-depth.html" target="_blank">https://facebook.github.io/react/docs/jsx-in-depth.html</a>
+  </li>
+  <li>React -
+    <a href="https://facebook.github.io/react/" target="_blank">https://facebook.github.io/react/</a>
+  </li>
+  <li>React on github -
+    <a href="https://github.com/facebook/react" target="_blank">https://github.com/facebook/react</a>
+  </li>
+  <li>React podcast -
+    <a href="http://reactpodcast.com" target="_blank">http://reactpodcast.com</a>
+  </li>
+  <li>React videos -
+    <a href="https://facebook.github.io/react/docs/videos.html" target="_blank">https://facebook.github.io/react/docs/videos.html</a>
+  </li>
+  <li>react-router -
+    <a href="https://github.com/rackt/react-router" target="_blank">https://github.com/rackt/react-router</a>
+  </li>
+  <li>Redux -
+    <a href="http://redux.js.org" target="_blank">http://redux.js.org</a>
+  </li>
+  <li>TSLint -
+    <a href="http://palantir.github.io/tslint" target="_blank">http://palantir.github.io/tslint</a>
+  </li>
+  <li>TypeScript -
+    <a href="http://www.typescriptlang.org/" target="_blank">http://www.typescriptlang.org</a>.
+  </li>
+  <li>video of a talk Mark gave on React -
+    <a href="https://www.youtube.com/watch?v=oIo6WZPSYp0" target="_blank">
+      https://www.youtube.com/watch?v=oIo6WZPSYp0</a>
+  </li>
+  <li>webpack -
+    <a href="https://webpack.github.io" target="_blank">https://webpack.github.io</a>
+  </li>
+</ul>
+
+<!--#include virtual="footer.shtml" -->
+<script src="http://alexgorbatchev.com/pub/sh/current/scripts/shCore.js"></script>
+<script src="http://alexgorbatchev.com/pub/sh/current/scripts/shAutoloader.js"></script>
+
+<script src="http://alexgorbatchev.com/pub/sh/current/scripts/shBrushJScript.js"></script>
+<script src="http://alexgorbatchev.com/pub/sh/current/scripts/shBrushPlain.js"></script>
+<script src="http://alexgorbatchev.com/pub/sh/current/scripts/shBrushBash.js"></script>
+
+<script type="text/javascript">SyntaxHighlighter.all()</script>
+
+</body>
+</html>

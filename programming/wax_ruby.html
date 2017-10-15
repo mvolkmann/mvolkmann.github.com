@@ -1,0 +1,445 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR.html1/DTD.html1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>WAX for Ruby</title>
+    <link rel="stylesheet" type="text/css" href="../common.css"/>
+  </head>
+  <body>
+    <h2>WAX for Ruby</h2>
+
+    <h3>Links</h3>
+    <a href="WAX/rdoc/index.html">RDoc documentation</a>
+    <a href="http://rubyforge.org/projects/waxy/">RubyForge project</a>
+
+    <h3>Installing</h3>
+    <p>
+      Simply run "<code>gem install wax</code>".
+      You may need to precede this with "<code>sudo </code>" on non-Windows systems
+      in order to obtain the privilege necessary to do this.
+    </p>
+    
+    <h3>Tutorial</h3>
+    
+    <p>
+      This page provides many examples of using WAX for Ruby.
+      Each code snippet is followed by the output it produces.
+    </p>
+
+    <p>
+      When nothing is passed to the <code>WAX.write</code> method,
+      XML is written to <code>$stdout</code>.
+      There is also a <code>WAX.write</code> method
+      that takes an <code>IO</code> object.
+    </p>
+    <p>
+      Here's a simple example where only a <b>root element</b> is written:
+    </p>
+    <div class="code"><pre>
+WAX.write { start 'car' }
+</pre></div>
+    <div class="code"><pre>
+&lt;car/&gt;
+</pre></div>
+
+    <p>
+      Let's write a root element with some <b>text</b> inside:
+    </p>
+    <div class="code"><pre>
+WAX.write do
+  start 'car'
+  text 'Prius'
+end
+</pre></div>
+    <div class="code"><pre>
+&lt;car&gt;Prius&lt;/car&gt;
+</pre></div>
+    <p>
+      The <code>end!</code> method terminates the element
+      that is started by the <code>start</code> method.
+      In this case it's not necessary to call <code>end!</code>
+      because the <code>close</code> method
+      terminates all unterminated elements.
+    </p>
+
+    <p>
+      Let's put the text inside a <b>child element</b>:
+    </p>
+    <div class="code"><pre>
+WAX.write do
+  start 'car'
+  start 'model'
+  text 'Prius'
+end
+</pre></div>
+    <div class="code"><pre>
+&lt;car&gt;
+  &lt;model&gt;Prius&lt;/model&gt;
+&lt;/car&gt;
+</pre></div>
+
+    <p>
+      Let's do the same with the
+      <b><code>child</code> convenience method</b>:
+      which is equivalent to calling <code>start</code>,
+      <code>text</code> and <code>end</code>.
+    </p>
+    <div class="code"><pre>
+WAX.write do
+  start 'car'
+  child 'model', 'Prius'
+end
+</pre></div>
+    <div class="code"><pre>
+&lt;car&gt;
+  &lt;model&gt;Prius&lt;/model&gt;
+&lt;/car&gt;
+</pre></div>
+
+    <p>
+      Let's put text containing all the special XML characters
+      in a <b>CDATA section</b>:
+    </p>
+    <div class="code"><pre>
+WAX.write do
+  start 'car'
+  start 'model'
+  cdata "1&lt;2&gt;3&amp;4&apos;5\&quot;6"
+end
+</pre></div>
+    <div class="code"><pre>
+&lt;car&gt;
+  &lt;model&gt;
+    &lt;![CDATA[1&lt;2&gt;3&amp;4&apos;5&quot;6]]&gt;
+  &lt;/model&gt;
+&lt;/car&gt;
+</pre></div>
+
+    <p>
+      Let's output the XML without indentation, on a <b>single line</b>:
+    </p>
+    <div class="code"><pre>
+WAX.write do
+  no_indents_or_line_separators
+  start 'car'
+  child 'model', 'Prius'
+end
+</pre></div>
+    <div class="code"><pre>
+&lt;car&gt;&lt;model&gt;Prius&lt;/model&gt;&lt;/car&gt;
+</pre></div>
+
+    <p>
+      Let's <b>indent</b> the XML with four spaces
+      instead of the default of two:
+    </p>
+    <div class="code"><pre>
+WAX.write do
+  set_indent '    ' <span class="comment"># could also pass 4</span>
+  start 'car'
+  child 'model', 'Prius'
+end
+</pre></div>
+    <div class="code"><pre>
+&lt;car&gt;
+    &lt;model&gt;Prius&lt;/model&gt;
+&lt;/car&gt;
+</pre></div>
+
+    <p>
+      Let's add an <b>attribute</b>:
+    </p>
+    <div class="code"><pre>
+WAX.write do
+  start 'car'
+  attr 'year', 2008
+  child 'model', 'Prius'
+end
+</pre></div>
+    <div class="code"><pre>
+&lt;car year="2008"&gt;
+  &lt;model&gt;Prius&lt;/model&gt;
+&lt;/car&gt;
+</pre></div>
+    <p>
+      Attributes must be specified before
+      any content for their element is specified.
+      For example, calling
+      <code>start</code>, <code>attr</code> and <code>text</code> is valid,
+      but calling
+      <code>start</code>, <code>text</code> and <code>attr</code> is not.
+      If this rule is violated then a <code>RuntimeError</code> is raised.
+    </p>
+
+    <p>
+      Let's add an <b>XML declaration</b>:
+    </p>
+    <div class="code"><pre>
+WAX.write($stdout, '1.0') do
+  start 'car'
+  attr 'year', 2008
+  child 'model', 'Prius'
+end
+</pre></div>
+    <div class="code"><pre>
+&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;car year="2008"&gt;
+  &lt;model&gt;Prius&lt;/model&gt;
+&lt;/car&gt;
+</pre></div>
+
+    <p>
+      Let's add a <b>comment</b>:
+    </p>
+    <div class="code"><pre>
+WAX.write do
+  comment 'This is a hybrid car.'
+  start 'car'
+  child 'model', 'Prius'
+end
+</pre></div>
+    <div class="code"><pre>&lt;!-- This is a hybrid car. --&gt;
+&lt;car&gt;
+  &lt;model&gt;Prius&lt;/model&gt;
+&lt;/car&gt;
+</pre></div>
+
+    <p>
+      Let's add a <b>processing instruction</b>:
+    </p>
+    <div class="code"><pre>
+WAX.write do
+  processing_instruction 'target', 'data'
+  start 'car'
+  attr 'year', 2008
+  child 'model', 'Prius'
+end
+</pre></div>
+    <div class="code"><pre>&lt;?target data?&gt;
+&lt;car year="2008"&gt;
+  &lt;model&gt;Prius&lt;/model&gt;
+&lt;/car&gt;
+</pre></div>
+
+    <p>
+      Let's associate an <b>XSLT stylesheet</b> with the XML:
+      The <code>xslt</code> method is a convenience method for adding
+      this commonly used processing instruction.
+    </p>
+    <div class="code"><pre>
+WAX.write do
+  xslt 'car.xslt'
+  start 'car'
+  attr 'year', 2008
+  child 'model', 'Prius'
+end
+</pre></div>
+    <div class="code"><pre>
+&lt;?xml-stylesheet type="text/xsl" href="car.xslt"?&gt;
+&lt;car year="2008"&gt;
+  &lt;model&gt;Prius&lt;/model&gt;
+&lt;/car&gt;
+</pre></div>
+
+    <p>
+      Let's associate a <b>default namespace</b> with the XML:
+    </p>
+    <div class="code"><pre>
+WAX.write do
+  xslt 'car.xslt'
+  start 'car'
+  attr 'year', 2008
+  namespace 'http://www.ociweb.com/cars'
+  child 'model', 'Prius'
+end
+</pre></div>
+    <div class="code"><pre>
+&lt;car year="2008"
+  xmlns="http://www.ociweb.com/cars"&gt;
+  &lt;model&gt;Prius&lt;/model&gt;
+&lt;/car&gt;
+</pre></div>
+
+    <p>
+      Let's associate a <b>non-default namespace</b> with the XML:
+    </p>
+    <div class="code"><pre>
+prefix = 'c'
+WAX.write do
+  start prefix, 'car'
+  attr 'year', 2008
+  namespace prefix, 'http://www.ociweb.com/cars'
+  child prefix, 'model', 'Prius'
+end
+</pre></div>
+    <div class="code"><pre>
+&lt;c:car year="2008"
+  xmlns:c="http://www.ociweb.com/cars"&gt;
+  &lt;c:model&gt;Prius&lt;/c:model&gt;
+&lt;/c:car&gt;
+</pre></div>
+    <p>
+      Like attributes, namespaces must be specified
+      before any content for their element is specified.
+      If this rule is violated then a <code>RuntimeError</code> is raised.
+    </p>
+
+    <p>
+      Let's associate an <b>XML Schema</b> with the XML:
+    </p>
+    <div class="code"><pre>
+WAX.write do
+  start 'car'
+  attr 'year', 2008
+  namespace '', 'http://www.ociweb.com/cars', 'car.xsd'
+  child 'model', 'Prius'
+end
+</pre></div>
+    <div class="code"><pre>
+&lt;car year="2008"
+  xmlns="http://www.ociweb.com/cars"
+  xmlns:xsi="http://www.w3.org/1999/XMLSchema-instance"
+  xsi:schemaLocation="http://www.ociweb.com/cars car.xsd"&gt;
+  &lt;model&gt;Prius&lt;/model&gt;
+&lt;/car&gt;
+</pre></div>
+
+    <p>
+      Let's associate <b>multiple XML Schemas</b> with the XML:
+    </p>
+    <div class="code"><pre>
+WAX.write do
+  start 'car'
+  attr 'year', 2008
+  namespace '', 'http://www.ociweb.com/cars', 'car.xsd'
+  namespace 'm', 'http://www.ociweb.com/model', 'model.xsd'
+  child 'm', 'model', 'Prius'
+end
+</pre></div>
+    <div class="code"><pre>
+&lt;car year="2008"
+  xmlns="http://www.ociweb.com/cars"
+  xmlns:m="http://www.ociweb.com/model"
+  xmlns:xsi="http://www.w3.org/1999/XMLSchema-instance"
+  xsi:schemaLocation="http://www.ociweb.com/cars car.xsd
+    http://www.ociweb.com/model model.xsd"&gt;
+  &lt;m:model&gt;Prius&lt;/m:model&gt;
+&lt;/car&gt;
+</pre></div>
+
+    <p>
+      Let's associate a <b>DTD</b> with the XML:
+    </p>
+    <div class="code"><pre>
+WAX.write do
+  dtd 'car.dtd'
+  start 'car'
+  attr 'year', 2008
+  child 'model', 'Prius'
+end
+</pre></div>
+    <div class="code"><pre>
+&lt;!DOCTYPE car SYSTEM "car.dtd"&gt;
+&lt;car year="2008"&gt;
+  &lt;model&gt;Prius&lt;/model&gt;
+&lt;/car&gt;
+</pre></div>
+
+    <p>
+      Let's add and use <b>entity definitions</b>:
+    </p>
+    <div class="code"><pre>
+String url = 'http://www.ociweb.com/xml/';
+WAX.write do
+  entity_def 'oci', 'Object Computing, Inc.'
+  external_entity_def 'moreData', url + 'moreData.xml'
+  start 'root'
+  text 'The author works at &amp;oci; in St. Louis, Missouri.',
+    true, false <span class="comment"># turning escaping off for entity reference</span>
+  text '&amp;moreData;', true, false
+end
+</pre></div>
+    <div class="code"><pre>
+&lt;!DOCTYPE root [
+  &lt;!ENTITY oci "Object Computing, Inc."&gt;
+  &lt;!ENTITY moreData SYSTEM "http://www.ociweb.com/xml/moreData.xml"&gt;
+]&gt;
+&lt;root&gt;
+  The author works at &amp;oci; in St. Louis, Missouri.
+  &amp;moreData;
+&lt;/root&gt;
+</pre></div>
+
+    <p>
+      A <b>common usage pattern</b> is to pass a
+      <code>WAX</code> object to a method of model objects
+      that use it to write their XML representation.
+      A "chaining" style is employed here so that <code>self</code> refers to
+      the object being operated upon rather than a <code>WAX</code> object.
+      For example, a <code>Car</code> class could have the following method.
+    </p>
+    <div class="code"><pre>
+def to_xml(wax)
+  wax.start('car').attr('year', @year).
+    child('make', @make).
+    child('model', @model).
+    end!
+end
+</pre></div>
+    <p>
+      An example of the XML this would produce follows:
+    </p>
+    <div class="code"><pre>
+&lt;car year="2008"&gt;
+  &lt;make&gt;Toyota&lt;/make&gt;
+  &lt;model&gt;Prius&lt;/model&gt;
+&lt;/car&gt;
+</pre></div>
+
+    <p>
+      A <code>Person</code> class whose objects hold a reference to
+      an <code>Address</code> object could have the following method.
+    </p>
+    <div class="code"><pre>
+def to_xml(wax)
+  wax.start('person').attr('birthdate', @birthdate).child('name', @name)
+  @address.to_xml(wax)
+  wax.end!
+end
+</pre></div>
+
+    <p>
+      The <code>Address</code> class could have the following method.
+    </p>
+    <div class="code"><pre>
+def to_xml(wax)
+  wax.start('address').
+    child('street', @street).
+    child('city', @city).
+    child('state', @state).
+    child('zip', @zip).
+    end!
+end
+</pre></div>
+    <p>
+      An example of the XML this would produce follows:
+    </p>
+    <div class="code"><pre>
+&lt;person birthdate="4/16/1961"&gt;
+  &lt;name&gt;R. Mark Volkmann&lt;/name&gt;
+  &lt;address&gt;
+    &lt;street&gt;123 Some Street&lt;/street&gt;
+    &lt;city&gt;Some City&lt;/city&gt;
+    &lt;state&gt;MO&lt;/state&gt;
+    &lt;zip&gt;12345&lt;/zip&gt;
+  &lt;/address&gt;
+&lt;/person&gt;
+    </pre></div>
+    
+    <hr style="clear:both"/>
+    <p style="text-align:center">
+      Copyright &#169; 2008 Object Computing, Inc. All rights reserved.
+    </p>
+  </body>
+</html>

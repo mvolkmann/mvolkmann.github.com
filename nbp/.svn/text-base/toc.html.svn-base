@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>BOX Table Of Contents</title>
+    <link rel="stylesheet" type="text/css" href="common.css"/>
+  </head>
+
+  <body class="toc">
+    <p>
+      <a href="intro.html" target="body">Introduction</a><br />
+      <a href="coming_soon.html" target="body">Actions</a><br />
+      <a href="lookup.html" target="body">Lookup</a><br />
+      <a href="coming_soon.html" target="body">Modules</a><br />
+      <a href="services.html" target="body">Services</a><br />
+      <a href="coming_soon.html" target="_parent">TopComponents</a><br />
+      <a href="http://platform.netbeans.org/" target="_parent">
+        NetBeans Platform</a><br />
+    </p>
+    <div class="copyright">
+      Copyright 2008<br />Object Computing, Inc.
+    </div>
+  </body>
+</html>

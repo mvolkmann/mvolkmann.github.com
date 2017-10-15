@@ -1,0 +1,318 @@
+<?xml version="1.0"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>NBP Services Within DS</title>
+    <link rel="stylesheet" type="text/css" href="common.css"/>
+  </head>
+
+  <body>
+    <div class="title">NBP Services Within DS</div>
+
+    <p>
+      This page describes an approach for using NetBeans Platform services
+      (with <code>Lookup</code>) inside the Decision Space framework.
+    </p>
+
+    <h3>Global Services Design</h3>
+    <ol>
+      <li>
+        Classes in the DS framework become known as services by
+        simply implementing a static <code>register</code> method.
+        For more detail, see <a href="ds_services.html">here</a>.
+        Retain that simplicity by not requiring anything outside
+        service implementation classes to cause their registration.
+      </li>
+      <li>
+        Modify the <code>invokeRegisterMethod</code> method of
+        <code>RegistrarHelper</code> to write to text files
+        that register all the interfaces and superclasses of
+        service implementation classes to those classes.
+        They should be written to a META-INF/services directory
+        that will be in the classpath when the launcher is run.
+        The name of the file must be the full name of
+        an interface that the service class implements
+        or a class that the service class extends.
+        The contents of the file must be the full name of
+        the service implementation class.
+      </li>
+      <li>
+        Make a copy of a recent <code>AppworksRegistration.xml</code> file
+        and use it in PreferencesManager (used by DSPPreferences)
+        to register services in the DS way during application startup
+        until all calls to <code>getService(String)</code>
+        are converted to use a NBP Lookup.
+      </li>
+      <li>
+        Eliminate the creation of the <code>AppworksRegistration.xml</code> file
+        during the build process.
+        This records services to be registered during application startup.
+        It ocurrs in the <code>putSpi</code> method
+        of <code>InMemoryPreferences</code> class.
+      </li>
+      <li>
+        Gradually change all calls to <code>getService</code>
+        from the <code>Services</code> interface
+        to pass a <code>Class</code> object to either
+        the global <code>Lookup</code> or a scoped <code>Lookup</code>.
+      </li>
+      <li>
+        One issue with this approach is that it doesn't support the
+        current DS capability to register specific instances of
+        a service implementation class with different string names.
+        Joseph and Venkat agreed that this capability should be
+        ignored for now and investigated later.
+        This is the only known capability of the DS service lookup mechanism
+        that isn't directly supported by the NBP Lookup mechanism.
+    </ol>
+    <p>
+      Here are the code changes to <code>RegistrarHelper.java</code>.
+    </p>
+    <div class="code"><pre>
+  // new method
+  private static void writeMetaInfServicesFile(Class superclass, Class clazz) {
+    if (superclass == Object.class || clazz == Object.class) return;
+
+    FileWriter fw = null;
+    String directory = "META-INF/services/";
+    try {
+      fw = new FileWriter(directory + superclass.getName(), true); // append
+      fw.write(clazz.getName() + '\n');
+    } catch (IOException e) {
+      System.err.println("RegistrarHelper.writeMetaInfServicesFile: " + e);
+    } finally {
+      try {
+        if (fw != null) fw.close();
+      } catch (IOException e) {
+        // do nothing
+      }
+    }
+  }
+
+  // new method
+  private static void writeMetaInfServicesFiles(Class clazz) {
+    // For each interface that this class implements ...
+    Class[] interfaces = clazz.getInterfaces();
+    for (Class anInterface : interfaces) {
+      writeMetaInfServicesFile(anInterface, clazz);
+    }
+
+    // For each class that this class extends ...
+    Class superclass = clazz.getSuperclass();
+    while (superclass != null) {
+      writeMetaInfServicesFile(superclass, clazz);
+      superclass = superclass.getSuperclass();
+    }
+
+    // For the class itself ...
+    writeMetaInfServicesFile(clazz, clazz);
+  }
+
+  // modified existing method
+  public static void invokeRegisterMethod(Class clazz, Registrar registrar)
+  throws RegistrationException {
+
+    writeMetaInfServicesFiles(clazz);
+
+    // ... previous code remains here ...
+  }
+</pre></div>
+
+    <h3>Scoped Services Design</h3>
+    <p>
+      Any class in DS can have its own service collection, represented by
+      an object that implements the <code>Services</code> interface.
+      This can be pushed into such an object by passing a
+      <code>Services</code> object to its <code>setServices</code> method
+      and it can also create its own service mappings by calling the
+      <code>putService</code> methods on its <code>Services</code> object.
+    </p>
+    <p>
+      Classes that do this can be gradually converted to use an NBP
+      <code>Lookup</code> object in place of a DS <code>Services</code> object.
+      See the example code <a href="nbp_lookup.html#ScopedLookup">here</a> where
+      <code>InstanceContent</code> and <code>AbstractLookup</code>
+      objects are used.
+    </p>
+
+    <h3>Demo #1 - Creating and Using DS and NBP Services</h3>
+    <p>
+      I created a demonstration of creating and using a DS and NBP service
+      within a DS application.
+      First, I created the service interface
+      <code>com.ociweb.playground.MathService</code>.
+    </p>
+    <div class="code"><pre>
+package com.ociweb.playground;
+
+public interface MathService {
+
+    int add(int n1, int n2);
+}
+</pre></div>
+    <p>
+      Second, I created the service implementation.
+      <code>com.ociweb.playground.MathServiceImpl</code>.
+    </p>
+    <div class="code"><pre>
+package com.ociweb.playground;
+
+import com.lgc.infra.services.Registrar;
+import com.lgc.infra.services.RegistrationException;
+import org.openide.util.lookup.Lookups;
+
+public class MathServiceImpl implements MathService {
+
+    public int add(int n1, int n2) {
+        return n1 + n2;
+    }
+
+    /**
+     * This method is only used by the DS framework.
+     */
+    public static void register(Registrar registrar)
+    throws RegistrationException {
+        registrar.registerService("SimpleMath", MathServiceImpl.class);
+    }
+}
+</pre></div>
+    <p>
+      Third, I created a file in <code>build/classes/META-INF/services</code>
+      to register the class as an NBP service.
+      This makes it available in the global <code>Lookup</code>.
+      The file is named <code>com.ociweb.playground.MathService</code>
+      and it contains the single line
+      "<code>com.ociweb.playground.MathServiceImpl</code>".
+    </p>
+    <p>
+      Fourth, I modified
+      <code>com.lgc.examples.infra.pres.tabview.TabbedViewFrameExample2</code>.
+      The <code>setServices</code> method calls
+      the new method <code>useMathService</code>.
+      Here's the code for <code>useMathService</code>.
+    </p>
+    <div class="code"><pre>
+  private void useMathService() {
+      MathService ms = null;
+
+      /*
+      // The DS way:
+      try {
+          ms = (MathService) getServices().getService("SimpleMath");
+      } catch (ServiceNotFoundException e) {
+          System.err.println("couldn't find SimpleMath service");
+          System.exit(1);
+      }
+      */
+
+      // The NBP way:
+      Lookup lookup = Lookup.getDefault();
+      ms = lookup.lookup(MathService.class);
+
+      System.out.println(
+          "TabbedViewFrameExample2.useMathService: result is " + ms.add(1, 2));
+  }
+</pre></div>
+
+    <h3>Demo #2 - Converting a DS Service to a NBP Service</h3>
+    <p>
+      The classes of the services do not require modification.
+      Only the acquistion of service objects needs to change.
+      In order to demonstrate this I modified
+      <code>TabbedViewFrameExample2.java</code>.
+      The <code>setServices</code> method contains the following code:
+    </p>
+    <div class="code"><pre>
+SlideShowTask task = (SlideShowTask) frame.getServices()
+  .getService(SlideShowTask.SVC_NAME);
+</pre></div>
+    <p>
+      The variable <code>frame</code> is a reference
+      to a <code>CAWFrame</code> object.
+      Note that the code above retrieves a "scoped service",
+      scoped to a specific <code>CAWFrame</code> object.
+    </p>
+    <p>
+      That line of code can be replaced with the following:
+    </p>
+    <div class="code"><pre>
+SlideShowTask task = Lookup.getDefault().lookup(SlideShowTask.class);
+</pre></div>
+    <p>
+      Notice that no cast is necessary.
+      If a call to <code>lookup</code> is made again
+      with the same parameter value, the same object is returned.
+      This new line of code relies on the changes made in the
+      <code>RegistrarHelper</code> class above which cause
+      lookup registration text files to be written in the
+      <code>build/classes/META-INF/services</code> directory.
+      This code uses the global <code>Lookup</code> instead of
+      one scoped to a specific <code>CAWFrame</code>.
+      The next section addresses this.
+    </p>
+
+    <h3>Scoped Lookup</h3>
+    <p>
+      Scoped <code>Lookup</code> can be supported by implementing the 
+      <a href="http://bits.netbeans.org/dev/javadoc/org-openide-util/org/openide/util/Lookup.Provider.html"><code>Lookup.Provider</code></a> interface
+      and adding the following fields to any class that needs to provide it.
+    </p>
+    <div class="code"><pre>
+  private InstanceContent ic = new InstanceContent();
+  private Lookup lookup = new AbstractLookup();
+</pre></div>
+    <p>
+      The <code>InstanceContent</code> field is used to add content
+      to the <code>Lookup</code>.  For example,
+    </p>
+    <div class="code"><pre>
+  ic.add(<i>someServiceObject</i>);
+</pre></div>
+    <p>
+      Some existing DS classes, such as <code>CAWFrame</code>,
+      currently support scoped lookup.
+      The NBP approach can be added to these classes
+      in the method where DS services are added.
+      In the case of <code>CAWFrame</code>,
+      this happens in the <code>finishConstruct</code> method.
+      The following code adds the same services
+      to the scoped <code>Lookup</code>.
+    </p>
+    <div class="code"><pre>
+  for (Object service : services.getServices()) {
+    ic.add(service);
+  }
+</pre></div>
+    <p>
+      The following method from the <code>Lookup.Provider</code> interface
+      must be added to the same class to allow
+      other classes to find objects in its <code>Lookup</code>.
+    </p>
+    <div class="code"><pre>
+  public Lookup getLookup() { return lookup; }
+</pre></div>
+    <p>
+      In addition, the following method could be added:
+    </p>
+    <div class="code"><pre>
+  public Object lookup(Class clazz) { return lookup.lookup(clazz); }
+</pre></div>
+    <p>
+      Perhaps a new sub-interface of <code>Lookup.Provider</code>
+      should be created that includes this method and that interface
+      should be implemented instead of <code>Lookup.Provider</code>.
+    </p>
+    <p>
+      Other classes can then invoke these methods to obtain service objects
+      that are scoped to objects from classes that
+      implement the <code>Lookup.Provider</code> interface.
+    </p>
+    <p>
+      For more detail, see <a href="lookup.html#ScopedLookup">here</a>.
+    </p>
+
+  </body>
+</html>

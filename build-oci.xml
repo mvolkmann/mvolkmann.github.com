@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE project [
+  <!ENTITY targets SYSTEM "targets.xml">
+]>
+<project name="Web Site" default="release">
+  <property name="server" value="ftp.ociweb.com"/>
+  <property name="username" value="volkmanm"/>
+  <!--property name="password" value="72eratHa"/-->
+  <property name="password" value="cleanM3up"/>
+
+  &targets;
+</project>

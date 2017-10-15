@@ -1,0 +1,63 @@
+<?xml version="1.0"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>Building Demo App.</title>
+    <link rel="stylesheet" type="text/css" href="common.css"/>
+  </head>
+
+  <body>
+    <div class="title">Building Demo App.</div>
+
+    <h3>Steps to Build</h3>
+    <p>
+      The steps to build dsinfra and the included applications
+      under Windows are as follows:
+    </p>
+    <ol>
+      <li>get the file Landmark-dsinfr-win32.xml and copy it to
+        C:\Documents and Settings\{username}\.ivy2\cache\dsinfra-LOCAL</li>
+      <li>open a Command Prompt</li>
+      <li>cd to the dsinfra directory (mine is C:\Halliburton\infra)</li>
+      <li>run "<span style="color:red">lgcbuild module</span>"</li>
+      <li>select release specification 3</li>
+    </ol>
+
+    <h3>Steps to Run</h3>
+    <p>
+      The steps to run the "TabView Example 2" demo application
+      under Windows are as follows:
+    </p>
+    <ol>
+      <li>cd to the dsinfra directory (mine is C:\Halliburton\infra)</li>
+      <li>run "<span style="color:red">lgcbuild start</span>"</li>
+      <li>select release specification 3</li>
+      <li>the "Decision Space" launcher will be displayed</li>
+      <li>select "TabView Example 2"</li>
+    </ol>
+
+    <h3>Steps to create a NetBeans project for dsinfra</h3>
+    <ol>
+      <li>delete the build and nb subdirectories</li>
+      <li>press the "New Project" toolbar button</li>
+      <li>enter "dsinfra" for the project name</li>
+      <li>select Java...Java Project with Existing Sources</li>
+      <li>press "Next >"</li>
+      <li>press "Finish"</li>
+      <li>in the Explorer window, right click the dsinfra project
+        and select Properties</li>
+      <li>select the "Libraries" category</li>
+      <li>press the "Add Library..." button and add the "JUnit 4.1" library</li>
+      <li>press the "Add Library..." button and add the "JAXB 2.1" library</li>
+      <li>press the "Add JAR" button and add the ant.jar file</li>
+      <li>press the "Add JAR" button and add the ant-junit.jar file</li>
+      <li>press the "Add JAR" button and add the com_lgc_annotations.jar file
+        from the lgcbuild/ant/lib directory</li>
+      <li>wait a long time for NetBeans to "scan" and compile
+        all the source files</li>
+    </ol>
+  </body>
+</html>

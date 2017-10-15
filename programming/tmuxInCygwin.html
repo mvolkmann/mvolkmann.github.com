@@ -1,0 +1,75 @@
+<h3>Steps to install tmux in Cygwin</h3>
+
+<p>
+  While these steps probably still work, they are no longer necessary because
+  tmux can now be installed through the Cygwin setup program like other tools.
+</p>
+
+<ol>
+  <li>Install required Cygwin packages</li>
+  <ol>
+    <li>run Cygwin setup.exe</li>
+    <li>install these packages that are not installed by default:<br/>
+      automake, gcc, git, make, and pkg-config
+  </ol>
+
+  <li>Install libevent</li>
+  <ol>
+    <li>browse http://libevent.org</li>
+    <li>download libevent-2.0.21-stable.tar.gz</li>
+    <li>open a cygwin terminal</li>
+    <li>cd to directory containing downloaded file</li>
+    <li>tar zxf libevent-2.0.21-stable.tar.gz</li>
+    <li>cd libevent-2.0.21-stable</li>
+    <li>./configure --prefix=/usr</li>
+    <li>make && make install</li>
+  </ol>
+
+  <li>Install ncurses</li>
+  <ol>
+    <li>browse http://ftp.gnu.org/gnu/ncurses</li>
+    <li>download ncurses-5.9.tar.gz</li>
+    <li>open a cygwin terminal</li>
+    <li>cd to directory containing downloaded file</li>
+    <li>tar zxf ncurses-5.9.tar.gz</li>
+    <li>cd ncurses-5.9</li>
+    <li>./configure --prefix=/usr</li>
+    <li>make && make install</li>
+  </ol>
+
+  <li>Install tmux</li>
+  <ol>
+    <li>open a cygwin terminal</li>
+    <li>git clone http://git.code.sf.net/p/tmux/tmux-code tmux-tmux-code</li>
+    <li>cd tmux-tmux-code</li>
+    <li>./autogen.sh (will see many warnings;
+      if it complains about \r not found, convert autogen.sh to use Unix line endings
+      with mv autogen.sh temp.sh; dos2unix -o autogen.sh temp.sh)</li>
+    <li>CFLAGS="-I/usr/include/ncurses" ./configure --prefix=/usr
+    <li>make && make install</li>
+  </ol>
+
+  <li>Configure Cygwin and tmux</li>
+    <ol>
+      <li>to use the <a href="http://ethanschoonover.com/solarized">Solarized</a>
+        color scheme, see
+        <a href="https://github.com/mavnn/mintty-colors-solarized">here</a>.
+      </li>
+      <li>to manually adjust colors, fonts, cursor shape, and more
+        right-click the Cygwin title bar and select "Options..."</a>.
+      </li>
+      <li>create a .tmux.conf file include at least this line
+        so the mouse and arrow keys can be used to switch panes:<br/>
+        <code>set -sg escape-time 250</code>
+      </li>
+      <li>for more information about tmux configuration, see
+        <a href="http://ociweb.com/mark/tmux/settJan2013.html">here</a>.
+    </ol>
+
+  <li>run tmux</li>
+  <ol>
+    <li>open a cygwin terminal using mintty
+      (the shortcut that opens the terminal should run C:\cygwin\bin\mintty.exe)</li>
+    <li>tmux</li>
+  </ol>
+</ol>

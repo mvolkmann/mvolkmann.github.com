@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR.html1/DTD.html1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999.html">
+  <head>
+    <title>Java 5</title>
+    <link rel="stylesheet" type="text/css" href="../common.css"/>
+  </head>
+  <body>
+    <h2>Java 5</h2>
+
+    <p>
+      This page describe the major new features added in Java 5.
+    </p>
+
+    <h3>Annotations (Metadata)</h3>
+    <ul>
+      <li>
+        avoids need for external configuration files,
+        allowing configuration data to be embedded in source files
+      </li>
+      <li>
+        avoids duplicated boilerplate code by enabling tools to
+        generate it from annotations in source code
+      </li>
+      <li>
+        leads to a declarative programming style
+      </li>
+      <li>
+        an example of a specific annotation added in Java 5 is
+        <code>@Override</code> which marks a method that
+        overrides a superclass method
+      </li>
+      <li>
+        for more information, see
+        <a target="_blank" href="http://java.sun.com/j2se/1.5.0/docs/guide/language/annotations.html">here</a>
+      </li>
+    </ul>
+
+    <h3>Autoboxing/Unboxing</h3>
+    <ul>
+      <li>
+        avoids need to convert between primitives and
+        their corresponding type wrapper objects
+      </li>
+      <li>
+        basic example<br/>
+        <div class="code"><pre>
+int i = 19;
+Integer iObj = i;
+int j = iObj;
+// i and j are equal
+</pre></div>
+      </li>
+      <li>
+        collections example<br/>
+        <div class="code"><pre>
+List&lt;Integer> list = new ArrayList&lt;Integer>(); // see "Generics"
+int i = 19;
+list.add(i);
+int j = list.get(0);
+// i and j are equal
+</pre></div>
+      </li>
+      <li>
+        overuse can result in performance issues
+      </li>
+      <li>
+        for more information, see
+        <a target="_blank" href="http://java.sun.com/j2se/1.5.0/docs/guide/language/autoboxing.html">here</a>
+      </li>
+    </ul>
+
+    <h3>Enhanced For Loop</h3>
+    <ul>
+      <li>
+        array example<br/>
+        <div class="code"><pre>
+  Car[] cars = new Car[](5);
+  // populate array of Car objects
+  for (Car car : cars) {
+    // Use the variable car inside the loop.
+  }
+</pre></div>
+      </li>
+      <li>
+        list example<br/>
+        <div class="code"><pre>
+  List&lt;Car> cars = new ArrayList&lt;Car>() // see "Generics"
+  // populate List of Car objects
+  for (Car car : cars) {
+    // Use the variable car inside the loop.
+  }
+</pre></div>
+      </li>
+      <li>
+        for more information, see
+        <a target="_blank" href="http://java.sun.com/j2se/1.5.0/docs/guide/language/foreach.html">here</a>
+      </li>
+    </ul>
+
+    <h3>Enums</h3>
+    <ul>
+      <li>
+        can create enumerated types with arbitrary fields and methods
+      </li>
+      <li>
+        example<br/>
+        <div class="code"><pre>
+  enum Season { WINTER, SPRING, SUMMER, FALL }
+  Season season = SPRING;
+  for (Season season : Season.values()) {
+    // use season variable
+  }
+</pre></div>
+      </li>
+      <li>
+        to get the integer value of an enumerated value,
+        invoke the <code>ordinal</code> method on it
+      </li>
+      <li>
+        for more information, see
+        <a target="_blank" href="http://java.sun.com/j2se/1.5.0/docs/guide/language/enums.html">here</a>
+        (includes an example of adding fields and methods to enums)
+      </li>
+    </ul>
+
+    <h3>Generics</h3>
+    <ul>
+      <li>
+        most often used for type-safe collections
+      </li>
+      <li>
+        example<br/>
+        <div class="code"><pre>
+  List&lt;String> myList = new ArrayList&lt;String>();
+  // only String objects can be added to myList.
+</pre></div>
+      </li>
+      <li>
+        collections of subclass objects can be passed to methods
+        that accept collections of superclass objects
+        (for example, an object of type
+        <code>List&lt;Dog></code>
+        can be passed to a method that accepts
+        <code>List&lt;? extends Animal></code>
+        or even
+        <code>List&lt;? extends Object></code>)
+      </li>
+      <li>
+        for more information, see
+        <a target="_blank" href="http://java.sun.com/j2se/1.5.0/docs/guide/language/generics.html">here</a>
+      </li>
+    </ul>
+
+    <h3>Static Import</h3>
+    <ul>
+      <li>
+        avoids the need to qualify static members of
+        classes or interfaces with the class or interface name
+      </li>
+      <li>
+        example from JUnit 4<br/>
+        <div class="code"><pre>
+  import static org.junit.Assert.*;
+  // can now use static assert methods from the Assert class
+  // without prefixing them with "Assert."
+</pre></div>
+      </li>
+      <li>
+        note that the ".*" part says to import all the static members
+        from the Assert class (can't omit that!)
+      </li>
+      <li>
+        for more information, see
+        <a target="_blank" href="http://java.sun.com/j2se/1.5.0/docs/guide/language/static-import.html">here</a>
+      </li>
+    </ul>
+
+    <h3>Varargs</h3>
+    <ul>
+      <li>
+        eliminates the need to put arguments into an array for the
+        purpose of passing a variable number of arguments to a method
+      </li>
+      <li>
+        example<br/>
+        <div class="code"><pre>
+  public void washCars(Car... cars) {
+    for (int i = 0; i < cars.length; i++) {
+      Car car = cars[i];
+      // wash the car
+    }
+  }
+
+  // call like this
+  washCars(car1, car2, car3);
+</pre></div>
+      </li>
+      <li>
+        the type of cars is Car[]
+      </li>
+      <li>
+        for more information, see
+        <a target="_blank" href="http://java.sun.com/j2se/1.5.0/docs/guide/language/varargs.html">here</a>
+      </li>
+    </ul>
+
+    <hr/>
+    <p style="text-align:center">
+      Copyright &#169; 2007 Object Computing, Inc. All rights reserved.
+    </p>
+  </body>
+</html>

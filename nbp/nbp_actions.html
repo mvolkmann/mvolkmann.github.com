@@ -1,0 +1,521 @@
+<?xml version="1.0"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>NBP Actions</title>
+    <link rel="stylesheet" type="text/css" href="common.css"/>
+  </head>
+
+  <body>
+    <div class="title">NBP Actions</div>
+
+    <p>
+      NetBeans Platform actions can be invoked in any of three ways:
+      selecting a menu item, pressing a toolbar button
+      or pressing a keyboard shortcut.
+      Actions can be either static (a.k.a global; always enabled)
+      or dynamic (enabled based on arbitrary criteria).
+      There are two variations on conditionally enabled actions.
+      The first, supported directly by the NetBeans Platform, is based on
+      whether the current node selection provides a given "cookie".
+      The node selection is typically
+      associated with a <code>TopComponent</code>.
+      The second, supported by custom classes
+      written by OCI which are described later,
+      is based on which <code>TopComponent</code> is currently active.
+    </p>
+
+    <h3>layer.xml file</h3>
+    <p>
+      Many aspects of NetBeans Platform applications,
+      including mappings from menus and toolbars to actions,
+      are defined in files named, by convention, <code>layer.xml</code>.
+      Each module can have one of these files.
+      Wizards modify these files and they can also be manually modified.
+      They can be accessed by opening the "Important Files" folder
+      of a module and double-clicking "XML Layer".
+    </p>
+    <p>
+      Things to look for in <code>layer.xml</code> files include:
+    </p>
+    <ul>
+      <li><b>"Actions" folder</b><br />
+        This specifies the implementation class associated with each action.
+        For global actions it also specifies
+        the display name, the icon, and whether the icon should be
+        displayed in a menu, in addition to a toolbar.
+        The element with a <code>name</code> attribute value of "noIconInMenu"
+        should have a <code>boolvalue</code> attribute
+        instead of a <code>stringvalue</code> attribute.
+        The wizard generates this incorrectly in pre-release versions of 6.5.
+      </li>
+      <li><b>"Menu" folder</b><br />
+        This specifies the menu on which a menu item for the actions
+        should appear and their position in the menu.</li>
+      <li><b>"Shortcuts" folder</b><br />
+        This specified the keyboard shortcuts that invoke actions.</li>
+      <li><b>"Toolbars" folder</b><br />
+        This specifies the toolbar on which buttons for the actions
+        should appear and their position in the toolbar.</li>
+    </ul>
+
+    <h3>Menus</h3>
+    <p>
+      Actions can be invoked by selecting menu items.
+      Menu items can be added to standard NetBeans menus
+      or custom menus.
+      To create a new, custom menu, edit the <code>layer.xml</code> file
+      and add a subfolder to the Menu folder.
+      For example:
+    </p>
+    <div class="code"><pre>
+    ...
+    &lt;folder name="Menu">
+      &lt;folder name="<i>new-menu-name</i>">
+      &lt;/folder>
+      ...
+    &lt;/folder>
+    ...
+</pre></div>
+    <p>
+      After making this change, the new menus will be
+      available for selection in the Action wizard.
+    </p>
+    <p>
+      To add a menu item to a menu, follow these steps:
+    </p>
+    <ol>
+      <li>Locate the <code>folder</code> element of the menu
+        and add a <code>file</code> child element.</li>
+      <li>Add a <code>name</code> attribute
+        to the <code>file</code> element
+        whose value is the full class name of an action
+        with periods replaced by hyphens, followed by "<code>.shadow"</code>.
+        A shadow is similar to a symbolic link in UNIX.
+        It is a reference to an instance rather than a new instance.
+      </li>
+      <li>Add an <code>attr</code> child element
+        to the <code>file</code> element
+        with a <code>name</code> attribute set to "<code>originalFile</code>"
+        and a <code>stringValue</code> attribute
+        whose value begins with "<code>Actions/Tools/</code>"
+        (can be in or below this folder),
+        ends with "<code>.instance</code>",
+        and has in the middle the full class name
+        of the action class with periods replaced by hyphens.</li>
+    </ol>
+    <p>
+      For example:
+    </p>
+    <div class="code"><pre>
+&lt;file name="com-halliburton-gui-DateAction.shadow">
+    &lt;attr name="originalFile" stringvalue="Actions/Tools/com-halliburton-gui-DateAction.instance"/>
+&lt;/file>
+            <file name="com-halliburton-gui-DateAction.shadow">
+                <attr name="originalFile" stringvalue="Actions/Tools/com-halliburton-gui-DateAction.instance"/>
+                <attr name="position" intvalue="300"/>
+            </file>
+</pre></div>
+    <p>
+      To add a menu to a menu (a submenu),
+      add a folder for the submenu inside the folder for the menu.
+    </p>
+    <p>
+      There are four ways to add menu items to a menu,
+      all of which involve adding a <code>file</code> element
+      as a child of the <code>Menu</code> folder
+      that refers to different kinds of classes.
+    </p>
+    <ol>
+      <li>a <code>javax.swing.Action</code> subclass (shown above)</li>
+      <li>a <code>javax.swing.JMenuItem</code> subclass</li>
+      <li>a class that implements the
+        <code>org.openide.util.actions.Presenter.Menu</code> interface</li>
+      <li>the <code>javax.swing.JSeparator</code> class
+        (to add a horizontal line that
+        separates menu items into related groups)</li>
+    </ol>
+    <p>
+      The <code>layer.xml</code> file from each module contributes to the menus.
+      Each module can add its own menu items to a menu
+      that is used by more than one module.
+    </p>
+    <p>
+      Folders and files defined in a <code>layer.xml</code> file can be hidden
+      by appending "_hidden" to the value of their name attribute.
+    </p>
+ 
+    <h3>Toolbars</h3>
+    <p>
+      Actions can be invoked by selecting toolbar buttons.
+      Toolbar buttons can be added to the standard NetBeans toolbars
+      or custom toolbars.
+      To create a new, custom toolbar, edit the <code>layer.xml</code> file
+      and add a subfolder to the <code>Toolbars</code> folder.
+      For example:
+    </p>
+    <div class="code"><pre>
+    ...
+    &lt;folder name="Toolbars">
+      &lt;folder name="<i>new-toolbar-name</i>">
+      &lt;/folder>
+      ...
+    &lt;/folder>
+    ...
+</pre></div>
+    <p>
+      After making this change, the new toolbars will be
+      available for selection in the Action wizard.
+    </p>
+    <p>
+      When the user hovers the mouse cursor over a toolbar handle
+      (a small dot on the left end of the toolbar),
+      the toolbar name will be displayed in a tooltip.
+    </p>
+    <p>
+      To add a toolbar button to a toolbar, follow these steps
+      which are identical to the steps used to add a menu item to a menu:
+    </p>
+    <ol>
+      <li>Locate the <code>folder</code> element of the toolbar
+        and add a <code>file</code> child element.</li>
+      <li>Add a <code>name</code> attribute
+        to the <code>file</code> element
+        whose value is the full class name of an action
+        with periods replaced by hyphens, followed by "<code>.shadow"</code>.
+      </li>
+      <li>Add an <code>attr</code> child element
+        to the <code>file</code> element
+        with a <code>name</code> attribute set to "<code>originalFile</code>"
+        and a <code>stringValue</code> attribute
+        whose value begins with "<code>Actions/Tools/</code>"
+        (can be in or below this folder),
+        ends with "<code>.instance</code>",
+        and has in the middle the full class name
+        of the action class with periods replaced by hyphens.</li>
+    </ol>
+    <p>
+      For example:
+    </p>
+    <div class="code"><pre>
+&lt;file name="com-halliburton-gui-DateAction.shadow">
+    &lt;attr name="originalFile" stringvalue="Actions/Tools/com-halliburton-gui-DateAction.instance"/>
+&lt;/file>
+</pre></div>
+    <p>
+      The <code>layer.xml</code> from each module contributes to the toolbars.
+      Each module can add its own toolbar buttons to a toolbar
+      that is used by more than one module.
+    </p>
+
+    <h3>Menu Item and Toolbar Button Order</h3>
+    <p>
+      There are four ways to specify the order of
+      menu items and toolbar buttons.
+      If none of them are used, the items will be displayed
+      in alphabetical order according to their names.
+    </p>
+      The first way is to add a single <code>attr</code> element,
+      with a <code>name</code> attribute of "OpenIDE-Folder-Order",
+      as the first child of the <code>folder</code> element for the menu.
+      For example, to specify that the menu items with names
+      "name1", "name2" and "name3" should appear in that order:
+    </p>
+    <div class="code"><pre>
+&lt;attr name="OpenIDE-Folder-Order" stringvalue="name1/name2/name3"/>
+</pre></div>
+    <p>
+      The second way is to add a single <code>attr</code> element,
+      with a <code>name</code> attribute of "OpenIDE-Folder-SortMode",
+      as the first child of the <code>folder</code> element for the menu.
+      One possible value for this is "M" which sorts by modification time.
+      This method is rarely used.
+    </p>
+      The third way is to specify the ordering of pairs of items.
+      The items in the pairs are not guaranteed to be appear next to other,
+      but they will have the specified relative ordering if possible.
+      For example, the following element specifies that
+      the item named "name1" should appear before the item named "name2".
+      If the value of the <code>booleanvalue</code> attribute is false,
+      this is ignored.
+    </p>
+    <div class="code"><pre>
+&lt;attr name="name1/name2" booleanvalue="true"/>
+</pre></div>
+    <p>
+      The fourth way is to specify position values.
+      Add child elements like the following to each <code>file</code> element
+      to specify its relative position.
+      Lower numbers come first.
+      This is the preferred approach.
+    </p>
+    <div class="code"><pre>
+&lt;attr name="position" intvalue="100"/>
+</pre></div>
+
+    <h3><a name="global">Global Actions</a></h3>
+    <p>
+      Here are the steps to add a global action to an NBP module.
+    </p>
+    <ol>
+      <li>Right-click the project node of the module.</li> 
+      <li>Select New...Action... to open the New Action wizard.</li> 
+      <li>Press "Next >".</li> 
+      <li>Select an existing category or enter a new one.
+        This value typically corresponds to a menu name,
+        but is really just a way of categorizing actions.</li> 
+      <li>Select the "Global Menu Item" checkbox.</li>
+      <li>Optionally select the "Global Menu Item" checkbox,
+        specify the menu in which it should appear,
+        and its position within the menu.</li>
+      <li>Optionally select the "Global Toolbar Button" checkbox,
+        specify the toolbar in which it should appear,
+        and its position within the toolbar.</li>
+      <li>Optionally select the "Global Keyboard Shortcut" checkbox
+        and specify one or more keystrokes that should execute the action.</li>
+      <li>Press "Next >".</li> 
+      <li>Enter the name of the class that will implement the action.
+        The name should end with "<code>Action</code>".</li>
+      <li>Enter the "display name" for the action.
+        This is used for the menu item text and the toolbar button tooltip.</li>
+      <li>Optionally select an icon for the action.
+        The wizard wants 16x16 pixel icons,
+        but 24x24 icons look much better.</li>
+      <li>Select a package for the new action class.
+        This may default to "META-INF.services".  That value won't work!
+        Select a real Java package name.</li>
+      <li>Press "Finish".</li> 
+      <li>The newly created action class will be displayed
+        in the editor area.</li>
+      <li>Add code to the <code>actionPerformed</code> method
+        that will be executed when the action is invoked.</li>
+      <li>That's it!  Run the application and
+        the new action should be available through the specified
+        menu item, toolbar button and shortcut keystroke.</li>
+    </ol>
+    <p>
+      Global actions can have keyboard shortcuts,
+      but conditionally enabled actions cannnot.
+      Conditionally enabled actions can have
+      file type context menu items and editor context menu items,
+      but global actions cannot.
+    </p>
+    <p>
+      Graphic files for icons are copied into the same source directory
+      that holds the generated action classes.
+    </p>
+    <p>
+      The Action wizard is a one way operation.
+      It is only used to create new actions, not modify existing ones.
+      To modify them, edit the <code>layer.xml</code> file
+      or the action class it generates.
+    </p>
+    <h3><a name="conditional">Conditionally Hiding Menu Items
+      and Toolbar Buttons</a></h3>
+    <p>
+      By using custom code, actions can be enabled based on
+      the <code>TopComponent</code> that has the focus.
+      This can also be used to control the visibility of
+      the associated menu item and toolbar button.
+      There are two steps in this process.
+      The first is to create a new Action
+      that is conditionally enabled based on a cookie.
+      The second is to modify the generated Action class
+      so it is enabled based on the active <code>TopComponent</code>
+      instead of the presence of a cookie.
+    </p>
+    <p>
+      <b>Step 1:</b> To create a new action that is conditionally enabled
+      based on a cookie, follow these steps:
+    </p>
+    <ol>
+      <li>Right-click the project node of the module.</li> 
+      <li>Select New...Action... to open the New Action wizard.</li> 
+      <li>Select the "Conditionally Enabled (use CookieAction)" radio button</li>
+      <li>Press "Next >".</li> 
+      <li>Select an existing category or enter a new one.
+        This value typically corresponds to a menu name,
+        but is really just a way of categorizing actions.</li> 
+      <li>Don't select any checkboxes on this screen.</li>
+      <li>Press "Next >".</li> 
+      <li>Enter the name of the class that will implement the action.
+        The name should end with "<code>Action</code>".</li>
+      <li>Enter the "display name" for the action.
+        This is used for the menu item text and the toolbar button tooltip.</li>
+      <li>Optionally select an icon for the action.
+        The wizard wants 16x16 pixel icons,
+        but 24x24 icons look much better.</li>
+      <li>Select a package for the new action class.
+        This may default to "META-INF.services".  That value won't work!
+        Select a real Java package name.</li>
+      <li>Press "Finish".</li> 
+      <li>The newly created action class will be displayed
+        in the editor area.</li>
+      <li>Add code to the <code>performAction</code> method
+        that will be executed when the action is invoked.</li>
+    </ol>
+    <p>
+      <b>Step 2:</b> Modify the generated action class as described below:
+    </p>
+    <ol>
+      <li>Change "<code>extends CookieAction</code>" to
+      "<code>extends <a href="nbp_DynamicAction.html">DynamicAction</a></code>".</li> 
+      <li>Add a public no-arg constructor that contains the following code:<br />
+      <div class="code"><pre>
+super(<i>TopComponentSubclass</i>.class);
+setIcon(new ImageIcon("<i>file-path</i>"));
+</pre></div>
+      </li>
+      <li>Change the <code>performAction</code> method
+        from <code>protected</code> to <code>public</code>,
+        add an "<code>@Override</code>" annotation in front of it,
+        and remove the parameter.</li> 
+      <li>Replace all the code in the <code>performAction</code> method with
+        the code to be executed when the action is invoked.</li> 
+      <li>Delete the <code>mode</code> method.</li> 
+      <li>Delete the <code>cookieClasses</code> method.</li> 
+      <li>Delete the <code>initialize</code> method.</li> 
+      <li>Delete the <code>asynchronous</code> method.</li> 
+      <li>Save the changes.</li> 
+    </ol>
+
+    <p>
+      The following code demonstrates how to implement
+      an action whose corresponding menu item and toolbar button
+      are conditionally visible.
+      They are only visible when <code>MyTopComponent</code> is activated.
+      Note how <code>MyAction</code> extends
+      <code><a href="nbp_DynamicAction.html">DynamicAction</a></code>.</li> 
+    </p>
+    <div class="code"><pre>
+public class MyAction extends DynamicAction {
+
+    public MyAction() {
+        super(MyTopComponent.class);
+        setIcon(new ImageIcon("Woof24.gif"));
+    }
+
+    /**
+     * Gets the String used for this action
+     * in the menu item and the toolbar button tooltip.
+     */
+    @Override
+    public String getName() {
+        return "2nd Action";
+    }
+
+    /**
+     * Provides help on this action using JavaHelp.
+     */
+    @Override
+    public HelpCtx getHelpCtx() {
+        return new HelpCtx(this.getClass());
+    }
+
+    /**
+     * Executed when an associated
+     * menu item or toolbar button is selected.
+     */
+    @Override
+    public void performAction() {
+        System.out.println("MyAction.performAction entered");
+    }
+}
+</pre></div>
+
+    <h3>Programmatic Modification of Menus and Toolbars</h3>
+    <p>
+      Adding menu items and toolbar buttons at runtime
+      requires use of the File System API.
+      In order to use this in code being edited using the NetBeans IDE,
+      open the project properties, select the "Libraries" category,
+      press the "Add Dependency..." button,
+      and select the "File System API" module.
+    </p>
+    <p>
+      The steps required to add a menu item or toolbar button using this API
+      are a bit overwhelming, so this functionality has been encapsulated in
+      the <code>addMenuItem</code> method of the
+      <code><a href="nbp_MenuHelper.html">MenuHelper</a></code> class
+      and the <code>addToolbarButton</code> method of the
+      <code><a href="nbp_ToolbarHelper.html">ToolbarHelper</a></code> class.
+    </p>
+    <p>
+      Using these methods is simple.  For example, to add a new menu item
+      to a menu named "MyMenu" that invokes an action implemented
+      in the class <code>com.halliburton.gui.DateAction</code>
+      that is registered in the "Tools" category, use the following code:
+    </p>
+    <div class="code"><pre>
+MenuHelper.addMenuItem("MyMenu", "Tools", DateAction.class);
+</pre></div>
+    <p>
+      When the File System API is used to add things to the System Filesystem,
+      the changes are persisted under the
+      application (or module suite) directory in
+      build/testuserdir/config/Menu/<i>menu-name</i>/<i>action-class-name</i>.shadow
+      and in
+      build/testuserdir/config/Toolbars/<i>toolbar-name</i>/<i>action-class-name</i>.shadow.
+      Delete those files to undo the effects of the API calls.
+      Alternatively, run "Clean All" on the application
+      to delete the entire build directory.
+    </p>
+    <p>
+      Deleting menu items and toolbar buttons at runtime works similarly.
+      This functionality has been encapsulated in
+      the <code>deleteMenuItem</code> method of the
+      <code><a href="nbp_MenuHelper.html">MenuHelper</a></code> class
+      and the <code>deleteToolbarButton</code> method of the
+      <code><a href="nbp_ToolbarHelper.html">ToolbarHelper</a></code> class.
+      For example, to delete a menu item from a menu named "MyMenu"
+      that invokes an action implemented in the class
+      <code>com.halliburton.gui.DateAction</code>,
+      use the following code:
+    </p>
+    <div class="code"><pre>
+MenuHelper.deleteMenuItem("MyMenu", DateAction.class);
+</pre></div>
+
+    <h3>TopComponent with Cookies</h3>
+    <p>
+      Sometimes it is useful to create a <code>TopComponent</code>
+      that has one or more cookies associated with it
+      for the purpose of controlling which
+      menu items and toolbar buttons are enabled
+      when that <code>TopComponent</code> is activated.
+      To do this, follow these steps:
+    </p>
+    <ol>
+      <li>Right-click the project node of a GUI module.</li>
+      <li>Select New...Window Component... to open the New Window wizard.</li>
+      <li>Select a "Window Position".</li>
+      <li>Optionally select the "Open on Application Start" checkbox.</li>
+      <li>Press the "Next >" button.</li>
+      <li>Enter a "Class Name Prefix", say "Foo".</li>
+      <li>Select a package for the new <code>TopComponent</code> class.
+        This may default to "META-INF.services".  That value won't work!
+        Select a real Java package name.</li>
+      <li>Press the "Finish" button.</li>
+      <li>This will create "<code>FooTopComponent.java</code>" and
+        open it in Design mode, which uses the GUI builder.</li>
+      <li>Add GUI components to it (by dragging them from the palette
+        and modifying their properties) and save.</li>
+      <li><code>TopComponent</code>s aren't draggable and resizable
+        in the normal sense unless you
+        right-click their title bar and select "Undock".</li>
+      <li>
+        Edit the generated class "<code>FooTopComponent.java</code>".
+        Add the following fields:<br />
+        <code>private InstanceContent ic = new InstanceContent();</code><br />
+        <code>private Lookup lookup = new AbstractLookup();</code><br />
+        Add the following line at the end of the constructor:<br />
+        <code>ic.add("FooCookie");</code><br />
+        Add the following method:<br />
+        <code>@Override public Lookup getLookup() { return lookup; }</code>
+      </li>
+    </ol>
+  </body>
+</html>

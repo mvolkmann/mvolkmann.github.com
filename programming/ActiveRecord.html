@@ -1,0 +1,353 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR.html1/DTD.html1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999.html">
+  <head>
+    <title>ActiveRecord</title>
+    <link rel="stylesheet" type="text/css" href="../common.css"/>
+  </head>
+  <body>
+    <h2>ActiveRecord</h2>
+    
+    <h3>Contents</h3>
+    <a href="#Introduction">Introduction</a><br/>
+    <a href="#Installing">Installing</a><br/>
+    <a href="#Example">Example</a><br/>
+    <a href="#FromJava">From Java</a><br/>
+
+    <a name="Introduction"/>
+    <h3>Introduction</h3>
+    <p>
+      ActiveRecord is a persistence library for Ruby.
+      It is closely associated with the Ruby on Rails project.
+      The main features include:
+      <ul>
+        <li>emphasis on convention over configuration</li>
+        <li>extracting as much information as possible
+          from the database schema instead of
+          repeating that information in code</i>
+        <li>dynamic attribute-based finder methods</li>
+      </ul>
+      Docmentation can be found in the rdoc (Ruby's version of javadoc)
+      <a target="_blank" href="http://www.rubyonrails.org/api/classes/ActiveRecord/Base.html">here</a>.
+      Support for composite primary keys is not provided out of the box,
+      but is provided by a plug-in found
+      <a target="_blank" href="http://compositekeys.rubyforge.org/">
+      here</a>.
+    </p>
+    <p>
+      While ActiveRecord is a Ruby library, it can be used from Java
+      though JRuby. At the present time, the Java code needed to do
+      this is a bit messy. This is demonstrated later on this page.
+    </p>
+
+    <a name="Installing"/>
+    <h3>Installing <a class="toplink" href="#top">top</a></h3>
+    <p>
+      To install ActiveRecord for use with Ruby,
+      run the following from a shell prompt.
+    </p>
+    <pre><div class="code">gem install activerecord
+gem install composite_primary_keys <i>(optional)</i></div></pre>
+    <p>
+      To install ActiveRecord for use with JRuby,
+      run the following from a shell prompt.
+    </p>
+    <pre><div class="code">cd $JRUBY_HOME/bin
+./gem install activerecord --no-rdoc --no-ri
+./gem install ActiveRecord-JDBC --no-rdoc --no-ri
+./gem install composite_primary_keys --no-rdoc --no-ri <i>(optional)</i></div></pre>
+    <p>
+      Finally, edit <code>
+      $JRUBY_HOME/lib/ruby/gems/1.8/gems/activerecord-{version}/lib/active_record.rb
+      </code> and add "<code>jdbc</code>" to the list of
+      RAILS_CONNECTION_ADAPTERS near the bottom of the file.
+    </p>
+
+    <a name="Example"/>
+    <h3>Example <a class="toplink" href="#top">top</a></h3>
+    <p>
+      In this example, we'll run a few queries against a simple database.
+      The database is named "music".
+      It has two tables.
+      The "artists" table has the columns "id" and "name".
+      The "recordings" table has the columns
+      "id", "name", "year" and "artist_id".
+      The id columns are the primary keys of their tables.
+      ActiveRecord prefers this convention,
+      but it can be overridden if desired.
+      The recordings table artist_id column is a foreign key reference
+      to the artists table id column.
+      SQL for creating the database is in the following file
+      named "createTables.sql".
+    </p>
+    <pre><div class="code">drop database if exists music;
+create database music;
+use music;
+
+drop table if exists artists;
+create table artists (
+  id int not null auto_increment,
+  name text,
+  primary key (id)
+);
+
+drop table if exists recordings;
+create table recordings (
+  id int not null auto_increment,
+  name text,
+  year int,
+  artist_id int,
+  primary key (id)
+);</div></pre>
+    <p>
+      When using MySQL, this can be run with a command like the following.
+    </p>
+    <pre><div class="code">mysql -uroot < createTables.sql</div></pre>
+    
+    <p>
+      The next step is to describe the objects that will be used to
+      "model" database table rows.  Since the code that uses these
+      definitions will also need to connect to the database,
+      we'll put the code to do that in the same file.
+      The following file is named "models.rb".
+    </p>
+    <pre><div class="code">require "rubygems"
+require "active_record"
+
+ActiveRecord::Base::establish_connection(
+  :adapter=>"mysql",
+  :host=>"localhost",
+  :database=>"music",
+  :user=>"root",
+  :password=>"")
+
+class Artist &lt; ActiveRecord::Base
+  has_many :recording
+
+  # Sort based on artist name.
+  def <=>(other)
+    name <=> other.name
+  end
+end
+
+class Recording &lt; ActiveRecord::Base
+  belongs_to :artist
+
+  # Sort based on recording name.
+  def <=>(other)
+    name <=> other.name
+  end
+end</div></pre>
+
+    <p>
+      Now we need to put some data in the database.
+      The following Ruby code demonstrates how to do this.
+      The methods <code>get_artist</code> and <code>add_recording</code>
+      are used to simplify the process.
+    </p>
+    <pre><div class="code">require "models"
+
+$artists = {} # a global Hash
+
+def get_artist(name)
+  a = $artists[name]
+
+  # If it hasn't been created yet, create it.
+  unless a
+    a = Artist.new
+    a.name = name
+    a.save
+    $artists[name] = a
+  end
+
+  a
+end
+
+def add_recording(artist_name, recording_name, recording_year)
+  r = Recording.new
+  r.artist = get_artist(artist_name)
+  r.name = recording_name
+  r.year = recording_year
+  r.save
+end
+
+name = "Deathcab For Cutie"
+add_recording name, "We Have the Facts and We're Voting Yes", 2000
+add_recording name, "The Photo Album", 2001
+add_recording name, "You Can Play These Songs With Chords", 2002
+add_recording name, "Transatlanticism", 2003
+add_recording name, "Plans", 2005
+
+name = "Regina Spektor"
+add_recording name, "Begin To Hope", 2006
+add_recording name, "Soviet Kitch", 2003</div></pre>
+    <p>
+      Run this code with the following command.
+    </p>
+    <pre><div class="code">ruby load.rb</div></pre>
+
+    <p>
+      We're ready to write queries now.
+      The following Ruby code, in a file named "query.rb",
+      demonstrates a few queries.
+      Examples using <code>find_by_sql</code> are commented out
+      and are immediately followed by equivalent queries.
+    </p>
+    <pre><div class="code">require "models"
+
+puts "Artist with id=2"
+puts "  " + Artist.find(2).name
+
+puts "\nAll artists"
+# Artist.find_by_sql("select * from artists").sort.each do |a|
+Artist.find(:all).sort.each do |a|
+  puts "  #{a.name}"
+end
+
+puts "\n2003 Recordings"
+# sql = "select * from recordings where year=2003"
+# Recording.find_by_sql(sql).sort.each do |r|
+Recording.find_all_by_year(2003).sort.each do |r|
+  puts "  #{r.name} by #{r.artist.name}"
+end</div></pre>
+
+    <p>
+      Run this code with the following command.
+    </p>
+    <pre><div class="code">ruby query.rb</div></pre>
+
+    <p>
+      The output from this code follows.
+    </p>
+    <pre><div class="code">Artist with id=2
+  Regina Spektor
+
+All artists
+  Deathcab For Cutie
+  Regina Spektor
+
+2003 Recordings
+  Soviet Kitch by Regina Spektor
+  Transatlanticism by Deathcab For Cutie</div></pre>
+
+    <p>
+      Comparing the ActiveRecord approach to any other persistence API,
+      this approach is MUCH simpler!
+    </p>
+
+    <a name="FromJava"/>
+    <h3>From Java <a class="toplink" href="#top">top</a></h3>
+    <p>
+      ActiveRecord can be used from Java through JRuby.
+      Under Java 5 and earlier, Java uses the Bean Scripting Framework
+      (BSF) to access scripting languages like JRuby.
+      Under Java 6 and later, Java uses the JSR 223 Scripting API.
+      We'll focus on BSF here. 
+      The classes <a href="ActiveRecord/BSFHelper.java.html"><code>BSFHelper</code></a>
+      and <a href="ActiveRecord/JRubyHelper.java.html"><code>JRubyHelper</code></a>
+      were written to make this easier.
+      Here's the code in Query.java.
+    </p>
+    <pre><div class="code">package com.ociweb.activerecord;
+
+import com.ociweb.bsf.BSFHelper;
+import com.ociweb.jruby.JRubyHelper;
+import java.util.*;
+import org.apache.bsf.BSFException;
+import org.jruby.*;
+
+public class Query {
+
+  private BSFHelper bsf = new BSFHelper();
+  private JRubyHelper helper = new JRubyHelper();
+
+  public static void main(String[] args) throws Exception {
+    new Query();
+  }
+
+  private Query() throws BSFException, java.io.IOException {
+    System.out.println("\n2003 Recordings");
+
+    // Make a Java List available to JRuby code
+    // so it can be populated with the results.
+    List recordings = new ArrayList();
+    bsf.declareBean("recordings", recordings);
+
+    // Executed JRuby code in a separate file.
+    bsf.evalFile("2003recordings.jrb");
+
+    // Retreive data that Ruby populated into the recordings List.
+    Iterator iter = recordings.iterator();
+    while (iter.hasNext()) {
+      RubyObject recording = (RubyObject) iter.next();
+      String recordingName =
+        (String) helper.getAttribute(recording, "name");
+
+      // Get the Artist object associated with this Recording object.
+      // TODO: What is the intermediate object here?
+      RubyObject artist = helper.callMethod(recording, "artist");
+      artist = (RubyObject) artist.getInstanceVariable("@target");
+      String artistName = (String) helper.getAttribute(artist, "name");
+
+      System.out.println("  " + recordingName + " by " + artistName);
+    }
+  }
+}</div></pre>
+
+    <p>
+      Here's the JRuby code in 2003recordings.jrb.
+    </p>
+    <pre><div class="code">require "models"
+
+# $recordings is a Java ArrayList that is created in Query.java
+# and declared as a BSF bean.
+# This code populates it with Ruby Recoding objects.
+Recording.find_all_by_year(2003).sort.each do |r|
+  $recordings << r
+end</div></pre>
+
+    <p>
+      To compile and run this code, the following JARs must be
+      in the classpath.
+      <ul>
+        <li>bsf.jar - in JRuby lib directory</li>
+        <li>jruby.jar - in JRuby lib directory</li>
+        <li>jvyaml.jar - in JRuby lib directory</li>
+        <li>commons-logging-1.1.jar - from Jakarta Commons</li>
+      </ul>
+    </p>
+
+    <p>
+      To run this code, the following system properties must be set.
+      When using Ant, these can be set with nested child elements
+      of the <code>java</code> task that have the form
+      <code>&lt;sysproperty key="{name}" value="{value}"/></code>.
+      <ul>
+        <li>jruby.base - set to value of $JRUBY_HOME</li>
+        <li>jruby.home - set to value of $JRUBY_HOME</li>
+        <li>jruby.lib - set to value of $JRUBY_HOME/lib</li>
+        <li>jruby.script - set to "jruby"</li>
+        <li>jruby.shell - set to "/bin/sh"</li>
+      </ul>
+    </p>
+
+    <p>
+      The output from this code follows.
+    </p>
+    <pre><div class="code">2003 Recordings
+  Soviet Kitch by Regina Spektor
+  Transatlanticism by Deathcab For Cutie</div></pre>
+    
+    <p>
+      For more information on using ActiveRecord from JRuby,
+      see <a target="_blank"
+      href="http://headius.blogspot.com/2006/09/using-activerecord-jdbc-adapter.html">here</a>.
+    </p>
+
+    <hr />
+    <p style="text-align:center">
+      Copyright &#169; 2007 Object Computing, Inc. All rights reserved.
+    </p>
+  </body>
+</html>

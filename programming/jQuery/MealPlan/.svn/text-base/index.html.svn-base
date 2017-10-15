@@ -1,0 +1,50 @@
+<html>
+  <head>
+    <title>Meal Plan</title>
+    <link rel="stylesheet" type="text/css"
+      href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/themes/ui-lightness/jquery-ui.css"/>
+    <link rel="stylesheet" type="text/css" href="mealplan.css"/>
+
+    <script type="text/javascript"
+      src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+    <script type="text/javascript"
+      src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="mealplan.js"></script>
+  </head>
+  <body>
+    <div class="title">Meal Plan</div>
+
+    <button id="switchViewButton">Print View</button>
+
+    <div id="editView">
+      <table>
+        <tr>
+          <td class="label"><label for="startDate">Start Date:</label></td>
+          <td><input id="startDate" type="text" size="10"/></td>
+        </tr>
+        <tr>
+          <td class="label"><label for="itemText">New Item:</label></td>
+          <td>
+            <input id="itemText" type="text" size="20"/>
+            <button id="addButton">Add</button>
+          </td>
+          <td>
+            <img id="trash" alt="trash" src="trashCanClosed.png"/>
+          </td>
+        </tr>
+        <tr>
+          <td class="label"><label for="count">Progress:</label></td>
+          <td class="ui-widget">
+            <span id="count">0</span> of 21 meals planned
+          </td>
+        </tr>
+      </table>
+      <div id="progress"></div>
+      <div id="tabs"></div>
+    </div>
+ 
+    <div id="printView">
+      <table id="printTable"></table>
+    </div>
+  </body>
+</html>

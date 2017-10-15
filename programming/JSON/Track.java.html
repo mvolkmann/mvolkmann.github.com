@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR.html1/DTD.html1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999.html">
+  <head>
+    <title>Track.java</title>
+    <link rel="stylesheet" type="text/css" href="../../common.css"/>
+  </head>
+  <body>
+    <h2>Track.java</h2>
+    
+    <pre><div class="code">package com.ociweb.demo;
+
+import com.ociweb.lang.ObjectUtil;
+
+/**
+ * This is just a Java Bean.
+ */
+public class Track {
+
+  private Recording recording;
+  private String name;
+  private int rating;
+
+  public Track() {}
+  public Track(Recording recording, String name, int rating) {
+    // Note that JSON-lib can't handle circular dependencies
+    // so the Recording objects can't hold a reference to their Artist
+    // because the Artist holds a reference to them.
+    // This is why we're not holding onto the Artist here.
+    //this.recording = recording;
+    this.name = name;
+    this.rating = rating;
+  }
+
+  public boolean equals(Object obj) {
+    if (obj == null) return false;
+    if (obj == this) return true;
+    if (!(obj instanceof Track)) return false;
+    Track t = (Track) obj;
+    return ObjectUtil.equals(recording, t.recording) &&
+      ObjectUtil.equals(name, t.name) &&
+      rating == t.rating;
+  }
+
+  public Recording getRecording() { return recording; }
+  public void setRecording(Recording recording) {
+    this.recording = recording;
+  }
+
+  public String getName() { return name; }
+  public void setName(String name) { this.name = name; }
+
+  public int getRating() { return rating; }
+  public void setRating(int rating) { this.rating = rating; }
+
+  public String toString() {
+    return "Track: " + name +
+      " on " + (recording == null ? "null" : recording.getTitle()) +
+      " rated " + rating;
+  }
+}</div></pre>
+
+    <hr/>
+    <p style="text-align:center">
+      Copyright &#169; 2007 Object Computing, Inc. All rights reserved.
+    </p>
+  </body>
+</html>

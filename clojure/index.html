@@ -1,0 +1,195 @@
+<html>
+  <head>
+    <title>Mark Volkmann's Clojure Page</title>
+    <link rel="stylesheet" type="text/css" href="common.css"/>
+  </head>
+  <!--body style="background:lightblue"-->
+  <body style="background:#EEF">
+    <h1 style="color:green; vertical-align:middle">Mark Volkmann's
+    <img style="height:60px; vertical-align:middle" alt="Clojure Logo" src="images/clojure.png"/>
+      Page</h1>
+    <p>
+      This page contains resources related to
+      the <a href="http://clojure.org/">Clojure</a> programming language.
+    </p>
+
+    <ul>
+      <li><a href="article.html">latest version</a>
+         of my LONG article, updated on 6/10/12</li>
+      <li><a href="http://ociweb.com/jnb/jnbMar2009.html">original version</a> of the article, released on 2/28/2009</li>
+      <li><a href="ClojureSlides.pdf">slides</a>
+        from Gateway Software Symposium presentation on 3/8/2009,
+        the OCI Tech. Lunch on 4/11/2009,
+        and the St. Louis Java User Group presentation on 5/14/09</li>
+      <!--li><a href="../programming/clojure.html">old page</a></li-->
+      <li><a href="ClojureCategorized.html">Clojure Forms Categorized</a></li>
+      <li><a href="ClojureCodingGuidelines.html">My Clojure Coding Guidelines</a></li>
+      <li><a href="ClojureSnake.html">Clojure Snake Game</a></li>
+      <li>Clojure main site - <a href="http://clojure.org" shape="rect">http://clojure.org</a>
+</li>
+      <li>Clojure API (latest release) - <a href="http://clojure.org/api" shape="rect">http://clojure.org/api</a>
+      <li>Clojure API (master branch) - <a href="http://richhickey.github.com/clojure/" shape="rect">http://richhickey.github.com/clojure/</a>
+</li>
+      <li>clj-doc - <a href="http://clj-doc.s3.amazonaws.com/tmp/doc-1116/index.html" shape="rect">http://clj-doc.s3.amazonaws.com/tmp/doc-1116/index.html</a></li>
+      <li>Clojure class diagram - <a href="http://github.com/Chouser/clojure-classes/tree/master/graph-w-legend.png" shape="rect">http://github.com/Chouser/clojure-classes/tree/master/graph-w-legend.png</a>
+      <li>Practical Common Lisp book - <a href="http://gigamonkeys.com/book/">http://gigamonkeys.com/book/</a></li>
+      <li>Rich Hickey - "Are We There Yet?" talk from the 2009 JVM Languages Summit - <a href="http://www.infoq.com/presentations/Are-We-There-Yet-Rich-Hickey">http://www.infoq.com/presentations/Are-We-There-Yet-Rich-Hickey</a></li>
+      <li>Rich Hickey - "Expert to Expert" talk on 10/6/2009 - <a href="http://channel9.msdn.com/shows/Going+Deep/Expert-to-Expert-Rich-Hickey-and-Brian-Beckman-Inside-Clojure/">http://channel9.msdn.com/shows/Going+Deep/Expert-to-Expert-Rich-Hickey-and-Brian-Beckman-Inside-Clojure/</a></li>
+      <li>Rich Hickey - "Persistent Data Structures and Managed References" talk from QCon 2009- <a href="http://www.infoq.com/presentations/Value-Identity-State-Rich-Hickey">http://www.infoq.com/presentations/Value-Identity-State-Rich-Hickey</a></li>
+      <li>SICP in Clojure - <a href="http://sicpinclojure.com" shape="rect">http://sicpinclojure.com</a></li>
+      <li>Web-based REPLs- <a href="http://lotrepls.appspot.com" shape="rect">http://lotrepls.appspot.com</a></li>
+      <li>Wikibooks Clojure Programming - <a href="http://en.wikibooks.org/wiki/Clojure_Programming" shape="rect">http://en.wikibooks.org/wiki/Clojure_Programming</a></li>
+      <li>Wikibooks Learning Clojure - <a href="http://en.wikibooks.org/wiki/Learning_Clojure" shape="rect">http://en.wikibooks.org/wiki/Learning_Clojure</a></li>
+      <li>Wikibooks Clojure API Examples - <a href="http://en.wikibooks.org/wiki/Clojure_Programming/Examples/API_Examples" shape="rect">http://en.wikibooks.org/wiki/Clojure_Programming/Examples/API_Examples</a></li>
+      <li>Project Euler Clojure code - <a href="http://clojure-euler.wikispaces.com/" shape="rect">http://clojure-euler.wikispaces.com/</a></li>
+<li>Google App Engine Persistence using Clojure - <a href="http://www.fatvat.co.uk/2009/05/data-persistence-in-gae-with-clojure.html">http://www.fatvat.co.uk/2009/05/data-persistence-in-gae-with-clojure.html</a></li>
+    </ul>
+
+    <h3>Article Change History</h3>
+    <ol>
+      <li>added discussion about <code>println</code> adding spaces
+        and using <code>str</code> to avoid it</li>
+      <li>added indication of the specific thread pool
+        used by the <code>future</code> function</li>
+      <li>improved description of Clojure Contrib</li>
+      <li>added to a comment in the code example in the database section
+        that result sets obtained from <code>with-query-results</code>
+        are not lazy sequences</li>
+      <li>added clarification that <code>if</code> is a special form,
+        not a macro</li>
+      <li>changed "<code>cond</code> function" to "<code>cond</code> macro"</li>
+      <li>changed "present working directory" to "print working directory"</li>
+      <li>added that new special forms cannot be created</li>
+      <li>improved around-zero macro example</li>
+      <li>corrected descriptions of the characteristics of lists and vectors</li>
+      <li>removed statement near beginning of Collections section
+        that Clojure strings can be treated as collections of characters;
+        they can be treated as sequences of characters
+        and that is mentioned later</li>
+      <li>added that the vector returned by <code>subvec</code>
+        shares structure with the orginal</li>
+      <li>added that some functions that operate on a collection
+        return a collection of a different type
+        that has different characteristics</li>
+      <li>improved discussion about forcing the evaluation of lazy sequences
+        in the "Sequences" section</li>
+      <li>added explanation of why <code>doseq</code> is
+        typically faster than <code>dorun</code></li>
+      <li>added more on <code>conj</code> and <code>cons</code>
+        in sections on Lists and Vectors</li>
+      <li>added <code>new</code> to syntax table</li>
+      <li>added old style dot method for calling Java methods
+        to syntax table</li>
+      <li>improved information on exiting a REPL</li>
+      <li>fixed example of doc function</li>
+      <li>added <code>string?</code> to list of
+        type testing predicate functions</li>
+      <li>added example of using ^#'name to get metadata</li>
+      <li>changed (set ...) to (hash-set ...) in syntactic sugar table</li>
+      <li>added sorted-set and sorted-map to syntactic sugar table</li>
+      <li>improved testing for vowels in Pig Latin example</li>
+      <li>noted that keys can only sometimes be used as functions of maps</li>
+      <li>noted that Clojure collections are preferred over Java collections</li>
+      <li>replaced use of the term "variable"
+        with either "binding" or "symbol"</li>
+      <li>added description of sets being used as functions of their items</li>
+      <li>added note about vectors typically being preferred over lists</li>
+      <li>added that <code>declare</code> can take
+        any number of function names</li>
+      <li>added a comment to main code of bank example
+        about sleeping twice during a <code>transfer</code>
+        since <code>deposit</code>q is called twice</li>
+      <li>improved <code>open-account</code> function in bank example
+        (now using a ref instead of an atom to hold the map of accounts)</li>
+      <li>added mentions of the <code>.?.</code> and <code>-?></code>
+        macros in clojure.contrib.core</li>
+      <li>added :: to syntax table for creating keywords in the current namespace</li>
+      <li>added information on creating private definitions using
+        macros in clojure.contrib.def</li>
+      <li>changed <code>find-ns</code> to <code>namespace</code>
+        as the function that returns the namespace
+        of a given symbol or keyword</li>
+      <li>improved description of "pure functions"</li>
+      <li>removed mention of retrying transactions
+        that appeared too early</li>
+      <li>changed "In reality" to "In practice"</li>
+      <li>improved descriptions of "first-class functions"
+        and "higher-order functions"</li>
+      <li>added Scheme to the list of
+        popular functional programming languages</li>
+      <li>removed questionable description of the EPL license
+        and added a link to a FAQ on it</li>
+      <li>upgraded discussion of Compojure to use the newest version</li>
+      <li>added mention of <code>*warn-on-reflection*</code></li>
+      <li>added information about sending actions to agents from
+        inside transactions to support side effects</li>
+      <li>changed time when macros are expanded from
+        read-time to compile-time</li>
+      <li>added example of using <code>doseq</code> and list comprehension
+        to iterate through all the keys and values in a map</li>
+      <li>added information on test-is fixtures</li>
+      <li>added link to clojure-contrib documentation</li>
+      <li>changed references to "core" to "Clojure proper"
+        per suggestion from Rich Hickey</li>
+      <li>added information about auto-gensym in macros</li>
+      <li>clarified what causes a conflict in a transaction</li>
+      <li>added Kawa Scheme to the list of functional programming languages
+        that run on the JVM</li>
+      <li>replaced a class to ref-set with alter in bank example</li>
+      <li>updated information on Compojure
+        to show use of new "deps" ant task and
+        change to the form-to function to use :post instead of POST</li>
+      <li>added hyperlinks for Subversion and Ant</li>
+      <li>added Armed Bear Common Lisp and OCaml-Java to the list of
+        functional programming languages that run on the JVM</li>
+      <li>added missing right paren in an example in the Vars section</li>
+      <li>added a brief reference to clojurescript</li>
+      <li>added that reduce is the same as
+        inject in Ruby and foldl in Haskell</li>
+      <li>added a statement about preferring alter and commute over ref-set</li>
+      <li>changed clojure.contrib.test-is to clojure.test</li>
+      <li>updated use of the test "are" macro</li>
+      <li>added information about running the tests
+        that ship with Clojure</li>
+      <li>added reduce to the list of important functions to understand</li>
+      <li>added an alternate implementation of the polynomial function</li>
+      <li>changed setup instructions from using Subversion to using Git</li>
+      <li>8/28/09 - added info. about why accessor functions are faster
+        than structmap lookups</li>
+      <li>9/7/09 - several spelling and grammatical corrections
+        identified by Yaron Goland.  Thanks Yaron!</li>
+      <li>9/14/09 - large number of fixes suggested by Alex Stangl.
+        Thanks Alex!</li>
+      <li>9/16/09 - updated link to clojure.contrib documentation.
+        Thanks Barry Teel!</li>
+      <li>9/24/09 - added link to STM article</li>
+      <li>10/2/09 - many minor typo fixes and wording improvements</li>
+      <li>10/12/09 - added reference to "hygienic macros"</li>
+      <li>1/1/10 - updated URL for Eclipse plugin</li>
+      <li>1/1/10 - improved description of test fixtures</li>
+      <li>1/20/10 - added link to a presentation on changes in 1.1
+        in Conclusion section</li>
+      <li>7/18/10 - updated information on downloading
+        Clojure core and contrib</li>
+      <li>7/21/10 - added explanation of <code>let</code> assigning values
+        sequentially and <code>binding</code> assigning values in parallel -
+        Thanks Ken Glidden!</li>
+      <li>11/19/10 - added warning that <code>add-watcher</code> has been
+        replaced by <code>add-watch</code> which behaves differently,
+        but I still need to update the section on watchers.
+        Thanks Nicola Vitucci!</li>
+      <li>11/19/10 - removed statement that Scheme uses <code>first</code>
+        instead of <code>car</code>.  Thanks Benjamin Dreus!</li>
+    </ol>
+
+    <h3>Sounds</h3>
+    <p>
+      Even Jennifer Aniston has quit using other programming languages
+      and now prefers Clojure.
+      Check out the links to quotes from her below.
+    </p>
+    <embed src="audio/AnistonClosure1.mp3" autostart="true" hidden="true">
+    <a href="audio/AnistonClosure1.mp3">Sound Clip #1</a>
+    <a href="audio/AnistonClosure2.mp3">Sound Clip #2</a>
+  </body>
+</html>

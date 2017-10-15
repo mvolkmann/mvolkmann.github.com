@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR.html1/DTD.html1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999.html">
+  <head>
+    <title>JFreeChart</title>
+    <link rel="stylesheet" type="text/css" href="../common.css"/>
+  </head>
+  <body>
+    <h2>JFreeChart</h2>
+    
+    <h3>Introduction</h3>
+    <p>
+      JFreeChart is a free, open source library for creating charts.
+      Supported chart types include area, bar, box and whisker,
+      bubble, candlestick, Gantt, high/low, histogram, line,
+      multiple pie, pie, polar, ring, scatter,
+      stacked area, stacked bar, stacked X/Y area,
+      time series, wafer map, waterfall, wind,
+      X/Y area, X/Y bar, X/Y line, X/Y step area and X/Y step.
+      Output can be produced in many formats including
+      Swing components, PNG, JPEG, PDF and SVG.
+      A book on JFreeChart is available for $48.75 from
+      <a href="http://www.jfree.org/jfreechart/devguide.html">here</a>.
+      JFreeChart can be downloaded from <a target="_blank"
+      href="http://www.jfree.org/jfreechart/">here</a>.
+      API documentation is
+      <a href="http://www.jfree.org/jfreechart/api/javadoc/">here</a>.
+    </p>
+
+    <h3>Example</h3>
+    <p>
+      The data in this example represents the percentage of
+      the runtime of a Java application that is
+      not used for garbage collection, a.k.a. throughput.
+    </p>
+
+    <pre><div class="code">import java.io.*;
+import java.util.StringTokenizer;
+
+import org.jfree.chart.*;
+import org.jfree.chart.plot.*;
+import org.jfree.data.xy.*;
+
+/**
+ * This class creates an XY chart using the data in gc.csv.
+ *
+ * @author R. Mark Volkmann, Object Computing, Inc.
+ */
+public class ChartCreator {
+
+    private static final boolean SHOW_LEGEND = false;
+    private static final boolean SHOW_TOOLTIPS = false;
+    private static final boolean GENERATE_URLS = false;
+
+    public static void main(String[] args) throws IOException {
+        FileReader fr = new FileReader("gc.csv");
+        BufferedReader br = new BufferedReader(fr);
+
+        // Get the x-axis label from the first token in the first line
+        // and the y-axis label from the last token in the first line.
+        String line = br.readLine();
+        StringTokenizer st = new StringTokenizer(line, ",");
+        String xLabel = st.nextToken();
+        String yLabel = st.nextToken();
+        while (st.hasMoreTokens()) yLabel = st.nextToken();
+
+        String title = yLabel + " by " + xLabel;
+
+        // Get the data to plot from the remaining lines.
+        float minY = Float.MAX_VALUE;
+        float maxY = -Float.MAX_VALUE;
+        XYSeries series = new XYSeries("?");
+        while (true) {
+            line = br.readLine();
+            if (line == null) break;
+            st = new StringTokenizer(line, ",");
+
+            // The first token is the x value.
+            String xValue = st.nextToken();
+
+            // The last token is the y value.
+            String yValue = "";
+            while (st.hasMoreTokens()) yValue = st.nextToken();
+
+            float x = Float.parseFloat(xValue);
+            float y = Float.parseFloat(yValue);
+            series.add(x, y);
+
+            minY = Math.min(y, minY);
+            maxY = Math.max(y, maxY);
+        }
+
+        XYSeriesCollection dataset = new XYSeriesCollection();
+        dataset.addSeries(series);
+
+        JFreeChart chart = ChartFactory.createXYLineChart(
+            title, xLabel, yLabel, dataset,
+            PlotOrientation.VERTICAL,
+            SHOW_LEGEND, SHOW_TOOLTIPS, GENERATE_URLS);
+
+        XYPlot plot = chart.getXYPlot();
+        plot.getRangeAxis().setRange(minY, maxY);
+
+        int width = 500;
+        int height = 300;
+        ChartUtilities.saveChartAsPNG(
+            new File("gc.png"), chart, width, height);
+    }
+}</div></pre>
+
+    <p>
+      Here's the comma-separted input file, gc.csv.
+    </p>
+    <pre><div class="code">Max Pause Goal,Minor Collections,Major Collections,Pause Count,Max Pause,GC Time,Total Time, Throughput
+0,49,0,49,0.005,0.081,1.831,95.599
+100,49,0,49,0.005,0.077,1.828,95.785
+200,49,0,49,0.005,0.081,1.829,95.550
+300,47,0,47,0.009,0.089,1.837,95.145
+400,48,0,48,0.005,0.081,1.835,95.598
+500,48,0,48,0.005,0.078,1.825,95.729
+600,49,0,49,0.005,0.081,1.830,95.600
+700,48,0,48,0.005,0.081,1.828,95.564
+800,44,0,44,0.017,0.094,1.857,94.919
+900,49,0,49,0.006,0.082,1.833,95.533
+1000,49,0,49,0.005,0.088,1.840,95.224</div></pre>
+
+    <p>
+      Here's the chart that is produced by JFreeChart in this example.
+    </p>
+    <img src="JFreeChart/gc.png"/>
+
+    <h3>Alternatives</h3>
+    <p>
+      Google Charts is one alternative.
+      However, it is targeted at generating charts for display in web browsers.
+      An HTTP GET request must be sent to a Google URL.
+      The URL contains request parameters that specify chart details,
+      including the data to be charted.
+      The "Developer Guide" is
+      <a href="http://code.google.com/apis/chart/">here</a>.
+      The number of supported chart types and output formats are very limited
+      in comparison to JFreeChart.
+      See the "Chart type" link on the Developer Guide page.
+      Only PNG output is supported.
+    </p>
+
+    <hr />
+    <p style="text-align:center">
+      Copyright &#169; 2008 Object Computing, Inc. All rights reserved.
+    </p>
+  </body>
+</html>

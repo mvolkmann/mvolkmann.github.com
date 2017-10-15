@@ -1,0 +1,1323 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR.html1/DTD.html1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>WAX</title>
+    <link rel="stylesheet" type="text/css" href="../common.css"/>
+  </head>
+  <body>
+    <h2>Writing API for XML (WAX)</h2>
+
+    <p>
+      <a href="http://code.google.com/p/waxy/">Download</a>&nbsp;
+      <a href="WAX/doc/api/index.html">API (javadoc)</a>&nbsp;
+      <a href="http://sarissa.cvs.sf.net/viewvc/sarissa/WAX.js/">WAX for JavaScript</a>&nbsp;
+      <a href="wax_ruby.html">WAX for Ruby</a>&nbsp;
+      <a href="http://viewfromthefringe.blogspot.com/2008/09/interface-chaining.html">Interface Chaining pattern</a>
+    </p>
+    
+    <h3>Contents</h3>
+    <table>
+      <tr>
+        <td>
+          <img style="clear:both; float:left; margin-bottom:15px; margin-right:15px"
+            alt="WAX logo" src="../images/waxlogo.png" height="250px"/>
+        </td>
+        <td>
+          <a href="#Introduction">Introduction</a><br/>
+          <a href="#WAXTutorial">WAX Tutorial</a><br/>
+          <a href="#WAXLimitations">WAX Limitations</a><br/>
+          <a href="#WAXDetails">WAX Details</a><br/>
+          <a href="#ApproachesCompared">Approaches Compared</a><br/>
+          <a href="#SAX">Simple API for XML (SAX)</a><br/>
+          <a href="#DOM">Document Object Model (DOM)</a><br/>
+          <a href="#JDOM">JDOM</a><br/>
+          <a href="#Groovy">Groovy</a><br/>
+          <a href="#XMLStreamWriter">XMLStreamWriter</a><br/>
+          <a href="#Conclusion">Conclusion</a><br/>
+        </td>
+        <td>
+          A short video introduction ...
+          <br/>
+          <object style="width:309px; height:250px"
+            type="application/x-shockwave-flash"
+            data="http://www.youtube.com/v/22aiGJhzbX8">
+            <param name="movie" value="http://www.youtube.com/v/22aiGJhzbX8"/>
+            <param name="allowFullScreen" value="true"/>
+          </object>
+        </td>
+        <td>
+          Inspiration ...
+          <br/>
+          <object style="width:309px; height:250px"
+            type="application/x-shockwave-flash"
+            data="http://www.youtube.com/v/3PycZtfns_U">
+            <param name="movie"
+              value="http://www.youtube.com/v/3PycZtfns_U"/>
+            <param name="allowFullScreen" value="true"/>
+          </object>
+        </td>
+      </tr>
+    </table>
+
+    <h3><a name="Introduction">Introduction</a></h3>
+    <p>
+      What's the best way to read a large XML document?
+      Of course you'd use a SAX parser or a pull parser.
+      What's the best way to write a large XML document?
+      Building a DOM structure to describe a large XML document
+      won't work because it won't fit in memory.
+      Even if it did, it's not a simple API to use.
+      There hasn't been a solution that is
+      simple and memory efficient until now.
+    </p>
+
+    <p>
+      Writing API for XML (WAX) is a free, open-source, library
+      for writing XML documents.
+      I created it because I got an <code>OutOfMemoryError</code>
+      while trying to output a large XML document
+      from an application I wrote using JDOM,
+      another Java-based XML library.
+      I searched for other libraries
+      that could write large XML documents
+      but couldn't find any that were
+      as simple to use as I thought they should be.
+    </p>
+    <p>
+      WAX is released under the
+      <a href="http://www.opensource.org/licenses/bsd-license.php">New BSD</a>
+      with the intention of making its use unencumbered.
+      It is well-tested and ready for production use.
+      The WAX home page is at
+      <a href="http://www.ociweb.com/wax/">http://www.ociweb.com/wax/</a>.
+      Java and Ruby versions are available now.
+      The Java version of WAX can be downloaded from Google Code at
+      <a href="http://code.google.com/p/waxy/">http://code.google.com/p/waxy/</a>.
+      For information about the Ruby version, click <a href="wax_ruby.html">here</a>.
+      Ports for other programming languages will follow.
+    </p>
+    <p>
+      WAX has the following characteristics:
+    </p>
+    <ul>
+      <li>focuses on writing XML, not reading it</li>
+      <li>requires less code than other approaches</li>
+      <li>uses less memory than other approaches<br/>
+        (because it outputs XML as each method is called rather than<br/>
+        storing it in a DOM-like structure and outputting it later)</li>
+      <li>doesn't depend on any Java classes
+        other than standard JDK classes</li>
+      <li>is a small library (around 16K)</li>
+      <li>writes all XML node types</li>
+      <li>always outputs well-formed XML or throws an exception
+        unless running in "trust me" mode</li>
+      <li>provides extensive error checking</li>
+      <li>automatically escapes special characters in
+        text and attribute values (unless "unescaped" methods are used)</li>
+      <li>allows most error checking to be turned off for performance</li>
+      <li>knows how to associate DTDs, XML Schemas and
+        XSLT stylesheets with the XML it outputs</li>
+      <li>is well-suited for writing XML request and response messages
+        for REST-based and SOAP-based services</li>
+    </ul>
+
+    <h3><a name="WAXTutorial">WAX Tutorial</a></h3>
+    <p>
+      This section provides many examples of using WAX.
+      Each code snippet is followed by the output it produces.
+    </p>
+
+    <p>
+      When the no-arg WAX constructor is used,
+      XML is written to standard output.
+      There are also WAX constructors that take
+      a <code>java.io.OutputStream</code>
+      or a <code>java.io.Writer</code> object.
+    </p>
+    <p>
+      Here's a simple example where only a <b>root element</b> is written:
+    </p>
+    <div class="code"><pre>
+WAX wax = new WAX();
+wax.start("car").close();
+</pre></div>
+    <div class="code"><pre>
+&lt;car/&gt;
+</pre></div>
+
+    <p>
+      After a <code>WAX</code> object is closed,
+      a new one must be created in order to write more XML.
+      In the examples that follow, assume that has been done.
+    </p>
+
+    <p>
+      Let's write a root element with some <b>text</b> inside:
+    </p>
+    <div class="code"><pre>
+wax.start("car").text("Prius").end().close();
+</pre></div>
+    <div class="code"><pre>
+&lt;car&gt;Prius&lt;/car&gt;
+</pre></div>
+    <p>
+      The default indentation used is two spaces.
+      The <code>end</code> method terminates the element
+      that is started by the <code>start</code> method.
+      In this case it's not necessary to call <code>end</code>
+      because the <code>close</code> method
+      terminates all unterminated elements.
+    </p>
+
+    <p>
+      Let's put the text inside a <b>child element</b>:
+    </p>
+    <div class="code"><pre>
+wax.start("car").start("model").text("Prius").close();
+</pre></div>
+    <div class="code"><pre>
+&lt;car&gt;
+  &lt;model&gt;Prius&lt;/model&gt;
+&lt;/car&gt;
+</pre></div>
+
+    <p>
+      Let's do the same with the
+      <b><code>child</code> convenience method</b>:
+      which is equivalent to calling <code>start</code>,
+      <code>text</code> and <code>end</code>.
+    </p>
+    <div class="code"><pre>
+wax.start("car").child("model", "Prius").close();
+</pre></div>
+    <div class="code"><pre>
+&lt;car&gt;
+  &lt;model&gt;Prius&lt;/model&gt;
+&lt;/car&gt;
+</pre></div>
+
+    <p>
+      Let's put text containing all the special XML characters
+      in a <b>CDATA section</b>:
+    </p>
+    <div class="code"><pre>
+wax.start("car").start("model").cdata("1&lt;2&gt;3&amp;4&apos;5\";6").close();
+</pre></div>
+    <div class="code"><pre>
+&lt;car&gt;
+  &lt;model&gt;
+    &lt;![CDATA[1&lt;2&gt;3&amp;4&apos;5&quot;6]]&gt;
+  &lt;/model&gt;
+&lt;/car&gt;
+</pre></div>
+
+    <p>
+      Let's output the XML without indentation, on a <b>single line</b>:
+    </p>
+    <div class="code"><pre>
+wax.noIndentsOrLineSeparators();
+wax.start("car").child("model", "Prius").close();
+</pre></div>
+    <div class="code"><pre>
+&lt;car&gt;&lt;model&gt;Prius&lt;/model&gt;&lt;/car&gt;
+</pre></div>
+
+    <p>
+      Let's <b>indent</b> the XML with four spaces
+      instead of the default of two:
+    </p>
+    <div class="code"><pre>
+wax.setIndent("    "); <span class="comment">// can also call setIndent(4)</span>
+wax.start("car").child("model", "Prius").close();
+</pre></div>
+    <div class="code"><pre>
+&lt;car&gt;
+    &lt;model&gt;Prius&lt;/model&gt;
+&lt;/car&gt;
+</pre></div>
+
+    <p>
+      Let's add an <b>attribute</b>:
+    </p>
+    <div class="code"><pre>
+wax.start("car").attr("year", 2008).child("model", "Prius").close();
+</pre></div>
+    <div class="code"><pre>
+&lt;car year="2008"&gt;
+  &lt;model&gt;Prius&lt;/model&gt;
+&lt;/car&gt;
+</pre></div>
+    <p>
+      Attributes must be specified before
+      any content for their element is specified.
+      For example, calling
+      <code>start</code>, <code>attr</code> and <code>text</code> is valid,
+      but calling
+      <code>start</code>, <code>text</code> and <code>attr</code> is not.
+      If this rule is violated then
+      an <code>IllegalStateException</code> is thrown.
+    </p>
+
+    <p>
+      Let's add an <b>XML declaration</b>:
+    </p>
+    <div class="code"><pre>
+WAX wax = new WAX(Version.V1_0); <span class="comment">// Version is an enum</span>
+wax.start("car").attr("year", 2008)
+   .child("model", "Prius").close();
+</pre></div>
+    <div class="code"><pre>
+&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;car year="2008"&gt;
+  &lt;model&gt;Prius&lt;/model&gt;
+&lt;/car&gt;
+</pre></div>
+
+    <p>
+      Let's add a <b>comment</b>:
+    </p>
+    <div class="code"><pre>
+wax.comment("This is a hybrid car.")
+   .start("car").child("model", "Prius").close();</pre></div>
+    <div class="code"><pre>&lt;!-- This is a hybrid car. --&gt;
+&lt;car&gt;
+  &lt;model&gt;Prius&lt;/model&gt;
+&lt;/car&gt;
+</pre></div>
+
+    <p>
+      Let's add a <b>processing instruction</b>:
+    </p>
+    <div class="code"><pre>
+wax.processingInstruction("target", "data")
+   .start("car").attr("year", 2008)
+   .child("model", "Prius").close();</pre></div>
+    <div class="code"><pre>&lt;?target data?&gt;
+&lt;car year="2008"&gt;
+  &lt;model&gt;Prius&lt;/model&gt;
+&lt;/car&gt;
+</pre></div>
+
+    <p>
+      Let's associate an <b>XSLT stylesheet</b> with the XML:
+      The <code>xslt</code> method is a convenience method for adding
+      this commonly used processing instruction.
+    </p>
+    <div class="code"><pre>
+wax.xslt("car.xslt")
+   .start("car").attr("year", 2008)
+   .child("model", "Prius").close();
+</pre></div>
+    <div class="code"><pre>
+&lt;?xml-stylesheet type="text/xsl" href="car.xslt"?&gt;
+&lt;car year="2008"&gt;
+  &lt;model&gt;Prius&lt;/model&gt;
+&lt;/car&gt;
+</pre></div>
+
+    <p>
+      Let's associate a <b>default namespace</b> with the XML:
+    </p>
+    <div class="code"><pre>
+wax.start("car").attr("year", 2008)
+   .defaultNamespace("http://www.ociweb.com/cars")
+   .child("model", "Prius").close();
+</pre></div>
+    <div class="code"><pre>
+&lt;car year="2008"
+  xmlns="http://www.ociweb.com/cars"&gt;
+  &lt;model&gt;Prius&lt;/model&gt;
+&lt;/car&gt;
+</pre></div>
+
+    <p>
+      Let's associate a <b>non-default namespace</b> with the XML:
+    </p>
+    <div class="code"><pre>
+String prefix = "c";
+wax.start(prefix, "car").attr("year", 2008)
+   .namespace(prefix, "http://www.ociweb.com/cars")
+   .child(prefix, "model", "Prius").close();
+</pre></div>
+    <div class="code"><pre>
+&lt;c:car year="2008"
+  xmlns:c="http://www.ociweb.com/cars"&gt;
+  &lt;c:model&gt;Prius&lt;/c:model&gt;
+&lt;/c:car&gt;
+</pre></div>
+    <p>
+      Like attributes, namespaces must be specified
+      before any content for their element is specified.
+      If this rule is violated then
+      an <code>IllegalStateException</code> is thrown.
+    </p>
+
+    <p>
+      Let's associate an <b>XML Schema</b> with the XML:
+    </p>
+    <div class="code"><pre>
+wax.start("car").attr("year", 2008)
+   .defaultNamespace("http://www.ociweb.com/cars", "car.xsd")
+   .child("model", "Prius").close();
+</pre></div>
+    <div class="code"><pre>
+&lt;car year="2008"
+  xmlns="http://www.ociweb.com/cars"
+  xmlns:xsi="http://www.w3.org/1999/XMLSchema-instance"
+  xsi:schemaLocation="http://www.ociweb.com/cars car.xsd"&gt;
+  &lt;model&gt;Prius&lt;/model&gt;
+&lt;/car&gt;
+</pre></div>
+
+    <p>
+      Let's associate <b>multiple XML Schemas</b> with the XML:
+    </p>
+    <div class="code"><pre>
+wax.start("car").attr("year", 2008)
+   .defaultNamespace("http://www.ociweb.com/cars", "car.xsd")
+   .namespace("m", "http://www.ociweb.com/model", "model.xsd")
+   .child("m", "model", "Prius").close();
+</pre></div>
+    <div class="code"><pre>
+&lt;car year="2008"
+  xmlns="http://www.ociweb.com/cars"
+  xmlns:m="http://www.ociweb.com/model"
+  xmlns:xsi="http://www.w3.org/1999/XMLSchema-instance"
+  xsi:schemaLocation="http://www.ociweb.com/cars car.xsd
+    http://www.ociweb.com/model model.xsd"&gt;
+  &lt;m:model&gt;Prius&lt;/m:model&gt;
+&lt;/car&gt;
+</pre></div>
+
+    <p>
+      Let's associate a <b>DTD</b> with the XML:
+    </p>
+    <div class="code"><pre>
+wax.dtd("car.dtd")
+   .start("car").attr("year", 2008)
+   .child("model", "Prius").close();
+</pre></div>
+    <div class="code"><pre>
+&lt;!DOCTYPE car SYSTEM "car.dtd"&gt;
+&lt;car year="2008"&gt;
+  &lt;model&gt;Prius&lt;/model&gt;
+&lt;/car&gt;
+</pre></div>
+
+    <p>
+      Let's add and use <b>entity definitions</b>:
+    </p>
+    <div class="code"><pre>
+String url = "http://www.ociweb.com/xml/";
+wax.entityDef("oci", "Object Computing, Inc.")
+   .externalEntityDef("moreData", url + "moreData.xml")
+   .start("root")
+   .unescapedText("The author works at &amp;oci; in St. Louis, Missouri.",
+       true) <span class="comment">// avoiding escaping for entity reference</span>
+   .unescapedText("&amp;moreData;", true)
+   .close();
+</pre></div>
+    <div class="code"><pre>
+&lt;!DOCTYPE root [
+  &lt;!ENTITY oci "Object Computing, Inc."&gt;
+  &lt;!ENTITY moreData SYSTEM "http://www.ociweb.com/xml/moreData.xml"&gt;
+]&gt;
+&lt;root&gt;
+  The author works at &amp;oci; in St. Louis, Missouri.
+  &amp;moreData;
+&lt;/root&gt;
+</pre></div>
+
+    <p>
+      A <b>common usage pattern</b> is to pass a
+      <code>WAX</code> object to a method of model objects
+      that use it to write their XML representation.
+      For example, a <code>Car</code> class could have the following method.
+    </p>
+    <div class="code"><pre>
+public void toXML(WAX wax) {
+    wax.start("car")
+       .attr("year", year)
+       .child("make", make)
+       .child("model", model)
+       .end();
+}
+</pre></div>
+    <p>
+      An example of the XML this would produce follows:
+    </p>
+    <div class="code"><pre>
+&lt;car year="2008"&gt;
+  &lt;make&gt;Toyota&lt;/make&gt;
+  &lt;model&gt;Prius&lt;/model&gt;
+&lt;/car&gt;
+</pre></div>
+
+    <p>
+      A <code>Person</code> class whose objects hold a reference to
+      an <code>Address</code> object could have the following method.
+    </p>
+    <div class="code"><pre>
+public void toXML(WAX wax) {
+    wax.start("person")
+       .attr("birthdate", birthdate)
+       .child("name", name);
+    address.toXML(wax);
+    wax.end();
+}
+</pre></div>
+
+    <p>
+      The <code>Address</code> class could have the following method.
+    </p>
+    <div class="code"><pre>
+public void toXML(WAX wax) {
+    wax.start("address")
+       .child("street", street);
+       .child("city", city);
+       .child("state", state);
+       .child("zip", zip);
+       .end();
+}
+</pre></div>
+    <p>
+      An example of the XML this would produce follows:
+    </p>
+    <div class="code"><pre>
+&lt;person birthdate="4/16/1961"&gt;
+  &lt;name&gt;R. Mark Volkmann&lt;/name&gt;
+  &lt;address&gt;
+    &lt;street&gt;123 Some Street&lt;/street&gt;
+    &lt;city&gt;Some City&lt;/city&gt;
+    &lt;state&gt;MO&lt;/state&gt;
+    &lt;zip&gt;12345&lt;/zip&gt;
+  &lt;/address&gt;
+&lt;/person&gt;
+</pre></div>
+
+    <h3><a name="WAXLimitations">WAX Limitations</a></h3> 
+    <p>
+      WAX only helps with writing XML, not reading it.
+      To read large XML documents,
+      use a SAX parser (such as Xerces that comes with Java)
+      or a pull parser (such as
+      <a href="http://woodstox.codehaus.org/">Woodstox</a>)
+      which is my preference.
+    </p>
+    <p>
+      WAX doesn't validate that the XML it outputs
+      is valid according to some schema.
+    </p>
+    <p>
+      WAX shines when you need to output arbitrary XML that
+      doesn't necessarily map cleanly to objects
+      from existing Java classes.  However,
+      there are even simpler approaches if you are serializing
+      Java objects into XML and will later want to
+      deserialize the XML back to Java objects.
+      My favorite of these is
+      <a href="http://www.ociweb.com/mark/programming/XStream.html">XStream</a>.
+      Another option is
+      <a href="http://java.sun.com/developer/technicalArticles/WebServices/jaxb/">JAXB</a>.
+    </p>
+
+    <h3><a name="WAXDetails">WAX Details</a></h3> 
+    <p>
+      So what does WAX actually do?
+    </p>
+    <p>
+      WAX writes out bits of XML as calls are made.
+      It doesn't buffer up the data in a data structure to be
+      written out later, as is done in the DOM approach.
+      Actually it does do this for five cases,
+      none of which involve a large amount of data.
+    </p>
+    <ol>
+      <li>
+        Entity definitions, specified before the root element,
+        are held in a list and written out in a <code>DOCTYPE</code>
+        just before the root element start tag is output.
+        Once this is done, the list is cleared.
+      </li>
+      <li>
+        Associations between namespace URIs and XML Schema paths,
+        specified using the <code>namespace</code> method,
+        are held in a map.
+        This information is needed to construct
+        the value of the <code>xsi:schemaLocation</code> attribute.
+        After each start tag is completed, the map is cleared.
+      </li>
+      <li>
+        The names of unterminated ancestor elements are held in a stack.
+        This is needed so they can be properly terminated when the
+        <code>end</code> method is invoked.  This pops the name off the stack.
+        The <code>close</code> method calls <code>end</code>
+        for each name remaining on this stack in order to
+        terminate all unterminated elements.
+      </li>
+      <li>
+        The namespace prefixes that are defined for each element
+        are held in a stack.
+        As each element is terminated, an entry is popped off this stack.
+        This is used to verify that all namespace prefixes
+        used on elements and attributes are in scope.
+      </li>
+      <li>
+        All namespace prefixes used on the current element or its attributes
+        are held in a list.
+        When the start tag for the current element is closed,
+        all the prefixes in this list are checked to verify that
+        a matching namespace declaration is in scope.
+        This is necessary because a namespace can be defined on
+        the same element that uses the prefix for itself and/or its attributes.
+        After the prefixes are verified, the list is cleared.
+      </li>
+    </ol>
+    <p>
+      It is not possible for WAX to output XML that isn't well-formed
+      without an exception being thrown,
+      unless you forget to call the <code>close</code> method
+      when finished.
+      If an exception is thrown then the tags already output
+      may not be terminated.
+      All exceptions thrown by WAX are runtime exceptions.
+      <code>IOException</code>s are wrapped by <code>RuntimeException</code>.
+    </p>
+    <p>
+      WAX keeps track of the current state of the document
+      in order to provide extensive error checking.
+      There are four states:
+    </p>
+    <ol>
+      <li><code>IN_PROLOG</code> -
+        The start tag for the root element hasn't been output yet.</li>
+      <li><code>IN_START_TAG</code> -
+        The start tag of the current element has been written,
+        but the &gt; or /&gt; at the end hasn't been written yet
+        so attributes and namespace declarations can still be added.</li>
+      <li><code>AFTER_START_TAG</code> -
+        A &gt; has been written at the end the start tag
+        for the current element so it's ready for content.</li>
+      <li><code>AFTER_ROOT</code> -
+        The root element has been terminated.
+        Only comments and processing instructions can be output now.</li>
+    </ol>
+    <p>
+      WAX uses the current state to determine whether
+      specific method calls are valid.
+      For example, if the state is <code>IN_PROLOG</code>,
+      it doesn't make sense to call the <code>attr</code> method.
+      That adds an attribute to an element,
+      but you haven't written any elements yet if you're still
+      in the prolog section of the XML document.
+    </p>
+    <p>
+      When the state is <code>IN_START_TAG</code>, many methods
+      trigger termination of the start tag.  These include:
+      <code>cdata</code>, <code>child</code>, <code>close</code>,
+      <code>comment</code>, <code>end</code>,
+      <code>processingInstruction</code>, <code>start</code>
+      and <code>text</code>. 
+      This happens because none of these things can be written
+      inside a start tag.
+      Methods that do not cause a start tag to be terminated include:
+      <code>attr</code> and <code>namespace</code>
+      because these are things that belong in a start tag.
+    </p>
+    <p>
+      WAX remembers the namespace declarations that are in-scope
+      and verifies that only in-scope namespace prefixes
+      are used on elements and attributes.
+    </p>
+    <p>
+      The <code>close</code> method terminates all unterminated elements
+      and closes the stream to which the XML is being written.
+      This is done so subsequent code can't write additional content
+      that would result in XML that isn't well-formed.
+    </p>
+    <p>
+      All methods that write a part of the XML output
+      return the <code>WAX</code> object on which they are invoked
+      to support method chaining.
+      Methods that configure WAX, including
+      <code>setIndent</code> and <code>setTrustMe</code>, do not.
+      When method chaining is used, compile-time type checking verifies
+      that each successive call is valid in the context of the previous call.
+      For example, it's not valid to call <code>attr</code>
+      immediately after calling <code>text</code>.
+      This is accomplished through a novel approach
+      suggested by
+      <a href="http://viewfromthefringe.blogspot.com/">Brian Gilstrap</a>
+      at <a href="http://www.ociweb.com/">OCI</a>
+      that we are calling
+      <a href="http://viewfromthefringe.blogspot.com/2008/09/interface-chaining.html"><b>Interface Chaining</b></a>.
+      <code>WAX</code> methods that return the <code>WAX</code> object
+      return it as one of many interface types that are
+      implemented by the <code>WAX</code> class
+      rather than the <code>WAX</code> class type.
+      The interface returned describes only the <code>WAX</code> methods
+      that are valid to invoke next.
+      Note that this allows IDEs to flag invalid
+      method chaining call sequences as code is entered.
+      There is a downside to method chaining.
+      If a method in the chain throws an exception,
+      it may not be apparent which one threw it
+      since the chain could invoke the same method multiple times.
+    </p>
+    <p>
+      The following UML diagram conveys all the details behind this.
+      Note the interface types that are implemented by the WAX class.
+      Most WAX methods specify one of these interfaces as their return type.
+    </p>
+    <p><img alt="WAX UML class diagram" src="../images/WAXClassDiagram.png"/></p>
+
+    <h3><a name="ApproachesCompared">Approaches Compared</a></h3>
+
+    <p>
+      In the next several sections,
+      I'll compare several approaches for writing XML.
+      For each approach, I'll produce the following XML,
+      referred to as the "target XML."
+      Note that it includes both a DOCTYPE (associating a DTD with the XML)
+      and a schemaLocation attribute (associating an XML Schema with the XML).
+      It's not normal to do both, but I want to demonstrate
+      how both are accomplished.
+    </p>
+
+    <div class="code"><pre>
+&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;?xml-stylesheet type="text/xsl" href="artist.xslt"?&gt;
+&lt;!DOCTYPE artist SYSTEM "http://www.ociweb.com/xml/music.dtd"&gt;
+&lt;artist name="Gardot, Melody"&gt;
+  xmlns="http://www.ociweb.com/music"
+  xmlns:date="http://www.ociweb.com/date"
+  xmlns:xsi="http://www.w3.org/1999/XMLSchema-instance"
+  xsi:schemaLocation="http://www.ociweb.com/music http://www.ociweb.com/xml/music.xsd
+    http://www.ociweb.com/date http://www.ociweb.com/xml/date.xsd"&gt;
+  &lt;!-- This is one of my favorite CDs! --&gt;
+  &lt;cd year="2008"&gt;
+    &lt;title&gt;Worrisome Heart&lt;/title&gt;
+    &lt;date:purchaseDate&gt;4/3/2008&lt;/date:purchaseDate&gt;
+  &lt;/cd&gt;
+&lt;/artist&gt;
+</pre></div>
+
+    <p>
+      Here's the WAX code that produces the example XML above.
+    </p>
+    <div class="code"><pre>
+import com.ociweb.xml.WAX;
+
+public class CDDemo {
+
+    public static void main(String[] args) {
+        <span class="comment">// Write to System.out with an XML declaration that specifies version 1.0.</span>
+        <span class="comment">// If the version is omitted then no XML declaration will be written.</span>
+        WAX wax = new WAX(WAX.Version.V1_0);
+        wax.xslt("artist.xslt")
+           .dtd("artist", "http://www.ociweb.com/xml/music.dtd")
+
+           .start("artist").attr("name", "Gardot, Melody")
+           .defaultNamespace("http://www.ociweb.com/music",
+               "http://www.ociweb.com/xml/music.xsd")
+           .namespace("date", "http://www.ociweb.com/date",
+               "http://www.ociweb.com/xml/date.xsd")
+
+           .comment("This is one of my favorite CDs!")
+           .start("cd").attr("year", 2008)
+           .child("title", "Worrisome Heart")
+           .child("date", "purchaseDate", "4/3/2008")
+
+           .close(); <span class="comment">// terminates all unterminated elements</span>
+    }
+}
+</pre></div>
+
+    <p>
+      This is much more compact and understandable than
+      any other approach I have seen.
+    </p>
+
+    <h3><a name="SAX">Simple API for XML (SAX)</a></h3>
+    <p>
+      Readers familiar with SAX, the Simple API for XML,
+      may have noticed a similarity between WAX methods
+      and those in the SAX <code>ContentHandler</code> interface
+      (<code>processingInstruction</code>,
+      <code>startElement</code>,
+      <code>characters</code>,
+      <code>endElement</code>,
+      <code>startPrefixMapping</code> and
+      <code>endPrefixMapping</code>).
+    </p>
+    <p>
+      SAX is normally used for reading XML.
+      However, it can also be used to write XML
+      when it is used in conjunction with the Transformation API for XML (TrAX).
+      TrAX is supported out of the box with Java
+      in the <code>javax.xml.transform</code> package.
+      Unfortunately, writing XML with SAX is a bit complicated.
+      First, you need to write a class that acts as a custom
+      <a href="http://java.sun.com/javase/6/docs/api/org/xml/sax/XMLReader.html"><code>org.xml.sax.XMLReader</code></a>.
+      That's an interface with a lot of methods to be implemented.
+      This can be simplified by instead writing a class that extends
+      <a href="http://java.sun.com/javase/6/docs/api/org/xml/sax/helpers/XMLFilterImpl.html"><code>org.xml.sax.helpers.XMLFilterImpl</code></a>.
+      The example that follows uses many private convenience methods
+      that greatly simplify the code in the <code>parse</code> method.
+    </p>
+
+    <div class="code"><pre>
+import java.util.HashMap;
+import java.util.Map;
+import org.xml.sax.*;
+import org.xml.sax.helpers.AttributesImpl;
+
+public class CustomXMLReader extends org.xml.sax.helpers.XMLFilterImpl {
+
+    private AttributesImpl attrs = new AttributesImpl();
+    private ContentHandler contentHandler;
+    private Map&lt;String, String&gt; prefixToURIMap = new HashMap&lt;String, String&gt;();
+
+    @Override
+    public void setContentHandler(ContentHandler contentHandler) {
+        this.contentHandler = contentHandler;
+    }
+
+    @Override
+    public void parse(InputSource input) throws SAXException {
+        contentHandler.startDocument();
+        contentHandler.processingInstruction(
+            "xml-stylesheet", "type=\"text/xsl\" href=\"artist.xslt\"");
+
+        String musicURI = "http://www.ociweb.com/music";
+        String musicXSD = "http://www.ociweb.com/xml/music.xsd";
+        String dateURI = "http://www.ociweb.com/date";
+        String dateXSD = "http://www.ociweb.com/xml/date.xsd";
+
+        startNamespace("", musicURI);
+        startNamespace("date", dateURI);
+        startNamespace("xsi", "http://www.w3.org/1999/XMLSchema-instance");
+        attr("xsi", "schemaLocation",
+            musicURI + ' ' + musicXSD + ' ' + dateURI + ' ' + dateXSD);
+
+        attr("name", "Gardot, Melody");
+        start("artist");
+
+        attr("year", 2008);
+        start("cd");
+
+        start("title");
+        characters("Worrisome Heart");
+        end("title");
+
+        start("date", "purchaseDate");
+        characters("4/3/2008");
+        end("date", "purchaseDate");
+
+        end("cd");
+        end("artist");
+
+        endNamespace("date");
+        endNamespace("");
+        contentHandler.endDocument();
+    }
+
+    private void attr(String name, Object value) {
+        attr("", name, value);
+    }
+
+    private void attr(String prefix, String localName, Object value) {
+        String uri = prefixToURIMap.get(prefix);
+        String qName =
+            prefix.length() == 0 ? localName : prefix + ':' + localName;
+        attrs.addAttribute(uri, localName, qName, "CDATA", value.toString());
+    }
+
+    private void characters(String text) throws SAXException {
+        char[] chars = text.toCharArray();
+        contentHandler.characters(chars, 0, chars.length);
+    }
+
+    private void end(String name) throws SAXException {
+        end("", name);
+    }
+
+    private void end(String prefix, String localName)
+    throws SAXException {
+        String uri = prefixToURIMap.get(prefix);
+        String qName =
+            prefix.length() == 0 ? localName : prefix + ':' + localName;
+        contentHandler.endElement(uri, localName, qName);
+    }
+
+    private void endNamespace(String prefix) throws SAXException {
+        prefixToURIMap.remove(prefix);
+        contentHandler.endPrefixMapping(prefix);
+    }
+
+    private void start(String name) throws SAXException {
+        start("", name);
+    }
+
+    private void start(String prefix, String localName) throws SAXException {
+        String uri = prefixToURIMap.get(prefix);
+        String qName =
+            prefix.length() == 0 ? localName : prefix + ':' + localName;
+        contentHandler.startElement(uri, localName, qName, attrs);
+        attrs.clear();
+    }
+
+    private void startNamespace(String prefix, String uri) throws SAXException {
+        prefixToURIMap.put(prefix, uri);
+        contentHandler.startPrefixMapping(prefix, uri);
+    }
+}
+</pre></div>
+
+    <p>
+      Second, you need to write a class that uses JAXP to
+      "transform" SAX events from the custom <code>XMLReader</code>
+      into XML output.
+      Here's an example.
+    </p>
+
+    <div class="code"><pre>
+import java.io.OutputStreamWriter;
+import javax.xml.transform.*;
+import javax.xml.transform.sax.SAXSource;
+import javax.xml.transform.stream.StreamResult;
+import org.xml.sax.SAXException;
+
+public class SAXWriter {
+
+    public static void main(String[] args) throws SAXException,
+        TransformerConfigurationException, TransformerException {
+
+        SAXSource source = new SAXSource();
+        <span class="comment">// Note use of the custom XMLReader here.</span>
+        source.setXMLReader(new CustomXMLReader());
+
+        TransformerFactory tf = TransformerFactory.newInstance();
+        tf.setAttribute("indent-number", 2);
+        Transformer transformer = tf.newTransformer();
+        transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+        <span class="comment">// Using a Writer is key to getting indentation to work!</span>
+        Result result =
+            new StreamResult(new OutputStreamWriter(System.out));
+        transformer.transform(source, result);
+    }
+}
+</pre></div>
+
+    <p>
+      As complicated as the above code is, it would be even more complicated
+      to get it to output the DOCTYPE and comment that are in our target XML,
+      so I skipped those.
+      This code produces the output below.
+      The start tag, including all the namespace declarations and
+      the schemaLocation attribute is written on one long line.
+      I've split it up using a backslash ("\") to indicate line continuation
+      in order to make it easier to read.  That's not in the real XML.
+    </p>
+    <div class="code"><pre>
+&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;?xml-stylesheet type="text/xsl" href="artist.xslt"?&gt;
+
+&lt;artist; \
+xsi:schemaLocation="http://www.ociweb.com/music http://www.ociweb.com/xml/music.xsd \
+http://www.ociweb.com/date http://www.ociweb.com/xml/date.xsd" \
+name="Melody Gardot" xmlns:date="http://www.ociweb.com/date" \
+xmlns:xsi="http://www.w3.org/1999/XMLSchema-instance"&gt;
+  &lt;cd year="2008"&gt;
+    &lt;title&gt;Worrisome Heart&lt;/title&gt;
+    &lt;date:purchaseDate&gt;4/3/2008&lt;/date:purchaseDate&gt;
+  &lt;/cd&gt;
+&lt;/artist&gt;
+</pre></div>
+
+    <p>
+      Clearly using WAX to write XML is much easier than using SAX and TrAX.
+    </p>
+    <p>
+      There's another issue with this approach.  It doesn't stream the output!
+      Instead the <code>Transformer</code> uses SAX events from
+      the <code>SAXSource</code> to build an in-memory DOM tree.
+      I had hoped to avoid that by using a <code>SAXSource</code>.  No such luck!
+    </p>
+
+    <h3><a name="DOM">Document Object Model (DOM)</a></h3>
+    <p>
+      DOM is a programming language neutral API for reading and writing XML.
+      It is defined by a <a href="http://www.w3.org/">W3C</a> recommendation.
+      DOM doesn't stream XML when writing it.
+      Instead, it builds an in-memory data structure
+      that is later written as XML to a destination.
+      This makes it unsuitable for writing large XML documents.
+    </p>
+    <p>
+      The next library discussed, JDOM, is an attempt to create a
+      similar library that is specific to Java and is much easier to use.
+      Rather than show example DOM code,
+      I'll show example JDOM code in the next section.
+      It is much shorter and simpler than the equivalent DOM code would be.
+    </p>
+    <p>
+      For more information on DOM, visit
+     <a href="http://www.w3.org/DOM/">http://www.w3.org/DOM/</a>.
+    </p>
+
+    <h3><a name="JDOM">JDOM</a></h3>
+    <p>
+      JDOM is a free, open source, Java library for reading and writing XML.
+      It can be obtained from
+      <a href="http://www.jdom.org/">http://www.jdom.org/</a>.
+    </p>
+    <p>
+      Like DOM, JDOM doesn't stream XML when writing it.
+      Instead, it builds an in-memory data structure
+      that is later written as XML to a destination.
+      This makes it unsuitable for writing large XML documents.
+      Here's an example that outputs the target XML.
+    </p>
+    <div class="code"><pre>
+import java.io.IOException;
+import org.jdom.*;
+import org.jdom.output.*;
+
+public class CDDemo {
+
+    public static void main(String[] args) throws IOException {
+        <span class="comment">// Create namespaces to be used.</span>
+        String url = "http://www.ociweb.com/";
+        Namespace dateNS = Namespace.getNamespace("date", url + "date");
+        Namespace musicNS = Namespace.getNamespace(url + "music");
+        Namespace xsiNamespace = Namespace.getNamespace(
+            "xsi", "http://www.w3.org/1999/XMLSchema-instance");
+
+        String rootName = "artist";
+
+        <span class="comment">// Create the Document.</span>
+        Document doc = new Document();
+        doc.addContent(new ProcessingInstruction(
+            "xml-stylesheet", "type=\"text/xsl\" href=\"artist.xslt\""));
+        doc.setDocType(new DocType(rootName, url + "xml/music.dtd"));
+
+        <span class="comment">// Create the root element and define namespaces.</span>
+        Element root = new Element(rootName);
+        doc.setRootElement(root);
+        root.setNamespace(musicNS); <span class="comment">// sets default namespace</span>
+        root.addNamespaceDeclaration(dateNS);
+        root.addNamespaceDeclaration(xsiNamespace);
+
+        <span class="comment">// Associate XML Schemas with this XML.</span>
+        String schemaLocation =
+            musicNS.getURI() + url + "xml/music.xsd " +
+            dateNS.getURI() + url + "xml/date.xsd";
+        root.setAttribute("schemaLocation", schemaLocation, xsiNamespace);
+
+        <span class="comment">// Create other elements and attributes.</span>
+        root.setAttribute("name", "Gardot, Melody");
+        root.addContent(new Comment(" This is one of my favorite CDs! "));
+        Element cd = new Element("cd", musicNS);
+        cd.setAttribute("year", "2008");
+        root.addContent(cd);
+        cd.addContent(
+            new Element("title", musicNS).setText("Worrisome Heart"));
+        Element purchaseDate =
+            new Element("purchaseDate", dateNS).setText("4/3/2008");
+        cd.addContent(purchaseDate);
+
+        <span class="comment">// Output the XML.</span>
+        XMLOutputter xo = new XMLOutputter(Format.getPrettyFormat());
+        xo.output(doc, System.out);
+    }
+}
+</pre></div>
+    <p>
+      While this code is much shorter and is easier to understand
+      than the equivalent DOM code would be,
+      it pales in comparison to the earlier WAX code.
+    </p>
+
+    <h3><a name="Groovy">Groovy</a></h3>
+    <p>
+      Groovy "builder" classes can write XML.
+      Two to consider are <code>MarkupBuilder</code>
+      and <code>StreamingMarkupBuilder</code>.
+      While both can output XML, they have limitations.
+    </p>
+
+    <p>
+      <code>MarkupBuilder</code> can't do the following:
+    </p>
+    <ul>
+      <li>output an XML declaration</li>
+      <li>output a DOCTYPE, which is 
+        primarily used to associate a DTD with the XML</li>
+      <li>associate XML Schemas with the XML</li>
+      <li>output comments</li>
+    </ul>
+    <p>
+      Here's an example of using <code>MarkupBuilder</code>
+      to output the target XML.
+    </p>
+    <div class="code"><pre>
+import groovy.xml.MarkupBuilder
+
+<span class="comment">// Pass an IndentPrinter to the MarkupBuilder constructor</span>
+<span class="comment">// in order to output indented XML.</span>
+<span class="comment">// Without this all the XML will be on a single line.</span>
+<span class="comment">// Even with this, long sequences of attributes are not indented.</span>
+<span class="comment">// A PrintWriter can be passed to the IndentPrinter constructor.</span>
+<span class="comment">// Without that it writes to standard output.</span>
+def builder = new MarkupBuilder(new IndentPrinter())
+
+def url = 'http://www.ociweb.com'
+
+builder.artist(
+  xmlns : "${url}/music",
+  'xmlns:date' : "${url}/music/date",
+  'xmlns:xsi' : 'http://www.w3.org/1999/XMLSchema-instance',
+  'xsi:schemaLocation' :
+  "${url}/music ${url}/xml/music.xsd ${url}/date ${url}/xml/date.xsd",
+  name : 'Gardot, Melody') {
+  cd(year : '2008') {
+    title('Worrisome Heart')
+    'date:purchaseDate'('4/3/2008')
+  }
+}
+</pre></div>
+    <p>
+      This code produces the output below. 
+      Again, I've split it up using a backslash ("\")
+      to indicate line continuation in order to make it easier to read.
+      That's not in the real XML.
+    </p>
+    <div class="code"><pre>
+&lt;artist xmlns='http://www.ociweb.com/music' \
+xmlns:date='http://www.ociweb.com/music/date' \
+xmlns:xsi='http://www.w3.org/1999/XMLSchema-instance' \
+xsi:schemaLocation='http://www.ociweb.com/music http://www.ociweb.com/xml/music.xsd \
+http://www.ociweb.com/date http://www.ociweb.com/xml/date.xsd' name='Gardot, Melody'&gt;
+  &lt;cd year='2008'&gt;
+    &lt;title&gt;Worrisome Heart&lt;/title&gt;
+    &lt;date:purchaseDate&gt;4/3/2008&lt;/date:purchaseDate&gt;
+  &lt;/cd&gt;
+&lt;/artist&gt;
+</pre></div>
+
+    <p>
+      <code>StreamingMarkupBuilder</code> doesn't provide special methods
+      for doing the following:
+    </p>
+    <ul>
+      <li>output pretty-printed (indented) XML
+        (Tidy or JTidy can be run on the output
+        in a second pass to pretty-print it)</li>
+      <li>output a DOCTYPE, which is 
+        primarily used to associate a DTD with the XML
+        (must use <code>unescaped</code> method)</li>
+      <li>associate XML Schemas with the XML
+        (must manually specify the <code>xsi</code> namespace declaration
+        and the <code>xsi:schemaLocation</code> attribute)</li>
+    </ul>
+    <p>
+      Here's an example of using <code>StreamingMarkupBuilder</code>
+      to output the target XML.
+      A big thank you goes out to Mike Easter,
+      of <a href="http://codetojoy.blogspot.com/">Code To Joy</a> fame,
+      for writing this!
+    </p>
+
+    <div class="code"><pre>
+import groovy.xml.StreamingMarkupBuilder
+
+def builder = new StreamingMarkupBuilder()
+builder.encoding = 'UTF-8'
+
+def url = 'http://www.ociweb.com'
+
+def artist = {
+  artist('xsi:schemaLocation' :
+    "${url}/music ${url}/xml/music.xsd ${url}/date ${url}/xml/date.xsd",
+    name : 'Gardot, Melody') {
+    mkp.comment(' This is one of my favorite CDs! ')
+    cd(year : '2008')
+    title('Worrisome Heart')
+    date.purchaseDate('4/3/2008')
+  }
+}
+
+def xmlDoc = {    
+  mkp.xmlDeclaration()
+  mkp.pi("xml-stylesheet" : 'type="text/xsl" href="artist.xslt"')
+  unescaped &lt;&lt; "\n&lt;!DOCTYPE cd SYSTEM \"${url}/xml/music.dtd\"&gt;\n"
+  mkp.declareNamespace('' : "${url}/music")
+  mkp.declareNamespace('date' : "${url}/date")
+  mkp.declareNamespace('xsi' : "http://www.w3.org/1999/XMLSchema-instance")
+
+  out &lt;&lt; artist
+}
+
+<span class="comment">// Note that the code in xmlDoc and cd isn't executed until bind is invoked.</span>
+println builder.bind(xmlDoc)
+</pre></div>
+    <p>
+      This code produces the output below.
+      Again, I've split it up using a backslash ("\")
+      to indicate line continuation in order to make it easier to read.
+      That's not in the real XML.
+    </p>
+    <div class="code"><pre>
+&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;!-- This is one of my favorite CDs! --&gt;
+&lt;!DOCTYPE cd SYSTEM "${url}/xml/music.dtd"&gt;
+&lt;?xml-stylesheet type="text/xsl" href="artist.xslt"?&gt;
+&lt;artist xsi:schemaLocation='http://www.ociweb.com/music http://www.ociweb.com/xml/music.xsd \
+http://www.ociweb.com/date http://www.ociweb.com/xml/date.xsd' \
+name='Gardot, Melody' xmlns:xsi='http://www.w3.org/1999/XMLSchema-instance' \
+xmlns='http://www.ociweb.com/music' xmlns:date='http://www.ociweb.com/date'&gt; \
+&lt;cd year='2008'/&gt;&lt;title&gt;Worrisome Heart&lt;/title&gt; \
+&lt;date:purchaseDate&gt;4/3/2008&lt;/date:purchaseDate&gt;&lt;/cd&gt;&lt;/artist&gt;
+</pre></div>
+
+    <p>
+      The Groovy code is certainly more compact and easier to understand
+      than the SAX code.  However, it isn't as clear as the WAX code and
+      suffers from several limitations.
+    </p>
+
+    <h3><a name="XMLStreamWriter">XMLStreamWriter</a></h3>
+    <p>
+      <code>XMLStreamWriter</code> is a class in the
+      <code>javax.xml.stream</code> package that is included in Java 6.
+      To use it with Java 5, download Woodstox from
+      <a href="http://woodstox.codehaus.org/">http://woodstox.codehaus.org/</a>.
+    </p>
+    <p>
+      The following code uses <code>XMLStreamWriter</code>
+      to produce the target XML.
+    </p>
+
+    <div class="code"><pre>
+import javax.xml.stream.XMLOutputFactory;
+import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.XMLStreamWriter;
+
+public class CDDemo {
+
+    public static void main(String[] args) throws XMLStreamException {
+        XMLOutputFactory factory = XMLOutputFactory.newInstance();
+        
+        <span class="comment">// Output destination can be specified with an OutputStream or Writer.</span>
+        XMLStreamWriter xsm = factory.createXMLStreamWriter(System.out);
+
+        String url = "http://www.ociweb.com/";
+        xsm.setPrefix("date", url + "date");
+
+        xsm.writeStartDocument(); <span class="comment">// writes XML declaration</span>
+        xsm.writeProcessingInstruction(
+            "xml-stylesheet", "type=\"text/xsl\" href=\"artist.xslt\"");
+        String root = "artist";
+        String doctype =
+            "&lt;!DOCTYPE " + root + " SYSTEM \"" + url + "xml/music.dtd\"&gt;";
+        xsm.writeDTD(doctype);
+        xsm.writeStartElement(root);
+        xsm.writeDefaultNamespace(url + "music");
+        xsm.writeNamespace("date", url + "xml/date.xsd");
+        xsm.writeNamespace("xsi", "http://www.w3.org/1999/XMLSchema-instance");
+        xsm.writeAttribute("xsi:schemaLocation",
+            url + "music " + url + "xml/music.xsd " +
+            url + "date " + url + "xml/date.xsd");
+        xsm.writeAttribute("name", "Gardot, Melody");
+
+        xsm.writeComment(" This is one of my favorite CDs! ");
+        xsm.writeStartElement("cd");
+        xsm.writeAttribute("year", "2008");
+        xsm.writeStartElement("title");
+        xsm.writeCharacters("Worrisome Heart");
+        xsm.writeEndElement();
+        xsm.writeStartElement(url + "date", "purchaseDate");
+        xsm.writeCharacters("4/3/2008");
+
+        xsm.close(); <span class="comment">// terminates unterminated elements just like WAX</span>
+    }
+}
+</pre></div>
+
+    <p>
+      This approach is much closer to the WAX approach
+      than the others examined here.
+      However, there are several issues with <code>XMLStreamWriter</code>.
+    </p>
+
+    <ul>
+      <li>There isn't a way to indent the output
+        in the version that ships with Java 6.</li>
+      <li>It has weak support for DOCTYPEs.
+        The entire string, include the angle brackets and the word "DOCTYPE",
+        must be specified.</li>
+      <li>It doesn't support method chaining like WAX.</li>
+      <li>There is no compile-time checking of
+        <code>write*</code> method order.</li>
+      <li>There are no convenience methods for adding references to
+        DTDs, XML Schemas, or XSLT stylesheets.</li>
+      <li>The method names are long.  For example,
+        <code>writeAttribute</code> is longer than WAX's <code>attr</code>.</li>
+    </ul>
+    
+    <h3><a name="Conclusion">Conclusion</a></h3>
+    <p>
+      Being the author of WAX, perhaps I'm a bit biased.
+      I think it's clear that WAX is easier to use than
+      the other approches examined here.
+      Another important characteristic of WAX is that
+      it uses very little memory compared to other approaches.
+      I'd love to hear about other approaches I should have considered.
+      Feel free to send me email at mark@ociweb.com.
+    </p>
+
+    <h3>Testimonials</h3>
+    <p>
+      "Thanks for writing WAX - it's made a *huge* productivity difference
+      in writing formatted XML files.  Without a doubt, it's the best API
+      I've used for expressing XML in an intelligible straightforward manner."
+      -- Chris Colclough,
+      Johns Hopkins University Applied Physics Lab, Laurel, MD
+    </p>
+    <p>
+      "Wow! Looks like writing XML is easy." -- Adam Schmitz, age 10
+    </p>
+    <p>
+      "This is an incredible product.
+      I'm using it to build my whole business." --
+      <a href="http://en.wikipedia.org/wiki/Marie_Tussaud">Marie Tussaud</a>
+    </p>
+    <p>
+      "Underlies the success of whole product lines at our company" --
+      Robert W. Johnson of <a href="http://www.pledge.com/">SC Johnson</a>
+    </p>
+    <p>
+      "A shining example of successful application." --
+      George Simons, <a href="http://www.simonizusa.com/">Simoniz</a>
+    </p>
+
+    <hr />
+    <p style="text-align:center">
+      Copyright &#169; 2008 Object Computing, Inc. All rights reserved.
+    </p>
+
+    <!-- This script is for Google Analytics. -->
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+var pageTracker = _gat._getTracker("UA-5263826-1");
+pageTracker._trackPageview();
+</script>
+
+  </body>
+</html>

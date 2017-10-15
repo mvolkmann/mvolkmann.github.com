@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR.html1/DTD.html1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>Mark Volkmann's webOS Page</title>
+    <link rel="stylesheet" type="text/css" href="../common.css"/>
+  </head>
+  <body>
+    <h2>Mark Volkmann's webOS Page</h2>
+    
+    <h3><a name="references">References</a></h3>
+    <ul>
+      <li><a href="http://www.palm.com/us/company/feedback.html">Palm Feedback</a></li>
+      <li><a href="http://apress.com/book/errata/1334">Apress book errata</a></li>
+      <li><a href="http://developer.palm.com/">Palm webOSdev</a></li>
+      <li><a href="http://www.webos101.com/">webOS 101</a></li>
+      <li><a href="http://www.webosarena.com/">webOS News</a></li>
+      <li><a href="http://www.webos-internals.org/">webOS Internals</a></li>
+      <li><a href="http://www.cs.duke.edu/ari/issg/webos/">Duke University</a></li>
+      <li><a href="http://en.wikipedia.org/wiki/WebOS">Wikipedia entry</a></li>
+      <li><a href="http://www.precentral.net/">Pre Central</a></li>
+      <li><a href="http://www.youtube.com/watch?v=YXS3SQauwPE">Developing Applications for Palm webOS</a> YouTube video from Mitch Allen</li>
+
+    </ul>
+
+    <h3><a name="softwareInstall">Software Installation</a></h3>
+    <ul>
+      <li>browse http://developer.palm.com/
+        <ul>
+          <li>press the "Download Now" button</li>
+          <li>register or log in</li>
+          <li>click the "Download SDK" link</li>
+          <li>press the "Download" button for your platform</li>
+          <li>press the "Download VirtualBox" button
+            (do not use the latest version at
+            http://www.virtualbox.org/!)</li>
+          <li>press the "Download SDK" button</li>
+        </ul>
+      </li>
+      <li>double-click the VirtualBox installer<br/>
+        (adds VirtualBox.app to Applications folder)</li>
+      <li>double-click the Mojo Toolkit installer
+        (adds /opt/PalmSDK/Current/bin to PATH,<br/>
+        Palm Emulator.app to Applications folder, and<br/>
+        Palm Inspector.app to Applications folder</li>
+    </ul>
+
+    <h3><a name="emulator">Emulator</a></h3>
+    <p>
+      To start the emulator, double-click "Palm Emulator.app"
+      in the Applications folder and select a resolution
+      (320x480 for Pre, 320x400 for Pixi).
+      This will start VirtualBox if it isn't already running.
+      It is ready to use when the wallpaper is displayed.
+      This can take about a minute.
+    </p>
+    <p>
+      The following keys are useful in the emulator.
+    </p>
+    <table border="1">
+      <tr>
+        <td>end</td>
+        <td>opens and closes launcher</td>
+      </tr>
+      <tr>
+        <td>esc</td>
+        <td>same as back gesture</td>
+      </tr>
+      <tr>
+        <td>home</td>
+        <td>minimizes/maximizes current card</td>
+      </tr>
+      <tr>
+        <td>left/right arrow</td>
+        <td>switches to application in left or right card</td>
+      </tr>
+    </table>
+    <p>
+      There are many features no currently supported in the emulator including:
+      Accelerometer, Audio, Bluetooth, Camera, Gesture area, Multi-touch,
+      Rotation, Sound, Video and Wi-Fi.
+    </p>
+
+    <h3><a name="linux">It's Linux!</a></h3>
+    <p>
+      To SSH to the emulator, enter
+      <code>ssh -p5522 root@localhost</code>.
+      There is no password for the root account,
+      so press return when prompted for one.
+    </p>
+    <p>
+      The default path is
+      <code>/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin:</code>.
+      <code>/usr/local/bin</code> and <code>/usr/local/sbin</code>
+      don't exist.
+      <code>/usr/bin</code> contains awk, curl, sqlite3 and much more.
+      <code>/bin</code> contains common UNIX commands including vi.
+      No scripting languages are installed.
+      Java is not installed.
+    </p>
+
+    <h3><a name="enableDev">Enabling Phone For Development</a></h3>
+    <p>
+      From the Launcher, type "upupdowndownleftrightleftrightbastart"
+      which is the "Konami code".
+      This will cause an icon for the "Developer Mode Enabler".
+      Switch "Developer Mode" from "OFF" to "ON"
+      and press the "Reset The Device" button.
+      No data will be lost.
+    </p>
+
+    <h3><a name="packagingApps">Packaging Homebrew Applications</a></h3>
+    <p>
+      To package an application into a .ipk file, follow these steps:
+    </p>
+    <ol>
+      <li>Open a Terminal window.</li>
+      <li>cd to the directory containing the application directory.</li>
+      <li>Enter <code>palm-package {app-dir-name}</code>.</li>
+    </ol>
+
+    <h3><a name="installApps">Installing Homebrew Applications</a></h3>
+    <p>
+      To install an application in the emulator or on a device
+      that has been packaged in a .ipk file,
+      not one from the App Catalog, follow these steps:
+    </p>
+    <ol>
+      <li>If installing on the emulator,
+        start the emulator by going to the Finder,
+        selecting "Applications", and double-clicking Palm Emulator.app.</li>
+      <li>If installing on a device,
+        attach the device to the computer with a USB cable.</li>
+      <li>When prompted for "Media Sync", "USB Drive" or "Just Charge",
+        choose "Just Charge".</li>
+      <li>If you accidentally select "USB Drive",
+        eject the device from the computer and continue.</li>
+      <li>Open a Terminal window.</li>
+      <li>cd to the directory containing the .ipk file.</li>
+      <li>Enter "palm-install {name}.ipk</li>
+    </ol>
+
+    <h3><a name="launchingApps">Launching Homebrew Applications</a></h3>
+    <p>
+      To launch an application in the emulator, follow these steps:
+    </p>
+    <ol>
+      <li>Open a Terminal window.</li>
+      <li>cd to the directory containing the application directory.</li>
+      <li>Enter <code>palm-package {app-dir-name}</code>.</li>
+    </ol>
+
+    <h3><a name="logging">Logging</a></h3>
+    <p>
+      To write to the log from JavaScript code,
+      use functions in the Mojo.Log package.
+      There are three logging functions,
+      <code>info</code>, <code>warn</code> and <code>error</code>.
+      These take any number of arguments.
+      Their toString() values are concatentated to form the log message.
+    </p>
+    <p>
+      Another useful logging function is <code>logProperties</code>
+      which outputs all the properties of a given object.
+      It takes the object, a String name for the object and a boolean
+      that indicates whether inherited properties should also be output.
+    </p>
+    <p>
+      For exceptions there is the <code>logException</code> function.
+      It takes an exception object and
+      a String message to be prepended to the log output.
+    </p>
+    <p>
+      The current logging level is set in the file framework-config.json.
+      The values for the logging levels are
+      0 for error, 10 for warning and 20 for info.
+      To see output from all logging statements, this file should contain:
+      <pre>
+{
+  "logLevel" : 99
+}
+      </pre>
+    </p>
+    <p>
+      To see log content, enter "<code>palm-log {app-id} | tail</code>".
+      Get the value of <code>app-id</code>
+      from the <code>id</code> in <code>appinfo.json</code>.
+      Add the <code>-f</code> option to follow additions to the log.
+      This will prevent <code>palm-log</code> from exiting.
+      Press ctrl-c when finished viewing log output.
+    </p>
+    <p>
+      To see more verbose log messages, ssh to the emulator or device
+      and enter "<code>log {app-id}</code>"
+      while in the /var/home/root directory
+      which is the default directory after running ssh.
+    </p>
+
+    <h3><a name="stylesheets">CSS Stylesheets</a></h3>
+    <p>
+      Stylesheets included with the SDK are installed in
+      /opt/PalmSDK/current/share/refcode/framework/200.47/stylesheets.
+      There you'll find <code>global.css</code> (imports many of the others),
+      <code>global-base.css</code> and many more
+      for specific kinds of widgets.
+    </p>
+
+    <h3><a name="widgetRefs">Widget References</a></h3>
+    <p>
+      To get a reference to a widget after the setup method for it has completed:
+      <code>var widget = $('id').mojo;</code>.
+      To get the value of a widget after the setup method for it has completed:
+      <code>var value = $('id').mojo.getValue();</code>.
+    </p>
+
+    <h3><a name="internationalization">Internationalization</a></h3>
+    <p>
+      See <a href="http://developer.palm.com/index.php?option=com_content&view=article&id=1679">Localization</a> at the developer.palm.com site.
+      The <code>L$</code> function is used to obtain localized strings.
+    </p>
+
+    <h3><a name="scenes">Scenes</a></h3>
+    <p>
+      When a scence wishes to push another scene onto the stack
+      it calls <code>pushScene</code> method of the SceneController.
+      This method takes the name of the scene to be pushed
+      and optionally takes additional arguments to be passed to
+      the scene assistant constructor function.
+      The constructor function can save these values in instance fields
+      so they can be accessed by instance methods.
+    </p>
+
+    <!--hr /-->
+    <p style="text-align:center">
+      Copyright &#169; 2010 Object Computing, Inc. All rights reserved.
+    </p>
+  </body>
+</html>

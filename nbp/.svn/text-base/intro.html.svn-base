@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>Project Introduction</title>
+    <link rel="stylesheet" type="text/css" href="common.css"/>
+  </head>
+
+  <body>
+    <div class="title">Project Introduction</div>
+
+    <p>
+      The purpose of this project is to assist Landmark,
+      a division of Halliburton, in determining whether
+      transisitioning from the use of their own application framework
+      to the NetBeans Platform will provide long-term benefits
+      that are cost justified.
+    </p>
+  </body>
+</html>

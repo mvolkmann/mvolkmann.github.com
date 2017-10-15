@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>dtd (WAX)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File lib/wax.rb, line 209</span>
+  <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">dtd</span>(<span class="ruby-identifier">file_path</span>)
+    <span class="ruby-identifier">raise</span> <span class="ruby-value str">&quot;can't specify more than one DTD&quot;</span> <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@dtd_specified</span>
+
+    <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@check_me</span>
+      <span class="ruby-identifier">bad_state</span>(<span class="ruby-value str">&quot;dtd&quot;</span>) <span class="ruby-keyword kw">unless</span> <span class="ruby-ivar">@state</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">:in_prolog</span>
+      <span class="ruby-constant">XMLUtil</span>.<span class="ruby-identifier">verify_uri</span>(<span class="ruby-identifier">file_path</span>)
+    <span class="ruby-keyword kw">end</span>
+
+    <span class="ruby-ivar">@dtd_file_path</span> = <span class="ruby-identifier">file_path</span>
+    <span class="ruby-ivar">@dtd_specified</span> = <span class="ruby-keyword kw">true</span>
+    <span class="ruby-keyword kw">self</span>
+  <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

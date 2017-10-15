@@ -1,0 +1,278 @@
+<?xml version="1.0"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>BOX FAQ</title>
+    <link rel="stylesheet" type="text/css" href="box.css"/>
+  </head>
+
+  <body>
+    <div class="title">FAQ</div>
+
+    <ol>
+      <li><a href="#acronym">What does BOX stand for?</a></li>
+      <li><a href="#goals">What are the goals of BOX?</a></li>
+      <li><a href="#license">What license governs the use of BOX?</a></li>
+      <li><a href="#onlyjava">Is this only for Java?</a></li>
+      <li><a href="#stdXML">Shouldn't we just pass standard XML?</a></li>
+      <li><a href="#others">Hasn't someone already done this?</a></li>
+      <li><a href="#size">How much smaller is it?</a></li>
+      <li><a href="#speed">How much faster is it?</a></li>
+      <li><a href="#zipToo">Would it be even faster to zip BOX?</a></li>
+      <li><a href="#bestDocs">What kinds of XML documents does BOX handle best?</a></li>
+      <li><a href="#missingFeatures">Why doesn't BOX support feature XYZ?</a></li>
+      <li><a href="#xerces">Why is Xerces required?</a></li>
+      <li><a href="#xalan">Why is Xalan required?</a></li>
+      <li>
+        <a href="#attrBeforeElement">
+          Why are attributes written out before
+          the element in which they appear?
+        </a>
+      </li>
+      <li>
+        <a href="#nsBeforeElement">
+          Why are namespace declarations written out before
+          the element in which they appear?
+        </a>
+      </li>
+      <li><a href="#ask">My question wasn't answered! Who do I ask?</a></li>
+    </ol>
+
+    <a name="acronym"/>
+    <div class="question">What does BOX stand for?</div>
+    <div class="answer">
+      <b>B</b>inary <b>O</b>ptimized <b>X</b>ML
+    </div>
+
+    <a name="goals"/>
+    <div class="question">What are the goals of BOX?</div>
+    <div class="answer">
+      <ul>
+        <li>Simplicity</li>
+        <li>Compactness</li>
+        <li>Speed</li>
+        <li>Multi-language support</li>
+      </ul>
+    </div>
+
+    <a name="license"/>
+    <div class="question">What license governs the use of BOX?</div>
+    <div class="answer">
+      Current the <a href="LICENSE.txt">GNU Lesser</a> license is used.
+      The goal is to require improvements made to BOX to be published.
+      If you find this license too restrictive, please let
+      <a href="mailto:mark@ociweb.com">us</a> know
+      and we'll consider changing it.
+    </div>
+
+    <a name="onlyjava"/>
+    <div class="question">Is this only for Java?</div>
+    <div class="answer">
+      Currently yes. However, for BOX to be truly successful we need
+      implementations in a variety of programming languages.
+      Maybe you can create an implemenation in another language
+      and contribute it!
+    </div>
+
+    <a name="others"/>
+    <div class="question">Hasn't someone already done this?</div>
+    <div class="answer">
+      Yes and no. There have been other attempts to define more compact,
+      binary representations of XML. The most notable is perhaps the
+      <a href="http://www.w3.org/TR/wbxml/" target="_parent">
+      WAP Binary XML Content Format</a>.
+      The problem with previous approaches is that they are too complex.
+      BOX strives to be simple so that creating implementations in a
+      wide variety of programming languages is practical.
+    </div>
+
+    <a name="size"/>
+    <div class="question">How much smaller is it?"</div>
+    <div class="answer">
+      For really small XML documents, the difference may not be significant.
+      In general, larger XML documents repeat text more.
+      Element and attribute names are repeated,
+      as are some of their text values.
+      This leads to greater compression.
+      The book "XML Bible" by Elliotte Rusty Harold comes with a CD that
+      contains a file called 1998fullstatistics.xml.
+      This contains statistics from the 1998 Major League Baseball season.
+      The file has a size of 1042K (1,066,769 bytes).
+      The BOX representation of this file is only 157K (160,672 bytes)
+      which is 15% of the original size.
+    </div>
+    <div class="answer">
+      For comparison, WinZip compresses it 69K (70,258 bytes).
+      While this is smaller, it can't be processed as rapidly because it
+      has to be unzipped and parsed with an XML parser.
+    </div>
+
+    <a name="speed"/>
+    <div class="question">How much faster is it?</div>
+    <div class="answer">
+      In tests comparing shipping this document across a socket connection
+      using both BOX encoding and XML text, BOX averaged 46% of the time
+      required to ship XML text.
+      The test parses the XML file into a DOM Document.
+      It then measures the time required to encode the DOM Document into BOX,
+      send it across the socket connection, and decode it back into a
+      DOM Document on the other side. The same is done with DOM text.
+    </div>
+    <div class="answer">
+      One caveat to this result is the impact of HotSpot.
+      It introduces a "priming" effect that causes the first usage of BOX
+      and the XML parser to take considerable longer than subsequent requests.
+      BOX took 1203ms for the first run and
+      averaged 205ms for 25 runs after that.
+      XML took 1250ms for the first run and
+      averaged 458ms for 25 runs after that.
+    </div>
+
+    <a name="zipToo"/>
+    <div class="question">Would it be even faster to zip BOX?</div>
+    <div class="answer">
+      Somewhat surprisingly, no! To test this, the sendBOX method in
+      test.socket.Client was changed to use a ZipOutputStream on top of
+      the BufferedOutputStream used to send BOX across a socket connection.
+      The run method in test.socket.BOXServer was changed to use a
+      ZipInputStream for reading the zipped BOX sent from the Client.
+      This was not only slower than sending BOX, it was also slower than
+      sending plain XML!
+    </div>
+
+    <a name="bestDocs"/>
+    <div class="question">What kinds of XML documents does BOX handle best?</div>
+    <div class="answer">
+      BOX works best on XML documents that have lots of repeated text.
+      This includes element names, text outside tags,
+      attributes names and values, comments, namespace prefixes and URIs,
+      and processing instruction targets and values.
+    </div>
+
+    <a name="stdXML"/>
+    <div class="question">Shouldn't we just pass standard XML?</div>
+    <div class="answer">
+      XML is a great data format.
+      Some of its greatest strengths are that it is human-readable
+      and it can be processed by a large number of languages
+      on a large number of platforms.
+      While BOX is not really human-readable,
+      it can be easily decoded into standard XML for human consumption.
+      The advantages of BOX over XML are that it is more compact and
+      it can be parsed into DOM objects or SAX events
+      without using an XML parser,
+      faster than an XML parser can parse standard XML.
+      BOX may be ideal as a replacement for XML in SOAP messages.
+      Wireless devices with limited space for software and
+      limited processing speed would also benefit.
+    </div>
+
+    <a name="missingFeatures"/>
+    <div class="question">Why doesn't BOX support feature XYZ?</div>
+    <div class="answer">
+      Perhaps it's an oversight.
+      Let us know what is missing and we'll consider adding it.
+      It's also possible that the feature was intentionally omitted
+      because adding it would increase the complexity of the implementation.
+      Simplicity is deemed very important.
+      We want to make it as easy as possible to develop
+      BOX encoding and decoding implementations in a large number of languages.
+      We don't want BOX to be limited to Java-to-Java applications.
+      This is key to achieving widespread acceptance of BOX
+      as an alternative to XML.
+    </div>
+
+    <a name="xerces"/>
+    <div class="question">Why is Xerces required?</div>
+    <div class="answer">
+      Units tests use classes in the "samples" directory that ships with Xerces
+      in order to compare the canonical versions of XML documents.
+      The source for the classes used has been copied into the BOX source tree
+      and has been modified slightly.
+      Those classes depend on classes in xerces.jar.
+      This is the only dependency on Xerces.
+      Otherwise an alternate parser such as Crimson could be used.
+    </div>
+
+    <a name="xalan"/>
+    <div class="question">Why is Xalan required?</div>
+    <div class="answer">
+      Xalan contains an implementation of JAXP.<br/>
+      The following JAXP packages are used by BOX:
+      <ul>
+        <li>javax.xml.parsers</li>
+        <li>javax.xml.transform</li>
+        <li>javax.xml.transform.dom</li>
+        <li>javax.xml.transform.sax</li>
+        <li>javax.xml.transform.stream</li>
+      </ul>
+      JDK 1.4 includes xalan.jar (in rt.jar within the JRE directory)
+      so it only needs to be downloaded and explicitly added to CLASSPATH
+      when working with an earlier version of the JDK.
+    </div>
+
+    <a name="#attrBeforeElement"/>
+    <div class="question">
+      Why are attributes written out before
+      the element in which they appear?
+    </div>
+    <div class="answer">
+      When BOX is being decoded into SAX events,
+      all the attributes of an element must be known before the
+      <span class="code">ContentHandler</span>
+      <span class="code">startElement</span> method can be called.
+      If the attribute data appeared after the corresponding element data,
+      we'd have to hold onto the element name and call
+      <span class="code">startElement</span> when
+      any node type other than an attribute was encountered.
+      Coding this is cumbersome.
+      I know because that's the way I originally wrote it! ;-)
+    </div>
+    <div class="answer">
+      In addition, since namespace declarations appear as attributes,
+      the rationale explained in the next question applies.
+    </div>
+
+    <a name="#nsBeforeElement"/>
+    <div class="question">
+      Why are namespace declarations written out before
+      the element in which they appear?
+    </div>
+    <div class="answer">
+      Namespace declarations appear as attributes of an element.
+      Namespaces defined in the start tag of an element
+      are in effect for that element.
+      This means that a namespace prefix defined as
+      an attribute of an element can be used on that element.
+      For example,
+      <p><span class="code">
+        &lt;<span class="highlight">foo</span>:myElement
+        xmlns:<span class="highlight">foo</span>="http://www.ociweb.com/myNamespace">
+      </span></p>
+      Writing out information on namespace declarations
+      before the element in which they are defined
+      allows the element to be processed when it is encountered
+      in a stream of BOX data instead of waiting until
+      all its attributes are processed.
+    </div>
+    <div class="answer">
+      In addition, when BOX is being decoded into SAX events,
+      this makes it easy to call the
+      <span class="code">ContentHandler</span>
+      <span class="code">startPrefixMapping</span> method before the
+      <span class="code">startElement</span> method.
+    </div>
+
+    <a name="#ask"/>
+    <div class="question">
+      My question wasn't answered! Who do I ask?
+    </div>
+    <div class="answer">
+      Send it to <a href="mailto:mark@ociweb.com">Mark</a>.
+      He'll answer you directly and consider adding it to the FAQ.
+    </div>
+  </body>
+</html>

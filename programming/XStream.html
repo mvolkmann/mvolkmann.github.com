@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR.html1/DTD.html1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999.html">
+  <head>
+    <title>XStream</title>
+    <link rel="stylesheet" type="text/css" href="../common.css"/>
+  </head>
+  <body>
+    <h2>XStream</h2>
+    
+    <h3>Introduction</h3>
+    <p>
+      XStream is an open source library for serializing Java objects
+      to and from XML.
+      Compared to <a target="_blank" href="http://www.castor.org">Castor</a>,
+      another similar library,
+      it is simpler and requires less configuration.
+      XStream can be downloaded from <a target="_blank"
+      href="http://xstream.codehaus.org/">here</a>.
+    </p>
+
+    <h3>Example</h3>
+    <p>
+      The data in this example represents musical artists,
+      their recordings, and tracks on those recordings.
+      There is a Java Bean class for each of these kinds of data named
+      <a href="JSON/Artist.java.html">Artist</a>,
+      <a href="JSON/Recording.java.html">Recording</a> and
+      <a href="JSON/Track.java.html">Track</a>.
+    </p>
+    <p>
+      The example is built and run using Ant.  For details, see
+      <a href="XStream/build.properties.html">build.properties</a> and
+      <a href="XStream/build.xml.html">build.xml</a>.
+    </p>
+    <p>
+      A few utility classes were written to simplify the code.
+      These include
+      <a href="JSON/ObjectUtil.java.html">ObjectUtil</a>,
+      <a href="JSON/SystemUtil.java.html">SystemUtil</a> and
+    </p>
+    <p>
+      Once armed with the preceding code, using XStream can be as simple
+      as the following code implemented as a JUnit 4 test case.
+    </p>
+
+    <pre><div class="code">package com.ociweb.demo;
+
+import com.thoughtworks.xstream.XStream;
+import java.util.*;
+import org.junit.*;
+
+import static com.ociweb.lang.SystemUtil.*;
+import static org.junit.Assert.*;
+
+public class XStreamTest {
+
+  private XStream xstream = new XStream();
+
+  @Before public void setup() {
+    // Setting up these aliases isn't necesssary,
+    // but it makes the XML look nicer.
+    // Otherwise the element names are fully-qualfied class names.
+    xstream.alias("artist", Artist.class);
+    xstream.alias("recording", Recording.class);
+    xstream.alias("track", Track.class);
+  }
+
+  /**
+   * This tests converting a object to XStream when the object
+   * has a field that holds a collection of references to other objects.
+   */
+  @Test public void testObjectConvert() {
+    Artist a = new Artist("Regina Spektor");
+    a.addRecording("Soviet Kitch", 2003);
+    a.addRecording("Begin To Hope", 2006);
+
+    Object expected = a;
+    String xml = xstream.toXML(expected);
+    out(xml + "\n"); // for debugging
+    Object actual = xstream.fromXML(xml);
+    assertEquals(expected, actual);
+  }
+
+  /**
+   * This tests converting an array of objects to XStream when the objects
+   * have a field that holds a collection of references to other objects.
+   */
+  @Test public void testArrayConvert() {
+    List<Artist> artists = new ArrayList<Artist>();
+
+    Artist a = new Artist("Deathcab For Cutie");
+    artists.add(a);
+    Recording r =
+      a.addRecording("We Have the Facts and We're Voting Yes", 2000);
+    a.addRecording("The Photo Album", 2001);
+    a.addRecording("You Can Play These Songs With Chords", 2002);
+    a.addRecording("Transatlanticism", 2003);
+    a.addRecording("Plans", 2005);
+
+    a = new Artist("Regina Spektor");
+    artists.add(a);
+    r = a.addRecording("Begin To Hope", 2006);
+    
+    r.addTrack("20 Years Of Snow", 4);
+    r = a.addRecording("Soviet Kitch", 2003);
+    r.addTrack("Chemo Limo", 4);
+    r.addTrack("Somedays", 5);
+
+    Object[] expected = artists.toArray();
+    String xml = xstream.toXML(expected);
+    out(xml + "\n"); // for debugging
+    Object[] actual = (Object[]) xstream.fromXML(xml);
+    assertEquals(expected, actual);
+  }
+
+  /**
+   * This tests converting a collection to XStream.
+   */
+  @Test public void testCollectionConvert() {
+    List<String> colors = new ArrayList<String>();
+    colors.add("red");
+    colors.add("green");
+    colors.add("blue");
+
+    List<String> expected = colors;
+    String xml = xstream.toXML(expected);
+    out(xml + "\n"); // for debugging
+    Object actual = xstream.fromXML(xml);
+    assertEquals(expected, actual);
+  }
+}</div></pre>
+
+    <p>
+      Here's the XML that is produced by XStream in this example.
+      It's very readable!
+      Note the "reference" attributes that use relative
+      XPath expressions to avoid circular references.
+    </p>
+
+    <pre><div class="code">&lt;artist>
+  &lt;name>Regina Spektor&lt;/name>
+  &lt;recordings>
+    &lt;recording>
+      &lt;artist reference="../../.."/>
+      &lt;tracks/>
+      &lt;title>Soviet Kitch&lt;/title>
+      &lt;year>2003&lt;/year>
+    &lt;/recording>
+    &lt;recording>
+      &lt;artist reference="../../.."/>
+      &lt;tracks/>
+      &lt;title>Begin To Hope&lt;/title>
+      &lt;year>2006&lt;/year>
+    &lt;/recording>
+  &lt;/recordings>
+&lt;/artist>
+
+&lt;object-array>
+  &lt;artist>
+    &lt;name>Deathcab For Cutie&lt;/name>
+    &lt;recordings>
+      &lt;recording>
+        &lt;artist reference="../../.."/>
+        &lt;tracks/>
+        &lt;title>We Have the Facts and We&apos;re Voting Yes&lt;/title>
+        &lt;year>2000&lt;/year>
+      &lt;/recording>
+      &lt;recording>
+        &lt;artist reference="../../.."/>
+        &lt;tracks/>
+        &lt;title>The Photo Album&lt;/title>
+        &lt;year>2001&lt;/year>
+      &lt;/recording>
+      &lt;recording>
+        &lt;artist reference="../../.."/>
+        &lt;tracks/>
+        &lt;title>You Can Play These Songs With Chords&lt;/title>
+        &lt;year>2002&lt;/year>
+      &lt;/recording>
+      &lt;recording>
+        &lt;artist reference="../../.."/>
+        &lt;tracks/>
+        &lt;title>Transatlanticism&lt;/title>
+        &lt;year>2003&lt;/year>
+      &lt;/recording>
+      &lt;recording>
+        &lt;artist reference="../../.."/>
+        &lt;tracks/>
+        &lt;title>Plans&lt;/title>
+        &lt;year>2005&lt;/year>
+      &lt;/recording>
+    &lt;/recordings>
+  &lt;/artist>
+  &lt;artist>
+    &lt;name>Regina Spektor&lt;/name>
+    &lt;recordings>
+      &lt;recording>
+        &lt;artist reference="../../.."/>
+        &lt;tracks>
+          &lt;track>
+            &lt;recording reference="../../.."/>
+            &lt;name>20 Years Of Snow&lt;/name>
+            &lt;rating>4&lt;/rating>
+          &lt;/track>
+        &lt;/tracks>
+        &lt;title>Begin To Hope&lt;/title>
+        &lt;year>2006&lt;/year>
+      &lt;/recording>
+      &lt;recording>
+        &lt;artist reference="../../.."/>
+        &lt;tracks>
+          &lt;track>
+            &lt;recording reference="../../.."/>
+            &lt;name>Chemo Limo&lt;/name>
+            &lt;rating>4&lt;/rating>
+          &lt;/track>
+          &lt;track>
+            &lt;recording reference="../../.."/>
+            &lt;name>Somedays&lt;/name>
+            &lt;rating>5&lt;/rating>
+          &lt;/track>
+        &lt;/tracks>
+        &lt;title>Soviet Kitch&lt;/title>
+        &lt;year>2003&lt;/year>
+      &lt;/recording>
+    &lt;/recordings>
+  &lt;/artist>
+&lt;/object-array>
+
+&lt;list>
+  &lt;string>red&lt;/string>
+  &lt;string>green&lt;/string>
+  &lt;string>blue&lt;/string>
+&lt;/list></div></pre>
+
+    <h3>Configuration</h3>
+    <p>
+      An XStream object can be configured to output XML differently than
+      the default. Common examples include the following.
+    </p>
+    <ul>
+      <li>
+        Output a primitive field as an attribute instead of a child element.
+        <pre><div class="code">
+xstream.useAttributeFor(MyClass.class, "fieldName");</div></pre>
+      </li>
+      <li>
+        Don't output anything for a given field.
+        <pre><div class="code">
+xstream.omitField(MyClass.class, "fieldName");</div></pre>
+      </li>
+    </ul>
+
+    <br/><br/>
+    <hr />
+    <p style="text-align:center">
+      Copyright &#169; 2007 Object Computing, Inc. All rights reserved.
+    </p>
+  </body>
+</html>

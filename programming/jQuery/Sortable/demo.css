@@ -1,0 +1,16 @@
+#container {
+  background-color: linen;
+  border: solid black 3px;
+  height: 300px;
+  width: 300px;
+}
+
+.item {
+  background-color: white;
+  border: solid black 2px;
+  height: 30px;
+  line-height: 30px; /* centers text vertically */
+  margin: 2px;
+  text-align: center;
+  width: 75px;
+}

@@ -1,0 +1,79 @@
+var _user$project$Repl$y = 3;
+var _user$project$Repl$x = 2;
+var _user$project$Repl$triple = function (x) {
+	return x * 3;
+};
+var _user$project$Repl$t_s_o_l = {ctor: '_Tuple0'};
+var _user$project$Repl$runs = {
+	ctor: '::',
+	_0: {distance: 20},
+	_1: {
+		ctor: '::',
+		_0: {distance: 15},
+		_1: {
+			ctor: '::',
+			_0: {distance: 26.2},
+			_1: {ctor: '[]'}
+		}
+	}
+};
+var _user$project$Repl$product = F2(
+	function (x, y) {
+		return x * y;
+	});
+var _user$project$Repl$points = {
+	ctor: '::',
+	_0: {x: 1, y: 2},
+	_1: {
+		ctor: '::',
+		_0: {x: 2, y: 3},
+		_1: {ctor: '[]'}
+	}
+};
+var _user$project$Repl$point = {ctor: '_Tuple2', _0: 3, _1: 4};
+var _user$project$Repl$nextAge = function (_p0) {
+	var _p1 = _p0;
+	return _p1.age + 1;
+};
+var _user$project$Repl$msIn = function (hours) {
+	var minutes = hours * 60;
+	var seconds = minutes * 60;
+	return seconds * 1000;
+};
+var _user$project$Repl$map = _elm_lang$core$List$map;
+var _user$project$Repl$isOver20 = function (n) {
+	return _elm_lang$core$Native_Utils.cmp(n, 20) > -1;
+};
+var _user$project$Repl$getD = function (run) {
+	return run.distance;
+};
+var _user$project$Repl$double = function (x) {
+	return x * 2;
+};
+var _user$project$Repl$distanceToOrigin = function (_p2) {
+	var _p3 = _p2;
+	return _elm_lang$core$Basics$sqrt(
+		Math.pow(_p3._0, 2) + Math.pow(_p3._1, 2));
+};
+var _user$project$Repl$decrement = function (x) {
+	return x - 1;
+};
+var _user$project$Repl$recipe = function (_p4) {
+	return _user$project$Repl$double(
+		_user$project$Repl$decrement(
+			_user$project$Repl$triple(_p4)));
+};
+var _user$project$Repl$v = _user$project$Repl$double(
+	_user$project$Repl$decrement(
+		_user$project$Repl$triple(2)));
+var _user$project$Repl$d_e_l_t_r_o_n_3_0_3_0 = A2(
+	_user$project$Repl$map,
+	function (_) {
+		return _.distance;
+	},
+	_user$project$Repl$runs);
+var _user$project$Repl$Person = F3(
+	function (a, b, c) {
+		return {name: a, age: b, tall: c};
+	});
+var _user$project$Repl$person = A3(_user$project$Repl$Person, 'Mark', 56, true);

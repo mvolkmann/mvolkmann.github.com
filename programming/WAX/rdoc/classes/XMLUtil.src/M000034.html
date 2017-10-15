@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>is_name (XMLUtil)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File lib/xml_util.rb, line 166</span>
+  <span class="ruby-keyword kw">def</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">is_name</span>(<span class="ruby-identifier">text</span>)
+    <span class="ruby-keyword kw">return</span> <span class="ruby-keyword kw">false</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">text</span> <span class="ruby-operator">==</span> <span class="ruby-keyword kw">nil</span>
+
+    <span class="ruby-comment cmt"># Names that start with &quot;XML&quot; in any case are reserved.</span>
+    <span class="ruby-keyword kw">return</span> <span class="ruby-keyword kw">false</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">text</span>.<span class="ruby-identifier">downcase</span> <span class="ruby-operator">=~</span> <span class="ruby-regexp re">/$xml/</span>
+
+    <span class="ruby-comment cmt"># First attempt to match against the simpler regular expression</span>
+    <span class="ruby-comment cmt"># for names that only use Latin characters</span>
+    <span class="ruby-comment cmt"># because this should be faster and the most common case.</span>
+    <span class="ruby-keyword kw">return</span> <span class="ruby-keyword kw">true</span> <span class="ruby-keyword kw">if</span> (<span class="ruby-constant">LATIN_NAME_PATTERN</span> <span class="ruby-operator">=~</span> <span class="ruby-identifier">text</span>) <span class="ruby-operator">!=</span> <span class="ruby-keyword kw">nil</span>
+
+    <span class="ruby-comment cmt"># Since that didn't match, try the full regular expression.</span>
+    <span class="ruby-comment cmt"># Ruby 1.8 doesn't support Unicode in regular expressions!</span>
+    <span class="ruby-comment cmt"># Save this code for Ruby 1.9.</span>
+    <span class="ruby-comment cmt">#matched_full = (FULL_NAME_PATTERN =~ text) != nil</span>
+    <span class="ruby-comment cmt">#puts &quot;#{text} matched full? #{matched_full}&quot;</span>
+    <span class="ruby-comment cmt">#matched_letter = (/^(#{LETTER_PATTERN}|'_')/ =~ text) != nil</span>
+    <span class="ruby-comment cmt">#puts &quot;#{text} matched letter? #{matched_letter}&quot;</span>
+
+    <span class="ruby-keyword kw">false</span>
+  <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>start (WAX)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File lib/wax.rb, line 472</span>
+  <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">start</span>(<span class="ruby-identifier">p1</span>, <span class="ruby-identifier">p2</span>=<span class="ruby-keyword kw">nil</span>)
+    <span class="ruby-keyword kw">if</span> (<span class="ruby-identifier">p2</span> <span class="ruby-operator">==</span> <span class="ruby-keyword kw">nil</span>)
+      <span class="ruby-comment cmt"># only specified element name</span>
+      <span class="ruby-identifier">prefix</span>, <span class="ruby-identifier">name</span> = <span class="ruby-keyword kw">nil</span>, <span class="ruby-identifier">p1</span>
+    <span class="ruby-keyword kw">else</span>
+      <span class="ruby-comment cmt"># specified element namespace prefix, name and text</span>
+      <span class="ruby-identifier">prefix</span>, <span class="ruby-identifier">name</span> = <span class="ruby-identifier">p1</span>, <span class="ruby-identifier">p2</span>
+    <span class="ruby-keyword kw">end</span>
+
+    <span class="ruby-ivar">@has_content</span> = <span class="ruby-ivar">@has_indented_content</span> = <span class="ruby-keyword kw">true</span>
+    <span class="ruby-identifier">terminate_start</span>
+    <span class="ruby-ivar">@has_content</span> = <span class="ruby-keyword kw">false</span>
+
+    <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@check_me</span>
+      <span class="ruby-identifier">bad_state</span>(<span class="ruby-value str">&quot;start&quot;</span>) <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@state</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">:after_root</span>
+      <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">prefix</span> <span class="ruby-operator">!=</span> <span class="ruby-keyword kw">nil</span>
+        <span class="ruby-constant">XMLUtil</span>.<span class="ruby-identifier">verify_name</span>(<span class="ruby-identifier">prefix</span>)
+        <span class="ruby-ivar">@pending_prefixes</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">prefix</span>
+      <span class="ruby-keyword kw">end</span>
+      <span class="ruby-constant">XMLUtil</span>.<span class="ruby-identifier">verify_name</span>(<span class="ruby-identifier">name</span>)
+    <span class="ruby-keyword kw">end</span>
+
+    <span class="ruby-comment cmt"># If this is the root element ...</span>
+    <span class="ruby-identifier">write_doctype</span>(<span class="ruby-identifier">name</span>) <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@state</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">:in_prolog</span>
+
+    <span class="ruby-comment cmt"># Can't add to pendingPrefixes until</span>
+    <span class="ruby-comment cmt"># previous start tag has been terminated.</span>
+    <span class="ruby-ivar">@pending_prefixes</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">prefix</span> <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@check_me</span> <span class="ruby-keyword kw">and</span> <span class="ruby-identifier">prefix</span> <span class="ruby-operator">!=</span> <span class="ruby-keyword kw">nil</span>
+
+    <span class="ruby-identifier">write_indent</span> <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@parent_stack</span>.<span class="ruby-identifier">size</span> <span class="ruby-operator">&gt;</span> <span class="ruby-value">0</span>
+
+    <span class="ruby-identifier">has_prefix</span> = <span class="ruby-identifier">prefix</span> <span class="ruby-operator">!=</span> <span class="ruby-keyword kw">nil</span> <span class="ruby-keyword kw">and</span> <span class="ruby-identifier">prefix</span>.<span class="ruby-identifier">length</span> <span class="ruby-operator">&gt;</span> <span class="ruby-value">0</span>
+    <span class="ruby-identifier">qname</span> = <span class="ruby-identifier">has_prefix</span> <span class="ruby-value">? </span><span class="ruby-identifier">prefix</span> <span class="ruby-operator">+</span> <span class="ruby-value str">':'</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">name</span> <span class="ruby-operator">:</span> <span class="ruby-identifier">name</span>
+
+    <span class="ruby-keyword kw">if</span> (<span class="ruby-ivar">@in_commented_start</span>)
+        <span class="ruby-identifier">out</span> <span class="ruby-value str">'&lt;!--'</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">qname</span>
+        <span class="ruby-comment cmt"># Add a &quot;marker&quot; to the element name on the stack</span>
+        <span class="ruby-comment cmt"># so the end method knows to terminate the comment.</span>
+        <span class="ruby-ivar">@parent_stack</span>.<span class="ruby-identifier">push</span>(<span class="ruby-value str">'-'</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">qname</span>)
+    <span class="ruby-keyword kw">else</span>
+      <span class="ruby-identifier">out</span> <span class="ruby-value str">'&lt;'</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">qname</span>
+      <span class="ruby-ivar">@parent_stack</span>.<span class="ruby-identifier">push</span>(<span class="ruby-identifier">qname</span>)
+    <span class="ruby-keyword kw">end</span>
+
+    <span class="ruby-comment cmt"># No namespace prefixes have been associated with this element yet.</span>
+    <span class="ruby-ivar">@prefixes_stack</span>.<span class="ruby-identifier">push</span>(<span class="ruby-keyword kw">nil</span>)
+
+    <span class="ruby-ivar">@state</span> = <span class="ruby-identifier">:in_start_tag</span>
+
+    <span class="ruby-keyword kw">self</span>
+  <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

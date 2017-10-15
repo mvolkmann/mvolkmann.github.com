@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE project [
+  <!ENTITY targets SYSTEM "targets.xml">
+]>
+<project name="Web Site" default="release">
+  <property name="server" value="webpages.charter.net"/>
+  <property name="username" value="volkmann2"/>
+  <property name="password" value="java19"/>
+
+  &targets;
+</project>

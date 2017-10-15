@@ -1,0 +1,15 @@
+.label {
+  color: blue;
+  font-weight: bold;
+  text-align: right;
+}
+
+#music td:hover {
+  background-color: yellow;
+  color: blue;
+  font-weight: bold;
+}
+
+#music tr:nth-child(1) { background-color: pink; }
+#music th:nth-child(1) { width: 200px; }
+#music th:nth-child(2) { width: 300px; }

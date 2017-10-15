@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>Lookup</title>
+    <link rel="stylesheet" type="text/css" href="common.css"/>
+  </head>
+
+  <body>
+    <div class="title">Lookup</div>
+
+    <p>
+      Lookup objects are used to obtain references to other objects.
+      There is a global Lookup and more narrowly scoped Lookups can be created.
+      In order to use Lookup, <code>org-openide-util.jar</code> must be in the classpath.
+    </p>
+    <p>
+      The global lookup automatically registers interfaces and classes that are listed
+      in special text files within JAR files.
+      These are located in the <code>META-INF/services</code> directory within the JARs.
+      Their name is the full class name of an interface or class.
+      Their content is a list of full class names that implement the interface or extend the class,
+      each on a separate line.
+    </p>
+    <p>
+      Listeners can be registered to receive notification when the contents of a lookup changes.
+    </p>
+    <p>
+      The global Lookup can be obtained as follows:
+    </p>
+    <div class="code"><pre>
+    Lookup globalLookup = Lookup.getDefault();</pre></div>
+    
+    <p>
+      An object is obtained from a Lookup as follows:
+    </p>
+    <div class="code"><pre>
+    SomeService service = someLookup.lookup(SomeService.class);</pre></div>
+    
+    <p>
+      Custom classes can provide Lookup entries.
+    </p>
+    
+  </body>
+</html>

@@ -1,0 +1,640 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR.html1/DTD.html1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999.html">
+  <head>
+    <title>iBATIS</title>
+    <link rel="stylesheet" type="text/css" href="../common.css"/>
+  </head>
+  <body>
+    <h2>iBATIS</h2>
+    
+    <h3>Contents</h3>
+    <a href="#Introduction">Introduction</a><br/>
+    <a href="#WhoUses">Who Uses It?</a><br/>
+    <a href="#Installing">Installing</a><br/>
+    <a href="#ExampleDatabase">Example Database</a><br/>
+    <a href="#ModelClasses">Model Classes</a><br/>
+    <a href="#Configuration">Configuration</a><br/>
+    <a href="#MappedStatements">Mapped Statements</a><br/>
+    <a href="#InsertingData">Inserting Data</a><br/>
+    <a href="#Queries">Queries</a><br/>
+    <a href="#Logging">Logging</a><br/>
+    <a href="#Classpath">Classpath</a><br/>
+
+    <a name="Introduction"/>
+    <h3>Introduction</h3>
+    <p>
+    <a target="_blank" href="http://ibatis.apache.org/">iBATIS</a>
+      is a persistence framework that maps objects to
+      SQL statements.  The SQL is stored in XML files.
+      There are implementations for a variety of programming
+      languages including
+      <a target="_blank"
+      href="http://ibatis.apache.org/javadownloads.cgi">Java</a>,
+      <a target="_blank"
+      href="http://ibatis.apache.org/docs/ruby/">Ruby</a>, and
+      <a target="_blank"
+      href="http://ibatis.apache.org/dotnetdownloads.cgi">.NET</a>
+      languages.
+    </p>
+    <p>
+      The iBATIS (pronounced eye-bat-iss) project started in
+      2001 and initially focused on cryptography software.
+      The name is a combination of the words
+      "internet" and "abatis".  Abatis means
+      "a defensive obstacle made by laying felled trees on top
+      of each other with branches, sometimes sharpened,
+      facing the enemy."
+      So it originally focused on internet security.
+    </p>
+    <p>
+      A significant difference between iBATIS and other persistence frameworks
+      such as Hibernate is that iBATIS emphasizes use of SQL,
+      while other frameworks typically use a custom query language
+      such has the Hibernate Query Language (HQL) or
+      Enterprise JavaBeans Query Language (EJB QL).
+    </p>
+    <p>
+      iBATIS may be significantly faster than Hibernate.
+      See the performance discussion <a target="_blank"
+        href="http://javajmc.blogspot.com/2007/02/is-ibatis-really-over-twice-as-fast-as.html">here</a>.
+    </p>
+    <p>
+      A book on iBATIS titled "<a target="_blank"
+      href="http://www.manning.com/begin/">iBATIS in Action</a>"
+      was released in January 2007.
+    </p>
+    <p>
+      Javadoc for the iBATIS library is <a target="_blank"
+      href="http://ibatis.apache.org/docs/java/user/">here</a>.
+    </p>
+
+    <a name="WhoUses"/>
+    <h3>Who Uses It?</h3>
+    <p>
+      Here's a list of some of the companies that are using iBATIS.
+      Much of this information was found <a target="_blank"
+        href="http://opensource.atlassian.com/confluence/oss/pages/viewpage.action?pageId=25">here</a>.
+      <ul>
+        <li><a target="_blank" href="http://www.1up.com">1up.com</a> - gaming community</li>
+        <li><a target="_blank" href="http://www.abebooks.com">Abebooks.com</a> - worlds largest online marketplace for books</li>
+        <li><a target="_blank" href="http://www.bullionvault.com">BullionVault.com</a> - online gold trading</li>
+        <li><a target="_blank" href="http://www.cent.com"><b>CNET</b><a></li>
+        <li><a target="_blank" href="http://www.cooladvance.com">Cool Advance</a> Information Systems - all Java and .NET projects use IBatis.<br/>For example, see <a target="_blank" href="http://Shoesathome.com">Shoesathome.com</a>.</li>
+        <li><a target="_blank" href="http://www.fiskars.com">Fiskars</a> - consumer products manufacturer</li>
+        <li><a target="_blank" href="http://www.gapay.com.">GAPay</a> - General Agent Payment System</li>
+        <li><a target="_blank" href="http://www.galmarley.com">GalMarley.com</a> - gold prices, facts, figures and charts</li>
+        <li><a target="_blank" href="http://www.idealfsi.com">Ideal Financial Services</a></li>
+        <li><a target="_blank" href="http://www.jpmorganchase.com"><b>JPMorgan Chase</b></a></li>
+        <li><a target="_blank" href="http://www.javaforge.com">JavaForge</a></li>
+        <li><a target="_blank" href="http://www.livemusicaddicts.com/newyork/">Live Music Addicts</a> - concert and venue listings for the New York City area</li>
+        <li><a target="_blank" href="http://www.logicacmg.com/">LogicaCMG</a></li>
+        <li><a target="_blank" href="http://www.myspace.com"><b>MySpace.com</b></a></li>
+        <li><a target="_blank" href="http://www.newpoint.com">Newport</a> - PowerSentry affiliate</li>
+        <li><a target="_blank" href="http://www.officemax.com">OfficeMax Impress</a> - print and document services</li>
+        <li><a target="_blank" href="http://www.comm.ohio-state.edu">Ohio State University School of Communication</a></li>
+        <li><a target="_blank" href="http://www.concertinform.com">Pearson Inform</a> - decision-making support for K-12 school districts</li>
+        <li><a target="_blank" href="http://www.plateausystems.com">Plateau Systems</a> - learning Management and Performance Management Systems</br></li>
+        <li><a target="_blank" href="http://www.powersentry.com">PowerSentry</a> - Fiskars brand surge protectors</li>
+        <li><a target="_blank" href="http://www.theladders.com">TheLadders.com</a> - job search engine</li>
+        <li><a target="_blank" href="http://www.voxware.com/">Voxware</a></li>
+        <li><a target="_blank" href="http://www.watkinsprinting.com/">Watkins Printing Company</a></li>
+        <li><a target="_blank" href="http://www.wilkinsonswordgarden.com">Wilkinson Sword Garden Collection</a></li>
+        <li><a target="_blank" href="http://botw.dnr.state.wi.us/botw/Welcome.do">Wisconsin Department of Natural Resources</a></li>
+        <li><a target="_blank" href="http://www.womanowned.com">WomanOwned</a> - business networks for women</li>
+        <li><a target="_blank" href="https://workeffort.dev.java.net/">Workeffort</a> - time tracking system</li>
+        <li><a target="_blank" href="http://www.zincklysbro.dk">Zinck-Lysbro</a> - gardening products</li>
+      </ul>
+    </p>
+    <p>
+      Some feedback on using iBATIS can be found <a target=_blank"
+      href="http://opensource.atlassian.com/confluence/oss/display/IBATIS/Feedback+and+Experiences">here</a>.
+    </p>
+
+    <a name="Installing"/>
+    <h3>Installing <a class="toplink" href="#top">top</a></h3>
+    <p>
+      To install iBATIS for use with Java,
+      download "iBATIS Java {version} Binaries, Source, and Documentation"
+      from <a target="_blank" href="http://ibatis.apache.org/javadownloads.cgi">here</a> and unzip it. This will result in a directory name "ibatis-2".
+    </p>
+    <p>
+      The doc directory contains a PDF version of the Developer Guide
+      and zipped javadoc HTML files.
+    </p>
+    <p>
+      The lib directory contains the only JAR file needed,
+      ibatis-{version}.jar.
+    </p>
+
+    <a name="ExampleDatabase"/>
+    <h3>Example Database <a class="toplink" href="#top">top</a></h3>
+    <p>
+      Our example database is named "music".
+      It has two tables.
+      The "artists" table has the columns "id" and "name".
+      The "recordings" table has the columns
+      "id", "name", "year" and "artist_id".
+      The id columns are the primary keys of their tables.
+      The recordings table artist_id column is a foreign key reference
+      to the artists table id column.
+      SQL for creating the database is in the following file
+      named "createTables.sql".
+    </p>
+    <p>
+      Note that SQL is sometimes not portable between databases.
+      In this example, were using the type "text" which is supported
+      by MySQL, but not by all relational databases.
+      Also, the way that primary keys are configured to
+      "auto increment" varies across databases.
+    </p>
+    <pre><div class="code">drop database if exists music;
+create database music;
+use music;
+
+drop table if exists artists;
+create table artists (
+  id int not null auto_increment,
+  name text,
+  primary key (id)
+);
+
+drop table if exists recordings;
+create table recordings (
+  id int not null auto_increment,
+  name text,
+  year int,
+  artist_id int,
+  primary key (id)
+);</div></pre>
+    <p>
+      When using MySQL, this can be run with a command like the following.
+    </p>
+    <pre><div class="code">mysql -uroot < createTables.sql</div></pre>
+    
+    <a name="ModelClasses"/>
+    <h3>Model Classes <a class="toplink" href="#top">top</a></h3>
+    <p>
+      POJO classes must be created to describe the objects
+      that will "model" database table rows.
+      We'll need an Artist class and a Recording class.
+      They do not need to implement the Comparable interface,
+      but we're doing that because we want to sort these objects.
+      Alternately, the SQL queries could be written to specify
+      the desired sort order of the rows that are returned.
+    </p>
+    <p>
+      Here's the Artist class.
+      Note that an Artist holds a collection of its Recordings.
+    </p>
+    <pre><div class="code">
+package com.ociweb.music;
+
+import java.util.List;
+
+public class Artist implements Comparable {
+
+  private int id;
+  private List&lt;Recording> recordings;
+  private String name;
+
+  public Artist() {}
+  public Artist(String name) { this.name = name; }
+
+  public int compareTo(Object obj) {
+    Artist r = (Artist) obj;
+    return name.compareTo(r.name);
+  }
+
+  public int getId() { return id; }
+  public void setId(int id) { this.id = id; }
+
+  public String getName() { return name; }
+  public void setName(String name) {
+    this.name = name;
+  }
+
+  public List&lt;Recording> getRecordings() { return recordings; }
+  public void setRecordings(List&lt;Recording> recordings) {
+    this.recordings = recordings;
+  }
+}</div></pre>
+    <p>
+      Here's the Recording class.
+      Note that a Recording holds a reference to its Artist.
+    </p>
+    <pre><div class="code">
+package com.ociweb.music;
+
+public class Recording implements Comparable {
+
+  private int id;
+  private int year;
+  private Artist artist;
+  private String name;
+
+  public Recording() {}
+  public Recording(Artist artist, String name, int year) {
+    this.artist = artist;
+    this.name = name;
+    this.year = year;
+  }
+
+  public int compareTo(Object obj) {
+    Recording r = (Recording) obj;
+    return name.compareTo(r.name);
+  }
+
+  public Artist getArtist() { return artist; }
+  public void setArtist(Artist artist) { this.artist = artist; }
+
+  public int getId() { return id; }
+  public void setId(int id) { this.id = id; }
+
+  public String getName() { return name; }
+  public void setName(String name) { this.name = name; }
+
+  public int getYear() { return year; }
+  public void setYear(int year) { this.year = year; }
+}</div></pre>
+
+    <a name="Configuration"/>
+    <h3>Configuration <a class="toplink" href="#top">top</a></h3>
+    <p>
+      Configuration is specified in the file SqlMapConfig.xml.
+      We want to specify the following things:
+      <ul>
+        <li>Namespace prefixes will be used when referring to
+         "mapped statements" in our Java code.</li>
+        <li>Our database will be accessed using JDBC.</li>
+        <li>We'll be using the JDBC driver in the class
+          <code>com.mysql.jdbc.Driver</code>.</li>
+        <li>The URL for connecting to our database is
+          <code>jdbc:mysql://localhost:3306/music</code>.</li>
+        <li>We'll authenticate with the database using
+          a username of "root" and no password.</li>
+        <li>Our statement mappings are described in the files
+          Artist.xml and Recording.xml.</li>
+      </ul>
+    </p>
+    <p>
+      Here's our configuration file.
+    </p>
+    <pre><div class="code">
+&lt;?xml version="1.0" encoding="UTF-8"?>
+&lt;!DOCTYPE sqlMapConfig
+  PUBLIC "-//ibatis.apache.org//DTD SQL Map Config 2.0//EN"
+  "http://ibatis.apache.org/dtd/sql-map-config-2.dtd">
+
+&lt;sqlMapConfig>
+
+  &lt;settings useStatementNamespaces="true"/>
+
+  &lt;transactionManager type="JDBC">
+    &lt;dataSource type="SIMPLE">
+      &lt;property name="JDBC.Driver" value="com.mysql.jdbc.Driver"/>
+      &lt;property name="JDBC.ConnectionURL"
+        value="jdbc:mysql://localhost:3306/music"/>
+      &lt;property name="JDBC.Username" value="root"/>
+      &lt;property name="JDBC.Password" value=""/>
+    &lt;/dataSource>
+  &lt;/transactionManager>
+
+  &lt;sqlMap resource="Artist.xml"/>
+  &lt;sqlMap resource="Recording.xml"/>
+
+&lt;/sqlMapConfig></div></pre>
+
+    <p>
+      <b>Update from Rich Reese</b><br/>
+      <ol>
+        <li>Remove all transaction/Datasource entries out of the
+          SQLMapConfig.xml file and only have those in spring-beans.xml.</li>
+        <li>Change code so an instance of SqlMapClient is obtained through
+          the Map Factory Bean from the Spring Context for custom queries.</li>
+        <li>Abator generated DAO's should extend SqlMapClientDaoSupport.</li>
+      </ol>
+    </p>
+
+    <a name="MappedStatements"/>
+    <h3>Mapped Statements <a class="toplink" href="#top">top</a></h3>
+    <p>
+      Mapped statements give ids to SQL statements.
+      These ids are referenced in the code that invokes them
+      using methods in the <a target="_blank"
+      href="http://ibatis.apache.org/docs/java/user/">
+      org.ibatis.sqlmap.client.SqlMapClient</a> interface
+      such as <code>queryForObject</code> and <code>queryForList</code>.
+      Because we specified that we wanted to "useStatementNamespaces"
+      in our configuration file, our references to statements
+      will have the syntax "<code>{namespace}.{statement-id}</code>".
+    </p>
+    <p>
+      Mapped statements are defined in XML files that are referenced
+      from the SqlMapConfig.xml file.
+    </p>
+
+    <p>
+      Here's the file that specifies statements related to
+      our artists table.
+    </p>
+    <pre><div class="code">
+&lt;?xml version="1.0" encoding="UTF-8"?>
+&lt;!DOCTYPE sqlMap
+  PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+  "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+&lt;sqlMap namespace="Artist">
+
+  &lt;delete id="deleteAll">
+    delete from artists
+  &lt;/delete>
+
+  &lt;insert id="insert" parameterClass="com.ociweb.music.Artist">
+    insert into artists (name) values (#name#)
+    &lt;selectKey resultClass="int" keyProperty="id">
+      select last_insert_id() as id
+    &lt;/selectKey>
+  &lt;/insert>
+
+  &lt;resultMap id="result" class="com.ociweb.music.Artist">
+    &lt;result property="id" column="id"/>
+    &lt;result property="name" column="name"/>
+    &lt;!-- This results in N+1 selects. To avoid this, see page 40
+         in the iBATIS Developer Guide. -->
+    &lt;result property="recordings" column="id"
+      select="Recording.getByArtist"/>
+  &lt;/resultMap>
+
+  &lt;select id="getById"
+    parameterClass="java.lang.Integer" resultMap="result">
+    select * from artists where id=#id#
+  &lt;/select>
+
+  &lt;select id="getAll" resultClass="com.ociweb.music.Artist">
+    select * from artists
+  &lt;/select>
+
+&lt;/sqlMap></div></pre>
+
+    <p>
+      Here's the file that specifies statements related to
+      our recordings table.
+    </p>
+    <pre><div class="code">
+&lt;?xml version="1.0" encoding="UTF-8"?>
+&lt;!DOCTYPE sqlMap
+  PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+  "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+&lt;sqlMap namespace="Recording">
+
+  &lt;delete id="deleteAll">
+    delete from recordings
+  &lt;/delete>
+
+  &lt;insert id="insert" parameterClass="com.ociweb.music.Recording">
+    insert into recordings (name, year, artist_id)
+    values (#name#, #year#, #artist.id#)
+    &lt;selectKey resultClass="int" keyProperty="id">
+      select last_insert_id() as id
+    &lt;/selectKey>
+  &lt;/insert>
+
+  &lt;resultMap id="resultWithoutArtist" class="com.ociweb.music.Recording">
+    &lt;result property="id" column="id"/>
+    &lt;result property="name" column="name"/>
+    &lt;result property="year" column="year"/>
+  &lt;/resultMap>
+
+  &lt;resultMap id="result"
+    class="com.ociweb.music.Recording" extends="resultWithoutArtist">
+    &lt;result property="artist" column="artist_id" select="Artist.getById"/>
+  &lt;/resultMap>
+
+  &lt;select id="getAll" resultClass="com.ociweb.music.Recording">
+    select * from recordings
+  &lt;/select>
+
+  &lt;!-- resultWithoutArtist is used here to avoid a circular
+       dependency when Artist.result (in Artist.xml) is used. -->
+  &lt;select id="getByArtist"
+    parameterClass="java.lang.Integer" resultMap="resultWithoutArtist">
+    select * from recordings where artist_id=#artistId#
+  &lt;/select>
+
+  &lt;select id="getByYear"
+    parameterClass="java.lang.Integer" resultMap="result">
+    select * from recordings where year=#year#
+  &lt;/select>
+
+&lt;/sqlMap>
+</div></pre>
+
+    <a name="InsertingData"/>
+    <h3>Inserting Data <a class="toplink" href="#top">top</a></h3>
+    <p>
+      Now we need to put some data in the database.
+      The following Java application demonstrates how to do this.
+      The methods <code>getArtist</code> and <code>addRecording</code>
+      are used to simplify the process.
+    </p>
+    <pre><div class="code">
+package com.ociweb.music;
+
+import com.ibatis.common.resources.Resources;
+import com.ibatis.sqlmap.client.SqlMapClient;
+import com.ibatis.sqlmap.client.SqlMapClientBuilder;
+import java.io.*;
+import java.sql.SQLException;
+import java.util.*;
+
+public class LoadDB {
+
+  private static SqlMapClient sqlMap;
+
+  private Map&lt;String, Artist> artists = new HashMap&lt;String, Artist>();
+
+  public static void main(String[] args)
+  throws IOException, SQLException {
+    Reader reader = Resources.getResourceAsReader("SqlMapConfig.xml");
+    sqlMap = SqlMapClientBuilder.buildSqlMapClient(reader);
+
+    new LoadDB();
+  }
+
+  private LoadDB() throws SQLException {
+    sqlMap.delete("Artist.deleteAll");
+    sqlMap.delete("Recording.deleteAll");
+
+    String name = "Deathcab For Cutie";
+    addRecording(name, "We Have the Facts and We're Voting Yes", 2000);
+    addRecording(name, "The Photo Album", 2001);
+    addRecording(name, "You Can Play These Songs With Chords", 2002);
+    addRecording(name, "Transatlanticism", 2003);
+    addRecording(name, "Plans", 2005);
+
+    name = "Regina Spektor";
+    addRecording(name, "Begin To Hope", 2006);
+    addRecording(name, "Soviet Kitch", 2003);
+  }
+
+  private Artist getArtist(String name) throws SQLException {
+    Artist artist = artists.get(name);
+    if (artist == null) {
+      artist = new Artist(name);
+      Object key = sqlMap.insert("Artist.insert", artist);
+      artists.put(name, artist);
+    }
+    return artist;
+  }
+
+  private void addRecording(String artistName, String name, int year)
+  throws SQLException {
+    Artist artist = getArtist(artistName);
+    Recording recording = new Recording(artist, name, year);
+    sqlMap.insert("Recording.insert", recording);
+  }
+}</div></pre>
+
+    <a name="Queries"/>
+    <h3>Queries <a class="toplink" href="#top">top</a></h3>
+    <p>
+      We're ready to write queries now.
+      The following application demonstrates a few queries.
+    </p>
+    <pre><div class="code">
+package com.ociweb.music;
+
+import com.ibatis.common.resources.Resources;
+import com.ibatis.sqlmap.client.SqlMapClient;
+import com.ibatis.sqlmap.client.SqlMapClientBuilder;
+import java.io.*;
+import java.sql.SQLException;
+import java.util.*;
+
+public class Client {
+
+  public static void main(String[] args)
+  throws IOException, SQLException {
+    Reader reader = Resources.getResourceAsReader("SqlMapConfig.xml");
+    SqlMapClient sqlMap = SqlMapClientBuilder.buildSqlMapClient(reader);
+    
+    // Output the names of all the Artists in ascending order.
+    System.out.println("All artists");
+    List&lt;Artist> artists = (List&lt;Artist>)
+      sqlMap.queryForList("Artist.getAll");
+    Collections.sort(artists);
+    Artist artist = null;
+    for (Artist a : artists) {
+      System.out.println("  " + a.getName());
+      artist = a; // retain a reference to the last Artist
+    }
+
+    // Get the id of the last Artist.
+    int id = artist.getId();
+
+    // Output the name of the artists with a given id.
+    System.out.println("\nArtist with id=" + id);
+    artist = (Artist) sqlMap.queryForObject("Artist.getById", id);
+    System.out.println("  " + artist.getName());
+
+    // Output the names of all recordings from 2003 in ascending order.
+    System.out.println("\n2003 Recordings");
+    List&lt;Recording> recordings = (List&lt;Recording>)
+      sqlMap.queryForList("Recording.getByYear", 2003);
+    Collections.sort(recordings);
+    for (Recording r : recordings) {
+      System.out.println("  " + r.getName() +
+        " by " + r.getArtist().getName());
+    }
+  }
+}</div></pre>
+
+    <p>
+      The output from this code follows.
+    </p>
+    <pre><div class="code">All artists
+  Deathcab For Cutie
+  Regina Spektor
+
+Artist with id=2
+  Regina Spektor
+
+2003 Recordings
+  Soviet Kitch by Regina Spektor
+  Transatlanticism by Deathcab For Cutie</div></pre>
+
+    <a name="Logging"/>
+    <h3>Logging <a class="toplink" href="#top">top</a></h3>
+    <p>
+      iBATIS has built-in logging that works with the following
+      logging libraries and searches for them in this order.
+      <ul>
+        <li>Jakarta Commons Logging (JCL)</li>
+        <li>Log4J</li>
+        <li>JDK logging</li>
+      </ul>
+    </p>
+    <p>
+      To use Log4J,
+      <ol>
+        <li>insure that the Log4J JAR file (log4j-{version}.jar)
+          is in the classpath</li>
+        <li>create a log4j.properties file</li>
+        <li>insure that log4j.properties is in a directory
+          that is in the classpath at runtime</li>
+      </ol>
+    </p>
+    <p>
+      Here's an example of a log4j.properties file.
+      Note that some of the lines are commented out
+      and are preceded by a comment describing what will be output
+      if they are uncommented.
+    </p>
+    <pre><div class="code">
+# Global logging configuration
+log4j.rootLogger=ERROR, stdout
+
+#log4j.logger.com.ibatis=DEBUG
+
+# shows SQL of prepared statements
+#log4j.logger.java.sql.Connection=DEBUG
+
+# shows parameters inserted into prepared statements
+#log4j.logger.java.sql.PreparedStatement=DEBUG
+
+# shows query results
+#log4j.logger.java.sql.ResultSet=DEBUG
+
+#log4j.logger.java.sql.Statement=DEBUG
+
+# Console output
+log4j.appender.stdout=org.apache.log4j.ConsoleAppender
+log4j.appender.stdout.layout=org.apache.log4j.PatternLayout
+log4j.appender.stdout.layout.ConversionPattern=%5p [%t] - %m%n</div></pre>
+
+    <a name="Classpath"/>
+    <h3>Classpath <a class="toplink" href="#top">top</a></h3>
+    <p>
+      To compile and run code that uses iBATIS,
+      the following JARs must be in the classpath.
+      <ul>
+        <li>ibatis-{version}.jar - in iBatis lib directory</li>
+        <li>JAR containing the JDBC driver to be used<br/>
+          (for MySQL, this could be mysql-connector-java-{version}-bin.jar)
+        </li>
+      </ul>
+    </p>
+    <p>
+      If logging is desired, a JAR containing the logging library
+      to be used must also be in the classpath.
+    </p>
+
+    <hr />
+    <p style="text-align:center">
+      Copyright &#169; 2007 Object Computing, Inc. All rights reserved.
+    </p>
+  </body>
+</html>

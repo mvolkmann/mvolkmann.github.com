@@ -1,0 +1,164 @@
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>Lookup</title>
+    <link rel="stylesheet" type="text/css" href="common.css"/>
+  </head>
+
+  <body>
+    <div class="title">Lookup</div>
+
+    <p>
+    <a href="http://bits.netbeans.org/dev/javadoc/org-openide-util/org/openide/util/Lookup.html" target="_parent"><code>Lookup</code></a>
+      objects are used to obtain references to other objects.
+      Most often this is used to obtain instances of classes
+      that implement a specified interface.
+      In addition to a global <code>Lookup</code>,
+      more narrowly scoped <code>Lookup</code>s can be created.
+      In order to use <code>Lookup</code>, <code>org-openide-util.jar</code>
+      must be in the classpath.
+      This can be used on its own, outside the NetBeans Platform.
+    </p>
+
+    <h3>Global Lookup</h3>
+    <p>
+      The global lookup automatically registers interfaces and classes
+      that are listed in special text files within all
+      <code>META-INF/services</code> directories in the classpath.
+      This includes those found in JAR files.
+      The file names are the full class name of an interface or class.
+      Their content is a list of full class names that implement the interface
+      or extend the class, each on a separate line.
+      For example, the file "org.foo.bar.SomeService",
+      representing an interface,
+      might contain the line "com.acme.foo.bar.SomeServiceImpl",
+      representing a class that implements the interface.
+    </p>
+    <p>
+      Objects call also be added to the global <code>Lookup</code>
+      by modifying the "system filesystem".
+      One way to do this is by editing the <code>layer.xml</code> file
+      of a module.
+    </p>
+    <p>
+      There is a proposal to support adding to the global <code>Lookup</code>
+      through annotations in NetBeans 7.
+    </p>
+
+    <p>
+      The global <code>Lookup</code> can be obtained as follows:
+    </p>
+    <div class="code"><pre>
+Lookup lookup = Lookup.getDefault();</pre></div>
+    
+    <h3><a name="ScopedLookup">Scoped Lookup</a></h3>
+    <p>
+      Another way for entries to be added to a <code>Lookup</code>
+      is through classes that implement the
+      <a href="http://bits.netbeans.org/dev/javadoc/org-openide-util/org/openide/util/Lookup.Provider.html" target="_parent"><code>Lookup.Provider</code></a> interface.
+      This interface defines a single method, <code>getLookup</code>,
+      that returns a <code>Lookup</code> object.
+      Several classes provided by the NetBeans Platform
+      such as <a href="http://bits.netbeans.org/dev/javadoc/org-openide-nodes/org/openide/nodes/Node.html" target="_parent"><code>Node</code></a>,
+      <a href="http://bits.netbeans.org/dev/javadoc/org-openide-loaders/org/openide/loaders/DataObject.html" target="_parent"><code>DataObject</code></a> and
+      <a href="http://bits.netbeans.org/dev/javadoc/org-openide-windows/org/openide/windows/TopComponent.html" target="_parent"><code>TopComponent</code></a> do this.
+    </p>
+    <p>
+      A <code>Node</code> is similar to a JavaBean,
+      but has a visual representation.
+      They can have a parent <code>Node</code>, child <code>Node</code>s,
+      icons, a context menu, a "preferred action", cookies, and more.
+      See the <code>getParentNode</code> and <code>getChildren</code> methods.
+    </p>
+    <p>
+      A <code>DataObject</code> represents one or more file-like objects.
+      The NetBeans Platform uses the analogy of a file system (folders and files)
+      to model many things that are not actually folders and files.
+      See the <code>copy</code>, <code>delete</code>,
+      <code>files</code> and <code>move</code> methods.
+    </p>
+    <p>
+      A <code>TopComponent</code> represents a panel or window
+      in a NetBeans Platform application.
+      They can be docked within area in the application frame
+      or undocked to appear in their own frame.
+    </p>
+    <p>
+      Custom classes can implement the <code>Lookup.Provider</code> interface.
+      The <code>Lookup</code> object returned by their
+      <code>getLookup</code> method can be created and populated as follows:
+    </p>
+    <div class="code"><pre>
+<a href="http://bits.netbeans.org/dev/javadoc/org-openide-util/org/openide/util/lookup/InstanceContent.html" target="_parent">InstanceContent</a> ic = new InstanceContent();
+Lookup lookup = new AbstractLookup(ic);
+ic.add(obj1);      
+ic.add(obj2);      
+...
+</pre></div>
+ 
+    <h3>Finding Objects with a Lookup</h3>
+    <p>
+      Finding objects using a <code>Lookup</code> is done in the same way
+      regardless of whether the objects are added to a <code>Lookup</code>
+      using the META-INF/services approach or
+      the <code>InstanceContent</code> approach.
+      References to objects can be retrieved from a <code>Lookup</code>
+      by passing any of the following to the
+      <code>lookup</code> or <code>lookupAll</code> methods:
+    </p>
+    <ul>
+      <li>a <code>Class</code> object representing
+        the actual class of the object</li>
+      <li>a <code>Class</code> object representing any class
+        that the object class extends</li>
+      <li>a <code>Class</code> object representing any interface
+        that the object class implements</li>
+    </ul>
+    <p>
+      With the <code>lookup</code> method, when more than one match is found,
+      only one match is returned.
+      Use the <code>lookupAll</code> method to get
+      a <code>Collection</code> containing all the matches.
+    </p>
+    <p>
+      For example, an object that implements or extends
+      "<code>SomeService"</code> is obtained from a Lookup as follows:
+    </p>
+    <div class="code"><pre>
+SomeService service = lookup.lookup(SomeService.class);</pre></div>
+
+    <h3>Listening for Lookup Changes</h3>
+    <p>
+      Listeners can be registered to receive notification when the contents
+      of a <code>Lookup</code> changes.
+      This requires use of a
+      <a href="http://bits.netbeans.org/dev/javadoc/org-openide-util/org/openide/util/Lookup.Template.html target="_parent"><code>Lookup.Template</code></a> object and a
+      <a href="http://bits.netbeans.org/dev/javadoc/org-openide-util/org/openide/util/Lookup.Result.html" target="_parent"><code>Lookup.Result</code></a> object.
+      Here's an example.
+    </p>
+    <div class="code"><pre>
+Lookup.Template&lt;SomeService> template =
+    new Lookup.Template&lt;SomeService>(SomeService.class);
+
+Lookup.Result&lt;SomeService> result = lookup.lookup(template);
+
+result.addLookupListener(new LookupListener() {
+    public void resultChanged(LookupEvent e) {
+        LookupResult&lt;SomeService> result =
+            (LookupResult&lt;SomeService>) e.getSource();
+        Collection&lt;? extends SomeService> instances = result.getInstances();
+        // Do something with this collection of service implementation objects.
+    }
+});
+</pre></div>
+    
+    <h3>Removing Objects from a Lookup</h3>
+    <p>
+      An object can be removed from a <code>Lookup</code>
+      by passing it to the <code>remove</code> method.
+    </p>
+  </body>
+</html>

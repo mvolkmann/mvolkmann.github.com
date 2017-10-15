@@ -1,0 +1,23 @@
+@charset 'UTF-8';
+
+#box {
+  background-color: yellow;
+  font: bold 24pt sans-serif;
+  height: 100px;
+  left: 0px;
+  line-height: 100px;
+  position: absolute;
+  text-align: center;
+  top: 100px;
+  width: 100px;
+
+  transition: all 2s linear;
+  -moz-transition: all 2s linear;
+  -ms-transition: all 2s linear;
+  -webkit-transition: all 2s linear;
+
+  transform-origin: right bottom;
+  -moz-transform-origin: right bottom;
+  -ms-transform-origin: right bottom;
+  -webkit-transform-origin: right bottom;
+}

@@ -1,0 +1,653 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR.html1/DTD.html1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>Mark Volkmann's JavaScript Page</title>
+    <link rel="stylesheet" type="text/css" href="../common.css"/>
+  </head>
+  <body>
+    <h2>Mark Volkmann's JavaScript Page</h2>
+    
+    <h3>Topics</h3>
+    <div>
+      <a href="#Firebug">Firebug</a>
+      <a href="#JSON">JSON</a>
+      <a href="#TheGoodParts">"The Good Parts"</a>
+      <a href="#XML">XML</a>
+      <a href="#classes">classes</a>
+      <a href="#closures">closures</a>
+      <a href="#condproc">conditional processing</a>
+      <a href="#constructors">constructors</a>
+      <a href="#engines">Engines</a>
+      <a href="#exceptions">exceptions</a>
+      <a href="#fromHTML">from HTML</a>
+      <a href="#functions">functions</a>
+      <a href="#influences">Influences</a>
+      <a href="#inHTML">in HTML</a>
+      <a href="#iteration">iteration</a>
+      <a href="#module pattern">module pattern</a>
+      <a href="#names">names</a>
+      <a href="#inheritance">prototypal inheritance</a>
+      <a href="#regexp">regular expressions</a>
+      <a href="#semicolons">semicolons</a>
+      <a href="#truthyfalsy">truthy/falsy values</a>
+      <a href="#typecohersion">type cohersion</a>
+    </div>
+
+    <h3>Keywords</h3>
+    <div>
+      <a href="#Infinity">Infinity</a>
+      <a href="#NaN">NaN</a>
+      <a href="#break">break</a>
+      <a href="#switch">case</a>
+      <a href="#catch">catch</a>
+      <a href="#switch">default</a>
+      <a href="#delete">delete</a>
+      <a href="#do">do</a>
+      <a href="#ifelse">else</a>
+      <a href="#eval">eval</a>
+      <a href="#false">false</a>
+      <a href="#for">for</a>
+      <a href="#function">function</a>
+      <a href="#ifelse">if</a>
+      <a href="#in">in</a>
+      <a href="#new">new</a>
+      <a href="#nil">nil</a>
+      <a href="#return">return</a>
+      <a href="#switch">switch</a>
+      <a href="#ternary">ternary (?:)</a>
+      <a href="#throw">throw</a>
+      <a href="#true">true</a>
+      <a href="#try">try</a>
+      <a href="#typeof">typeof</a>
+      <a href="#undefined">undefined</a>
+      <a href="#var">var</a>
+      <a href="#while">while</a>
+      <a href="#with">with</a>
+    </div>
+
+    <h3>Operators</h3>
+    <div>
+      <a href="#ampamp">&amp;&amp;</a>
+      <a href="#barbar">||</a>
+      <a href="#eqeq">==</a>
+      <a href="#eqeqeq">===</a>
+      <a href="#noteq">!=</a>
+      <a href="#noteqeq">!==</a>
+    </div>
+
+    <h3>Types</h3>
+    <div>
+      <a href="#Array">Array</a> (an Object)
+      <a href="#Boolean">Boolean</a>
+      <a href="#Date">Date</a> (an Object)
+      <a href="#Math">Math</a>
+      <a href="#Number">Number</a>
+      <a href="#Object">Object</a>
+      <a href="#RegExp">RegExp</a> (an Object)
+      <a href="#String">String</a>
+    </div>
+
+    <hr />
+
+    <h3>Major Characteristics</h3>
+    <ul>
+      <li>not a subset of Java</a>
+      <li>source is delivered to clients as text, parsed and executed</li>
+      <li>C-based syntax</li>
+      <li>loosely typed</li>
+      <li>dynamic objects (attributes and methods
+        can be added and removed at runtime)</li>
+      <li>functional</li>
+      <li>closures</li>
+      <li>prototypal inheritance (object can inherit from another object)</li>
+      <li>"modules" communicate through global variables</li>
+    </ul>
+
+    <h3>Quotes</h3>
+    <blockquote>
+      "JavaScript is not a bug that needs fixing." - Alex Russell
+    </blockquote>
+    <blockquote>
+      "JavaScript is the world's most misunderstood programming language."
+      - Douglas Crockford
+    </blockquote>
+    <blockquote>
+      "It's the only language that I'm aware of that people feel
+      they don't need to learn before they start using it."
+      - Douglas Crockford
+    </blockquote>
+    <blockquote>
+      "It amazes me the lengths that people will go to
+      to avoid having to learn JavaScript.
+      But it's learnable and you can actually write good programs in it."
+      - Douglas Crockford
+    </blockquote>
+    <blockquote>
+      "It's basically Scheme with C syntax." - Douglas Crockford
+    </blockquote>
+
+    <h3><a name="books">Books</a></h3>
+    <ul>
+      <li><a href="http://www.amazon.com/exec/obidos/ASIN/0596517742/wrrrldwideweb">JavaScript: The Good Parts</a> - Douglas Crockford</li>
+      <li><a href="http://www.amazon.com/JavaScript-Definitive-Guide-David-Flanagan/dp/0596101996/ref=sr_1_1?ie=UTF8&s=books&qid=1258988814&sr=1-1">JavaScript: The Definitive Guide</a> 5th Edition - David Flanagan</li>
+      <li><a href="http://www.amazon.com/Secrets-JavaScript-Ninja-John-Resig/dp/193398869X/ref=sr_1_1?ie=UTF8&s=books&qid=1259180940&sr=1-1">Secrets of the JavaScript Ninja</a> - John Resig</li>
+    </ul>
+    
+    <h3><a name="libraries">Libraries</a></h3>
+    <ul>
+      <li><a href="http://www.dojotoolkit.org/">Dojo</a></li>
+      <li><a href="http://www.extjs.com/">Ext JS</a></li>
+      <li><a href="http://jquery.com/">jQuery</a></li>
+      <li><a href="http://nodejs.org/">nodeJS</a> - for JavaScript servers</li>
+      <li><a href="http://www.prototypejs.org/">Prototype</a></li>
+      <li><a href="http://script.aculo.us/">script.aculo.us</a></li>
+      <li><a href="http://code.google.com/p/swfobject/">swfobject</a> - for embedding Flash content</li>
+      <li><a href="http://developer.yahoo.com/yui/">YUI</a></li>
+    </ul>
+
+    <h3><a name="references">References</a></h3>
+    <ul>
+      <li><a href="http://javascript.crockford.com/code.html">JavaScript code conventions</a></li>
+      <li><a href="http://www.crockford.com/javascript/">Douglas Crockford's JavaScript page</li>
+      <li><a href="http://www.w3schools.com/JS/">W3Schools JavaScript</a></li>
+      <li><a href="http://ejohn.org/">John Resig's home page</a></li>
+      <li><a href="http://www.infoq.com/news/2009/12/ecmascript5">ECMAScript 5</a> released 12/09
+      <li><a href="http://net.tutsplus.com/articles/web-roundups/17-hours-of-javascript-from-the-masters/">17 Hours of JavaScript from the Masters</a></li>
+    </ul>
+
+    <h3><a name="tools">Tools</a></h3>
+    <ul>
+      <li><a href="http://getfirebug.com/">Firebug</a>
+        to edit/debug/monitor CSS, HTML and JavaScript</li>
+      <li><a href="http://www.jslint.com/">jslint</a>
+        - a code quality tool that enforces use of
+          the good parts of JavaScript</li>
+      <li><a href="http://www.mozilla.org/rhino/">Rhino</a> -
+        JavaScript for Java</li>
+    </ul>
+
+    <h4><a name="origin">Origin</a></h4>
+    <p>
+      LiveScript was invented by Brendan Eich at Netscape in 1995.
+      The name was changed to JavaScript by agreement between
+      Netscape and Sun Microsystems to help them compete against Microsoft.
+      In 1996 Microsoft created an implementation of JavaScript
+      named JScript (to avoid trademark issues)
+      and embedded it in Internet Explorer.
+      In order to avoid fragmentation of the language,
+      Netscape asked the European Computer Manufacturers Association (ECMA)
+      to create a specification for it.
+      The "ECMAScript Language Specification" specifies
+      the syntax and rules of the language.
+    </p>
+
+    <h4><a name="influences">Influences</a></h4>
+    <table border="1">
+      <tr>
+        <th>Language</th>
+        <th>Features</th>
+      </tr>
+      <tr>
+        <td>Self</td>
+        <td>prototypal inheritance, dynamic objects</td>
+      </tr>
+      <tr>
+        <td>Scheme</td>
+        <td>functional, lambda (closures?), loose typing</td>
+      </tr>
+      <tr>
+        <td>Java</td>
+        <td>syntax, conventions</td>
+      </tr>
+      <tr>
+        <td>Perl</td>
+        <td>regular expressions</td>
+      </tr>
+    </table>
+
+    <h4><a name="badParts">Bad Parts</a></h4>
+    <ul>
+      <li>global variables (name collisions and security issues)</li>
+      <li>+ adds numbers and concatenates strings
+        (can't easily recognize which will occur due to loose typing)</li>
+      <li>semicolon insertion
+        (omitted semicolons are automatically inserted,
+        sometimes incorrectly)</li>
+      <li>typeof (array -> object, null -> object)</li>
+      <li>with statements</li>
+      <li>eval statements</li>
+      <li>phony arrays
+        (really hash tables so indexing into them isn't fast)</li>
+      <li>== and !=
+        (perform confusing type coercions; use === and !== instead)</li>
+      <li>false, null, undefined, NaN
+        (too many keywords that mean almost the same thing)</li>
+    </ul>
+
+    <h4><a name="goodParts">Good Parts</a></h4>
+    <ul>
+      <li>Lambda (anonymous functions, closures)</li>
+      <li>Dynamic Objects (can add/remove properties in existing objects)</li>
+      <li>Loose Typing (reduces code size)</li>
+      <li>Object Literals
+        (inspiration for JavaScript Object Notation (JSON) format)</li>
+    </ul>
+
+    <h4><a name="prototypalInheritance">Prototypal Inheritance</a></h4>
+    <p>
+      Prototypal inheritance is specified using objects instead of classes.
+      An object can inherit directly from one other object
+      (called its "prototype"),
+      which itself can inherit from one other object to form a hierarchy.
+      When an attempt is made to access a non-existent property in an object,
+      it delegates to its prototype.
+    </p>
+    <p>
+      To create a new object that inherits from an existing one:
+      <pre>
+      // Old way
+      function ClassName() {} // constructor
+      ClassName.prototype = oldObj;
+      var newObj = new ClassName(); // new operator required to call constructors
+
+      // New way (in ECMAScript 5?)
+      var newObj = Object.create(oldObj);
+
+      // Can define Object.create for older JavaScripts.
+      if (typeof Object.create !== 'function') {
+        Object.create = function (oldObj) {
+          function F() {} // constructor
+          F.prototype = oldObj;
+          return new F();
+        };
+      }
+      </pre>
+    </p>
+
+    <h4><a name="closures">Closures</a></h4>
+    <p>
+      Closures are blocks of code that have access to
+      variables that are in their scope at the time they are defined.
+      For example:
+    </p>
+    <pre>
+      var publicFunction = function() {
+        var privateVariable = some-value;
+
+        function privateFunction(params) {
+          // Can access privateVariable here.
+        }
+
+        return function (params) {
+          // Can access privateVariable and call privateFunction here.
+        }
+      }();
+
+      // Can call publicFunction here, but not privateFunction
+      // and privateVariable isn't accessible.
+    </pre>
+    <p>
+      Instead of returning a single function,
+      an object literal containing several functions can be returned.
+      This is similar to a singleton object
+      since only one is ever created from this definition.
+      For example, the return statement above could be replaced with:
+    </p>
+    <pre>
+        return {
+          methodName1: function (params) {
+            // Can access privateVariable and call privateFunction here.
+          },
+          methodName2: function (params) {
+            // Can access privateVariable and call privateFunction here.
+          }
+        };
+    </pre>
+
+    <h4><a name="objectCreation">Object Creation</a></h4>
+    <p>
+      There are four ways to create a JavaScript object.
+    </p>
+    <ol>
+      <li>object literal - { name: value, ... }</li>
+      <li>new operator on a constructor function</li>
+      <li>Object.create (new way to create an object from another)</li>
+      <li>"power constructor"</li>
+    </ol>
+    <p>
+      Here's a template for writing power constructors:
+    </p>
+    <pre>
+      function myConstructor(params) {
+        var privateAttr = some-value;
+        var privateFunc = function (params) { ... }
+        // Note that "this" is a reserved word.
+        var that = {}; // or some other way to create an object
+        that.publicAttr = some-value;
+        that.methodName = function () {
+          // can access private attributes and call private functions here
+        };
+        // Define more methods here.
+        return that;
+      }
+    </pre>
+
+    <h4><a name="bracePlacement">Brace Placement</a></h4>
+    <p>
+      K&amp;R brace placement
+      (open brace at end of line of code instead of on a new line)
+      must be used because otherwise semicolon insertion
+      will add a semicolon to the end of the line before the open brace
+      and the code in the braces will be ignored.
+    </p>
+
+    <h4><a name="engines">Engines</a></h4>
+    <table border="1">
+      <tr>
+        <th>Name</th>
+        <th>Vendor</th>
+        <th>Notes</th>
+      </tr>
+      <tr>
+        <td>JavaScriptCore</td>
+        <td>Apple</td>
+        <td>used in WebKit applications
+          including current versions of Safari</td>
+      </tr>
+      <tr>
+        <td>JScript</td>
+        <td>Microsoft</td>
+        <td>used in Internet Explorer</td>
+      </tr>
+      <tr>
+        <td>Rhino</td>
+        <td>Mozilla</td>
+        <td>implemented in Java</td>
+      </tr>
+      <tr>
+        <td>SpiderMonkey</td>
+        <td>Mozilla</td>
+        <td>used in Gecko applications including Firefox</td>
+      </tr>
+      <tr>
+        <td>SquirrelFish (a.k.a. Nitro)</td>
+        <td>Apple</td>
+        <td>replacement for JavaScriptCore in WebKit applications
+          including future versions of Safari</td>
+      </tr>
+      <tr>
+        <td>Taramin</td>
+        <td>Adobe</td>
+        <td>supports ActionScript and ECMAScript</td>
+      </tr>
+      <tr>
+        <td>TraceMonkey</td>
+        <td>Mozilla</td>
+        <td>next version of SpiderMonkey</td>
+      </tr>
+      <tr>
+        <td>V8</td>
+        <td>Google</td>
+        <td>used in Chrome</td>
+      </tr>
+    </table>
+ 
+    <h4><a name="Rhino">Rhino</a></h4>
+    <p>
+      Rhino is a JavaScript interpreter written in Java.
+      Here are the steps to obtain and install Rhino.
+    </p>
+    <ol>
+      <li>Download from a zip distribution from
+        <a href="http://www.mozilla.org/rhino/">http://www.mozilla.org/rhino/</a>.</li>
+      <li>Unzip the zip file.</li>
+      <li>Set the <code>RHINO_HOME</code> environment variable to
+       the path of the directory created by unzipping Rhino.</li>
+      <li>Open a terminal window.</li>
+      <li>Enter "<code>cd $RHINO_HOME</code>".</li>
+      <li>Enter "<code>ant</code>" (assumes Ant is installed).</li>
+      <li>Create the following alias:
+        <code>alias rhino='java -jar $RHINO_HOME/js.jar'</code></li>
+    </ol>
+    <p>
+      To run Rhino in interactive mode,
+      enter "<code>rhino</code>" in a terminal window.
+      To run Rhino on a source file,
+      enter "<code>rhino {file-path}</code>" in a terminal window.
+    </p>
+
+    <h4><a name="browserSupport">Browser Support</a></h4>
+    <p>
+      For a summary of JavaScript versions, the features added in them,
+      and their support in specific browser versions,
+      see the Wikipedia page for
+      <a href="http://en.wikipedia.org/wiki/JavaScript#Versions">JavaScript</a>.
+      As of 12/2009, only Firefox supports JavaScript 1.8 and later.
+    </p>
+
+    <h4><a name="Firebug">Firebug</a></h4>
+    <p>
+      This tool supports editing, debugging and monitoring
+      of HTML, CSS and JavaScript from within Firefox.
+      To install it, run Firefox,
+      browse <a href="http://getfirebug.com/">http://getfirebug.com/</a>,
+      and press the "INSTALL FIREBUG" button.
+    </p>
+    <p>
+      To open Firebug, select Tools...Firebug...Open Firebug.
+    </p>
+    <p>
+      To enable JavaScript debugging,
+      click the down triangle on the Script tab and select "Enabled".
+    </p>
+    <p>
+      To stop on all JavaScript errors,
+      click the down triangle on the Script tab
+      and select "Break on All Errors".
+    </p>
+    <p>
+      To write messages to the console, see
+      <a href="http://getfirebug.com/console.html">http://getfirebug.com/console.html</a>.
+    </p>
+
+    <h4><a name="classes">Classes</a></h4>
+    <p>
+      Classes are defined by a constructor function
+      that begins with an uppercase letter.
+      Objects are created by invoking the <code>new</code> operator
+      on a constructor function.
+      Instance methods are defined by assigning them to
+      a property of the constructor prototype.
+      Instance attributes are defined by assigning them to an object.
+      Class attributes and methods are defined by
+      assigning them to a constructor.
+    </p>
+    <p>
+      Here's an example of a class for circles.
+    </p>
+
+    <h4><a name="properties">Properties</a></h4>
+    <p>
+      Attributes and methods of objects are stored as "properties".
+      To set the value of an object property,
+      <code>obj['pname'] = value;</code>
+      To get the value of an object property,
+      <code>value = obj['pname'];</code>
+      If the object doesn't have the property,
+      <code>undefined</code> is returned.
+      To iterate through the properties of an object, use <code>for...in</code>.
+      This iterates through both direct and inherited properties,
+      so filtering must be done when the inherited properties aren't desired.
+      How?
+    </p>
+
+    <h4><a name="NaN">NaN</a></h4>
+    <p>
+      NaN stands for "Not a Number".
+      It is the result of undefined or erroneous numeric operations,
+      for example, dividing by zero.
+      If any input to a numeric operation is NaN, the result will be NaN.
+      NaN is not considered equal to itself.
+      Applying the typeof operator to NaN returns "number".
+    </p>
+
+    <h4><a name="numericTypes">Numeric Types</a></h4>
+    <p>
+      There is only one numeric type in JavaScript.
+      It is double-precision floating point.
+      This can be an issue for financial applications
+      due to approximations for decimal values.
+    </p>
+    <p>
+      To convert a value to a number,
+      use <code>Number(<i>value</i>)</code>.
+      or <code>+<i>value</i></code>.
+      If the value cannot be converted to a number
+      then <code>NaN</code> will be returned.
+      To convert a value to an integer number,
+      use <code>parseInt(<i>value</i>, <i>radix</i>)</code>.
+      For example, <code>parseInt("19 miles", 10)</code> returns 19.
+      It parses all characters until it reaches a non-digit character.
+    </p>
+
+    <h4><a name="Math">Math</a></h4>
+    <p>
+      The Math class defines many constants and class methods.
+      The constants include
+      E (base of natural logs),
+      LN10 (natural log of 10),
+      LN2 (natural log of 2),
+      LOG10E (log base 10 of e),
+      LOG2E (log base 2 of e),
+      PI,
+      SQRT1_2 (square root of 1/2) and
+      SQRT2 (square root of 2).
+      The class methods include
+      abs, acos, asin, atan, atan2, ceil, cos, exp, floor,
+      log, max, min, pow, random, round, sin, sqrt and tan.
+    </p>
+
+    <h4><a name="condproc">Conditional Processing</a></h4>
+    <div>
+      See <a href="#ifelse">if/else</a> and
+      <a href="switch">switch/case/default</a>.
+    </div>
+
+    <h4><a name="ifelse">if/else</a></h4>
+    <div class="code">
+      <pre xml:space="preserve">
+if (<i>expression</i>) {
+  <span class="comment">// then code</span>
+} else { <span class="comment">// optional</span>
+  <span class="comment">// else code</span>
+}
+</pre>
+    </div>
+
+    <h4><a name="switch">switch/case/default</a></h4>
+    <div class="code">
+      <pre xml:space="preserve">
+switch (<i>expression</i>) {
+  case <i>expression</i>:
+    <i>statements</i>
+    break;
+  <span class="comment">// more cases</span>
+  default: <span class="comment">// optional</span>
+    <i>statements</i>
+}
+</pre>
+    </div>
+    <p>
+      Unless a break statement appears at the end of a case block,
+      execution flows into the code of the next case block.
+    </p>
+
+    <h4><a name="JSON">JSON</a></h4>
+    <p>
+      JSON stands for JavaScript Object Notation.
+      It is a lightweight data interchange format
+      that is based on the syntax of JavaScript object literals.
+      It is often used as an alternative to XML.
+      It was specified by Douglas Crockford as
+      <a href="http://tools.ietf.org/html/rfc4627">RFC 4627</a>
+      in July 2006.
+    </p>
+    <p>
+      JSON supports six types of values:
+      boolean, number, string, array, object and null.
+      Boolean values are "true" and "false".
+      Strings appear inside double-quotes.
+      Arrays are sequences of values inside square brackets, separated by commas.
+      Objects are key-value pairs inside curly braces
+      where keys are separated from values with colons
+      and pairs are separated by commas.
+      Keys must be strings surrounded by double-quotes.
+      This is mainly to avoid conflicts with JavaScript keywords
+      which cannot be used as keys in object literals
+      (but this is allowed in ECMAScript 5th Edition).
+    </p>
+    <p>
+      When sending JSON data using HTTP,
+      the MIME type should be "application/json".
+    </p>
+    <p>
+      JSON is valid JavaScript syntax.
+      JSON text can be parsed into a JavaScript object using
+      <code>var obj = eval('(' + jsonText + ')');</code>.
+      This can be dangerous because the text could contain malicious code.
+      Using a JSON parser is recommended.  One can be found at
+      <a href="http://www.json.org/json2.js">http://www.json.org/json2.js</a>.
+      Many newer web browsers have added native JSON parsers which are faster.
+    </p>
+
+    <h4><a name="ECMAScript5">ECMAScript 5th Edition</a></h4>
+    <p>
+      Features in the next version of JavaScript,
+      described by the ECMAScript 5 standard include:
+    </p>
+    <ul>
+      <li>strict mode</li>
+      <li>object hardening</li>
+      <li>library extension</li>
+    </ul>
+    <p>
+      Strict mode is enabled (opt-in) by adding <code>use strict;</code>
+      in a script or individual function.
+      In strict mode the following restrictions are enforced:
+    </p>
+    <ul>
+      <li>Variables must be declared before they are used.</li>
+      <li>New variables cannot be introduced
+        through the use of <code>eval</code>.</li>
+      <li>The <code>delete</code> operator cannot be applied to entities
+        that are marked as non-configurable.</li>
+      <li>The <code>with</code> statement cannot be used.</li>
+      <li>The <code>arguments</code> and <code>caller</code> properties
+        of a function are immutable.</li>
+      <li>The global object cannot be accessed.  What is this?</li>
+      <li>Attempts to change read-only properties result in an exception
+        rather than being silently ignored.</li>
+    </ul>
+    <p>
+      There are many library extensions.
+      Is a new JSON parser one of them?
+      What are others?
+    </p>
+    <p>
+      Describe object hardening here.
+      Can make individual properties or all properties read-only.
+      Can prevent properties from being added or deleted (freeze).
+    </p>
+    <p>
+      Firefox implements ECMAScript 5th Edition features in version 4,
+      but no other popular browsers do yet.
+    </p>
+
+    <!--hr /-->
+    <p style="text-align:center">
+      Copyright &#169; 2010 Object Computing, Inc. All rights reserved.
+    </p>
+  </body>
+</html>

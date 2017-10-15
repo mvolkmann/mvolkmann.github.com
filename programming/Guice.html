@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR.html1/DTD.html1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999.html">
+  <head>
+    <title>Guice</title>
+    <link rel="stylesheet" type="text/css" href="../common.css"/>
+  </head>
+  <body>
+    <h2>Guice</h2>
+    
+    <h3>Contents</h3>
+    <a href="#Introduction">Introduction</a><br/>
+    <a href="#Services">Implementing Services</a><br/>
+    <a href="#Bindings">Defining Bindings</a><br/>
+    <a href="#Instances">Obtaining Injected Instances</a><br/>
+    <a href="#Scope">Instance Scope</a><br/>
+    <a href="#BestPractices">Best Practices</a><br/>
+
+    <h3>Introduction</h3>
+    <p>
+      <a target="_blank" href="http://code.google.com/p/google-guice/">Guice</a>
+      is a dependency injection container for Java 5 and later.
+      It is similar in purpose to Spring Inversion of Control (IOC).
+      In Guice, injections points are typically defined using annotations
+      instead of XML, as is common in Spring IOC.
+    </p>
+    <p>
+      Injection creates and initializes objects.  Initialization can be
+      performed by setting fields, invoking constructors and invoking methods.
+      The values used for
+      fields, constructor parameters and method parameters
+      are specified in bindings, which are specified in modules.
+      Typically when methods are used for initialization,
+      their names begin with "set", but they can have any name.
+    </p>
+    <p>
+      Most of the Guice interfaces and classes you'll use in your code
+      are in the <code>com.google.inject</code> package.
+      I wonder why that wasn't named <code>com.google.guice</code>.
+    </p>
+    <p>
+      The basic steps to use Guice are:
+      <ol>
+        <li>Create a class that implements the <code>Module</code> interface
+          or extends <code>AbstractModule</code>.
+          This class will define bindings, for example,
+          from interfaces to implementation classes.</li>
+        <li>Annotate fields, constructor parameters and method parameters
+          that should be injected.</li>
+        <li>Create an <code>Injector</code> and use it to obtain objects,
+          for example,
+          objects from classes that implement a given interface.</li>
+      </ol>
+    </p>
+
+    <a name="Services"/>
+    <h3>Implementing Services <a class="toplink" href="#top">top</a></h3>
+
+    <p>
+      When using dependency injection, it is typical to code to interfaces.
+      Many classes that implement the same interface can be created.
+      For example, one class can be the "real" implementation
+      and another can be a "mock" implementation that is used for testing.
+      Classes that depend on an implementation of an interface
+      can have a specific implementation be injected in one of three ways.
+      <ol>
+        <li>setting a field of the interface type</li>
+        <li>invoking a constuctor with a parameter of the interface type</li>
+        <li>invoking a method with a parameter of the interface type</li>
+      </ol>
+    </p>
+
+    <p>
+      Here's an example of an interface and a class that implements it.
+      Note that neither of these contains Guice-specific code.
+    </p>
+  
+    <pre><div class="code">
+package com.ociweb.guice;
+
+public <span class="highlight">interface Service</span> {
+    int countSomething();
+}</div></pre>
+
+    <pre><div class="code">
+package com.ociweb.guice;
+
+import com.ociweb.guice.Service;
+
+public <span class="highlight">class ServiceImpl implements Service</span> {
+
+    public int countSomething() {
+        return 5;
+    }
+}</div></pre>
+
+    <a name="Bindings"/>
+    <h3>Defining Bindings <a class="toplink" href="#top">top</a></h3>
+  
+    <p>
+      Here's an example of defining a binding from an interface
+      to a class that implements it in a module.
+      A module can be implemented as a class that
+      implements the <code>Module</code> interface or
+      extends the <code>AbstractModule</code> class.
+      The latter is a little easier.
+    </p>
+    <p>
+      Method calls on a <code>Binder</code> object are intended to be
+      chained together and resemble a domain-specific language (DSL).
+      These methods include <code>bind</code>, <code>to</code>,
+      <code>in</code>, <code>toInstance</code>, <code>annotatedWith</code>,
+      <code>toProvider</code> and <code>asEagerSingleton</code>.
+    </p>
+
+    <pre><div class="code">
+package com.ociweb.guice;
+
+import com.google.inject.AbstractModule;
+
+public <span class="highlight">class MyModule extends AbstractModule</span> {
+
+    @Override
+    protected void <span class="highlight">configure()</span> {
+        <span class="highlight">bind(Service.class).to(ServiceImpl.class);</span>
+        <span class="comment">// could define additional bindings here</span>
+    }
+}</div></pre>
+
+    <a name="Instances"/>
+    <h3>Obtaining Injected Instances <a class="toplink" href="#top">top</a></h3>
+
+    <p>
+      Here's an example of a class whose instances are injected by Guice.
+      It also demonstrates obtaining injected instances.
+    </p>
+  
+    <pre><div class="code">
+package com.ociweb.guice;
+
+import com.google.inject.Guice;
+import com.google.inject.Inject;
+import com.google.inject.Injector;
+
+public class Client {
+
+    <span class="highlight">@Inject</span> <span class="comment">// field injection</span>
+    private Service service;
+
+    public static void main(String[] args) {
+        <span class="comment">// Note that createInjector can be passed any number of Module objects.</span>
+        <span class="highlight">Injector injector = Guice.createInjector(new MyModule());</span>
+
+        <span class="comment">// Use this approach for field and method injection.
+        // When both a field and a method that takes that same type
+        // are annotated with @Inject, the method is invoked.
+        // The method doesn't have to be named set{type-name}.
+        //Client client = new Client();
+        //injector.injectMembers(client);</span>
+
+        <span class="comment">// Use this approach for constructor injection.</span>
+        <span class="highlight">Client client = injector.getInstance(Client.class);</span>
+
+        client.doIt();
+    }
+
+    <span class="comment">// This constructor is used when field or method injection is used.</span>
+    public Client() {
+    }
+
+    <span class="comment">// This constructor is used when constructor injection is used.</span>
+    @Inject <span class="comment">// constructor injection</span>
+    public Client(Service service) {
+        this.service = service;
+    }
+
+    public void doIt() {
+        System.out.println(service.countSomething());
+    }
+
+    @Inject <span class="comment">// method injection</span>
+    public void setService(Service service) {
+        this.service = service;
+    }
+}</div></pre>
+    
+    <a name="Scope"/>
+    <h3>Instance Scope <a class="toplink" href="#top">top</a></h3>
+
+    <p>
+      By default, Guice creates a new instance for each injection.
+      There are three ways to make it use the same instance
+      for all injections of the same type.
+      The first way is to use the <code>in</code> method
+      when defining the binding.
+      For example, our previous binding could be written like this.
+    </p>
+
+    <pre><div class="code">
+        <span class="highlight">bind(Service.class).to(ServiceImpl.class).in(Scopes.SINGLETON);</span>
+</div></pre>
+
+    <p>
+      The second way is to annotate the implementation class with
+      <code>@Singleton</code>.  This approach should probably be avoided
+      in order to keep implementation classes free of Guice-specific code,
+      in this case the annotation.
+    </p>
+
+    <p>
+      With the previous two approaches, the singleton instance isn't created
+      until it is needed.
+      The third way creates the singleton object when Guice is initialized.
+      To do this, invoke <code>asEagerSingleton()</code> on the binding
+      instead of the <code>in</code> method.
+    </p>
+
+    <a name="BestPractices"/>
+    <h3>Best Practices <a class="toplink" href="#top">top</a></h3>
+
+    <ol>
+      <li>
+        Only ask the <code>Injector</code> for one object,
+        referred to as the "root object".
+        The class of this object should use injection to obtain references
+        to other objects on which it depends.
+        The classes of those objects should do the same.
+      </li>
+    </ol>
+
+    <hr />
+    <p style="text-align:center">
+      Copyright &#169; 2008 Object Computing, Inc. All rights reserved.
+    </p>
+  </body>
+</html>

@@ -1,0 +1,4706 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title>
+                Object Computing, Inc. - Java News Brief -
+                September&nbsp;2009</title>
+<style type="text/css">
+            body {
+                color: rgb(0, 0, 0);
+                background-color: rgb(255, 255, 255);
+                font-family: Verdana, sans-serif;
+                margin-left: 0.25in;
+                margin-right: 0.25in;
+            }
+            a.career {
+                font-weight: bold;
+            }
+            a:hover {
+                color: rgb(0, 0, 255);
+                background-color: rgb(255, 253, 160);
+            }
+            code {
+                font-family: "Courier New", sans-serif;
+            }
+            div.center {
+                text-align: center;
+            }
+            h1 {
+                text-align: center;
+            }
+            h2 {
+                text-align: left;
+            }
+            h3 {
+                text-align: left;
+            }
+            h4 {
+                text-align: left;
+            }
+            h5 {
+                text-align: left;
+            }
+            hr {
+                height: 1px;
+                color: rgb(0, 0, 0);
+                background-color: transparent;
+            }
+            hr.January {
+                height: 1px;
+                color: rgb(147, 146, 143);
+                background-color: transparent;
+            }
+            hr.February {
+                height: 1px;
+                color: rgb(72, 94, 180);
+                background-color: transparent;
+            }
+            hr.March {
+                height: 1px;
+                color: rgb(122, 96, 86);
+                background-color: transparent;
+            }
+            hr.April {
+                height: 1px;
+                color: rgb(121, 159, 214);
+                background-color: transparent;
+            }
+            hr.May {
+                height: 1px;
+                color: rgb(147, 120, 95);
+                background-color: transparent;
+            }
+            hr.June {
+                height: 1px;
+                color: rgb(131, 142, 222);
+                background-color: transparent;
+            }
+            hr.July {
+                height: 1px;
+                color: rgb(167, 79, 120);
+                background-color: transparent;
+            }
+            hr.August {
+                height: 1px;
+                color: rgb(81, 119, 156);
+                background-color: transparent;
+            }
+            hr.September {
+                height: 1px;
+                color: rgb(17, 59, 86);
+                background-color: transparent;
+            }
+            hr.October {
+                height: 1px;
+                color: rgb(78, 86, 44);
+                background-color: transparent;
+            }
+            hr.November {
+                height: 1px;
+                color: rgb(212, 130, 66);
+                background-color: transparent;
+            }
+            hr.December {
+                height: 1px;
+                color: rgb(167, 47, 81);
+                background-color: transparent;
+            }
+            kbd {
+                font-family: "Courier New", sans-serif;
+            }
+            p {
+                text-align: justify;
+            }
+            p.author {
+                text-align: center;
+            }
+            p.footer {
+                text-align: justify;
+            }
+            pre {
+                font-family: "Courier New", sans-serif;
+            }
+            .educationquicklinks {
+                text-align: center;
+            }
+            .quicklinks {
+                text-align: right;
+            }
+            .red {
+                color: rgb(255, 0, 0);
+                background-color: rgb(255, 255, 255);
+            }
+            .green {
+                color: rgb(0, 128, 0);
+                background-color: rgb(255, 255, 255);
+            }
+            .blue {
+                color: rgb(0, 0, 192);
+                background-color: rgb(255, 255, 255);
+            }
+            .code {
+                background-color: #FFFFF0;
+                border: dashed black 1px;
+                padding-left: 10px;
+            }
+        </style>
+</head>
+<body>
+<a name="top"/>
+<div name="top" class="quicklinks">
+<a href="http://www.ociweb.com">Home</a> |
+            <a href="http://www.ociweb.com/jnb/index.html">Java News Brief Archive</a> |
+            <a href="http://www.ociweb.com/training">OCI Educational Services</a>
+</div>
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td>
+<img moz-do-not-send="true" alt="" src="http://www.ociweb.com/jnb/images/OCILogo.png" width="180" height="120"/>
+</td>
+<td>
+<img moz-do-not-send="true" alt="" src="http://www.ociweb.com/jnb/images/SeptemberJavaNewsBriefLeft.png" width="10" height="58"/>
+</td>
+<td width="100%">
+<img moz-do-not-send="true" alt="" src="http://www.ociweb.com/jnb/images/SeptemberJavaNewsBriefMiddle.png" width="100%" height="58"/>
+</td>
+<td>
+<img moz-do-not-send="true" alt="" src="http://www.ociweb.com/jnb/images/SeptemberJavaNewsBriefRight.png" width="278" height="58"/>
+</td>
+</tr>
+</table>
+<div>
+<hr class="September"/>
+<img moz-do-not-send="true" alt="" src="http://www.ociweb.com/jnb/images/SeptemberTechnicalInsightoftheMonth.png" width="377" height="34"/>
+<br/>
+<br/>
+</div>
+    <h1>Software Transactional Memory</h1>
+    <p class="author">
+      by<br/>
+      <a href="http://www.ociweb.com/mark/" onclick="window.open(this.href,'_blank');return false;" shape="rect" title="Author Bio">R. Mark Volkmann</a>,
+      Partner <br/>Object Computing, Inc. (OCI)<br />
+      last updated on 9/1/09
+    </p>
+    
+    <h2>Contents</h2>
+    <ul>
+      <li>
+<a href="#Overview" shape="rect">Overview</a>
+</li>
+      <li>
+<a href="#Locks" shape="rect">Lock-based Concurrency</a>
+</li>
+      <li>
+<a href="#Actors" shape="rect">Actor-based Concurrency</a>
+</li>
+      <li>
+<a href="#TM" shape="rect">Transactional Memory</a>
+</li>
+      <li>
+<a href="#STM" shape="rect">Software Transactional Memory</a> (STM)</li>
+      <li>
+<a href="#PersistentDataStructures" shape="rect">Persistent Data Structures</a>
+</li>
+      <li>
+<a href="#STMImplementations" shape="rect">STM Implementations</a>
+</li>
+      <li>
+<a href="#ClojureOverview" shape="rect">Clojure Overview</a>
+</li>
+      <li>
+<a href="#ClojureReferenceTypes" shape="rect">Clojure Reference Types</a>
+</li>
+      <li>
+<a href="#ClojureValidatorsAndWatchers" shape="rect">Clojure Validators and Watchers</a>
+</li>
+      <li>
+<a href="#ClojureSTMHigh" shape="rect">Clojure STM - High Level</a>
+</li>
+      <li>
+<a href="#ClojureSTMLow" shape="rect">Clojure STM - Low Level</a>
+</li>
+      <li>
+<a href="#Conclusion" shape="rect">Conclusion</a>
+</li>
+      <li>
+<a href="#References" shape="rect">References</a>
+</li>
+    </ul>
+
+    <h2>
+<a name="Overview" shape="rect">Overview</a>
+</h2>
+    <p>
+      Writing software applications in which parts of the application
+      run in concurrent threads introduces many challenges
+      not present in single-threaded applications.
+      Since the order of operations isn't fixed,
+      failures can be difficult to repeat.
+      Also, thoroughly testing the software requires more effort.
+    </p>
+    <p>
+      There are two general categories of multithreaded software.
+      In one category the goal is to divide the work involved
+      in processing a single "job" into pieces
+      and run the pieces concurrently
+      in order to complete the job sooner.
+      In the other category the goal is to coordinate
+      the execution of multiple "jobs",
+      allowing them to execute concurrently
+      so that as a group they complete sooner
+      than if they were run serially.
+      In both cases there can be contention over the data being accessed.
+      However, the issue is perhaps more common and harder to avoid
+      in the second category.
+    </p>
+    <p>
+      There are many models for creating concurrent software.
+      The most popular today are based on
+      locks, actors and transactional memory.
+      This article briefly describes all three models and then
+      dives deeper into software-based transactional memory
+      (<a href="http://en.wikipedia.org/wiki/Software_transactional_memory" shape="rect">STM</a>) [<a href="#ref4" shape="rect">4</a>].
+    </p>
+    <p>
+      The goals of this article are to:
+    </p>
+    <ul>
+      <li>spread knowledge about STM</li>
+      <li>support reasoning about
+        the performance characteristics of STM</li>
+      <li>encourage implementations of STM
+        for many programming languages</li>
+      <li>facilitate the ability of interested developers
+        to suggest improvements to the STM implementation
+        in the Clojure programming language</li>
+      <li>provide developers with enough understanding of the
+        Clojure STM implementation that they can
+        develop tools to help with tuning STM usage
+        (such as tracking the number of times a transaction retries
+        and why it retries)</li>
+    </ul>
+    <p>
+      Please send feedback on errors and ways to improve explanations to
+      <a href="mailto:mark@ociweb.com" shape="rect">mark@ociweb.com</a>.
+      Updates to this article that indicate the "last updated" date
+      and provide a dated list of changes will be provided at
+      [<a href="#ref1" shape="rect">1</a>].
+    </p>
+
+    <h2>
+<a name="Locks" shape="rect">Lock-based Concurrency</a>
+</h2>
+    <p>
+      Lock-based concurrency provides a mechanism for threads
+      to safely access shared memory.
+      In its simplest form,
+      exclusive ownership of a lock must be acquired before
+      a given block of code is executed.
+      This is used to ensure that only one thread at a time
+      can execute the code.
+      In object-oriented programming languages,
+      often the lock is associated with an object
+      that is accessed by code in the block.
+      Sometimes multiple objects are accessed
+      and a single lock object is designated to provide
+      exclusive access to that group of objects.
+    </p>
+    <p>
+      Benefits of using lock-based concurrency include the following:
+    </p>
+    <ul>
+      <li>
+        Developers have explicit control over
+        when locks are obtained and released
+        which allows optimal solutions.
+      </li>
+      <li>
+        Many developers are already familiar with
+        this form of managing concurrency.
+      </li>
+      <li>
+        Many programming languages support the use of locks.
+      </li>
+    </ul>
+    <p>
+      Issues with using lock-based concurrency include the following:
+    </p>
+    <ul>
+      <li>It can be difficult to determine which lock(s)
+        need to be obtained in order for a given block of code
+        to execute safely.</li>
+      <li>Variables for which a lock should be acquired can be accessed
+        even when the wrong lock(s) are acquired
+        and even when no locks are acquired.</li>
+      <li>A thread is in a deadlock state when it is unable
+        to acquire all the locks it needs to proceed
+        because other threads own them and are themselves deadlocked.
+        This can easily occur unless locks are
+        acquired in a common order.</li>
+      <li>Recovering from errors can be complicated
+        because developers must remember to release locks
+        that were acquired by the failing code.</li>
+      <li>Correctly synchronized methods cannot be composed into
+        compound methods without additional synchronization.</li>
+      <li>The lock-based approach is pessimistic.
+        It assumes that if multiple threads are each running
+        sections of code that access the same memory
+        then only one at a time can safely run.
+        This is not always true. 
+        Making this assumption reduces the amount of
+        concurrent processing that can occur.</li>
+    </ul>
+
+    <h2>
+<a name="Actors" shape="rect">Actor-based Concurrency</a>
+</h2>
+    <p>
+      The
+      <a href="http://en.wikipedia.org/wiki/Actor_model" shape="rect">actor model</a>
+      [<a href="#ref3" shape="rect">3</a>]
+      is an alternative to shared memory concurrency,
+      such as lock-based concurrency and transactional memory.
+      Actors are software entities that
+      execute as separate processes or light-weight threads.
+      Rather than accessing shared memory,
+      actors only use and retain data
+      that is passed to them in asynchronous messages.
+      When an actor receives a message, it can do the following things
+      concurrently or in any order:
+    </p>
+    <ul>
+      <li>create new actors</li>
+      <li>send messages to other actors</li>
+      <li>specify how the next message it receives will be handled</li>
+    </ul>
+    <p>
+      Benefits of using actor-based concurrency include the following:
+    </p>
+    <ul>
+      <li>Since no memory is shared between actors,
+        access to data doesn't need to be synchronized.</li>
+    </ul>
+    <p>
+      Issues with using actor-based concurrency include the following:
+    </p>
+    <ul>
+      <li>Since memory isn't shared between actors,
+        some messages may need to be large.
+        This negatively affects performance.</li>
+      <li>Since memory isn't shared between actors,
+        the data each actor holds can become inconsistent
+        with the data held by other actors.
+        There is no general mechanism for coordinating
+        the activities of multiple actors.
+      </li>
+    </ul>
+    <p>
+      The actor model is a central feature of the
+      <a href="http://erlang.org/" shape="rect">Erlang</a> programming language.
+      It is also supported by
+      <a href="http://www.scala-lang.org/" shape="rect">Scala</a> and
+      <a href="http://www.haskell.org/" shape="rect">Haskell</a>,
+      but not <a href="http://clojure.org" shape="rect">Clojure</a>
+      [<a href="#ref13" shape="rect">13</a>].
+    </p>
+    <p>
+      For a more detailed description of actors, see
+      <a href="http://en.wikipedia.org/wiki/Actor_model" shape="rect">http://en.wikipedia.org/wiki/Actor_model</a>.
+    </p>
+
+    <h2>
+<a name="TM" shape="rect">Transactional Memory</a>
+</h2>
+    <p>
+      Transactional memory provides
+      an alternative to lock-based and actor-based concurrency
+      that simplifies writing applications in which
+      concurrently running threads access shared memory.
+    </p>
+    <p>
+      The concept is similar to that of database transactions
+      which provide ACID characteristics:
+    </p>
+    <ul>
+      <li>"A" is for atomic.</li>
+      <li>"C" is for consistent.</li>
+      <li>"I" is for isolated.</li>
+      <li>"D" is for durable.</li>
+    </ul>
+    <p>
+      "Atomic" means that either
+      all the changes in a transaction will be made successfully (commit)
+      or none of them will be (rollback).
+      "Consistent" means that all the data seen by a transaction
+      at its start and end will be consistent.
+      In other words, constraints on the data will not be violated.
+      "Isolated" means that changes made inside a transaction
+      are not visible outside the transaction until it commits.
+      "Durable" means that after a transaction has committed,
+      changes it made will not be lost,
+      even if there is a network, hardware or software malfunction.
+    </p>
+    <p>
+      Transactions are demarcated in code by
+      a special syntax that varies across implementations.
+      From the perspective of other threads,
+      all the memory changes made within a transaction
+      appear to happen at the same moment
+      when a transaction is finished committing.
+      The changes are not visible to other threads before then.
+      Transactions operate on a consistent snapshot of the memory.
+      If any memory that is written within transaction "A"
+      is modified and committed by transaction "B" before "A" commits,
+      the code in "A" is rerun.
+      These characteristics make transactional memory
+      atomic, consistent and isolated.
+      Note that transactional memory is not durable.
+      If the software crashes or there is a hardware malfunction,
+      data in memory is typically lost.
+      When durability is required,
+      using a relational database is often recommended.
+    </p>
+    <p>
+      Transactional memory is optimistic.
+      Each transaction assumes it will be able to run its code
+      without concurrently running threads
+      changing the values it writes.
+      When this assumption doesn't hold, the transaction
+      discards all the work it has done and retries from the beginning.
+      The possibility of retries makes it necessary to
+      avoid any actions (side effects) that
+      shouldn't be repeated or cannot be undone.
+      This includes I/O operations.
+      <i>Clojure provides a solution for this that involves
+      a combination of Refs and Agents.  This is discussed later.</i>
+    </p>
+    <p>
+      In descriptions of the retry process later,
+      this article distinguishes between
+      a "transaction" and a "transaction try".
+      A transaction includes one or more transaction tries.
+      A transaction that completes without having to retry
+      runs a single transaction try.
+      Otherwise there are more than one.
+    </p>
+    <p>
+      Transactional memory distinguishes between
+      committed values of variables and in-transaction values.
+      Inside a transaction, the value of a variable starts out as either
+      its initial value or the last value committed by a transaction.
+      When the value of a variable is modified inside a transaction,
+      that change is only seen and used in the transaction.
+      When the transaction commits,
+      changes become visible to code outside the transaction.
+    </p>
+    <p>
+      Benefits of using transactional memory include the following:
+    </p>
+    <ul>
+      <li>It provides increased concurrency which means there are
+        more opportunities for processing to be
+        performed simultaneously instead of serially.
+        This is especially true for transactions that only read data.
+        Lock-based concurrency doesn't allow
+        this kind of overlapping execution because
+        it takes a pessimistic approach rather than an optimistic one.</li>
+      <li>It is easier to write correct code using transactional memory
+        than writing code that uses locks.
+        The need to determine the locks to be acquired
+        and the order in which to acquire them is removed.
+        Instead, developers identify sections of code
+        that require a consistent view of
+        the set of variables it reads and writes.</li>
+      <li>Implementations can guarantee that
+      <a href="http://en.wikipedia.org/wiki/Deadlock" shape="rect">deadlock</a>
+      [<a href="#ref5" shape="rect">5</a>],
+      <a href="http://en.wikipedia.org/wiki/Deadlock#Livelock" shape="rect">livelock</a>
+      [<a href="#ref6" shape="rect">6</a>]
+      and <a href="http://en.wikipedia.org/wiki/Race_condition" shape="rect">race conditions</a>
+      [<a href="#ref7" shape="rect">7</a>] will never occur.</li>
+    </ul>
+    <p>
+      Issues with using transactional memory include the following:
+    </p>
+    <ul>
+      <li>There is a potential for a large number of transaction retries
+        resulting in wasted work.</li>
+      <li>There is overhead imposed by transaction bookkeeping such as
+        storing histories of committed values,
+        storing in-transaction values and
+        acquiring locks before committing changes.</li>
+      <li>Tool support is currently lacking.  For example, having tools that
+        identify how often each transaction retries and why they retry
+        (such as learning which variables had write conflicts)
+        would make it easier to tune applications when necessary.</li>
+    </ul>
+    <p>
+      Transactional memory works best in programming languages
+      that distinguish between mutable and immutable variables
+      and require mutable variables to be mutated inside a transaction
+      (like in Clojure and Haskell).
+      Without these features, developers are on their honor
+      to only modify mutable variables inside transactions.
+      They must ensure that no data that requires coordinated changes
+      is modified outside an STM transaction.
+      This is similar to the issue with lock-based concurrency
+      where developers are on their honor to
+      acquire the correct lock(s) before accessing variables
+      where this is expected.
+    </p>
+
+    <h3>Garbage Collection Analogy</h3>
+    <p>
+      Dan Grossman, an associate professor at the University of Washington,
+      wrote a paper titled
+      "<a href="http://www.cs.washington.edu/homes/djg/papers/analogy_oopsla07.pdf" shape="rect">The Transactional Memory / Garbage Collection Analogy</a>"
+      [<a href="#ref8" shape="rect">8</a>].
+      The paper illustrates several ways in which
+      transactional memory (TM) is similar to garbage collection (GC).
+      Some quotes from a related presentation follow:<br/>
+      "Many used to think GC was too slow without hardware."<br/>
+      "Many used to think GC was about to take over, decades before it did."<br/>
+      "Many used to think we needed a back door for when GC was too approximate."<br/>
+      These same thoughts are often expressed about TM today.
+      Perhaps over time these thoughts will change in the same way
+      they have changed for GC.
+      Dan discusses this paper in
+      <a href="http://www.se-radio.net/podcast/2007-09/episode-68-dan-grossman-garbage-collection-and-transactional-memory" shape="rect">episode 68</a>
+      of the "Software Engineering Radio" podcast [<a href="#ref9" shape="rect">9</a>].
+    </p>
+
+    <h2>
+<a name="STM" shape="rect">Software Transactional Memory</a> (STM)</h2>
+    <p>
+      Transactional memory can be implemented by hardware or software.
+      This article focuses on software implementations
+      which are commonly referred to as STM.
+      STM is an integral part of some programming languages.
+      For others, it is supported through add-on libraries.
+    </p>
+    
+    <h2>
+<a name="PersistentDataStructures" shape="rect">Persistent Data Structures</a>
+</h2>
+    <p>
+      One way programming languages avoid the issue
+      of data being modified by concurrently running threads
+      is by providing immutable data structures or collection classes.
+      Clearly data that cannot change doesn't need to be protected.
+      It is often desirable to be able to create
+      new data structures that are similar to existing ones, for example,
+      a list with a new item added at one end
+      or a hash map with a new key/value pair added.
+      <a href="http://en.wikipedia.org/wiki/Persistent_data_structures" shape="rect">Persistent data structures</a> [<a href="#ref14" shape="rect">14</a>]
+      provide a way to do this where
+      new data structures share memory with existing ones.
+      Using these saves both memory and time.
+      The benefit of having immutable data structures
+      that are not persistent is questionable
+      since creating new ones from them is slow
+      and can consume a large amount of memory.
+    </p>
+
+    <h2>
+<a name="STMImplementations" shape="rect">STM Implementations</a>
+</h2>
+    <p>
+      Many
+      <a href="http://en.wikipedia.org/wiki/Software_transactional_memory#Implementations" shape="rect">STM implementations</a>
+      are listed in the STM Wikipedia entry [<a href="#ref15" shape="rect">15</a>].
+      Programming languages for which STM implementations exist include:
+      C, C++, C#, Clojure, Common Lisp, Haskell, Java, MUMPS,
+      OCaml, Perl 6, Python, Scheme and Smalltalk.
+      For many of these languages there are multiple STM implementations
+      from which to choose.
+    </p> 
+    <p> 
+      Just as there are many ways to implement garbage collection,
+      there are many ways to implement STM.
+      It is difficult to make general statements
+      about the characteristics of STM implementations,
+      such as memory usage and performance.
+      The remainder of this article focuses on the Clojure implementation.
+    </p> 
+    <p> 
+      One aspect of the Clojure STM implementation
+      that differs from many others is that
+      data coordinated by transactions
+      cannot be modified outside a transaction.
+      With some implementations, developers are
+      "on their honor" to use them correctly
+      (for example,
+      <a href="http://sites.google.com/site/deucestm/" shape="rect">Deuce STM</a>).
+    </p> 
+    
+    <h2>
+<a name="ClojureOverview" shape="rect">Clojure Overview</a>
+</h2>
+    <p>
+      <a href="http://clojure.org" shape="rect">Clojure</a>
+      is a functional programming language that
+      is a Lisp dialect and runs on the Java Virtual Machine (JVM).
+      It was created by
+      <a href="http://en.wikipedia.org/wiki/Rich_Hickey" shape="rect">Rich Hickey</a>.
+      For a detailed discussion on Clojure, see my earlier article
+      [<a href="#ref2" shape="rect">2</a>].
+    </p>
+
+    <h2>
+<a name="ClojureReferenceTypes" shape="rect">Clojure Reference Types</a>
+</h2>
+    <p>
+      In Clojure all variables are immutable
+      unless they refer to a reference object.
+      There are four types of reference objects: Var, Atom, Agent and Ref.
+      Each type is described below.
+      For more detail, including sample code, see my earlier article.
+    </p>
+    
+    <h3>
+<a name="Vars" shape="rect">Vars</a>
+</h3>
+    <p>
+      Vars are variables that have
+      a root value that is shared between all threads
+      and can have thread-specific values.
+      The functions that modify the value of a Var include
+      <code>def</code>, <code>set!</code> and <code>binding</code>.
+      The value of a Var is obtained by directly referencing it,
+      as in other programming languages.
+      Vars are mainly used for constants.
+      In general, modifying the value of a Var is discouraged.
+    </p>
+    <p>
+      One use of Vars where modifying the value is seen as acceptable
+      is for configuration variables.
+      For example, if the special variable
+      <code>*warn-on-reflection*</code> is set to true,
+      Clojure will output warning messages whenever
+      it uses reflection to determine the type of an object.
+      This is useful while tuning an application for performance
+      as it provides guidance in determining where
+      adding optional type hints may help.
+    </p>
+
+    <h3>
+<a name="Atoms" shape="rect">Atoms</a>
+</h3>
+    <p>
+      Atoms are variables that have a single value
+      that is shared across all threads.
+      They are accessed in an atomic way, so it is safe for
+      multiple threads to concurrently read and write them.
+      The functions that modify the value of an Atom include
+      <code>reset!</code>,
+      <code>compare-and-set!</code> and
+      <code>swap!</code>.
+      The value of an Atom is obtained by dereferencing it
+      using <code>@<i>var-name</i>.</code>
+    </p>
+
+    <h3>
+<a name="Agents" shape="rect">Agents</a>
+</h3>
+    <p>
+      Agents are variables that, like Atoms, have a single value
+      that is shared across all threads.
+      They are modified asynchronously by invoking a function,
+      called an "action", in another thread.
+      The value returned by the action becomes the new value of the Agent.
+      The value of an Agent is obtained by dereferencing it
+      using <code>@<i>var-name</i>
+</code>.
+    </p>
+    <p>
+      Actions sent to the same Agent are queued up so that
+      only one action at a time will be run per Agent.
+      The functions that queue an action are
+      <code>
+<a href="#clj-send" shape="rect">send</a>
+</code> and
+      <code>
+<a href="#clj-send-off" shape="rect">send-off</a>
+</code>.
+      They return immediately since
+      the specified action is executed asynchronously.
+      They differ only in the thread pool that is used.
+      One pool has a fixed size and the other has a variable size.
+      The action is is passed the current value of the Agent
+      and any other arguments that were passed to
+      <code>
+<a href="#clj-send" shape="rect">send</a>
+</code> or
+      <code>
+<a href="#clj-send-off" shape="rect">send-off</a>
+</code>.
+    </p>
+    <p>
+      The <code>await</code> function pauses the current thread
+      until all actions sent to a given set of Agents have completed.
+      The <code>await-for</code> function is similar,
+      but supports a timeout.
+    </p>
+    <p>
+      Actions sent to agents inside a transaction
+      are held until after the transaction commits.
+      This feature is sometimes used as a way to attach
+      code that has side effects, such as I/O, to a transaction.
+    </p>
+
+    <h3>
+<a name="Refs" shape="rect">Refs</a>
+</h3>
+    <p>
+      Refs are variables that, like Atoms and Agents, have a single value
+      that is shared across all threads.
+      They can only be modified inside an STM transaction.
+      The functions that modify the value of a Ref include
+      <code>
+<a href="#clj-ref-set" shape="rect">ref-set</a>
+</code>,
+      <code>
+<a href="#clj-alter" shape="rect">alter</a>
+</code> and
+      <code>
+<a href="#clj-commute" shape="rect">commute</a>
+</code>.
+      The value of a Ref is obtained by dereferencing it
+      using <code>@<i>var-name</i>.</code>
+    </p>
+    <p>
+      In this article, when discussing Refs,
+      the terms "read" and "dereference" are used synonymously.
+      A transaction is not required in order to dereference a Ref,
+      but one is needed to get a consistent snapshot
+      when dereferencing multiple Refs.
+    </p>
+    <p>
+      Refs are the only type of variable in Clojure
+      that is coordinated by STM.
+      For this reason, they are the focus of this article.
+    </p>
+    <p>
+      The most direct way to change the value of a Ref
+      is to use the <code>ref-set</code> function.
+      It takes the Ref whose value is to be modified and the new value.
+    </p>
+    <p>
+      For both the <code>
+<a href="#clj-alter" shape="rect">alter</a>
+</code>
+      and <code>
+<a href="#clj-commute" shape="rect">commute</a>
+</code> functions
+      the first argument is the Ref whose value is to be modified
+      and the second argument is a function that returns the new value.
+      When this function is invoked, it is passed
+      the current value of the Ref and
+      any additional arguments that were passed to
+      <code>
+<a href="#clj-alter" shape="rect">alter</a>
+</code>
+      or <code>
+<a href="#clj-commute" shape="rect">commute</a>
+</code>.
+      The return value becomes the new value of the Ref.
+    </p>
+    <p>
+      Using <code>
+<a href="#clj-alter" shape="rect">alter</a>
+</code>
+      instead of <code>
+<a href="#clj-ref-set" shape="rect">ref-set</a>
+</code>
+      is typically seen as more idiomatic.  A conversation with the CIP
+      (Clojure Idiomatic Police) might go as follows:
+      <br/>
+      CIP: Why did you use <code>
+<a href="#clj-ref-set" shape="rect">ref-set</a>
+</code>
+           instead of <code>
+<a href="#clj-alter" shape="rect">alter</a>
+</code>?
+      <br/>
+      You: Well, I already had the value I wanted to use for the Ref,
+           so I just passed it to
+          <code>
+<a href="#clj-ref-set" shape="rect">ref-set</a>
+</code>.
+      <br/>
+      CIP: Where did you get that value?
+      <br/>
+      You: It was computed in a function I called.
+      <br/>
+      CIP: Why didn't you just pass the Ref,
+           the function and its arguments to
+           <code>
+<a href="#clj-alter" shape="rect">alter</a>
+</code>?
+           Don't be afraid to pass functions to functions.
+           This is encouraged in functional programming.
+    </p>
+    <p>
+      In most cases, <code>
+<a href="#clj-alter" shape="rect">alter</a>
+</code>
+      is preferred over <code>
+<a href="#clj-commute" shape="rect">commute</a>
+</code>.
+      Using <code>
+<a href="#clj-commute" shape="rect">commute</a>
+</code>
+      is only appropriate when
+      the order of changes to the Ref
+      made by concurrently running transactions doesn't matter.
+      This is related to the mathematical definition
+      of "commutative" which includes the phrases
+      "<i>the result obtained ... does not differ with the order</i>".
+      Choosing to use <code>
+<a href="#clj-commute" shape="rect">commute</a>
+</code>
+      basically says
+      "I'm going to modify a Ref, but I don't care if another transaction
+      modifies it before I commit my change.
+      Decisions I make in this transaction based on my value of the Ref
+      will still be correct.
+      I want the value of the Ref to be recomputed when I'm ready to commit
+      based on the newest value of the Ref."
+    </p>
+    <p>
+      Some situations where <code>
+<a href="#clj-commute" shape="rect">commute</a>
+</code>
+      makes sense include accumulating objects in a collection
+      and storing values calculated from a collection
+      (such as a minimum, maximum or average).
+      Suppose a collection is held in a Ref.
+      If two concurrent transactions add an object to the collection,
+      in many cases it doesn't matter which adds to it first.
+      There may be no reason for transaction "A" to retry
+      just because transaction "B" added to the collection
+      before "A" committed.
+      Suppose another Ref holds a value computed from the collection
+      such as the maximum value in it.
+      There may be no reason for transaction "A" to retry just because
+      transaction "B" committed a change to the maximum value.
+      It can be safely and correctly computed again based on
+      the latest contents of the collection.
+    </p>
+    <p>
+      When <code>
+<a href="#clj-ref-set" shape="rect">ref-set</a>
+</code>
+      or <code>
+<a href="#clj-alter" shape="rect">alter</a>
+</code> is used and
+      another transaction has committed a change to the Ref
+      since the current transaction try began,
+      the current transaction will be retried.
+      When <code>
+<a href="#clj-commute" shape="rect">commute</a>
+</code> is used,
+      the current transaction will continue
+      and the in-transaction value of the Ref will be
+      passed to the function that is passed to
+      <code>
+<a href="#clj-commute" shape="rect">commute</a>
+</code>.
+      This results in better performance because retries aren't required.
+    </p>
+    <p>
+      The functions and arguments passed to
+      <code>
+<a href="#clj-commute" shape="rect">commute</a>
+</code>
+      during a single transaction execution are saved in a sorted map.
+      The keys in the map are <code>Ref</code> objects and
+      the values are lists of objects
+      that describe the functions and their arguments.
+      The map is sorted based on the order in which
+      the <code>Ref</code> objects were created.
+      When the transaction is committing,
+      a write lock is acquired for each Ref in the map in sorted order
+      and all its commute functions are called a second time
+      to determine the Ref values that will be committed.
+      Obtaining the write locks in this sorted order prevents deadlocks
+      that might otherwise occur if multiple transactions
+      attempt to commit their changes at the same time.
+      The Ref values passed to the commute functions this time
+      depend on whether another transaction has committed
+      a new value since the current transaction try started.
+      If so then the newest committed values are used.
+      Otherwise, the in-transaction value is used.
+      This means the values passed to the commute functions
+      can differ from the values passed the first time they are called.
+    </p>
+    <p>
+      Within a transaction, a Ref cannot be set to a new value
+      using <code>
+<a href="#clj-ref-set" shape="rect">ref-set</a>
+</code>
+      or <code>
+<a href="#clj-alter" shape="rect">alter</a>
+</code>
+      after <code>
+<a href="#clj-commute" shape="rect">commute</a>
+</code>
+      has been called on it.
+    </p>
+    <p>
+      Sometimes it is desirable to prevent other transactions
+      from changing the value of a Ref that will be
+      read by the current transaction,
+      or perhaps modified later in the current transaction.
+      (An example is preventing <a href="#write-skew" shape="rect">write skew</a>
+      which is discussed later.)
+      This is achieved by calling
+      <code>
+<a href="#clj-ensure" shape="rect">ensure</a>
+</code> on the Ref.
+      While this guarantees that
+      no other transaction can modify the Ref,
+      it doesn't guarantee that
+      the current transaction will be able to modify it.
+      This is because any number of transactions can call
+      <code>
+<a href="#clj-ensure" shape="rect">ensure</a>
+</code> on the same Ref.
+    </p>
+
+    <p>
+      The following table is useful for selecting between
+      Atoms, Agents and Refs when creating mutable variables.
+      The word "coordinated" here means managed by a transaction.
+    </p>
+    <table border="1">
+      <tr>
+        <th colspan="1" rowspan="1"/>
+        <th colspan="1" rowspan="1">Uncoordinated</th>
+        <th colspan="1" rowspan="1">Coordinated</th>
+      </tr>
+      <tr>
+        <th colspan="1" rowspan="1">Synchronous</th>
+        <td colspan="1" rowspan="1">Atom</td>
+        <td colspan="1" rowspan="1">Ref</td>
+      </tr>
+      <tr>
+        <th colspan="1" rowspan="1">Asynchronous</th>
+        <td colspan="1" rowspan="1">Agent</td>
+        <td colspan="1" rowspan="1">
+<i>none</i>
+</td>
+      </tr>
+    </table>
+
+    <h2>
+<a name="ClojureValidatorsAndWatchers" shape="rect">Clojure Validators and Watchers</a>
+</h2>
+    <p>
+      Before diving into the implementation details of Clojure STM,
+      it is important to have a basic understanding of
+      some features of Clojure that are related to the implementation.
+    </p>
+    <p>
+      Validators are functions that are invoked
+      whenever the value of a given reference type object is being modified.
+      If the function determines that the change isn't "valid",
+      it can return false or
+      throw an exception to prevent the change from occurring.
+      Each reference type object can have only one validator function.
+      The <code>
+<a href="#clj-set-validator" shape="rect">set-validator!</a>
+</code>
+      function assigns a validator function to a reference object.
+    </p>
+    <p>
+      There are two mechanisms for being notified
+      when the value of a reference object may have changed,
+      watch functions and watcher Agents.
+    </p>
+    <p>
+      Watch functions must take four arguments which are
+      an identifier "key", the reference object that may have changed,
+      its old value and its new value.
+      The key can be used to indicate the purpose of the watch
+      or it can be any data to be made available to the watch function
+      when it is invoked.
+      Each reference object being watched can have
+      a single watch function for each key value.
+      A watch function is registered with a reference object by calling
+      the <code>
+<a href="#clj-add-watch" shape="rect">add-watch</a>
+</code> function
+      which takes the reference object, a key and a watch function.
+      A watch function is removed from a reference object by calling the
+      <code>
+<a href="#clj-remove-watch" shape="rect">remove-watch</a>
+</code> function.
+      which takes a reference object and a key.
+    </p>
+    <p>
+      Watcher Agents are notified that a reference object has changed
+      by sending a given action to the Agent.
+      The action function is passed the current value of the Agent
+      and the reference object that changed, but not the old value.
+      A watcher Agent is registered with a reference object by calling
+      the <code>
+<a href="#clj-add-watcher" shape="rect">add-watcher</a>
+</code> function
+      which takes a reference object,
+      a send type (which identifies the thread pool to be used),
+      an Agent, and the action function to be sent.
+      The <code>
+<a href="#clj-add-watcher" shape="rect">add-watcher</a>
+</code> function
+      creates an anonymous function that
+      sends the action to the Agent and
+      registers that with the reference object by passing it to
+      the <code>
+<a href="#clj-add-watch" shape="rect">add-watch</a>
+</code> function.
+      The Agent is used as the key.
+      A watcher Agent is removed from a reference object by calling the
+      <code>
+<a href="#clj-remove-watcher" shape="rect">remove-watcher</a>
+</code>
+      function which takes the reference object and the Agent.
+    </p>
+
+    <h2>
+<a name="ClojureSTMHigh" shape="rect">Clojure STM - High Level</a>
+</h2>
+    <p>
+      This section describes the current Clojure STM implementation
+      at a high level.
+      Low level details are provided later in this article.
+      The information is accurate as of Clojure 1.0
+      (git commit 94c4a6a on 8/3/2009),
+      but is subject to change in the future.
+      This article should not be viewed as a specification
+      for Clojure STM.
+    </p>
+    <p>
+      It should be emphasized that understanding
+      the details of the Clojure STM implementation
+      is NOT required in order to use it successfully.
+      Still, there are many reasons (listed in the goals of this article)
+      that one might be interested in the details.
+    </p>
+    <p>
+      Currently Clojure is implemented by
+      a combination of Java and Clojure source code.
+      Nearly all the STM implementation is written in Java.
+      An effort is underway to dramatically increase
+      the amount that is implemented in Clojure.
+      When that effort is complete, most or all of the code described
+      in this and the next section will be discarded.
+      It seems reasonable to speculate that
+      the STM mechanisms will remain similar.
+    </p>
+    <p>
+      My intention is to update this article
+      whenever the Clojure STM implementation changes
+      so it remains an accurate source of information
+      that is easier to digest than simply reading the source code.
+    </p>
+
+    <h3>Design</h3>
+    <p>
+      The Clojure STM implementation is based on
+      <a href="http://en.wikipedia.org/wiki/Multiversion_concurrency_control" shape="rect">multi-version concurrency control</a> (MVCC) [<a href="#ref16" shape="rect">16</a>] and
+      <a href="http://en.wikipedia.org/wiki/Snapshot_isolation" shape="rect">snapshot isolation</a> [<a href="#ref17" shape="rect">17</a>].
+      The main difference between the standard definition of these concepts
+      and the Clojure implementation is that
+      Clojure works with in-memory values of variables
+      instead of database tables, rows and columns.
+      Wikipedia describes these concepts very well as follows.
+      Parts related to databases are in square brackets.
+      My clarifiations are in non-italic text.
+    </p>
+    <p>
+<i>
+      "<b>MVCC</b> uses timestamps or increasing transaction IDs to achieve serializability. MVCC ensures a transaction never has to wait for a [database] object by maintaining several versions of an object. Each version would have a write timestamp and it would let a transaction read the most recent version of an object which precedes the transaction timestamp."
+    </i>
+</p>
+    <p>
+<i>
+      "If a transaction (Ti) wants to write to an object, and if there is another transaction (Tk) </i>(that also wants to write it)<i>, the timestamp of Ti must precede the timestamp of Tk for the object write operation to succeed. Which is to say a write cannot complete if there are outstanding transactions with an earlier timestamp."
+    </i>
+</p>
+    <p>
+<i>
+      "Every object would also have a read timestamp, and if a transaction Ti wanted to write to object P, and the timestamp of that transaction is earlier than the object's read timestamp, the transaction Ti is aborted and restarted. Otherwise, Ti creates a new version of P and sets the read/write timestamps of P to the timestamp of the transaction."</i>
+      (The Clojure STM implementation does not use read timestamps.)
+    </p>
+    <p>
+<i>
+"The obvious drawback to this system is the cost of storing multiple versions of objects [in the database]. On the other hand reads are never blocked, which can be important for workloads mostly involving reading values [from the database]. MVCC is particularly adept at implementing true snapshot isolation, something which other methods of concurrency control frequently do either incompletely or with high performance costs."
+    </i>
+</p>
+    <p>
+<i>
+      "A transaction executing under <b>snapshot isolation</b> appears to operate on a personal snapshot [of the database], taken at the start of the transaction. When the transaction concludes, it will successfully commit only if the values updated by the transaction have not been changed externally since the snapshot was taken."
+    </i>
+</p>
+    <p>
+      An issue with snapshot isolation is that
+      it allows <b>
+<a name="write-skew" shape="rect">write skew</a>
+</b>.
+      This happens when concurrent transactions read common sets of data
+      and make changes to different data within that set
+      and there are constraints on the data.
+    </p>
+    <p>
+      For example, suppose a town places a restriction (constraint)
+      on the total number of dogs and cats that a family can own.
+      Let's say the limit is three.
+      When a person obtains a new dog or cat,
+      they are entered in a database.
+      John and his wife Mary have one dog and one cat.
+      John adopts another dog while at the same time Mary adopts a cat.
+      These transactions occur concurrently.
+      Remember that transactions only see
+      changes made by other transactions that have committed.
+      John's transaction attempts to modify the number of dogs they own.
+      The constraint isn't violated because they now have a total of three.
+      Mary's transaction attempts to modify the number of cats they own.
+      Like in the other transaction,
+      the constraint isn't violated because they now have a total of three.
+      Both transactions are allowed to commit, resulting in
+      a total of four dogs and cats which violates the constraint.
+      This is permitted because neither transaction
+      attempts to commit a change to data that
+      is being modified by another concurrent transaction.
+    </p>
+    <p>
+      Clojure provides a mechanism for avoiding write skew.
+      See the <code>
+<a href="#clj-ensure" shape="rect">ensure</a>
+</code> function
+      discussed later.
+    </p>
+
+    <h3>Transaction Creation</h3>
+    <p>
+      In Clojure an STM transaction is created by
+      passing any number of expressions, called the body,
+      to the <code>
+<a href="#clj-dosync" shape="rect">dosync</a>
+</code> macro
+      (defined in <code>src/clj/clojure/core.clj</code>).
+      This greatly simplifies coding for concurrency
+      over using explicit locks.
+      It is not necessary to indicate which Refs
+      might be modified in the transaction.
+      However, developers still need to make good decisions
+      about what code should be inside it a
+      <code>
+<a href="#clj-dosync" shape="rect">dosync</a>
+</code> call,
+      based on the set of Refs that need to be in a consistent state
+      while the body executes.
+    </p>
+
+    <h3>Java Concurrency</h3>
+    <p>
+      The current Clojure STM implementation utilizes
+      several Java concurrency classes.  These include:
+    </p>
+    <ul>
+      <li>
+<code>
+<a href="http://java.sun.com/javase/6/docs/api/java/util/concurrent/atomic/AtomicInteger.html" shape="rect">java.util.concurrent.AtomicInteger</a>
+</code>
+</li>
+      <li>
+<code>
+<a href="http://java.sun.com/javase/6/docs/api/java/util/concurrent/atomic/AtomicLong.html" shape="rect">java.util.concurrent.AtomicLong</a>
+</code>
+</li>
+      <li>
+<code>
+<a href="http://java.sun.com/javase/6/docs/api/java/util/concurrent/Callable.html" shape="rect">java.util.concurrent.Callable</a>
+</code>
+</li>
+      <li>
+<code>
+<a href="http://java.sun.com/javase/6/docs/api/java/util/concurrent/CountDownLatch.html" shape="rect">java.util.concurrent.CountDownLatch</a>
+</code>
+</li>
+      <li>
+<code>
+<a href="http://java.sun.com/javase/6/docs/api/java/util/concurrent/TimeUnit.html" shape="rect">java.util.concurrent.TimeUnit</a>
+</code>
+</li>
+      <li>
+<code>
+<a href="http://java.sun.com/javase/6/docs/api/java/util/concurrent/locks/ReentrantReadWriteLock.html" shape="rect">java.util.concurrent.locks.ReentrantReadWriteLock</a>
+</code>
+</li>
+    </ul>
+
+    <h3>LockingTransaction and Ref Classes</h3>
+    <p>
+      The main classes in the Clojure STM implementation are
+      <code>LockingTransaction</code> and <code>Ref</code>,
+      both in the <code>clojure.lang</code> package.
+      Both are located in the <code>src/jvm/clojure/lang</code> directory.
+      UML class diagrams showing the attributes and methods of
+      those classes and related classes appear below.
+      It will be useful to refer to these diagrams often
+      while reading the remainder of this article.
+    </p>
+    <p>
+<img src="images/ClojureRef.png" alt="What's a Clojure Ref? image goes here!"/>
+</p>
+    <p>
+<img src="images/ClojureTxn.png" alt="What's a Clojure Transaction? image goes here!"/>
+</p>
+    <p>
+      The <code>
+<a href="#clj-dosync" shape="rect">dosync</a>
+</code> macro call
+      that wraps each transaction body
+      calls the <code>
+<a href="#clj-sync" shape="rect">sync</a>
+</code> macro which calls
+      the <code>LockingTransaction</code> static method
+      <code>
+<a href="#runInTransaction" shape="rect">runInTransaction</a>
+</code>.
+      The <code>
+<a href="#clj-sync" shape="rect">sync</a>
+</code> macro
+      passes body of the transaction
+      to <code>
+<a href="#runInTransaction" shape="rect">runInTransaction</a>
+</code>
+      as an anonymous function.
+      Each thread has one <code>LockingTransaction</code> object,
+      maintained as a
+      <code>
+<a href="http://java.sun.com/javase/6/docs/api/java/lang/ThreadLocal.html" shape="rect">ThreadLocal</a>
+</code>
+      variable.
+      If a <code>LockingTransaction</code> object hasn't yet been created
+      for the current thread then one is created.
+      If the current thread is already running a transaction
+      then the anonymous function is called inside it,
+      i.e., transactions compose.
+      Otherwise a new transaction is started
+      and the function is called inside it.
+    </p>
+
+    <h3>Transaction Status</h3>
+    <p>
+      The status of a transaction is always
+      one of the following five values:
+    </p>
+    <ul>
+      <li>RUNNING</li>
+      <li>COMMITTING</li>
+      <li>RETRY</li>
+      <li>KILLED</li>
+      <li>COMMITTED</li>
+    </ul>
+    <p>
+      The meaning of each of these status values is self evident,
+      except perhaps RETRY and KILLED.
+    </p>
+    <p>
+      When the status is RETRY, the transaction will attempt a retry
+      but hasn't started the next try yet.
+      When that occurs, the status changes to <code>RUNNING</code>.
+    </p>
+    <p>
+      There are two situations that cause the status of a transaction
+      to be set to KILLED.
+      The first is when the <code>
+<a href="#abort" shape="rect">abort</a>
+</code> method
+      is called on a transaction.
+      That sets the status to KILLED and
+      throws an <code>AbortException</code>
+      which causes the transaction to stop without retrying.
+      (In the current version of Clojure, no code calls
+      <code>
+<a href="#abort" shape="rect">abort</a>
+</code>.)
+      The second is when the <code>
+<a href="#barge" shape="rect">barge</a>
+</code> method
+      (see the section "<a href="#barging" shape="rect">Barging</a>" below)
+      is called on a transaction.
+      That sets the status to KILLED and
+      allows the transaction to retry.
+    </p>
+
+    <h3>Committed Values</h3>
+    <p>
+      Each <code>Ref</code> object maintains a chain of its
+      committed values (history) in its
+      <code>
+<a href="#tvals" shape="rect">tvals</a>
+</code> field.
+      The length of the chain is controlled by the fields
+      <code>
+<a href="#minHistory" shape="rect">minHistory</a>
+</code> and
+      <code>
+<a href="#maxHistory" shape="rect">maxHistory</a>
+</code>.
+      These default to zero and ten, respectively,
+      but can differ for each <code>Ref</code> object.
+      Other values can be specified when Refs are created
+      by passing options to the <code>ref</code> function.
+      They can also be modified using the
+      <code>
+<a href="#clj-ref-min-history" shape="rect">ref-min-history</a>
+</code> and
+      <code>
+<a href="#clj-ref-max-history" shape="rect">ref-max-history</a>
+</code> functions.
+      See the section "<a href="#faults" shape="rect">Faults</a>" below
+      to learn why the chain length matters.
+    </p>
+
+    <h3>Locks</h3>
+    <p>
+      Each <code>Ref</code> object has a
+      <code>
+<a href="http://java.sun.com/javase/6/docs/api/java/util/concurrent/locks/ReentrantReadWriteLock.html" shape="rect">ReentrantReadWriteLock</a>
+</code>.
+      Any number of concurrent transactions can hold its read lock
+      OR a single transaction can hold its write lock.
+      The only time one of these locks is held for the duration
+      of a transaction is when <code>ensure</code> is called on a Ref.
+      In that case the transaction will hold the read lock until
+      either the Ref is modified in the transaction
+      or the transaction commits.
+      There is no circumstance under which a write lock
+      will be held for the duration of a transaction.
+      Write locks are obtained only briefly
+      when certain things occur during a transaction
+      and then quickly released.
+      They are acquired again when the transaction commits
+      and then released when the commit completes.
+      For more details on how these
+      <code>
+<a href="http://java.sun.com/javase/6/docs/api/java/util/concurrent/locks/ReentrantReadWriteLock.html" shape="rect">ReentrantReadWriteLock</a>
+</code>s
+      are used, see the "Clojure STM - Low Level" section
+      which describes the <a href="#lock-field" shape="rect">
+<code>lock</code>
+</a> field
+      in <code>Ref</code> class.
+    </p>
+    <p>
+      Calling <code>
+<a href="#clj-ref-set" shape="rect">ref-set</a>
+</code>
+      or <code>
+<a href="#clj-alter" shape="rect">alter</a>
+</code> on a Ref
+      gives it an in-transaction value that
+      isn't seen by other transactions until the transaction commits.
+      This also sets the <code>
+<a href="#tinfo" shape="rect">tinfo</a>
+</code> field
+      of the Ref to refer to an object that
+      describes the transaction that modified the Ref,
+      including the order in which it started relative to others
+      and its current status.
+      This is how one transaction knows that another one has modified a Ref
+      and hasn't yet committed.
+      Think of this like giving the Ref a ticket
+      for admission into the commit party that will hopefully happen later.
+      A Ref cannot have a ticket for more than one of these parties.
+      For more details on how
+      the <code>
+<a href="#tinfo" shape="rect">tinfo</a>
+</code> field of a Ref is set,
+      see the "Clojure STM - Low Level" section which describes
+      the <code>
+<a href="#lock" shape="rect">lock</a>
+</code> method
+      in the LockingTransaction class.
+    </p>
+
+    <h3>In-transaction Values</h3>
+    <p>
+      Each <code>LockingTransaction</code> object maintains a map of
+      in-transaction values for the Refs it has modified
+      in its <code>
+<a href="#vals" shape="rect">vals</a>
+</code> field.
+      The keys in this map are <code>Ref</code> objects and
+      the values are the <code>java.lang.Object</code> values of the Refs.
+      If a Ref is only read inside a transaction,
+      its value is always retrieved from
+      the <code>
+<a href="#tvals" shape="rect">tvals</a>
+</code> chain.
+      This requires walking the chain to find the newest value
+      that was committed before the current transaction started.
+      This can make it inefficient to dereference a Ref multiple times
+      in a transaction unless it is modified before the second dereference.
+      The first time a Ref is modified in transaction, its new value is
+      placed in the <code>
+<a href="#vals" shape="rect">vals</a>
+</code> map.
+      For the remainder of the transaction,
+      its value is retrieved from the
+      <code>
+<a href="#vals" shape="rect">vals</a>
+</code> map.
+    </p>
+
+    <h3>
+<a name="faults" shape="rect">Faults</a>
+</h3>
+    <p>
+      A "fault" occurs when there is an attempt to read the value of a Ref
+      inside a transaction, but the Ref has no in-transaction value and
+      all the values in its chain of committed values
+      were committed after the current transaction began.
+      This can happen when other transactions have
+      committed a change to the Ref
+      since the current transaction try began.
+      When a fault occurs, the transaction will retry.
+      When a transaction commits a change to a Ref
+      that has experienced a fault in another transaction
+      AND the chain is shorter than
+      <code>
+<a href="#maxHistory" shape="rect">maxHistory</a>
+</code>,
+      a new node is added to the chain of committed values for the Ref.
+      This also happens if the chain is
+      shorter than <code>
+<a href="#minHistory" shape="rect">minHistory</a>
+</code>.
+      Lengthing the chain reduces the likelihood that
+      another fault will occur for the Ref in the future.
+      If no fault has occurred for Ref, instead of adding a new node,
+      the last node in the chain becomes the first
+      and it is modified to describe the newly committed value.
+    </p>
+    <p>
+      It should be clear from the discussion above that
+      the length of the history chain for each Ref can differ.
+      The chains adapt based on the faults that occur.
+      If a fault never occurs for a given Ref
+      and it has a <code>
+<a href="#minHistory" shape="rect">minHistory</a>
+</code>
+      of zero (the default)
+      then the length of its chain will never exceed one.
+      These chains never become shorter.
+      After a fault causes a chain to grow,
+      it either remains at that length or
+      grows even longer when more faults occur.
+    </p>
+
+    <h3>
+<a name="barging" shape="rect">Barging</a>
+</h3>
+    <p>
+      The term "barge" is used to describe the process of
+      determining whether a given transaction should retry
+      while the current transaction continues.
+      When one transaction attempts to
+      <code>
+<a href="#barge" shape="rect">barge</a>
+</code> another,
+      it will only succeed if three conditions are met.
+      First, the transaction doing the barge must have been
+      running for at least 1/100th of a second
+      (see the <a href="#BARGE_WAIT_NANOS" shape="rect">BARGE_WAIT_NANOS</a> constant).
+      Second, this transaction must have started
+      before the transaction to be barged.
+      This means older transactions are favored over newer ones.
+      Third, the status of the other transaction must be
+      RUNNING and must be successfully changed to KILLED.
+      The check of the transaction status and changing it
+      are done atomically.
+      The last condition means that if the other transaction
+      is in the process of committing (status = COMMITTING) its changes,
+      it will not be barged.
+    </p>
+
+    <h3>Retries</h3>
+    <p>
+      When a transaction retries, all the in-transaction changes
+      it has made to Refs are discarded and
+      execution returns to the beginning of the transaction body.
+      There are many scenarios that can cause a transaction to retry.
+      Each is described below.
+    </p>
+    <ol>
+      <li>The <code>
+<a href="#clj-ref-set" shape="rect">ref-set</a>
+</code>
+        or <code>
+<a href="#clj-alter" shape="rect">alter</a>
+</code> function
+        is called on a Ref.
+        This causes an attempt to "lock" the Ref,
+        but one of the following situations occur:
+        <ul>
+          <li>A write lock cannot be obtained for the Ref because
+            another thread holds a read or write lock for the Ref.</li>
+          <li>A change to the Ref has been committed
+            since the current transaction try started.</li>
+          <li>Another transaction has made an in-transaction change
+            to the Ref that hasn't been committed yet and
+            an attempt to <code>
+<a href="#barge" shape="rect">barge</a>
+</code>
+            the other transaction fails.</li>
+        </ul>
+      </li>
+      <li>An attempt is made to read the value of a Ref inside a transaction
+        (i.e., dereference it),
+        but one of the following situations occur:
+        <ul>
+          <li>Another transaction has barged the current one.</li>
+          <li>The Ref has no in-transaction value yet, and a fault occurs.
+            This means the chain of committed values for the Ref
+            doesn't contain a value that was committed
+            before the current transaction began.</li>
+        </ul>
+      </li>
+      <li>The <code>
+<a href="#clj-ref-set" shape="rect">ref-set</a>
+</code>,
+        <code>
+<a href="#clj-alter" shape="rect">alter</a>
+</code>,
+        <code>
+<a href="#clj-commute" shape="rect">commute</a>
+</code> or
+        <code>
+<a href="#clj-ensure" shape="rect">ensure</a>
+</code> function
+        is called on a Ref,
+        but another transaction has barged the current one.</li>
+      <li>The current transaction is committing its changes,
+        but another running transaction has an in-transaction change and
+        an attempt to <code>
+<a href="#barge" shape="rect">barge</a>
+</code> it fails.</li>
+    </ol>
+    <p>
+      A transaction won't retry indefinitely.
+      There is a limit that is specified by the
+      <a href="#RETRY_LIMIT" shape="rect">RETRY_LIMIT</a> constant
+      in the <code>LockingTransaction</code> class.
+      It is currently set to 10,000.
+      This is used in the retry loop inside
+      the <code>
+<a href="#run" shape="rect">run</a>
+</code> method
+      in the <code>LockingTransaction</code> class.
+      If it is exceeded then a generic <code>Exception</code> object
+      is thrown.
+    </p>
+    <p>
+      Retries are triggered by throwing a
+      <code>
+<a href="#RetryEx" shape="rect">RetryEx</a>
+</code>
+      which is a custom subclass of <code>java.lang.Error</code>
+      defined in <code>LockingTransaction.java</code>.
+      It extends <code>Error</code> instead of <code>Exception</code>
+      so that it won't be caught by user code
+      that simply catches <code>Exception</code>.
+      The retry loop contains a try block
+      with a catch for <code>
+<a href="#RetryEx" shape="rect">RetryEx</a>
+</code>.
+      The catch simply allows execution to return to the top of the loop.
+      No other kinds of exceptions are caught,
+      so they cause the retry loop to exit.
+    </p>
+
+    <h3>IllegalStateException</h3>
+    <p>
+      An <code>IllegalStateException</code> is thrown from many
+      methods in the Clojure implementation.
+      When thrown inside a transaction, the transaction will not retry.
+      Those related to STM are thrown when the following occur:
+    </p>
+    <ul>
+      <li>An attempt is made to get the <code>LockingTransaction</code>
+        for the current thread, but it hasn't been created yet
+        or it isn't running.
+        This happens when any of the following functions
+        are called outside a transaction:
+        <code>
+<a href="#clj-ref-set" shape="rect">ref-set</a>
+</code>,
+        <code>
+<a href="#clj-alter" shape="rect">alter</a>
+</code>,
+        <code>
+<a href="#clj-commute" shape="rect">commute</a>
+</code> or
+        <code>
+<a href="#clj-ensure" shape="rect">ensure</a>
+</code>.
+      </li>
+      <li>An attempt is made to get the value of Ref,
+        but no value has been bound to it yet
+        (like an uninitialized variable).</li>
+      <li>An attempt is made to set the in-transaction value of a Ref
+        using <code>
+<a href="#clj-ref-set" shape="rect">ref-set</a>
+</code>
+        or <code>
+<a href="#clj-alter" shape="rect">alter</a>
+</code>,
+        but the <code>
+<a href="#clj-commute" shape="rect">commute</a>
+</code> function
+        has already been called on the Ref in the current transaction.</li>
+      <li>A validation function for a Ref either returns false
+        or throws an exception.</li>
+    </ul>
+
+    <h3>Deadlocks, Livelocks and Race Conditions</h3>
+    <p>
+      The Clojure STM implementation guarantees that
+      deadlocks, livelocks and race conditions will not occur.
+    </p>
+    <p>
+      In the context of multithreaded software applications,
+      these terms can be described as follows.
+      A <b>deadlock</b> occurs when
+      concurrently running threads cannot proceed
+      because they are each waiting on a resource
+      for which another has acquired exclusive access.
+      A <b>livelock</b> occurs when
+      concurrently running threads are performing work
+      (as opposed to be being blocked, waiting on resources),
+      but cannot complete due to
+      something that other threads have done or not done.
+      A <b>race condition</b> occurs when the outcome of a thread
+      is affected by the timing of changes to shared state
+      made by another concurrently running thread.
+    </p>
+    <p>
+      In Clojure STM, this applies to modifying a Ref within a transaction.
+      Suppose transactions A and B start in that order
+      and are running concurrently.
+      If they both attempt to modify the same Ref
+      using <code>
+<a href="#clj-ref-set" shape="rect">ref-set</a>
+</code>
+      or <code>
+<a href="#clj-alter" shape="rect">alter</a>
+</code> (write conflict),
+      preference is given to transaction A
+      because it has been running the longest
+      (provided it has been running for a minimal amount of time).
+      This avoids livelock that might occur if retries were
+      based on the order in which refs are set.
+      Transaction B will retry, possibly multiple times,
+      and will be able to modify the Ref
+      after transaction A commits its changes.
+      When transaction B finally runs to completion,
+      it will do so with a consistent view
+      of the changes committed by transaction A.
+    </p>
+    <p>
+      When transactions modify Refs using
+      <code>
+<a href="#clj-commute" shape="rect">commute</a>
+</code>,
+      no write conflicts occurs.
+      Deadlocks are avoided during the commit by
+      obtaining write locks for the Refs in a consistent order
+      (which is the order in which
+      the <code>Ref</code> objects were created).
+    </p>
+
+    <h3>Clojure STM Overhead</h3>
+    <p>
+      Using STM instead of explicit locks adds processing overhead.
+      This doesn't necessarily mean that the STM approach is slower.
+      Since STM is optimistic and locks are pessimistic,
+      it is possible for STM to provide better overall performance
+      for some applications due to greater concurrency.
+    </p>
+    <p>
+      When a Ref that has not yet been modified inside a transaction
+      is read inside the transaction,
+      a value is selected from its chain of committed values.
+      As long as no other transaction has
+      committed a new value for the Ref
+      since the current transaction began,
+      this will be fast since the value used will be
+      that of the first node in the chain.
+      Otherwise some chain walking will take place.
+    </p>
+    <p>
+      The value of a Ref can only be modified inside a transaction.
+      When this is done, there is overhead incurred to
+      verify that a transaction is running.
+      It also must verify that the
+      <code>
+<a href="#clj-commute" shape="rect">commute</a>
+</code> function
+      hasn't already been called on the Ref.
+      (It wouldn't make sense to allow this because
+      commute functions are called a second time during the commit
+      and any other setting of the Ref wouldn't have any lasting effect
+      after the transaction completes.)
+      If this is the first time the Ref has been
+      modified in the current transaction,
+      there is overhead incurred in adding the Ref
+      to a set of Refs that the transaction has modified and
+      marking the Ref as being modified by the current transaction
+      (see the description of the <code>lock</code> method
+      in the next paragraph).
+      Finally, the new value is added to the map of in-transaction values
+      for the current transaction.
+      Subsequent reads of the Ref inside the transaction
+      will use the value from that map instead of selecting
+      a value from the chain of committed values.
+    </p>
+    <p>
+      The <code>
+<a href="#lock" shape="rect">lock</a>
+</code> method
+      in the <code>LockingTransaction</code> class introduces overhead.
+      This involves many steps that are summarized below:
+    </p>
+    <ol>
+      <li>If <code>
+<a href="#clj-ensure" shape="rect">ensure</a>
+</code> was called
+        earlier in this transaction try on the Ref
+        then release the read lock for the Ref.</li>
+      <li>Attempt to acquire a write lock for the Ref.
+        If it cannot be acquired
+        then trigger a retry for the current transaction.</li>
+      <li>If another transaction has committed a change to the Ref
+        since the current transaction try began
+        then trigger a retry for the current transaction.</li>
+      <li>If another transaction has made an as-yet uncommitted change
+        to the Ref, attempt to <code>
+<a href="#barge" shape="rect">barge</a>
+</code> it.
+        If that fails then trigger a retry for the current transaction.</li>
+      <li>Mark the Ref as being locked by the current transaction
+        by setting its <code>
+<a href="#tinfo" shape="rect">tinfo</a>
+</code> field
+        to refer to an <code>
+<a href="#Info" shape="rect">Info</a>
+</code> object
+        that describes the current transaction.</li>
+      <li>In any case, release the write lock for the Ref.</li>
+    </ol>
+    <p>
+      When the end of the transaction is reached,
+      there is overhead incurred in committing the modified Refs,
+      which makes their new, in-transaction values
+      visible outside the current transaction.
+      This involves many steps that are summarized below:
+    </p>
+    <ol>
+      <li>Change the status of the current transaction
+        from <code>RUNNING</code> to <code>COMMITTING</code>.</li>
+      <li>Rerun any <code>commute</code> functions
+        called on Refs in the transaction.
+        This involves acquiring a write lock for each commuted Ref.</li>
+      <li>Acquire write locks for all other Refs
+        modified in the transaction.</li>
+      <li>Call all the validate functions that were registered
+        on the Refs that were modified.
+        Retry the current transaction if any of them
+        disapprove of a change.</li>
+      <li>Add a node to the chain of committed values,
+        or modify an existing node, for each Ref to be modified
+        (depending on faults,
+        <code>
+<a href="#minHistory" shape="rect">minHistory</a>
+</code>
+        and <code>
+<a href="#maxHistory" shape="rect">maxHistory</a>
+</code>).</li>
+      <li>Create a <code>Notify</code> object for each Ref that was modified
+        and has at least one registered watcher.</li>
+      <li>Change the status of the current transaction
+        from <code>COMMITTING</code> to <code>COMMITTED</code>.</li>
+      <li>Release all the write locks acquired previously.</li>
+      <li>Release all the read locks still held due to
+        calls to <code>
+<a href="#clj-ensure" shape="rect">ensure</a>
+</code>.</li>
+      <li>Clear the
+        <code>locked</code> (local),
+        <code>
+<a href="#ensures" shape="rect">ensures</a>
+</code>,
+        <code>
+<a href="#vals" shape="rect">vals</a>
+</code>,
+        <code>
+<a href="#sets" shape="rect">sets</a>
+</code>
+        and <code>
+<a href="#commutes" shape="rect">commutes</a>
+</code>
+        collections in preparation for the next retry
+        or new transaction in the current thread.</li>
+      <li>If the commit was successful,
+        notify all registered watchers of the changes
+        using data in the <code>Notify</code> objects
+        and dispatch all actions sent to Agents in the transaction.</li>
+      <li>Clear the
+        <code>notify</code> (local) and
+        <code>
+<a href="#actions" shape="rect">actions</a>
+</code>
+        collections in preparation for the next retry
+        or new transaction in the current thread.</li>
+      <li>Return the value of the last expression
+        in the transaction body.</li>
+    </ol>
+
+    <h2>
+<a name="ClojureSTMLow" shape="rect">Clojure STM - Low Level</a>
+</h2>
+    <p>
+      It is not necessary to learn the details presented in this section
+      in order to effectively use Clojure STM.
+      However, this information will be very useful to
+      anyone that wishes to:
+    </p>
+    <ul>
+      <li>understand exactly what is happening at runtime
+        in Clojure STM</li>
+      <li>read the source code for the Clojure STM implementation</li>
+      <li>suggest improvements to Clojure STM</li>
+      <li>add features to the Clojure STM</li>
+      <li>compare the Clojure STM implementation
+        to that of another language</li>
+      <li>create an STM implementation for another language</li>
+    </ul>
+    <p>
+      Feel free to skip to the "Conclusion" section near the end
+      if you don't have a need for additional detail.
+    </p>
+    <p>
+      While reading about the low-level details
+      of the Clojure STM implementation,
+      refer to the earlier class diagrams to aid with
+      understanding the relationships between
+      the many related classes and interfaces.
+      It is also helpful to look at the source code in
+      <code>core.clj</code>, <code>ARef.java</code>, <code>Ref.java</code>
+      and <code>LockingTransaction.java</code> while reading this section.
+    </p>
+
+    <h3>STM Macros</h3>
+    <p>
+      These macros are defined in <code>src/clj/clojure/core.clj</code>.
+    </p>
+    <table border="1">
+      <tr class="table_header">
+        <th colspan="1" rowspan="1">Name</th>
+        <th colspan="1" rowspan="1">Description</th>
+      </tr>
+      <tr>
+        <td class="table_name" colspan="1" rowspan="1">
+<a name="clj-dosync" shape="rect">dosync</a>
+</td>
+        <td class="table_desc" colspan="1" rowspan="1">
+          This macro accepts any number of expressions.
+          It simply passes them to the
+          <code>
+<a href="#clj-sync" shape="rect">sync</a>
+</code> macro
+          which is defined in the same source file.
+        </td>
+      </tr>
+      <tr>
+        <td class="table_name" colspan="1" rowspan="1">
+<a name="clj-sync" shape="rect">sync</a>
+</td>
+        <td class="table_desc" colspan="1" rowspan="1">
+          This macro accepts any number of expressions.
+          It runs them inside a transaction.
+          If it is called in the context of an existing transaction,
+          the expressions are run inside it.
+          Otherwise a new transaction is started.
+          <br/>
+<br/>
+          It wraps the expressions in an anonymous function
+          that implements the
+          <code>
+<a href="http://java.sun.com/javase/6/docs/api/java/util/concurrent/Callable.html" shape="rect">Callable</a>
+</code>
+          interface and passes that to
+          the static Java method <code>
+<a href="#runInTransaction" shape="rect">runInTransaction</a>
+</code>
+          in the <code>clojure.lang.LockingTransaction</code> class.
+        </td>
+      </tr>
+    </table>
+
+    <h3>STM Functions</h3>
+    <p>
+      These functions are defined in <code>src/clj/clojure/core.clj</code>.
+      The <code>
+<a href="#clj-alter" shape="rect">alter</a>
+</code>,
+      <code>
+<a href="#clj-commute" shape="rect">commute</a>
+</code>,
+      <code>
+<a href="#clj-ensure" shape="rect">ensure</a>
+</code> and
+      <code>
+<a href="#clj-ref-set" shape="rect">ref-set</a>
+</code>
+      functions must be called inside a transaction,
+      i.e., inside a call to the
+      <code>
+<a href="#clj-dosync" shape="rect">dosync</a>
+</code> macro.
+      When the phrase "in-transaction value" is used below it means
+      either the in-transaction value if there is one
+      or the newest committed value before the transaction try began.
+    </p>
+    <table border="1">
+      <tr class="table_header">
+        <th colspan="1" rowspan="1">Name</th>
+        <th colspan="1" rowspan="1">Description</th>
+      </tr>
+      <tr>
+        <td class="table_name" colspan="1" rowspan="1">
+<a name="clj-add-watch" shape="rect">add-watch</a>
+</td>
+        <td class="table_desc" colspan="1" rowspan="1">
+          This function takes a reference object, a key and a function.
+          It registers the function under the key for the reference object.
+          When the value of the reference object changes,
+          the function is invoked with the key,
+          the reference object, the old value and the new value.
+          <br/>
+<br/>
+          This calls the <code>
+<a href="#addWatch" shape="rect">addWatch</a>
+</code>
+          method on the Ref.
+        </td>
+      </tr>
+      <tr>
+        <td class="table_name" colspan="1" rowspan="1">
+<a name="clj-add-watcher" shape="rect">add-watcher</a>
+</td>
+        <td class="table_desc" colspan="1" rowspan="1">
+          This function takes a reference object,
+          a send type (which identifies the thread pool to be used),
+          an Agent and the action function to be sent.
+          It creates an anonymous function that
+          sends the action to the Agent and
+          registers that with the reference object by passing it to
+          the <code>
+<a href="#clj-add-watch" shape="rect">add-watch</a>
+</code> function.
+          The Agent is used as the key.
+        </td>
+      </tr>
+      <tr>
+        <td class="table_name" colspan="1" rowspan="1">
+<a name="clj-alter" shape="rect">alter</a>
+</td>
+        <td class="table_desc" colspan="1" rowspan="1">
+          This function takes a Ref,
+          a function that will return its new value,
+          and optional, additional arguments.
+          It changes the value of a Ref to
+          the result of invoking the given function on
+          the in-transaction value of the Ref
+          and any additional arguments.
+          <br/>
+<br/>
+          This calls the <code>
+<a href="#alter" shape="rect">alter</a>
+</code> method
+          on the <code>Ref</code> object,
+          which invokes the given function and
+          passes the Ref and the function return value
+          to the <code>
+<a href="#doSet" shape="rect">doSet</a>
+</code> method
+          on the <code>LockingTransaction</code> object
+          for the current thread.
+          If another transaction has modified the same Ref
+          then this transaction may retry
+          (see the <a href="#lock" shape="rect">lock</a> method).
+          Otherwise, the new value is returned.
+        </td>
+      </tr>
+      <tr>
+        <td class="table_name" colspan="1" rowspan="1">
+<a name="clj-commute" shape="rect">commute</a>
+</td>
+        <td class="table_desc" colspan="1" rowspan="1">
+          This function is similar to
+          <code>
+<a href="#clj-alter" shape="rect">alter</a>
+</code>
+          and takes the same arguments, but differs in two ways.
+          <br/>
+<br/>
+          First, <code>commute</code> doesn't care if other transactions
+          have committed changes to the Ref it is going to modify
+          since the current transaction try began.
+          Whereas <code>
+<a href="#clj-alter" shape="rect">alter</a>
+</code> will retry,
+          <code>commute</code> will proceed.
+          <br/>
+<br/>
+          Second, when the transaction is committing its changes,
+          all the calls to commute functions are rerun.
+          They aren't necessarily run in the same order
+          in which they were invoked within the transaction body.
+          <br/>
+<br/>
+          In all calls to the commute functions,
+          both in the body of the transaction and during the commit,
+          the Ref value passed to the given function
+          is determined in the same way.
+          If <code>
+<a href="#clj-ref-set" shape="rect">ref-set</a>
+</code>
+          or <code>
+<a href="#clj-alter" shape="rect">alter</a>
+</code>
+          was called on the same Ref earlier in the transaction
+          then the in-transaction value of the Ref is used.
+          Otherwise, the newest committed value of the Ref is used.
+          Note that the newest committed value may be
+          the result of a transaction that committed
+          since the current transaction try began.
+          This means that commute functions invoked
+          during the commit can be passed different Ref values
+          than they were passed when invoked in the transaction body.
+          <br/>
+<br/>
+          This calls the <code>
+<a href="#commute" shape="rect">commute</a>
+</code>
+          method on the Ref.
+        </td>
+      </tr>
+      <tr>
+        <td class="table_name" colspan="1" rowspan="1">
+<a name="clj-ensure" shape="rect">ensure</a>
+</td>
+        <td class="table_desc" colspan="1" rowspan="1">
+          This function takes a Ref.
+          It prevents other transactions from
+          setting an in-transaction value for the Ref,
+          which also prevents them from committing a new value.
+          This can be used to avoid <a href="#write-skew" shape="rect">write skew</a>.
+          It also helps avoid retries due to write conflicts on the Ref.
+          The current transaction will be able to
+          set a new value for the Ref later in the transaction
+          as long as other transactions haven't called
+          <code>
+<a href="#clj-ensure" shape="rect">ensure</a>
+</code> on the same Ref.
+          <br/>
+<br/>
+          This calls the <code>
+<a href="#touch" shape="rect">touch</a>
+</code>
+          method on the Ref which passes the <code>Ref</code> object
+          to the <code>
+<a href="#doEnsure" shape="rect">doEnsure</a>
+</code> method
+          of the <code>LockingTransaction</code> object
+          for the current thread.
+          That acquires a read lock for the Ref which is
+          held until the transaction commits or until the Ref is set with
+          <code>
+<a href="#clj-ref-set" shape="rect">ref-set</a>
+</code> or
+          <code>
+<a href="#clj-alter" shape="rect">alter</a>
+</code>
+          later in the transaction try.
+        </td>
+      </tr>
+      <tr>
+        <td class="table_name" colspan="1" rowspan="1">
+<a name="clj-ref" shape="rect">ref</a>
+</td>
+        <td class="table_desc" colspan="1" rowspan="1">
+          This function creates and returns a <code>Ref</code> object
+          which is a mutable reference to an immutable object.
+          It takes the initial value as an argument.
+          It also accepts options that include
+          specifying a validator function and
+          controlling the length of the history chain for this Ref.
+          See the output of <code>(doc ref)</code>
+          for more information on options.
+          <br/>
+<br/>
+          This calls a constructor in the <code>Ref</code> class.
+        </td>
+      </tr>
+      <tr>
+        <td class="table_name" colspan="1" rowspan="1">
+          <a name="clj-ref-history-count" shape="rect">ref-history-count</a>
+        </td>
+        <td class="table_desc" colspan="1" rowspan="1">
+          This function takes a Ref.
+          It returns the current length of its history chain.
+          <br/>
+<br/>
+          This calls the
+          <code>
+<a href="#getHistoryCount" shape="rect">getHistoryCount</a>
+</code>
+          method on the Ref.
+        </td>
+      </tr>
+      <tr>
+        <td class="table_name" colspan="1" rowspan="1">
+<a name="clj-ref-max-history" shape="rect">ref-max-history</a>
+</td>
+        <td class="table_desc" colspan="1" rowspan="1">
+          This function takes a Ref and an optional length.
+          If only a Ref is provided,
+          it returns the maximum length of the history chain for the Ref.
+          If a length is also provided,
+          it sets the maximum length and returns it.
+          If the history chain is already longer than the specified length,
+          it is not shortened to the new maximum length.
+          It just won't grow any longer.
+          <br/>
+<br/>
+          This calls the <code>getMaxHistory</code> and
+          <code>setMaxHistory</code> methods on the Ref.
+        </td>
+      </tr>
+      <tr>
+        <td class="table_name" colspan="1" rowspan="1">
+<a name="clj-ref-min-history" shape="rect">ref-min-history</a>
+</td>
+        <td class="table_desc" colspan="1" rowspan="1">
+          This function takes a Ref and an optional length.
+          If only a Ref is provided,
+          it returns the minimum length of the history chain for the Ref.
+          If a length is also provided,
+          it sets the minimum length and returns it.
+          <br/>
+<br/>
+          This calls the <code>getMinHistory</code> and
+          <code>setMinHistory</code> methods on the Ref.
+        </td>
+      </tr>
+      <tr>
+        <td class="table_name" colspan="1" rowspan="1">
+<a name="clj-ref-set" shape="rect">ref-set</a>
+</td>
+        <td class="table_desc" colspan="1" rowspan="1">
+          This function takes a Ref and a proposed new value.
+          It changes the value of a Ref to the given value.
+          <br/>
+<br/>
+          This passes the value to the
+          <code>
+<a href="#set" shape="rect">set</a>
+</code> method
+          on the <code>Ref</code> object,
+          which calls the <code>
+<a href="#doSet" shape="rect">doSet</a>
+</code> method
+          on the current <code>LockingTransaction</code> object.
+          If another transaction has modified the same Ref
+          then this transaction may retry
+          (see the <a href="#lock" shape="rect">lock</a> method).
+          Otherwise, the new value is returned.
+        </td>
+      </tr>
+      <tr>
+        <td class="table_name" colspan="1" rowspan="1">
+<a name="clj-remove-watch" shape="rect">remove-watch</a>
+</td>
+        <td class="table_desc" colspan="1" rowspan="1">
+          This function takes a reference object and a key.
+          It removes the watch function associated with the given key
+          from the map of watch functions for the reference object.
+          <br/>
+<br/>
+          This calls the <code>
+<a href="#removeWatch" shape="rect">removeWatch</a>
+</code>
+          method on the Ref.
+        </td>
+      </tr>
+      <tr>
+        <td class="table_name" colspan="1" rowspan="1">
+<a name="clj-remove-watcher" shape="rect">remove-watcher</a>
+</td>
+        <td class="table_desc" colspan="1" rowspan="1">
+          This function takes a reference object and a watcher Agent.
+          It removes the watch function with a key that matches the Agent
+          from the map of watch functions for the reference object.
+        </td>
+      </tr>
+      <tr>
+        <td class="table_name" colspan="1" rowspan="1">
+<a name="clj-send" shape="rect">send</a>
+</td>
+        <td class="table_desc" colspan="1" rowspan="1">
+          This function takes an Agent, a function and optional arguments.
+          It passes the function and optional arguments,
+          along with a final argument of <code>false</code>,
+          to the <code>dispatch</code> method of the Agent.
+          The <code>false</code> argument causes
+          a fixed-size thread pool to be used.
+        </td>
+      </tr>
+      <tr>
+        <td class="table_name" colspan="1" rowspan="1">
+<a name="clj-send-off" shape="rect">send-off</a>
+</td>
+        <td class="table_desc" colspan="1" rowspan="1">
+          Like <code>
+<a href="#clj-send" shape="rect">send</a>
+</code>,
+          this function takes an Agent, a function and optional arguments.
+          It passes the function and optional arguments,
+          along with a final argument of <code>true</code>,
+          to the <code>dispatch</code> method of the Agent.
+          The <code>true</code> argument causes
+          a variable-size thread pool to be used.
+        </td>
+      </tr>
+      <tr>
+        <td class="table_name" colspan="1" rowspan="1">
+          <a name="clj-set-validator" shape="rect">set-validator!</a>
+        </td>
+        <td class="table_desc" colspan="1" rowspan="1">
+          This function takes a Ref and a function.
+          It sets the validator function for the Ref
+          to the given function.
+          <br/>
+<br/>
+          This calls the
+          <code>
+<a href="#setValidator" shape="rect">setValidator</a>
+</code>
+          method on the Ref.
+        </td>
+      </tr>
+    </table>
+
+    <h3>ARef Fields</h3>
+    <p>
+      The <code>ARef</code> class is defined in
+      <code>src/jvm/clojure/lang/ARef.java</code>.
+      It is the superclass of the <code>Ref</code> class.
+    </p>
+    <table border="1">
+      <tr class="table_header">
+        <th colspan="1" rowspan="1">Name</th>
+        <th colspan="1" rowspan="1">Description</th>
+      </tr>
+      <tr>
+        <td class="table_name" colspan="1" rowspan="1">validator:IFn</td>
+        <td class="table_desc" colspan="1" rowspan="1">
+          This is the single validator function associated with this Ref.
+        </td>
+      </tr>
+      <tr>
+        <td class="table_name" colspan="1" rowspan="1">
+          <a name="watches" shape="rect">watches</a>:IPersistentMap
+        </td>
+        <td class="table_desc" colspan="1" rowspan="1">
+          This is a map of watch functions, one per key value, for this Ref.
+        </td>
+      </tr>
+    </table>
+
+    <h3>ARef Methods</h3>
+    <table border="1">
+      <tr class="table_header">
+        <th colspan="1" rowspan="1">Name</th>
+        <th colspan="1" rowspan="1">Description</th>
+      </tr>
+      <tr>
+        <td class="table_name" colspan="1" rowspan="1">
+<a name="addWatch" shape="rect">addWatch</a>
+</td>
+        <td class="table_desc" colspan="1" rowspan="1">
+          This method takes an <code>Object</code> key
+          and an <code>IFn</code> function.
+          It registers the function under the key
+          in the <code>
+<a href="#watches" shape="rect">watches</a>
+</code> map.
+        </td>
+      </tr>
+      <tr>
+        <td class="table_name" colspan="1" rowspan="1">
+<a name="getValidator" shape="rect">getValidator</a>
+</td>
+        <td class="table_desc" colspan="1" rowspan="1">
+          This method gets the validator function for this Ref.
+        </td>
+      </tr>
+      <tr>
+        <td class="table_name" colspan="1" rowspan="1">
+<a name="getWatches" shape="rect">getWatches</a>
+</td>
+        <td class="table_desc" colspan="1" rowspan="1">
+          This method gets the map of watch functions for this Ref.
+        </td>
+      </tr>
+      <tr>
+        <td class="table_name" colspan="1" rowspan="1">
+<a name="notifyWatches" shape="rect">notifyWatches</a>
+</td>
+        <td class="table_desc" colspan="1" rowspan="1">
+          This method takes old and new values of the Ref.
+          It invokes all the watch functions for the Ref,
+          passing them their key, this Ref, the old value and the new value.
+        </td>
+      </tr>
+      <tr>
+        <td class="table_name" colspan="1" rowspan="1">
+<a name="removeWatch" shape="rect">removeWatch</a>
+</td>
+        <td class="table_desc" colspan="1" rowspan="1">
+          This method takes an <code>Object</code> key
+          and removes the watch function for the given key
+          from this Ref.
+        </td>
+      </tr>
+      <tr>
+        <td class="table_name" colspan="1" rowspan="1">
+<a name="setValidator" shape="rect">setValidator</a>
+</td>
+        <td class="table_desc" colspan="1" rowspan="1">
+          This method takes an <code>IFn</code> function.
+          It sets the validator function for this Ref
+          to the given function.
+        </td>
+      </tr>
+      <tr>
+        <td class="table_name" colspan="1" rowspan="1">
+<a name="validate" shape="rect">validate</a>
+</td>
+        <td class="table_desc" colspan="1" rowspan="1">
+          This method takes a proposed new <code>Object</code> value
+          for this Ref and determines whether it is valid.
+          If not, an expection is thrown which
+          prevents the Ref from taking on the new value.
+        </td>
+      </tr>
+    </table>
+
+    <h3>Ref Nested Classes</h3>
+    <p>
+      The <code>Ref</code> class is defined in
+      <code>src/jvm/clojure/lang/Ref.java</code>.
+      It is a subclass of the <code>ARef</code> class.
+    </p>
+    <p>
+      One static nested class is defined inside
+      the <code>clojure.lang.Ref</code> class.
+    </p>
+    <table border="1">
+      <tr class="table_header">
+        <th colspan="1" rowspan="1">Name</th>
+        <th colspan="1" rowspan="1">Description</th>
+      </tr>
+      <tr>
+        <td class="table_name" colspan="1" rowspan="1">
+<a name="TVal" shape="rect">TVal</a>
+</td>
+        <td class="table_desc" colspan="1" rowspan="1">
+          Objects from this class are
+          <a href="http://en.wikipedia.org/wiki/POJO" shape="rect">POJO</a>s that
+          represent versions of values for Refs.
+          They are nodes in a doubly-linked, circular list.
+          The fields of this class are all package-level
+          so they can be accessed directly by the
+          <code>Ref</code> and <code>LockingTransaction</code> classes
+          that are in the same package.
+          This class has two constructors and no methods.
+        </td>
+      </tr>
+    </table>
+
+    <h3>TVal Fields</h3>
+    <table border="1">
+      <tr class="table_header">
+        <th colspan="1" rowspan="1">Name</th>
+        <th colspan="1" rowspan="1">Description</th>
+      </tr>
+      <tr>
+        <td class="table_name" colspan="1" rowspan="1">msecs:long</td>
+        <td class="table_desc" colspan="1" rowspan="1">
+          This is the creation system time of this object.
+        </td>
+      </tr>
+      <tr>
+        <td class="table_name" colspan="1" rowspan="1">next:<a href="#TVal" shape="rect">TVal</a>
+</td>
+        <td class="table_desc" colspan="1" rowspan="1">
+          This is a reference to the
+          <code>
+<a href="#TVal" shape="rect">TVal</a>
+</code> object that
+          describes the next oldest committed version of the Ref
+          or the end of the chain if this is the first node in it.
+        </td>
+      </tr>
+      <tr>
+        <td class="table_name" colspan="1" rowspan="1">point:long</td>
+        <td class="table_desc" colspan="1" rowspan="1">
+          This is an ordered identifier of a transaction commit.
+          Values that were committed in the same transaction
+          will have the same value for this field.
+        </td>
+      </tr>
+      <tr>
+        <td class="table_name" colspan="1" rowspan="1">prior:<a href="#TVal" shape="rect">TVal</a>
+</td>
+        <td class="table_desc" colspan="1" rowspan="1">
+          This is a reference to the
+          <code>
+<a href="#TVal" shape="rect">TVal</a>
+</code> object that
+          describes the next newest committed version of the Ref
+          or the beginning of the chain if this is the last node in it.
+        </td>
+      </tr>
+      <tr>
+        <td class="table_name" colspan="1" rowspan="1">val:Object</td>
+        <td class="table_desc" colspan="1" rowspan="1">
+          This is a committed value for the Ref.
+        </td>
+      </tr>
+    </table>
+
+    <h3>Ref Fields</h3>
+    <p>
+      All fields in the <code>Ref</code> class are package level,
+      so <code>LockingTransaction</code> objects can directly access them.
+    </p>
+    <table border="1">
+      <tr class="table_header">
+        <th colspan="1" rowspan="1">Name</th>
+        <th colspan="1" rowspan="1">Description</th>
+      </tr>
+      <tr>
+        <td class="table_name" colspan="1" rowspan="1">faults:AtomicInteger<br/>(final)</td>
+        <td class="table_desc" colspan="1" rowspan="1">
+          This field is used to count the number of times a transaction
+          has attempted to retrieve the value of this Ref
+          from its history chain,
+          but found no value known before
+          the <a href="#readPoint" shape="rect">read point</a>
+          which is an ordered identifier for
+          the beginning of the current transaction try.
+          This can happen if other transactions
+          have committed new values for the Ref
+          since the current try of the current transaction began. 
+          Transactions that encounter this situation will retry.
+          <br/>
+<br/>
+          This field is reset to zero
+          in the <code>
+<a href="#run" shape="rect">run</a>
+</code> method
+          of <code>LockingTransaction</code>
+          after a new node is added to the history chain for the Ref
+          (see the description of the
+          <a href="#commit-step-4" shape="rect">fourth commit step</a>
+          in the <code>
+<a href="#run" shape="rect">run</a>
+</code> method later).
+        </td>
+      </tr>
+      <tr>
+        <td class="table_name" colspan="1" rowspan="1">id:long<br/>(final)</td>
+        <td class="table_desc" colspan="1" rowspan="1">
+          This field holds a unique, ordered identifier for the Ref.
+          Its value is assigned in the Ref constructor by calling
+          <code>getAndIncrement</code> on the <code>ids</code> field.
+        </td>
+      </tr>
+      <tr>
+        <td class="table_name" colspan="1" rowspan="1">ids:AtomicLong<br/>(static, final)</td>
+        <td class="table_desc" colspan="1" rowspan="1">
+          This field is used to assign a unique identifier
+          to each <code>Ref</code> object.
+        </td>
+      </tr>
+      <tr>
+        <td class="table_name" colspan="1" rowspan="1">
+          <a name="lock-field" shape="rect">lock</a>:<br/>
+          ReentrantReadWriteLock<br/>(final)
+        </td>
+        <td class="table_desc" colspan="1" rowspan="1">
+          This field maintains a pair of locks,
+          one for readers and one for writers.
+          Only one thread at a time can hold the write lock.
+          When the write lock is held, no thread can hold the read lock.
+          Otherwise any number of threads can hold the read lock.
+          Being "reentrant" means that if a thread holds a lock
+          and requests it again, perhaps through a recursive call,
+          the request will succeed (since it already owns the lock)
+          and execution will continue.
+          <br/>
+<br/>
+          The <code>
+<a href="http://java.sun.com/javase/6/docs/api/java/util/concurrent/locks/ReentrantReadWriteLock.html" shape="rect">java.util.concurrent.locks.ReentrantReadWriteLock</a>
+</code>
+          class implements the
+          <code>
+<a href="http://java.sun.com/javase/6/docs/api/java/util/concurrent/locks/ReadWriteLock.html" shape="rect">java.util.concurrent.locks.ReadWriteLock</a>
+</code> interface.
+          The javadoc for
+          <code>
+<a href="http://java.sun.com/javase/6/docs/api/java/util/concurrent/locks/ReadWriteLock.html" shape="rect">ReadWriteLock</a>
+</code>
+          is a good source for more information.
+          <br/>
+<br/>
+          The <code>Ref</code> methods
+          <code>
+<a href="#currentVal" shape="rect">currentVal</a>
+</code> and
+          <code>
+<a href="#isBound" shape="rect">isBound</a>
+</code>
+          acquire a read lock and release it before they return.
+          These methods have a brief runtime.
+          <br/>
+<br/>
+          The <code>Ref</code> methods
+          <code>
+<a href="#trimHistory" shape="rect">trimHistory</a>
+</code> and
+          <code>
+<a href="#getHistoryCount" shape="rect">getHistoryCount</a>
+</code>
+          acquire a write lock and release it before they return.
+          These methods have a brief runtime.
+          <br/>
+<br/>
+          The <code>LockingTransaction</code> method
+          <code>
+<a href="#doEnsure" shape="rect">doEnsure</a>
+</code>
+          acquires a read lock,
+          but doesn't release it before returning unless
+          another transaction has modified the Ref and is still running.
+          In that case the current transaction will retry.
+          <br/>
+<br/>
+          The <code>LockingTransaction</code> method
+          <code>
+<a href="#releaseIfEnsured" shape="rect">releaseIfEnsured</a>
+</code>
+          (called by the <code>
+<a href="#lock" shape="rect">lock</a>
+</code> and
+          <code>
+<a href="#run" shape="rect">run</a>
+</code> methods)
+          releases a read lock acquired by
+          the <code>
+<a href="#doEnsure" shape="rect">doEnsure</a>
+</code> method.
+          This method and the <code>
+<a href="#lock" shape="rect">lock</a>
+</code> method
+          have a brief runtime.
+          The <code>
+<a href="#run" shape="rect">run</a>
+</code> method
+          runs for the duration of a transaction.
+          The only locks it may hold for a long period of time
+          are read locks that are acquired
+          by calling <code>
+<a href="#clj-ensure" shape="rect">ensure</a>
+</code> on a Ref.
+          <br/>
+<br/>
+          The <code>LockingTransaction</code> methods
+          <code>
+<a href="#doGet" shape="rect">doGet</a>
+</code> and
+          <code>
+<a href="#doCommute" shape="rect">doCommute</a>
+</code>
+          acquire a read lock and release it before they return.
+          The <code>
+<a href="#doGet" shape="rect">doGet</a>
+</code> method
+          has a brief runtime.
+          The <code>
+<a href="#doCommute" shape="rect">doCommute</a>
+</code> method
+          may not have a brief runtime,
+          but the amount of time for which it holds a read lock is brief.
+          It is only held while getting the newest committed value
+          for a Ref, not while the commute function runs.
+          <br/>
+<br/>
+          The <code>LockingTransaction</code> method
+          <code>
+<a href="#tryWriteLock" shape="rect">tryWriteLock</a>
+</code>
+          attempts to acquire a write lock.
+          This is called by the <code>
+<a href="#lock" shape="rect">lock</a>
+</code> and
+          <code>
+<a href="#run" shape="rect">run</a>
+</code> methods
+          which both release the lock before completing.
+          The <code>
+<a href="#lock" shape="rect">lock</a>
+</code> method
+          has a brief runtime.
+          The <code>
+<a href="#run" shape="rect">run</a>
+</code> method
+          only acquires write locks
+          when a transaction is committing.
+          This may not be brief since during this time
+          commute functions are rerun and
+          validator functions are run.
+          The write locks are released before watchers are notified
+          and Agent actions are dispatched.
+          <br/>
+<br/>
+          No other methods use the read and write locks
+          for <code>Ref</code> objects.
+        </td>
+      </tr>
+      <tr>
+        <td class="table_name" colspan="1" rowspan="1">
+          <a name="minHistory" shape="rect">minHistory</a>:int<br/>
+          <a name="maxHistory" shape="rect">maxHistory</a>:int
+        </td>
+        <td class="table_desc" colspan="1" rowspan="1">
+          These fields are used to limit the number of
+          historical values that are retained for the Ref.
+          They default to zero and ten, respectively.
+          Details on how these values are used is provided later
+          in the description of
+          the <code>
+<a href="#run" shape="rect">run</a>
+</code> method
+          in <code>LockingTransaction</code>.
+        </td>
+      </tr>
+      <tr>
+        <td class="table_name" colspan="1" rowspan="1">
+          <a name="tinfo" shape="rect">tinfo</a>:<br/>
+          LockingTransaction.<a href="#Info" shape="rect">Info</a>
+        </td>
+        <td class="table_desc" colspan="1" rowspan="1">
+          This field holds the status of the transaction
+          that has made an uncommitted change to the value of this Ref,
+          but hasn't yet committed the change.
+          When not null, it serves as an indication
+          that the Ref has an active writer.
+        </td>
+      </tr>
+      <tr>
+        <td class="table_name" colspan="1" rowspan="1">
+          <a name="tvals" shape="rect">tvals</a>:<a href="#TVal" shape="rect">TVal</a>
+        </td>
+        <td class="table_desc" colspan="1" rowspan="1">
+          This field holds the newest node in a circular chain of
+          <code>
+<a href="#TVal" shape="rect">TVal</a>
+</code> objects
+          that each hold a historical value of the Ref
+          that has been committed, not an in-transaction value.
+          Collectively these are referred to in this article as
+          the "history chain".
+          The number of values retained is controlled by the values of
+          the <code>
+<a href="#minHistory" shape="rect">minHistory</a>
+</code>
+          and <code>
+<a href="#maxHistory" shape="rect">maxHistory</a>
+</code> fields
+          which were described above.
+          <br/>
+<br/>
+          When a <code>Ref</code> object is created,
+          its <code>tvals</code> field is set to
+          a <code>
+<a href="#TVal" shape="rect">TVal</a>
+</code> object
+          that describes its initial value,
+          not associated with any transaction.
+          Additional <code>
+<a href="#TVal" shape="rect">TVal</a>
+</code> objects
+          are created in the
+          <code>run</code> method of <code>LockingTransaction</code>
+          during a commit.
+          <code>
+<a href="#TVal" shape="rect">TVal</a>
+</code> objects are used in the
+          <code>
+<a href="#doCommute" shape="rect">doCommute</a>
+</code>,
+          <code>
+<a href="#doGet" shape="rect">doGet</a>
+</code>,
+          <code>
+<a href="#lock" shape="rect">lock</a>
+</code> and
+          <code>
+<a href="#run" shape="rect">run</a>
+</code> methods of that class.
+        </td>
+      </tr>
+      <tr>
+        <td class="table_name" colspan="1" rowspan="1">validator:IFn</td>
+        <td class="table_desc" colspan="1" rowspan="1">
+          This field represents a Clojure function that will be invoked
+          whenever the value of the Ref is about to be modified.
+          A reference object can have only one validator function at a time.
+          The validator function should return a value that
+          can be cast to a boolean whose value
+          indicates whether the current value of the Ref is valid.
+          Alternatively, it can throw an exception
+          if the value is not valid.
+          Returning false or throwing an exception
+          prevents the change from taking place and
+          causes an <code>IllegalStateException</code> to be thrown.
+          <br/>
+<br/>
+          The <code>
+<a href="#setValidator" shape="rect">setValidator</a>
+</code> method
+          sets this field and immediately calls the validator function
+          to validate the current value of the Ref.
+          The <code>
+<a href="#getValidator" shape="rect">getValidator</a>
+</code> method
+          returns the validator function as a <code>IFn</code>.
+        </td>
+      </tr>
+      <tr>
+        <td class="table_name" colspan="1" rowspan="1">
+          watches:<br/>
+          IPersistentMap
+        </td>
+        <td class="table_desc" colspan="1" rowspan="1">
+          This field holds a map of functions that are called
+          after a change to a Ref has been committed.
+          See the earlier section
+          "<a href="#ClojureValidatorsAndWatchers" shape="rect">Clojure Validators and Watchers</a>"
+          for information on registering watchers with a reference object.
+          After the <code>
+<a href="#run" shape="rect">run</a>
+</code> method in
+          <code>LockingTransaction</code> commits a transaction, 
+          it calls the <code>notifyWatches</code> method
+          on each Ref that was modified.
+          The <code>
+<a href="#notifyWatches" shape="rect">notifyWatches</a>
+</code>
+          method invokes each watch function registered with the Ref,
+          passing it the key, the Ref, its old value and its new value.
+        </td>
+      </tr>
+    </table>
+
+    <h3>Ref Methods</h3>
+    <p>
+      The methods in the <code>Ref</code> class
+      that play a significant role in the STM implementation
+      are described below.
+    </p>
+    <table border="1">
+      <tr class="table_header">
+        <th colspan="1" rowspan="1">Name</th>
+        <th colspan="1" rowspan="1">Description</th>
+      </tr>
+      <tr>
+        <td class="table_name" colspan="1" rowspan="1">constructors</td>
+        <td class="table_desc" colspan="1" rowspan="1">
+          This class has two constructors.
+          One takes only an initial value
+          as a <code>java.lang.Object</code> for the Ref.
+          The other takes that and a map of options.
+        </td>
+      </tr>
+      <tr>
+        <td class="table_name" colspan="1" rowspan="1">
+<a name="alter" shape="rect">alter</a>
+</td>
+        <td class="table_desc" colspan="1" rowspan="1">
+          This method takes a function
+          whose return value will become the new value of the Ref,
+          and optional arguments to be passed to the function
+          after the in-transaction value of the Ref.
+          It gets the value of the Ref by
+          calling the <code>
+<a href="#doGet" shape="rect">doGet</a>
+</code> method on the
+          <code>LockingTransaction</code> object for the current thread.
+          See the description of that method below
+          for details on how the value is obtained.
+          Next, it invokes the given function, passing it
+          the Ref value and any additional arguments that were supplied.
+          Finally, it calls the <code>
+<a href="#doSet" shape="rect">doSet</a>
+</code>
+          method on the
+          <code>LockingTransaction</code> object for the current thread,
+          passing it the <code>Ref</code> object and
+          the return value from the given function.
+          See the description of the
+          <code>
+<a href="#doSet" shape="rect">doSet</a>
+</code> method later
+          for details on why it may trigger a retry.
+        </td>
+      </tr>
+      <tr>
+        <td class="table_name" colspan="1" rowspan="1">
+<a name="commute" shape="rect">commute</a>
+</td>
+        <td class="table_desc" colspan="1" rowspan="1">
+          This method takes a function
+          whose return value will become the new value of the Ref,
+          and optional arguments to be passed to the function
+          after the current value of the Ref.
+          It simply passes all its parameters to the
+          <code>
+<a href="#doCommute" shape="rect">doCommute</a>
+</code> method
+          on the <code>LockingTransaction</code> object
+          for the current thread.
+        </td>
+      </tr>
+      <tr>
+        <td class="table_name" colspan="1" rowspan="1">
+<a name="currentVal" shape="rect">currentVal</a>
+</td>
+        <td class="table_desc" colspan="1" rowspan="1">
+          This method returns the newest committed value of the Ref.
+          First, it obtains a read lock for the Ref.
+          Next, it accesses the value of the first
+          <a href="#TVal" shape="rect">TVal</a> object
+          in the history chain for the Ref.
+          If that chain is empty, meaning the Ref is unbound,
+          an <code>IllegalStateException</code> is thrown.
+          Finally, the read lock is released.
+          This method is called by the
+          <code>
+<a href="#deref" shape="rect">deref</a>
+</code> method
+          in the same class.
+        </td>
+      </tr>
+      <tr>
+        <td class="table_name" colspan="1" rowspan="1">
+<a name="deref" shape="rect">deref</a>
+</td>
+        <td class="table_desc" colspan="1" rowspan="1">
+          This method returns the current value of the Ref.
+          If the current thread is in a transaction
+          then it calls the <code>
+<a href="#doGet" shape="rect">doGet</a>
+</code> method
+          on the <code>LockingTransaction</code> object
+          for the current thread to get the value.
+          Otherwise it calls the
+          <code>
+<a href="#currentVal" shape="rect">currentVal</a>
+</code> method
+          in the same class.
+        </td>
+      </tr>
+      <tr>
+        <td class="table_name" colspan="1" rowspan="1">
+          <a name="getHistoryCount" shape="rect">getHistoryCount</a>
+        </td>
+        <td class="table_desc" colspan="1" rowspan="1">
+          This method acquires the write lock for the Ref
+          (blocking until successful),
+          calls the <code>
+<a href="#histCount" shape="rect">histCount</a>
+</code> method,
+          returns what it returns and releases the write lock.
+          It acquires a write lock instead of a read lock
+          because it walks the history chain to get the count
+          and needs to prevent other threads from modifying the chain
+          while it does this.
+          This is called by the
+          <code>
+<a href="#clj-ref-history-count" shape="rect">ref-history-count</a>
+</code>
+          function.
+        </td>
+      </tr>
+      <tr>
+        <td class="table_name" colspan="1" rowspan="1">
+<a name="histCount" shape="rect">histCount</a>
+</td>
+        <td class="table_desc" colspan="1" rowspan="1">
+          This method returns the number of
+          <code>
+<a href="#TVal" shape="rect">TVal</a>
+</code> objects
+          associated with the Ref,
+          which is the length of the history chain.
+        </td>
+      </tr>
+      <tr>
+        <td class="table_name" colspan="1" rowspan="1">
+<a name="isBound" shape="rect">isBound</a>
+</td>
+        <td class="table_desc" colspan="1" rowspan="1">
+          This method returns a boolean that indicates whether there is
+          at least one <code>
+<a href="#TVal" shape="rect">TVal</a>
+</code> object
+          in the history chain for this Ref.
+          Before checking for this, a read lock is obtained for the Ref.
+          Before returning, the read lock is released.
+        </td>
+      </tr>
+      <tr>
+        <td class="table_name" colspan="1" rowspan="1">
+<a name="set" shape="rect">set</a>
+</td>
+        <td class="table_desc" colspan="1" rowspan="1">
+          This method takes a proposed new value for the Ref.
+          It simply passes the Ref and the new value to the
+          <code>
+<a href="#doSet" shape="rect">doSet</a>
+</code> method
+          on the <code>LockingTransaction</code> object
+          for the current thread.
+        </td>
+      </tr>
+      <tr>
+        <td class="table_name" colspan="1" rowspan="1">
+<a name="touch" shape="rect">touch</a>
+</td>
+        <td class="table_desc" colspan="1" rowspan="1">
+          This method simply passes the Ref to the
+          <code>
+<a href="#doEnsure" shape="rect">doEnsure</a>
+</code> method on the
+          <code>LockingTransaction</code> object for the current thread.
+          It is called by the
+          <code>
+<a href="#clj-ensure" shape="rect">ensure</a>
+</code> function in order to
+          prevent other transactions from changing this Ref.
+        </td>
+      </tr>
+      <tr>
+        <td class="table_name" colspan="1" rowspan="1">
+<a name="trimHistory" shape="rect">trimHistory</a>
+</td>
+        <td class="table_desc" colspan="1" rowspan="1">
+          This method removes all the but newest
+          <code>
+<a href="#TVal" shape="rect">TVal</a>
+</code> object
+          from the history chain.
+          Before doing this, a write lock for the Ref is obtained.
+          Before returning, the write lock is released.
+          No code in the current version of Clojure calls this method.
+        </td>
+      </tr>
+    </table>
+
+    <h3>LockingTransaction Constants</h3>
+    <p>
+      The <code>LockingTransaction</code> class is defined in
+      <code>src/jvm/clojure/lang/LockingTransaction.java</code>.
+    </p>
+    <table border="1">
+      <tr class="table_header">
+        <th colspan="1" rowspan="1">Name</th>
+        <th colspan="1" rowspan="1">Description</th>
+      </tr>
+      <tr>
+        <td class="table_name" colspan="1" rowspan="1">
+<a name="BARGE_WAIT_NANOS" shape="rect">BARGE_WAIT_NANOS</a>
+</td>
+        <td class="table_desc" colspan="1" rowspan="1">
+          This specifies the minimum amount of time (1/100th of a second)
+          that a transaction must have run in order for it to
+          attempt to cause another conflicting transaction to retry.
+        </td>
+      </tr>
+      <tr>
+        <td class="table_name" colspan="1" rowspan="1">
+<a name="LOCK_WAIT_MSECS" shape="rect">LOCK_WAIT_MSECS</a>
+</td>
+        <td class="table_desc" colspan="1" rowspan="1">
+          This specifies the amount of time (1/10th of a second)
+          to wait for something to happen.
+          It is used by the
+          <code>
+<a href="#tryWriteLock" shape="rect">tryWriteLock</a>
+</code> method
+          to limit how long it waits to obtain a write lock for a given Ref.
+          It is also used by the
+          <code>
+<a href="#lock" shape="rect">lock</a>
+</code> method
+          to limit how long it waits for
+          the <code>
+<a href="#latch" shape="rect">latch</a>
+</code>
+          in an <code>
+<a href="#Info" shape="rect">Info</a>
+</code> object
+          associated with a given Ref to be decremented to zero.
+        </td>
+      </tr>
+      <tr>
+        <td class="table_name" colspan="1" rowspan="1">
+<a name="RETRY_LIMIT" shape="rect">RETRY_LIMIT</a>
+</td>
+        <td class="table_desc" colspan="1" rowspan="1">
+          This specifies the maximum number of times
+          a transaction will be retried before giving up.
+          The current value is 10,000.
+          If it gives up then a plain <code>java.lang.Exception</code>
+          is thrown.
+          This happens in the <code>
+<a href="#run" shape="rect">run</a>
+</code> method.
+        </td>
+      </tr>
+      <tr>
+        <td class="table_name" colspan="1" rowspan="1">
+          RUNNING<br/>
+          COMMITTING<br/>
+          RETRY<br/>
+          KILLED<br/>
+          COMMITTED
+        </td>
+        <td class="table_desc" colspan="1" rowspan="1">
+          These describe the status of a transaction.
+          Three of these have an obvious meaning.
+          <code>RETRY</code> is the status of a transaction that is
+          going to retry, but hasn't started the next try yet.
+          <code>KILLED</code> is the status of a transaction that
+          was stopped by another, conflicting transaction.
+          The transaction will retry,
+          and have its status changed to <code>RETRY</code>,
+          unless an exception is also thrown
+          (which is done in the
+          <code>
+<a href="#abort" shape="rect">abort</a>
+</code> method).
+        </td>
+      </tr>
+    </table>
+
+    <h3>LockingTransaction Nested Classes</h3>
+    <p>
+      These are static nested classes defined inside
+      the <code>LockingTransaction</code> class.
+    </p>
+    <table border="1">
+      <tr class="table_header">
+        <th colspan="1" rowspan="1">Name</th>
+        <th colspan="1" rowspan="1">Description</th>
+      </tr>
+      <tr>
+        <td class="table_name" colspan="1" rowspan="1">
+<a name="AbortException" shape="rect">AbortException</a>
+</td>
+        <td class="table_desc" colspan="1" rowspan="1">
+          This is a simple subclass of <code>java.lang.Exception</code>
+          that is thrown in the <code>abort</code> method.
+          No code in the current version of Clojure calls that method,
+          so this class isn't currently used.
+        </td>
+      </tr>
+      <tr>
+        <td class="table_name" colspan="1" rowspan="1">
+<a name="CFn" shape="rect">CFn</a>
+</td>
+        <td class="table_desc" colspan="1" rowspan="1">
+          Objects from this class hold
+          a reference to a function (<code>IFn</code>) and
+          a sequence of arguments to be passed to it (<code>ISeq</code>).
+          They are used to store information about commute functions
+          so they can be invoked a second time
+          when a transaction is being committed.
+        </td>
+      </tr>
+      <tr>
+        <td class="table_name" colspan="1" rowspan="1">
+<a name="Info" shape="rect">Info</a>
+</td>
+        <td class="table_desc" colspan="1" rowspan="1">
+          Objects from this class describe the status of a transaction.
+          A new one is created at the beginning of each transaction try.
+          The class has a single method, <code>running</code>,
+          that returns a boolean indicating whether
+          the transaction currently has a state of
+          <code>RUNNING</code> or <code>COMMITTING</code>.
+        </td>
+      </tr>
+      <tr>
+        <td class="table_name" colspan="1" rowspan="1">
+<a name="Notify" shape="rect">Notify</a>
+</td>
+        <td class="table_desc" colspan="1" rowspan="1">
+          This class has three fields,
+          one to hold a Ref that changed,
+          one to hold its previous value,
+          and one to hold its new value.
+          An instance is created and added to a list
+          during a transaction commit
+          for each Ref that was modified during the transaction.
+          After the transaction is committed,
+          the information in these objects is used to
+          notify the watchers of the Refs about the changes.
+        </td>
+      </tr>
+      <tr>
+        <td class="table_name" colspan="1" rowspan="1">
+<a name="RetryEx" shape="rect">RetryEx</a>
+</td>
+        <td class="table_desc" colspan="1" rowspan="1">
+          This is a simple subclass of <code>java.lang.Error</code>.
+          Only one instance of this class is created per thread.
+          It is held in the <code>
+<a href="#retryex" shape="rect">retryex</a>
+</code>
+          field of the single <code>LockingTransaction</code> object
+          that is created for each thread.
+          This object is thrown whenever a transaction needs to retry.
+          The fact that it extends Error instead of Exception
+          indicates that your code should not catch this.
+          The Clojure STM implementation catches it in the retry loop
+          of the <code>
+<a href="#run" shape="rect">run</a>
+</code> method.
+          Since the <code>done</code> flag isn't set to true,
+          the loop continues with another try of the transaction.
+        </td>
+      </tr>
+    </table>
+
+    <h3>CFn Fields</h3>
+    <table border="1">
+      <tr class="table_header">
+        <th colspan="1" rowspan="1">Name</th>
+        <th colspan="1" rowspan="1">Description</th>
+      </tr>
+      <tr>
+        <td class="table_name" colspan="1" rowspan="1">fn:IFn<br/>(final)</td>
+        <td class="table_desc" colspan="1" rowspan="1">
+          This is a reference to a function that was passed to
+          the <code>
+<a href="#clj-commute" shape="rect">commute</a>
+</code> function.
+        </td>
+      </tr>
+      <tr>
+        <td class="table_name" colspan="1" rowspan="1">args:ISeq<br/>(final)</td>
+        <td class="table_desc" colspan="1" rowspan="1">
+          This is a list of arguments to be passed to the function.
+        </td>
+      </tr>
+    </table>
+
+    <h3>Info Fields</h3>
+    <table border="1">
+      <tr class="table_header">
+        <th colspan="1" rowspan="1">Name</th>
+        <th colspan="1" rowspan="1">Description</th>
+      </tr>
+      <tr>
+        <td class="table_name" colspan="1" rowspan="1">
+          <a name="latch" shape="rect">latch</a>:<br/>
+          <a href="http://java.sun.com/javase/6/docs/api/java/util/concurrent/CountDownLatch.html" shape="rect">java.util.concurrent.CountDownLatch</a>
+<br/>
+          (final)
+        </td>
+        <td class="table_desc" colspan="1" rowspan="1">
+          This latch object is created in the constructor
+          of the <code>
+<a href="#Info" shape="rect">Info</a>
+</code> class
+          with a value of one.
+          It is decremented by the <a href="#stop" shape="rect">stop</a> method
+          in LockingTransaction.
+          The <code>
+<a href="#blockAndBail" shape="rect">blockAndBail</a>
+</code> method
+          waits (with a timeout) for it to reach zero
+          before triggering a retry of the current transaction.
+          The <code>
+<a href="#barge" shape="rect">barge</a>
+</code> method
+          also waits for it to reach zero so it knows that
+          the transaction it is barging has been stopped.
+        </td>
+      </tr>
+      <tr>
+        <td class="table_name" colspan="1" rowspan="1">
+          status:<br/>
+          <a href="http://java.sun.com/javase/6/docs/api/java/util/concurrent/atomic/AtomicInteger.html" shape="rect">java.util.concurrent.AtomicInteger</a>
+<br/>
+          (final)
+        </td>
+        <td class="table_desc" colspan="1" rowspan="1">
+          This holds the current status of the associated transaction.
+        </td>
+      </tr>
+      <tr>
+        <td class="table_name" colspan="1" rowspan="1">
+          <a name="startPoint1" shape="rect">startPoint</a>:long<br/>(final)
+        </td>
+        <td class="table_desc" colspan="1" rowspan="1">
+          This value identifies the order in which
+          the associated transaction started,
+          relative to other transaction starts, retries and commits.
+        </td>
+      </tr>
+    </table>
+
+    <h3>Notify Fields</h3>
+    <table border="1">
+      <tr class="table_header">
+        <th colspan="1" rowspan="1">Name</th>
+        <th colspan="1" rowspan="1">Description</th>
+      </tr>
+      <tr>
+        <td class="table_name" colspan="1" rowspan="1">ref:Ref<br/>(final)</td>
+        <td class="table_desc" colspan="1" rowspan="1">
+          This is a Ref that was modified in a transaction.
+        </td>
+      </tr>
+      <tr>
+        <td class="table_name" colspan="1" rowspan="1">oldval:Object<br/>(final)</td>
+        <td class="table_desc" colspan="1" rowspan="1">
+          This is the previous value of the Ref.
+        </td>
+      </tr>
+      <tr>
+        <td class="table_name" colspan="1" rowspan="1">newval:Object<br/>(final)</td>
+        <td class="table_desc" colspan="1" rowspan="1">
+          This is the new value of the Ref.
+        </td>
+      </tr>
+    </table>
+
+    <h3>LockingTransaction Fields</h3>
+    <p>
+      All fields in the <code>LockingTransaction</code> class
+      are package level.  However, in the current version of Clojure
+      no other classes extend <code>LockingTransaction</code>
+      and no other classes in the same package directly access its fields.
+    </p>
+    <table border="1">
+      <tr class="table_header">
+        <th colspan="1" rowspan="1">Name</th>
+        <th colspan="1" rowspan="1">Description</th>
+      </tr>
+      <tr>
+        <td class="table_name" colspan="1" rowspan="1">
+          <a name="actions" shape="rect">actions</a>:<br/>
+          ArrayList&lt;Agent.Action&gt;
+          <br/>(final)
+        </td>
+        <td class="table_desc" colspan="1" rowspan="1">
+          This field is a collection of Agent actions.
+          When actions are sent to Agents within a transaction,
+          they are saved in this collection
+          (by the <code>
+<a href="#enqueue" shape="rect">enqueue</a>
+</code> method)
+          and not actually sent until the transaction commits.
+          This is sometimes used to execute code that has side effects
+          in order to prevent the side effects from occurring multiple times
+          due to transaction retries.
+          <br/>
+<br/>
+          The <code>
+<a href="#clj-send" shape="rect">send</a>
+</code> and
+          <code>
+<a href="#clj-send-off" shape="rect">send-off</a>
+</code> functions
+          that send actions to Agents
+          both call the <code>dispatch</code> method
+          in the <code>Agent</code> class.
+          That calls the <code>dispatchAction</code> method
+          in the <code>Agent</code> class
+          which checks for a running transaction in the current thread.
+          If one is running, it passes the action to the
+          <code>
+<a href="#enqueue" shape="rect">enqueue</a>
+</code> method
+          in the <code>LockingTransaction</code> class.
+        </td>
+      </tr>
+      <tr>
+        <td class="table_name" colspan="1" rowspan="1">
+          <a name="commutes" shape="rect">commutes</a>:<br/>
+          TreeMap<br/>
+          &lt;Ref, ArrayList&lt;CFn&gt;&gt;<br/>(final)
+        </td>
+        <td class="table_desc" colspan="1" rowspan="1">
+          This field is a map from Refs to the commute functions
+          that have been called on them.
+          <code>CFn</code> is a static, nested class whose objects
+          hold a reference to a Clojure function and
+          a sequence of arguments to be passed to it.
+          When the transaction is ready to commit,
+          all the commute functions are reexecuted
+          to compute the Ref values that will be committed.
+        </td>
+      </tr>
+      <tr>
+        <td class="table_name" colspan="1" rowspan="1">
+          <a name="ensures" shape="rect">ensures</a>:HashSet&lt;Ref&gt;<br/>(final)
+        </td>
+        <td class="table_desc" colspan="1" rowspan="1">
+          This field holds the set of Refs on which the
+          <code>
+<a href="#clj-ensure" shape="rect">ensure</a>
+</code> function
+          has been called in the current transaction try.
+          It is accessed in the following
+          <code>LockingTransaction</code> methods:
+          <code>
+<a href="#doEnsure" shape="rect">doEnsure</a>
+</code>,
+          <code>
+<a href="#releaseIfEnsured" shape="rect">releaseIfEnsured</a>
+</code>
+          and <code>
+<a href="#run" shape="rect">run</a>
+</code>.
+          If a Ref is set using <code>
+<a href="#clj-ref-set" shape="rect">ref-set</a>
+</code>
+          or <code>
+<a href="#clj-alter" shape="rect">alter</a>
+</code>
+          after <code>
+<a href="#clj-ensure" shape="rect">ensure</a>
+</code>
+          has been called on it,
+          it will be removed from this set by the
+          <code>
+<a href="#releaseIfEnsured" shape="rect">releaseIfEnsured</a>
+</code>
+          method which is called by the
+          <code>
+<a href="#lock" shape="rect">lock</a>
+</code> method.
+          During a commit, before commute functions
+          are run a second time on on a Ref,
+          the Ref is passed to the
+          <code>
+<a href="#releaseIfEnsured" shape="rect">releaseIfEnsured</a>
+</code>
+          method.  That releases the read lock on the Ref
+          so a write lock can be obtained for it.
+        </td>
+      </tr>
+      <tr>
+        <td class="table_name" colspan="1" rowspan="1">
+          <a name="info" shape="rect">info</a>:<br/>
+          LockingTransaction.<a href="#Info" shape="rect">Info</a>
+        </td>
+        <td class="table_desc" colspan="1" rowspan="1">
+          This field holds an object that describes
+          the status of the transaction,
+          the system time when that status was set, and a
+          <a href="http://java.sun.com/javase/6/docs/api/java/util/concurrent/CountDownLatch.html" shape="rect">CountDownLatch</a> that starts with a value of one.
+          It has a single method, <code>running</code>,
+          that returns a boolean indicating
+          whether the transaction is currently running or committing.
+          <br/>
+<br/>
+          When an attempt is made to set a Ref using
+          <code>
+<a href="#clj-ref-set" shape="rect">ref-set</a>
+</code> or
+          <code>
+<a href="#clj-alter" shape="rect">alter</a>
+</code>,
+          the <code>
+<a href="#lock" shape="rect">lock</a>
+</code> method
+          in <code>LockingTransaction</code> is called.
+          A Ref is "locked" by setting its
+          <code>
+<a href="#tinfo" shape="rect">tinfo</a>
+</code> field
+          to the value of the <code>info</code> field
+          for the <code>LockingTransaction</code> object
+          of the current thread.
+          <br/>
+<br/>
+          The <code>
+<a href="#lock" shape="rect">lock</a>
+</code> method
+          in the <code>LockingTransaction</code> class
+          assigns the value of this field to the
+          <code>
+<a href="#tinfo" shape="rect">tinfo</a>
+</code> field of a Ref
+          to "lock" it.
+          There are three places in <code>LockingTransaction</code>
+          where the
+          <code>
+<a href="#tinfo" shape="rect">tinfo</a>
+</code> field is used.
+          The first is in the <code>
+<a href="#lock" shape="rect">lock</a>
+</code> method.
+          The second is in the
+          <code>
+<a href="#doEnsure" shape="rect">doEnsure</a>
+</code> method.
+          The third is in the <code>
+<a href="#run" shape="rect">run</a>
+</code> method,
+          during a commit when commute functions are run a second time.
+          <br/>
+<br/>
+          In both the <code>
+<a href="#lock" shape="rect">lock</a>
+</code> and
+          <code>
+<a href="#run" shape="rect">run</a>
+</code> methods,
+          if the <code>
+<a href="#tinfo" shape="rect">tinfo</a>
+</code> field
+          of the Ref is set to
+          a <code>LockingTransaction.Info</code> object from
+          a different <code>LockingTransaction</code>
+          and that transaction is currently running
+          then the <code>
+<a href="#barge" shape="rect">barge</a>
+</code> method
+          will be called to determine which transaction should retry.
+          If the other transaction is selected to retry
+          then the <code>
+<a href="#tinfo" shape="rect">tinfo</a>
+</code> field
+          of the Ref will be modified to refer to
+          the <code>LockingTransaction.Info</code>
+          object for the current <code>LockingTransaction</code>.
+          <br/>
+<br/>
+          See the description of the
+          <code>
+<a href="#latch" shape="rect">latch</a>
+</code> field
+          in the <code>
+<a href="#Info" shape="rect">Info</a>
+</code> class
+          to learn how the latch is used.
+        </td>
+      </tr>
+      <tr>
+        <td class="table_name" colspan="1" rowspan="1">
+          <a name="lastPoint" shape="rect">lastPoint</a>:AtomicLong<br/>(static, final)
+        </td>
+        <td class="table_desc" colspan="1" rowspan="1">
+          This field is used to provide long values that indicate
+          the order in which significant transaction-related events occur.
+          These include
+          the start of each transaction, each retry, and each commit.
+        </td>
+      </tr>
+      <tr>
+        <td class="table_name" colspan="1" rowspan="1">
+<a name="readPoint" shape="rect">readPoint</a>:long</td>
+        <td class="table_desc" colspan="1" rowspan="1">
+          This field is used to track the order of the beginning of
+          each transaction try across all transactions.
+          At the beginning of each retry, including the initial try,
+          the <code>getReadPoint</code> method is called.
+          That assigns the next highest integer number
+          to <code>readPoint</code>
+          by atomically incrementing the <code>lastPoint</code> field.
+          <br/>
+<br/>
+          This field has two uses.
+          <br/>
+<br/>
+          It is used by the <code>lock</code> method to determine
+          if the value of a Ref has been modified by any transaction commit
+          since the transaction try began.
+          If this occurs then the current transaction will retry.
+          <br/>
+<br/>
+          It is used by the <code>doGet</code> method to determine
+          if the chain of values for the Ref contains any value
+          that was set before the transaction try began.
+          When no such value is found in the chain,
+          the number of "faults" that have occurred for the Ref
+          is incremented.
+        </td>
+      </tr>
+      <tr>
+        <td class="table_name" colspan="1" rowspan="1">
+          <a name="retryex" shape="rect">retryex</a>:<a href="#RetryEx" shape="rect">RetryEx</a>
+<br/>(final)
+        </td>
+        <td class="table_desc" colspan="1" rowspan="1">
+          This field holds the exception object that is
+          thrown in several places to cause the transaction to retry.
+          <code>
+<a href="#RetryEx" shape="rect">RetryEx</a>
+</code> is a
+          static, nested class that extends <code>java.lang.Error</code>.
+        </td>
+      </tr>
+      <tr>
+        <td class="table_name" colspan="1" rowspan="1">
+          <a name="sets" shape="rect">sets</a>:HashSet&lt;Ref&gt;<br/>(final)
+        </td>
+        <td class="table_desc" colspan="1" rowspan="1">
+          This field keeps track of all the Refs
+          that have been modified inside the current transaction try
+          using <code>
+<a href="#clj-ref-set" shape="rect">ref-set</a>
+</code>
+          or <code>
+<a href="#clj-alter" shape="rect">alter</a>
+</code>
+          so the new values can be committed at the end of the transaction.
+          <i>Question: Why can't the keys of the <code>vals</code> map
+          be used in place of this?</i>
+        </td>
+      </tr>
+      <tr>
+        <td class="table_name" colspan="1" rowspan="1">
+          <a name="startPoint2" shape="rect">startPoint</a>:long
+        </td>
+        <td class="table_desc" colspan="1" rowspan="1">
+          This field is assigned
+          the value of the <code>readPoint</code> field
+          at the beginning of the first try of the transaction.
+          It is used when two transactions are in conflict
+          to determine which has been running longer.
+          If the the current transaction has been running for at least
+          <a href="#BARGE_WAIT_NANOS" shape="rect">BARGE_WAIT_NANOS</a>
+          (1/100th of a second)
+          and it started before the other conflicting transaction
+          then an attempt will be made to retry the other transaction.
+          See the <code>
+<a href="#barge" shape="rect">barge</a>
+</code> method.
+        </td>
+      </tr>
+      <tr>
+        <td class="table_name" colspan="1" rowspan="1">
+          <a name="startTime" shape="rect">startTime</a>:long
+        </td>
+        <td class="table_desc" colspan="1" rowspan="1">
+          This field holds the system time when
+          the first try to execute the transaction began.
+          It is used by the
+          <code>
+<a href="#bargeTimeElapsed" shape="rect">bargeTimeElapsed</a>
+</code>
+          method to determine how long the transaction has been running.
+        </td>
+      </tr>
+      <tr>
+        <td class="table_name" colspan="1" rowspan="1">
+          transaction:<br/>
+          <code>
+<a href="http://java.sun.com/javase/6/docs/api/java/lang/ThreadLocal.html" shape="rect">ThreadLocal</a>
+</code>
+<br/>
+          &lt;LockingTransaction&gt;<br/>
+          (static, final)
+        </td>
+        <td class="table_desc" colspan="1" rowspan="1">
+          This field holds the single <code>LockingTransaction</code> object
+          that is associated with each thread.
+          It is used to manage all transactions
+          that are run in the current thread.
+        </td>
+      </tr>
+      <tr>
+        <td class="table_name" colspan="1" rowspan="1">
+          <a name="vals" shape="rect">vals</a>:HashMap<br/>
+          &lt;Ref, Object&gt;<br/>
+          (final)
+        </td>
+        <td class="table_desc" colspan="1" rowspan="1">
+          This field is a map where the keys are Refs whose
+          values have been modified within the current transaction
+          and the values are their in-transaction values.
+        </td>
+      </tr>
+    </table>
+
+    <h3>LockingTransaction Methods</h3>
+    <p>
+      The methods in the <code>LockingTransaction</code> class
+      that play a significant role in the STM implementation
+      are described below.
+    </p>
+    <table border="1">
+      <tr class="table_header">
+        <th colspan="1" rowspan="1">Name</th>
+        <th colspan="1" rowspan="1">Description</th>
+      </tr>
+      <tr>
+        <td class="table_name" colspan="1" rowspan="1">
+<a name="abort" shape="rect">abort</a>
+</td>
+        <td class="table_desc" colspan="1" rowspan="1">
+          This method stops the transaction,
+          sets the status of the transaction to <code>KILLED</code>,
+          and throws an <code>AbortException</code>.
+          The finally clause in the
+          <code>
+<a href="#run" shape="rect">run</a>
+</code> method of LockingTransaction
+          will properly clean up the aborted transaction
+          and the exception will propagate out to the caller.
+          No code in the current version of Clojure calls this method.
+        </td>
+      </tr>
+      <tr>
+        <td class="table_name" colspan="1" rowspan="1">
+<a name="barge" shape="rect">barge</a>
+</td>
+        <td class="table_desc" colspan="1" rowspan="1">
+          This method takes an <code>
+<a href="#Info" shape="rect">Info</a>
+</code> object
+          that describes the transaction to be barged.
+          It determines whether
+          a given <code>LockingTransaction</code>,
+          identified by its <code>LockingTransaction.Info</code> object,
+          should and can be retried
+          in order to allow the <code>LockingTransaction</code>
+          for the current thread to continue.
+          <br/>
+<br/>
+          If the the current transaction has run for at least
+          <a href="#BARGE_WAIT_NANOS" shape="rect">BARGE_WAIT_NANOS</a>
+          (1/100th of a second)
+          and it started before the given transaction
+          then an attempt will be made to retry the given transaction.
+          This will succeed as long as the status of the other transaction
+          is <code>RUNNING</code>.
+          If that is the case then, atomically with the check,
+          the status of the other transaction
+          is changed to <code>KILLED</code>.
+          Also, the <code>
+<a href="#latch" shape="rect">latch</a>
+</code> field
+          in the <a href="#Info" shape="rect">Info</a> object
+          of that transaction is decremented.
+        </td>
+      </tr>
+      <tr>
+        <td class="table_name" colspan="1" rowspan="1">
+          <a name="bargeTimeElapsed" shape="rect">bargeTimeElapsed</a>
+        </td>
+        <td class="table_desc" colspan="1" rowspan="1">
+          This method determines whether the transaction
+          has been running for more than
+          <a href="#BARGE_WAIT_NANOS" shape="rect">BARGE_WAIT_NANOS</a>
+          (1/100th of a second).
+          Transactions that have been running for less time than this
+          cannot barge other transactions.
+          Since they have barely started running,
+          they will retry instead.
+        </td>
+      </tr>
+      <tr>
+        <td class="table_name" colspan="1" rowspan="1">
+<a name="blockAndBail" shape="rect">blockAndBail</a>
+</td>
+        <td class="table_desc" colspan="1" rowspan="1">
+          This method takes a <code>LockingTransaction.Info</code> object 
+          describing the status of another transaction.
+          It calls the <code>
+<a href="#stop" shape="rect">stop</a>
+</code> method
+          on the current transaction,
+          giving it a status of <code>RETRY</code>.
+          It then waits for up to
+          <code>
+<a href="#LOCK_WAIT_MSECS" shape="rect">LOCK_WAIT_MSECS</a>
+</code>
+          (1/10th of a second) for the latch of the other transaction
+          to be decremented to zero which will happen
+          if the other transaction is barged or stopped.
+          Finally, it triggers a retry of the current transaction.
+          <br/>
+<br/>
+          This part of the design was inspired by the paper
+          "<a href="http://www.acc.ncku.edu.tw/chinese/faculty/shulc/courses/adb/transactional-memory/notlockfree.pdf" shape="rect">Software Transactional Memory Should Not Be Obstruction-Free</a>" [<a href="#ref11" shape="rect">11</a>].
+        </td>
+      </tr>
+      <tr>
+        <td class="table_name" colspan="1" rowspan="1">
+<a name="doCommute" shape="rect">doCommute</a>
+</td>
+        <td class="table_desc" colspan="1" rowspan="1">
+          This method takes a Ref,
+          a function whose return value will become its new value,
+          and arguments to be passed to the function
+          after the current value of the Ref.
+          It verifies that a transaction
+          is running in the current thread
+          (status = <code>RUNNING</code> or <code>COMMITTING</code>).
+          If not, it triggers a retry which will
+          bring the status back to <code>RUNNING</code>.
+          If the transaction doesn't yet have
+          an in-transaction value for the Ref,
+          it gets its newest value which may be a value that was
+          committed by another transaction since this transaction began.
+          The newest value is added to the map of in-transaction values
+          (<code>
+<a href="#vals" shape="rect">vals</a>
+</code>).
+          The function and its arguments are added to
+          a list of commute functions for the Ref
+          so they can be executed again during the commit.
+          It executes that function on
+          the in-transaction value of the Ref and the arguments.
+          It replaces the in-transaction value of the Ref
+          with the return value of the function
+          and then returns that value.
+          <br/>
+<br/>
+          During a transaction commit,
+          in the <code>
+<a href="#run" shape="rect">run</a>
+</code> method,
+          all the commute functions are rerun using in-transaction values.
+          They aren't necessarily called in the same order
+          in which they were called in the transaction body.
+        </td>
+      </tr>
+      <tr>
+        <td class="table_name" colspan="1" rowspan="1">
+<a name="doEnsure" shape="rect">doEnsure</a>
+</td>
+        <td class="table_desc" colspan="1" rowspan="1">
+          This method takes a Ref.
+          It verifies that a transaction
+          is running in the current thread
+          (status = <code>RUNNING</code> or <code>COMMITTING</code>).
+          If not, it triggers a retry which will
+          bring the status back to <code>RUNNING</code>.
+          Otherwise it continues.
+          If this method has already been called on the given Ref
+          during the current transaction try, then it simply returns.
+          Otherwise it acquires a read lock for the Ref.
+          If the Ref has been written by
+          another transaction that hasn't yet committed,
+          it releases the read lock and calls
+          <code>
+<a href="#blockAndBail" shape="rect">blockAndBail</a>
+</code>
+          which triggers a retry of the current transaction.
+          Otherwise the Ref is added to
+          the set of Refs ensured in the current transaction try
+          (<code>
+<a href="#ensures" shape="rect">ensures</a>
+</code>).
+        </td>
+      </tr>
+      <tr>
+        <td class="table_name" colspan="1" rowspan="1">
+<a name="doGet" shape="rect">doGet</a>
+</td>
+        <td class="table_desc" colspan="1" rowspan="1">
+          This method takes a Ref whose value is to be returned.
+          It verifies that a transaction
+          is running in the current thread
+          (status = <code>RUNNING</code> or <code>COMMITTING</code>).
+          If not, it triggers a retry which will
+          bring the status back to <code>RUNNING</code>.
+          If the Ref has an in-transaction value, it is returned.
+          Otherwise it continues.
+          A read lock for the Ref is obtained.
+          If the Ref has no value (unbound),
+          an <code>IllegalStateException</code> is thrown.
+          It gets the newest committed value of the Ref
+          and then repeatedly gets the next oldest value
+          in the history chain until one is found that
+          was committed before the current transaction try began.
+          It returns that value and releases the read lock on the Ref.
+          <br/>
+<br/>
+          If the history of committed values for the Ref
+          doesn't contain a value that was committed
+          before the current tranansaction try began
+          then it increments the number of faults for the Ref
+          and triggers a retry.
+          Faults cause more history to be retained for the Ref
+          in the future (managed in the
+          <code>
+<a href="#run" shape="rect">run</a>
+</code> method).
+          Each time the history chain length for a Ref is increased by one
+          due to a fault, the fault count for the Ref is reset to zero.
+          <br/>
+<br/>
+          This method is called by
+          the <code>
+<a href="#deref" shape="rect">deref</a>
+</code>
+          and <code>
+<a href="#alter" shape="rect">alter</a>
+</code> methods
+          in the <code>Ref</code> class.
+        </td>
+      </tr>
+      <tr>
+        <td class="table_name" colspan="1" rowspan="1">
+<a name="doSet" shape="rect">doSet</a>
+</td>
+        <td class="table_desc" colspan="1" rowspan="1">
+          This method takes a Ref and a proposed new value.
+          Its goal is to change the in-transaction value of the Ref.
+          It verifies that a transaction
+          is running in the current thread
+          (status = <code>RUNNING</code> or <code>COMMITTING</code>).
+          If not, it triggers a retry which will
+          bring the status back to <code>RUNNING</code>.
+          <br/>
+<br/>
+          The <code>
+<a href="#clj-ref-set" shape="rect">ref-set</a>
+</code>
+          and <code>
+<a href="#clj-alter" shape="rect">alter</a>
+</code> functions
+          both result in a call to this method.
+          Neither can be called on a Ref after the
+          <code>
+<a href="#clj-commute" shape="rect">commute</a>
+</code> function
+          has been called on it in the current transaction try.
+          Doing so will cause an 
+          <code>IllegalStateException</code> to be thrown.
+          However, <code>ref-set</code> and <code>alter</code>
+          can be called any number of times on the same Ref
+          within a transaction and in any order.
+          <br/>
+<br/>
+          If the Ref hasn't been modified yet in the current transaction,
+          indicated by its absence from the
+          <code>
+<a href="#sets" shape="rect">sets</a>
+</code> collection,
+          three things are done.
+          First, the Ref is added to <code>
+<a href="#sets" shape="rect">sets</a>
+</code>.
+          Second, the Ref is "locked" by passing it to
+          the <code>
+<a href="#lock" shape="rect">lock</a>
+</code> method.
+          Third, the Ref and its new value are added as key and value
+          in the <code>
+<a href="#vals" shape="rect">vals</a>
+</code> map.
+          <br/>
+<br/>
+          Note that <code>
+<a href="#doCommute" shape="rect">doCommute</a>
+</code>
+          does not call <code>
+<a href="#lock" shape="rect">lock</a>
+</code> on the Ref.
+          The new value is simply saved as the new in-transaction value
+          of the Ref and it is returned.
+          <br/>
+<br/>
+          If the Ref has a validator function, it will not be called
+          until the transaction is committing the changes.
+          Note that a new history chain node (<a href="#TVal" shape="rect">TVal</a>)
+          for the Ref isn't created until
+          the transaction is ready to commit.
+          <br/>
+<br/>
+          The <code>
+<a href="#doSet" shape="rect">doSet</a>
+</code> method is called from
+          the <code>
+<a href="#set" shape="rect">set</a>
+</code>
+          and <code>
+<a href="#alter" shape="rect">alter</a>
+</code> methods
+          of the <code>Ref</code> class.
+        </td>
+      </tr>
+      <tr>
+        <td class="table_name" colspan="1" rowspan="1">
+<a name="enqueue" shape="rect">enqueue</a>
+</td>
+        <td class="table_desc" colspan="1" rowspan="1">
+          This method takes an <code>Agent.Action</code> object
+          that holds a reference to an Agent,
+          a function to be invoked on it,
+          arguments to be passed to the function
+          and an indication of the thread pool
+          in which the function should be executed.
+          It adds that object to the list of actions
+          to be invoked after the transaction has committed.
+        </td>
+      </tr>
+      <tr>
+        <td class="table_name" colspan="1" rowspan="1">
+          <a name="getCommitPoint" shape="rect">getCommitPoint</a>
+        </td>
+        <td class="table_desc" colspan="1" rowspan="1">
+          This method takes no arguments.
+          It returns a value that is used to indicate
+          the order in which commits occur.
+          It is called by the <code>
+<a href="#run" shape="rect">run</a>
+</code> method
+          during a commit,
+          after all the Refs to be modified by the transaction
+          have been locked and
+          immediately before new nodes are added to
+          the history chains of the Refs being modified.
+          It obtains the next highest integer number
+          by atomically incrementing the
+          <code>
+<a href="#lastPoint" shape="rect">lastPoint</a>
+</code> field.
+        </td>
+      </tr>
+      <tr>
+        <td class="table_name" colspan="1" rowspan="1">
+<a name="getEx" shape="rect">getEx</a>
+</td>
+        <td class="table_desc" colspan="1" rowspan="1">
+          This method takes no arguments.
+          It returns the <code>LockingTransaction</code> object
+          for the current thread if one has been created and is running,
+          or throws an <code>IllegalStateException</code> otherwise.
+          Several methods in the <code>Ref</code> class call this.
+          They include <code>
+<a href="#alter" shape="rect">alter</a>
+</code>,
+          <code>
+<a href="#commute" shape="rect">commute</a>
+</code>,
+          <code>
+<a href="#set" shape="rect">set</a>
+</code>
+          (called by the <code>
+<a href="#clj-ref-set" shape="rect">ref-set</a>
+</code>
+          function) and
+          <code>
+<a href="#touch" shape="rect">touch</a>
+</code>
+          (called by the <code>
+<a href="#clj-ensure" shape="rect">ensure</a>
+</code>
+          function).
+        </td>
+      </tr>
+      <tr>
+        <td class="table_name" colspan="1" rowspan="1">
+<a name="getReadPoint" shape="rect">getReadPoint</a>
+</td>
+        <td class="table_desc" colspan="1" rowspan="1">
+          This method takes no arguments.
+          It is called by the <code>
+<a href="#run" shape="rect">run</a>
+</code> method
+          at the beginning of each transaction try.
+          The value it returns is used to indicate
+          the order in which transactions start and retry.
+          It gets its value by atomically incrementing the
+          <code>
+<a href="#lastPoint" shape="rect">lastPoint</a>
+</code> field.
+        </td>
+      </tr>
+      <tr>
+        <td class="table_name" colspan="1" rowspan="1">
+<a name="getRunning" shape="rect">getRunning</a>
+</td>
+        <td class="table_desc" colspan="1" rowspan="1">
+          This method takes no arguments.
+          It returns the <code>LockingTransaction</code> object
+          for the current thread if one has been created and is not stopped,
+          or null otherwise.
+        </td>
+      </tr>
+      <tr>
+        <td class="table_name" colspan="1" rowspan="1">
+<a name="isRunning" shape="rect">isRunning</a>
+</td>
+        <td class="table_desc" colspan="1" rowspan="1">
+          This method takes no arguments.
+          It returns a boolean that indicates whether
+          the transaction associated with the current thread
+          is currently running.
+          A transaction is considered to be running if
+          a <code>LockingTransaction</code> object
+          has been created for the current thread
+          AND its <code>
+<a href="#info" shape="rect">info</a>
+</code> field is not null.
+          The <code>
+<a href="#stop" shape="rect">stop</a>
+</code> method
+          sets the <code>
+<a href="#info" shape="rect">info</a>
+</code> field to null.
+          That is called by the <code>
+<a href="#run" shape="rect">run</a>
+</code> method
+          near the end of a transaction commit,
+          by the <code>
+<a href="#abort" shape="rect">abort</a>
+</code> method,
+          and by the <code>
+<a href="#lock" shape="rect">lock</a>
+</code> method
+          when it is unable to obtain a lock for a Ref to be modified.
+        </td>
+      </tr>
+      <tr>
+        <td class="table_name" colspan="1" rowspan="1">
+<a name="lock" shape="rect">lock</a>
+</td>
+        <td class="table_desc" colspan="1" rowspan="1">
+          This method takes a Ref, marks it as having its value set
+          since the beginning of the transaction try,
+          and returns its most recently committed value.
+          <br/>
+<br/>
+          Locking a Ref is done by setting its <code>tinfo</code> field
+          to a <code>LockingTransaction.Info</code> object
+          that describes the current transaction.
+          In order to ensure that only one transaction is able to do this,
+          a write lock for the Ref is acquired
+          near the beginning of this method
+          and it is released at the end.
+          Recall that a write lock can only be acquired from a
+          <code>
+<a href="http://java.sun.com/javase/6/docs/api/java/util/concurrent/locks/ReentrantReadWriteLock.html" shape="rect">ReentrantReadWriteLock</a>
+</code>
+          object if no thread holds its read or write lock.
+          If the <code>
+<a href="#clj-ensure" shape="rect">ensure</a>
+</code> function
+          was called on the Ref earlier in the current transaction try
+          then a read lock for the Ref is already held.
+          The <code>
+<a href="#releaseIfEnsured" shape="rect">releaseIfEnsured</a>
+</code>
+          method is called on the Ref to release that read lock
+          so that the write lock can be acquired.
+          <br/>
+<br/>
+          If the Ref has a value that was committed
+          after the current transaction try began
+          (called the "read point"),
+          it triggers a retry of the current transaction.
+          Next it checks whether the Ref has been modified
+          in a concurrently running transaction.
+          If so, it attempts to <code>
+<a href="#barge" shape="rect">barge</a>
+</code>
+          the other transaction.
+          If that fails, it triggers a retry of the current transaction.
+          Otherwise it marks that Ref as
+          being locked by the current transaction
+          by setting the <code>tinfo</code> field of the Ref to
+          refer to the <code>LockingTransaction.Info</code> object
+          for the current transaction
+          and returns its most recently committed value.
+          It ends by releasing the write lock
+          that was obtained at the beginning of the method.
+          <br/>
+<br/>
+          The <code>lock</code> method is called from
+          the <code>
+<a href="#doSet" shape="rect">doSet</a>
+</code> method.
+        </td>
+      </tr>
+      <tr>
+        <td class="table_name" colspan="1" rowspan="1">
+<a name="releaseIfEnsured" shape="rect">releaseIfEnsured</a>
+</td>
+        <td class="table_desc" colspan="1" rowspan="1">
+          This method takes a Ref.
+          If the <code>
+<a href="#clj-ensure" shape="rect">ensure</a>
+</code> function
+          has been called on the Ref during the current transaction try,
+          the Ref is removed from the
+          <code>
+<a href="#ensures" shape="rect">ensures</a>
+</code> field set
+          and the read lock for the Ref (obtained during the earlier
+          <code>
+<a href="#clj-ensure" shape="rect">ensure</a>
+</code>) is released.
+          Otherwise the method does nothing.
+          This is called by the <code>
+<a href="#lock" shape="rect">lock</a>
+</code>
+          and <code>
+<a href="#run" shape="rect">run</a>
+</code> methods.
+        </td>
+      </tr>
+      <tr>
+        <td class="table_name" colspan="1" rowspan="1">
+<a name="run" shape="rect">run</a>
+</td>
+        <td class="table_desc" colspan="1" rowspan="1">
+          This method is the heart of Clojure STM.
+          It takes a
+          <code>
+<a href="http://java.sun.com/javase/6/docs/api/java/util/concurrent/Callable.html" shape="rect">Callable</a>
+</code>
+          object that represents the code from the body of the transaction
+          that will be executed inside a transaction.
+          It starts by creating an empty list of Refs that are locked
+          and an empty list of
+          <code>
+<a href="#Notify" shape="rect">Notify</a>
+</code> objects.
+          <code>
+<a href="#Notify" shape="rect">Notify</a>
+</code> is a
+          static class defined in the same source file.
+          Instances hold a Ref, its old value and its new value.
+          They are used to notify watchers
+          that the value of a Ref has changed.
+          <br/>
+<br/>
+          This method then
+          enters a loop that manages transaction retries.
+          The loop exits if
+          the transaction completes successfully,
+          the maximum number of retries is performed (10,000),
+          or an exception other than retry exception
+          (<code>
+<a href="#RetryEx" shape="rect">RetryEx</a>
+</code>) is thrown.
+          The body of the loop contains one try block with a catch for
+          <code>
+<a href="#RetryEx" shape="rect">RetryEx</a>
+</code> and a finally block.
+          The catch doesn't contain any code and simply allows execution
+          to return to the top of the loop for a potential retry.
+          The finally block is discussed later.
+          <br/>
+<br/>
+          Inside the loop, the
+          <code>
+<a href="#readPoint" shape="rect">readPoint</a>
+</code> is incremented.
+          This acts as a unique identifier for all the reads of Refs
+          that occur in the current transaction try.
+          If this is the first try for the current transaction,
+          the <code>
+<a href="#startPoint2" shape="rect">startPoint</a>
+</code> is set to
+          the <code>
+<a href="#readPoint" shape="rect">readPoint</a>
+</code>
+          and the <code>
+<a href="#startTime" shape="rect">startTime</a>
+</code>
+          of the transaction is captured.
+          <br/>
+<br/>
+          The status of the transaction is stored in
+          an <code>
+<a href="#Info" shape="rect">Info</a>
+</code> object.
+          <code>
+<a href="#Info" shape="rect">Info</a>
+</code> is a static class
+          defined in the same source file.
+          Instances hold a status, a start point and
+          a <code>
+<a href="#latch" shape="rect">latch</a>
+</code>
+          whose use was described earlier.
+          Valid status values are
+          <code>RUNNING</code>, <code>COMMITTING</code>,
+          <code>RETRY</code>, <code>KILLED</code>
+          and <code>COMMITTED</code>.
+          The status is set to <code>RUNNING</code> near the beginning of
+          each try loop iteration.
+          <br/>
+<br/>
+          Still in the loop, the
+          <code>
+<a href="http://java.sun.com/javase/6/docs/api/java/util/concurrent/Callable.html" shape="rect">Callable</a>
+</code>
+          passed as a argument is called.
+          This executes the expressions that were in the body
+          of the <code>
+<a href="#clj-dosync" shape="rect">dosync</a>
+</code>.
+          Typically more than one Ref is read or dereferenced in this code
+          and sometimes one or more Refs are modified,
+          thus the need for a transaction.
+          <br/>
+<br/>
+          After the body is successfully executed,
+          the status is checked to verify that
+          no other thread has barged this transaction.
+          That changes the status from <code>RUNNING</code>
+          to <code>KILLED</code>.
+          If the transaction has not been killed then,
+          atomically as part of the status check,
+          the status is changed from <code>RUNNING</code>
+          to <code>COMMITTING</code>.
+          <br/>
+<br/>
+          Now the process of <b>committing</b> the transaction begins.
+          This involves four major steps.
+          The first step is to rerun all the commute functions.
+          The second step is to obtain a write lock
+          for every Ref that was modified.
+          The third step is to verify that the validator
+          of every Ref that was modified approves of the change.
+          The fourth step is to commit the change to each modified Ref.
+          <br/>
+<br/>
+          The <b>first commit step</b> iterates though
+          each of the Refs that were commuted.
+          If during the current transaction
+          <code>
+<a href="#clj-ref-set" shape="rect">ref-set</a>
+</code> or
+          <code>
+<a href="#clj-alter" shape="rect">alter</a>
+</code>
+          was called on the Ref
+          before <code>
+<a href="#clj-commute" shape="rect">commute</a>
+</code>
+          was called on it
+          then its commute functions are not called again and
+          no further processing of the current Ref
+          is performed in this step.
+          This is because <code>
+<a href="#clj-commute" shape="rect">commute</a>
+</code>
+          has already been run on what will become
+          the newest value of the Ref.
+          If <code>
+<a href="#clj-ensure" shape="rect">ensure</a>
+</code>
+          was called on the Ref in this transaction
+          then the current transaction already holds
+          a read lock for the Ref and that is released.
+          Next, a write lock is acquired for the Ref and
+          the Ref is added to a list of Refs
+          (in the local variable <code>locked</code>)
+          that are locked by the current transaction.
+          Note that write locks are acquired for the Refs
+          in the order in which the <code>Ref</code> objects were created.
+          This avoids deadlock in case another transaction
+          is concurrently attempting to commit changes
+          made to the same Refs
+          using <code>
+<a href="#clj-commute" shape="rect">commute</a>
+</code>.
+          If the Ref was ensured in this transaction
+          and a new value was committed since this transaction try began
+          then a retry of the current transaction is triggered.
+          <i>Question: How could this happen since
+          doing an <code>ensure</code> prevents other writers?</i>
+
+          It then checks to see if another running transaction
+          has made an in-transaction change to the Ref.
+          If so, it attempts to <code>
+<a href="#barge" shape="rect">barge</a>
+</code>
+          that transaction.
+          If this fails then
+          a retry is triggered for the current transaction.
+          Otherwise, it obtains the newest committed value of the Ref
+          and saves it as its in-transaction value
+          for the current transaction.
+          Finally, each commute function for the Ref is called,
+          passing it the in-transaction value of the Ref
+          and any additional arguments that were passed to
+          the <code>
+<a href="#clj-commute" shape="rect">commute</a>
+</code> function
+          the first time it was called.
+          The in-transaction value of the Ref is replaced by
+          the value returned from the commute function.
+          <br/>
+<br/>
+          In the <b>second commit step</b>, 
+          a write lock is acquired for each Ref that was modified
+          in the transaction body.
+          If any requested write lock cannot be acquired
+          then the current transaction will retry.
+          <br/>
+<br/>
+          In the <b>third commit step</b>, the validator function
+          of every modified Ref that has one is called.
+          If any validator function disapproves of the change
+          being made to its Ref then the current transaction will retry.
+          <br/>
+<br/>
+          In the <b>
+<a name="commit-step-4" shape="rect">fourth commit step</a>
+</b>,
+          changes to Refs are written to their history chains.
+          Either a new <code>
+<a href="#TVal" shape="rect">TVal</a>
+</code> object
+          is added to the beginning of the chain
+          or the oldest <a href="#TVal" shape="rect">TVal</a> object in the chain
+          (the last one)
+          is changed to become the beginning of the chain
+          and it takes on the new value.
+          A new <a href="#TVal" shape="rect">TVal</a> object
+          is added if any of the following are true:
+          <ol>
+            <li>The length of the history chain is currently zero.</li>
+            <li>The length of the history chain is less than
+            the value of <code>
+<a href="#minHistory" shape="rect">minHistory</a>
+</code>
+            for the Ref.</li>
+            <li>At least one fault has occurred for this Ref
+              since the last time the fault count was reset to zero
+              and the length of the history chain is less than
+              the value of <code>
+<a href="#maxHistory" shape="rect">maxHistory</a>
+</code>
+              for the Ref.</li>
+          </ol>
+          If the modified Ref has any watchers,
+          a <code>
+<a href="#Notify" shape="rect">Notify</a>
+</code> object is created
+          which describes the change.
+          This contains the Ref that changed,
+          its old value and its new value.
+          The <code>
+<a href="#Notify" shape="rect">Notify</a>
+</code> objects
+          are collected in a list.
+          The watchers aren't actually notified
+          until the finally block is reached.
+          <br/>
+<br/>
+          The <b>finally block</b> performs cleanup steps
+          for the transaction.
+          It releases all the write locks acquired for Refs back in step 2.
+          It releases all the read locks acquired by ensures
+          that weren't released in step 1.
+          This is necessary for Refs on which
+          <code>
+<a href="#clj-ensure" shape="rect">ensure</a>
+</code> was called,
+          but <code>
+<a href="#clj-ref-set" shape="rect">ref-set</a>
+</code>,
+          <code>
+<a href="#clj-alter" shape="rect">alter</a>
+</code> and
+          <code>
+<a href="#clj-commute" shape="rect">commute</a>
+</code> were never called.
+          It then calls <code>
+<a href="#stop" shape="rect">stop</a>
+</code>
+          to change the status of the transaction.
+          If completing successfully,
+          the status is changed to <code>COMMITTED</code>.
+          Otherwise it is changed to <code>RETRY</code>.
+          If any <code>
+<a href="#Notify" shape="rect">Notify</a>
+</code> objects
+          were created then it passes the old and new value from each
+          to the watchers of the corresponding Refs.
+          If any actions were sent to Agents inside the transaction,
+          it dispatches them.
+          If the <a href="#RETRY_LIMIT" shape="rect">RETRY_LIMIT</a> is exceeded
+          then a generic checked exception is thrown
+          and no more retries are attempted.
+        </td>
+      </tr>
+      <tr>
+        <td class="table_name" colspan="1" rowspan="1">
+<a name="runInTransaction" shape="rect">runInTransaction</a>
+<br/>(static)</td>
+        <td class="table_desc" colspan="1" rowspan="1">
+          This accepts a
+          <code>
+<a href="http://java.sun.com/javase/6/docs/api/java/util/concurrent/Callable.html" shape="rect">Callable</a>
+</code>
+          object that represents the anonymous function
+          that was passed from
+          the <code>
+<a href="#clj-sync" shape="rect">sync</a>
+</code> macro.
+          There is one
+          <code>
+<a href="http://java.sun.com/javase/6/docs/api/java/lang/ThreadLocal.html" shape="rect">ThreadLocal</a>
+</code>
+          <code>LockingTransaction</code> object per thread.
+          If one hasn't been created yet for the current thread,
+          this method creates it.
+          If the <code>LockingTransaction</code> has already
+          started running then the <code>call</code> method
+          is simply invoked on the
+          <code>
+<a href="http://java.sun.com/javase/6/docs/api/java/util/concurrent/Callable.html" shape="rect">Callable</a>
+</code>.
+          This is how an inner transaction joins or
+          is composed into an outer transaction
+          (nested <code>
+<a href="#clj-dosync" shape="rect">dosync</a>
+</code> calls).
+          Otherwise the
+          <code>
+<a href="http://java.sun.com/javase/6/docs/api/java/util/concurrent/Callable.html" shape="rect">Callable</a>
+</code> object
+          is passed to the <code>
+<a href="#run" shape="rect">run</a>
+</code> method
+          of the <code>LockingTransaction</code> object
+          to run in a new transaction.
+        </td>
+      </tr>
+      <tr>
+        <td class="table_name" colspan="1" rowspan="1">
+<a name="stop" shape="rect">stop</a>
+</td>
+        <td class="table_desc" colspan="1" rowspan="1">
+          This method
+          changes the status of the transaction to a given value
+          and signals that the change has completed by
+          decrementing the latch in its <a href="#Info" shape="rect">Info</a> object
+          to zero.
+          The <code>
+<a href="#blockAndBail" shape="rect">blockAndBail</a>
+</code> method
+          waits for this.
+          It then clears data associated with
+          the <code>LockingTransaction</code>.
+          This includes setting the
+          <code>
+<a href="#info" shape="rect">info</a>
+</code> field to null
+          and clearing the <code>
+<a href="#vals" shape="rect">vals</a>
+</code>,
+          <code>
+<a href="#sets" shape="rect">sets</a>
+</code> and
+          <code>
+<a href="#commutes" shape="rect">commutes</a>
+</code> collections.
+          Note that the <code>
+<a href="#ensures" shape="rect">ensures</a>
+</code>
+          collection is not cleared.
+          This means that the read locks acquired by calling
+          <code>
+<a href="#clj-ensure" shape="rect">ensure</a>
+</code> on a Ref
+          are retained across transaction tries.
+          <i>Question:
+          Is retaining those locks across retries intentional?</i>
+          <i>Question: Why isn't the
+          <code>
+<a href="#actions" shape="rect">actions</a>
+</code> collection cleared?
+          Couldn't this result in actions being invoked
+          more than once if a transaction has to retry?</i>
+          <br/>
+<br/>
+          When a transaction completes, the
+          <code>
+<a href="#stop" shape="rect">stop</a>
+</code> method is called on it.
+          This sets the status of the transaction to either
+          <code>COMMITTED</code> or <code>RETRY</code>.
+        </td>
+      </tr>
+      <tr>
+        <td class="table_name" colspan="1" rowspan="1">
+<a name="tryWriteLock" shape="rect">tryWriteLock</a>
+</td>
+        <td class="table_desc" colspan="1" rowspan="1">
+          This method takes a Ref.
+          It tries for up to
+          <a href="#LOCK_WAIT_MSECS" shape="rect">LOCK_WAIT_MSECS</a>
+          (1/10th of a second)
+          to acquire a write lock for the Ref.
+          If this fails due to
+          the read or write lock being held by another thread
+          (in which case the timeout will expire)
+          or the current thread being interrupted,
+          a retry of the current transaction is triggered.
+          This method is called by
+          the <code>
+<a href="#lock" shape="rect">lock</a>
+</code>
+          and <code>
+<a href="#run" shape="rect">run</a>
+</code> methods.
+        </td>
+      </tr>
+    </table>
+
+    <h2>
+<a name="Conclusion" shape="rect">Conclusion</a>
+</h2>
+    <p>
+      STM implementations are somewhat complicated.
+      However, developing applications that use STM is
+      less complicated and easier to get correct
+      than using a lock-based approach.
+      It seems likely that over time using STM will become
+      as common and trusted as using garbage collection is today.
+    </p>
+    <p>
+      Watch for updates to this article
+      as the Clojure STM implementation improves,
+      eventually being replaced by an implementation
+      written in Clojure instead of Java.
+    </p>
+    
+    <h2>
+<a name="References" shape="rect">References</a>
+</h2>
+    <ul>
+
+      <li>[<a name="ref1" shape="rect">1</a>] my STM site -
+        <a href="http://www.ociweb.com/mark/stm/" shape="rect">http://www.ociweb.com/mark/stm/</a>
+</li>
+
+        <li>[<a name="ref2" shape="rect">2</a>] my Clojure article<br/>
+        <a href="http://ociweb.com/mark/clojure/article.html" shape="rect">http://ociweb.com/mark/clojure/article.html</a>
+</li>
+
+        <li>[<a name="ref3" shape="rect">3</a>] Wikipedia Actor Model entry<br/>
+        <a href="http://en.wikipedia.org/wiki/Actor_model" shape="rect">http://en.wikipedia.org/wiki/Actor_model</a>
+</li>
+
+        <li>[<a name="ref4" shape="rect">4</a>] Wikipedia STM entry<br/>
+        <a href="http://en.wikipedia.org/wiki/Software_transactional_memory" shape="rect">http://en.wikipedia.org/wiki/Software_transactional_memory</a>
+</li>
+
+        <li>[<a name="ref5" shape="rect">5</a>] Wikipedia deadlock entry<br/>
+        <a href="http://en.wikipedia.org/wiki/Deadlock" shape="rect">http://en.wikipedia.org/wiki/Deadlock</a>
+</li>
+
+        <li>[<a name="ref6" shape="rect">6</a>] Wikipedia livelock entry<br/>
+        <a href="http://en.wikipedia.org/wiki/Deadlock#Livelock" shape="rect">http://en.wikipedia.org/wiki/Deadlock#Livelock</a>
+</li>
+
+        <li>[<a name="ref7" shape="rect">7</a>] Wikipedia race condition entry<br/>
+        <a href="http://en.wikipedia.org/wiki/Race_condition" shape="rect">http://en.wikipedia.org/wiki/Race_condition</a>
+</li>
+
+        <li>[<a name="ref8" shape="rect">8</a>] The Transactional Memory / Garbage Collection Analogy<br/>
+        paper by Dan Grossman<br/>
+        <a href="http://www.cs.washington.edu/homes/djg/papers/analogy_oopsla07.pdf" shape="rect">http://www.cs.washington.edu/homes/djg/papers/analogy_oopsla07.pdf</a>
+</li>
+
+        <li>[<a name="ref9" shape="rect">9</a>] Software Engineering Radio podcast on STM and Garbage Collection<br/>
+        <a href="http://www.se-radio.net/podcast/2007-09/episode-68-dan-grossman-garbage-collection-and-transactional-memory" shape="rect">http://www.se-radio.net/podcast/2007-09/episode-68-dan-grossman-garbage-collection-and-transactional-memory</a>
+</li>
+
+        <li>[<a name="ref10" shape="rect">10</a>] State, You're Doing It Wrong<br/>
+        slides by Jonas Boner<br/>
+        <a href="http://jonasboner.com/talks/state_youre_doing_it_wrong/html/all.html" shape="rect">http://jonasboner.com/talks/state_youre_doing_it_wrong/html/all.html</a>
+</li>
+
+        <li>[<a name="ref11" shape="rect">11</a>] Software Transactional Memory Should Not Be Obstruction-Free<br/>
+        paper by Robert Ennals<br/>
+        <a href="http://www.acc.ncku.edu.tw/chinese/faculty/shulc/courses/adb/transactional-memory/notlockfree.pdf" shape="rect">http://www.acc.ncku.edu.tw/chinese/faculty/shulc/courses/adb/transactional-memory/notlockfree.pdf</a>
+</li>
+
+        <li>[<a name="ref12" shape="rect">12</a>] Clojure: STMs vs Locks<br/>
+        discussion with Cliff Click, Rich Hickey and others<br/>
+        <a href="http://blogs.azulsystems.com/cliff/2008/05/clojure-stms-vs.html" shape="rect">http://blogs.azulsystems.com/cliff/2008/05/clojure-stms-vs.html</a>
+</li>
+
+        <li>[<a name="ref13" shape="rect">13</a>] Clojure main site -
+        <a href="http://clojure.org" shape="rect">http://clojure.org</a>
+</li>
+
+        <li>[<a name="ref14" shape="rect">14</a>] Persistent data structures<br/>
+        <a href="http://en.wikipedia.org/wiki/Persistent_data_structures" shape="rect">http://en.wikipedia.org/wiki/Persistent_data_structures</a>
+</li>
+
+        <li>[<a name="ref15" shape="rect">15</a>] STM implementations<br/>
+        <a href="http://en.wikipedia.org/wiki/Software_transactional_memory#Implementations" shape="rect">http://en.wikipedia.org/wiki/Software_transactional_memory#Implementations</a>
+</li>
+
+        <li>[<a name="ref16" shape="rect">16</a>] Multi-version concurrency control (MVCC)<br/>  
+        <a href="http://en.wikipedia.org/wiki/Multiversion_concurrency_control" shape="rect">http://en.wikipedia.org/wiki/Multiversion_concurrency_control</a>
+</li>
+
+        <li>[<a name="ref17" shape="rect">17</a>] Snapshot isolation<br/>
+        <a href="http://en.wikipedia.org/wiki/Snapshot_isolation" shape="rect">http://en.wikipedia.org/wiki/Snapshot_isolation</a>
+</li>
+
+    </ul>
+    
+  <hr class="September"/>
+<!--#include virtual="./services.html"-->
+<hr class="September"/>
+<!--#include virtual="./footer.html"-->
+</body>
+</html>

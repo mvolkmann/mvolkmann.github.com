@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+  "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>U.S. Zip Code Lookup</title>
+    <link rel="stylesheet" type="text/css" href="demo.css"/>
+    <script type="text/javascript" src="../jquery-1.4.2.min.js"></script>
+    <script type="text/javascript" src="demo.js"></script>
+  </head>
+  <body>
+    <h1>U.S. Zip Code Lookup</h1>
+    <form id="myForm" action="http://ociweb.com/foo" method="post">
+      <table>
+        <tr>
+          <td class="label">Postal Code:</td>
+          <td><input id="zip" name="postalcode"
+            type="text" size="5" value="63304"/></td>
+          <td><input id="lookup" type="button" value="Lookup"/></td>
+        </tr>
+        <tr>
+          <td class="label">City:</td>
+          <td id="city"/>
+        </tr>
+        <tr>
+          <td class="label">State:</td>
+          <td id="state"/>
+        </tr>
+      </table>
+    </form>
+  </body>
+</html>

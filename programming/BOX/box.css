@@ -1,0 +1,63 @@
+.answer {
+	margin-left:		1em;
+	margin-top:		1ex;
+}
+
+.boxTypeCode {
+	color:			red;
+	font-weight:		bold;
+}
+
+.code {
+	color:			green;
+	font-family:		monospace;
+}
+
+.codeI {
+	color:			green;
+	font-family:		monospace;
+	text-indent:		2em;
+}
+
+.copyright {
+	font-size:		xx-small;
+	font-style:		italic;
+}
+
+.grammar {
+	font-family:		monospace;
+	margin-top:		1ex;
+}
+
+.grammarComment {
+	text-indent:		3em;
+}
+
+.highlight {
+	color:			red;
+	font-weight:		bold;
+}
+
+.question {
+	border-top:		solid red 1px;
+	font-style:		italic;
+	margin-top:		1ex;
+	padding-top:		1ex;
+}
+
+.subtitle {
+	color:			blue;
+	font-size:		medium;
+	font-weight:		bold;
+}
+
+.title {
+	background-color:	yellow;
+	font-size:		large;
+	font-weight:		bold;
+	text-align:		center;
+}
+
+.toc {
+	background-colorx:	yellow;
+}

@@ -1,0 +1,1251 @@
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="description" content="tmux"/>
+    <meta name="keywords"
+      content="tmux terminal multiplexer vim unix mac keyboard"/>
+    <meta name="subject" content="tmux"/>
+    <title>tmux</title>
+
+    <link href="./styles/SETT.css" rel="stylesheet" type="text/css"/>
+    <link href="./styles/shCore.css" rel="stylesheet" type="text/css"/>
+    <link href="./styles/shThemeDefault.css" rel="stylesheet" type="text/css"/>
+
+    <style type="text/css">
+      @media print {
+        * {
+          font-size: 10pt;
+        }
+        caption {
+          font-size: 12pt;
+        }
+        h2 {
+          font-size: 14pt;
+        }
+        .new-page {
+          page-break-before: always;
+        }
+        .tmux-table th, .tmux-table td {
+          font-size: 8pt;
+        }
+      } /* end of print media */
+
+      caption {
+        font-size: 14pt;
+        font-weight: bold;
+        margin-bottom: 10px;
+        margin-top: 10px;
+      }
+      table {
+        border-collapse: collapse;
+        border-width: 3px;
+      }
+      td, th {
+        border-width: 2px;
+        padding: 2px;
+        vertical-align: top;
+      }
+      td {
+        font-size: 10pt;
+      }
+      td > hr {
+        background-color: grey;
+        border: none;
+        height: 1px;
+      }
+      th {
+        font-size: 9pt;
+      }
+      tr {
+        text-align: left;
+      }
+      .layout {
+        height: 150px;
+      }
+      .table_header {
+        background: pink;
+      }
+      .tmux-table {
+        border-collapse: collapse;
+        border: solid black 2px;
+      }
+      .tmux-table th, .tmux-table td {
+        border: solid black 2px;
+      }
+      .updated {
+        font-size: 10pt;
+        text-align: center;
+      }
+    </style>
+
+    <!-- syntax highlighting -->
+    <script src="./js/shCore.js"></script>
+    <script src="./js/shBrushPlain.js"></script>
+    <script>SyntaxHighlighter.all()</script>
+  </head>
+  <body>
+    <h1>tmux</h1>
+    <p class="author">
+      Mark Volkmann, Partner at Object Computing, Inc. (OCI),
+      <a href="mailto:mark@ociweb.com">mark@ociweb.com</a>
+      <div class="updated">updated on 9/11/16</div>
+    </p>
+
+    <h2>Introduction</h2>
+    <p>
+      This article provides an overview of
+      <a href="https://tmux.github.io/">tmux</a>.
+      tmux is short for "terminal multiplexer."
+      It dramatically expands what can be done with terminal windows.
+      It is highly configurable and scriptable.
+    </p>
+    <p>
+      tmux is an alternative to an older, similar program named "screen".
+      It was created by Nicholas Marriott.
+      The first version was released in 2007.
+    </p>
+    <p>
+      One benefit of both tmux and screen is realized when working on
+      remote machines where network communication can fail.
+      Both maintain the state of sessions so the user can pick up where
+      they left off by reconnecting and reattaching to the session.
+    </p>
+    <p>
+      I first learned about tmux from the excellent book
+      "tmux: Productive Mouse-Free Development" by Brian Hogan at
+      <a href="http://pragprog.com/book/bhtmux/tmux">http://pragprog.com/book/bhtmux/tmux</a>.
+      If this article piques your interest in tmux,
+      I highly recommend getting this book.
+    </p>
+    <p>
+      Another excellent source of information about tmux is its long man page.
+      Studying the tmux man page will enable you to
+      maximize the benefits derived from its use.
+      If you decide to print it, generate a nicely formatted PostScript version
+      with <code>man -t tmux &gt; tmux.ps</code>.
+    </p>
+
+    <p>
+      This article contains many tables.
+      It is intended to be printed and used as a cheat sheet.
+      The tables have been carefully organized and styled
+      so none of them split across a page break.
+    </p>
+
+    <h2>For You?</h2>
+    <p>
+      Like any software tool, tmux doesn't appeal to everyone.
+      There are three key indicators that tmux is a fit for you.
+      <ol>
+        <li>
+          You work in a Unix-like environment like Linux or Mac OS X.
+          tmux is not supported under Windows, but can run under Cygwin
+          when installed like other Cygwin tools.
+        </li>
+        <li>
+          You frequently work in terminal windows
+          performing command-line activities.
+        </li>
+        <li>
+          You value using keyboard shortcuts as alternatives to using a mouse.
+          An indicator of this is that you prefer editors like Vim or emacs,
+          or that you have memorized many keyboard shortcuts in an IDE.
+        </li>
+      </ol>
+    </p>
+
+    <h2>Benefits over plain terminal windows</h2>
+    <p>
+      <ol>
+        <li>
+          Keyboard shortcuts can be used for everything.
+          Once learned, this is more efficient than using a mouse.
+        </li>
+        <li>
+          The keyboard shortcuts for every operation can be customized.
+        </li>
+        <li>
+          Copy mode supports copying and pasting between windows
+          without using a mouse.
+        </li>
+        <li>
+          Windows can be split into panes, horizontally and vertically.
+          These panes can be rearranged and resized.
+        </li>
+        <li>
+          Tmux can be exited (detach) and restarted again later (attach)
+          without losing the state of the windows.
+        </li>
+        <li>
+          Pair programming is supported.  Multiple people can share
+          a set of windows and concurrently modify them.
+        </li>
+      </ol>
+    </p>
+
+    <h2 class="new-page">Terminology</h2>
+    <table class="tmux-table">
+      <tr>
+        <th>Term</th>
+        <th>Definition</th>
+      </tr>
+      <tr>
+        <th>server</th>
+        <td>
+          A tmux server manages a set of sessions.<br>
+          The server is started when the user creates the first session.<br>
+          The server terminates when all sessions have been killed.
+        </td>
+      </tr>
+      <tr>
+        <th>client</th>
+        <td>
+          A tmux client manages the interactions with one session at a time.<br>
+          When the user enters a command from the command-line to create<br>
+          a new session or attach to an existing one, a client is created.<br>
+          The user can start any number of clients.
+        </td>
+      </tr>
+      <tr>
+        <th>session</th>
+        <td>
+          A tmux session is a collection of windows.<br>
+          The user can ask a client to create a new window in a session,<br>
+          kill an existing window in a session,<br>
+          or switch to a different session.
+        </td>
+      </tr>
+      <tr>
+        <th>window</th>
+        <td>
+          A tmux window has one or more associated panes.<br>
+          A client displays one window of a session at a time.<br>
+          By default, the name of a window is the command
+          it is currently running, but they can be renamed.<br>
+          The user can ask a client to split an existing pane<br>
+          in order to create a new pane in a window,<br>
+          kill an existing pane in a window, or<br>
+          display a different window from the current session.
+        </td>
+      </tr>
+      <tr>
+        <th>pane</th>
+        <td>
+          A tmux pane belongs to a window and
+          is displayed when its window is displayed.<br>
+          Each pane runs the default shell in a command-line terminal.<br>
+          The user can ask a client to change the active pane,<br>
+          the layout of the panes, or the position of the panes.<br>
+        </td>
+      </tr>
+      <tr>
+        <th>status bar</th>
+        <td>
+          A tmux client displays a status bar, typically on the bottom line,<br>
+          but it can be configured to display at the top.<br>
+          It has three sections named left, center, and right.<br>
+          The content of the left and right sections can be customized.<br>
+          The center section displays a list of the<br>
+          names of the windows in the current session.<br>
+          The currently opened window has an asterisk after its name.<br>
+          The previously opened window has a hyphen after its name.
+        </td>
+      </tr>
+    </table>
+    <img src="images/tmux-screen-shot.png" alt="screenshot"/>
+
+    <p class="new-page">
+      <br>
+      Typically it is desirable to view certain panes simultaneously.
+      This is accomplished by putting those panes in the same window.
+      The pane border color indicates which pane is active.
+    </p>
+    <p>
+      Consider creating a separate session for each group of related activities.
+      For example, when working on multiple projects, create a session for each.
+      Each project can have its own script that attaches to an existing session
+      for that project if one already exists, or creates a new session.
+      The script can create a set of windows, each with a set of panes,
+      that are configured in a way that is convenient for that project.
+      The script can also run commands (ex. ssh) in specific panes.
+    </p>
+    <p>
+      On the other hand, using a single session
+      containing sets of unrelated windows
+      has the advantage that all windows are always visible
+      in the status bar of the one session.
+      It is somewhat easier to switch between these windows,
+      that to switch between both sessions and windows.
+    </p>
+    <p>
+      Sessions and windows can have names, but panes typically only have indexes.
+      A pane can be given a title by running this command from the pane:
+      <code>printf '\e]2;<i>title</i>\e\\'</code>.
+      Pane titles are only displayed in customized status bars
+      using <code>#T</code>.
+      Only the title of the active pane is displayed.
+    </p>
+
+    <h2>Installing</h2>
+    <p>
+      To install tmux on a Mac:
+      <ol>
+        <li>Open a Terminal window.</li>
+        <li>Install <a href="http://mxcl.github.com/homebrew/">Homebrew</a>
+        by running<br>
+        <code>ruby -e "$(curl -fsSkL raw.github.com/mxcl/homebrew/go)"</code>
+        </li>
+        <li><code>brew install tmux</code></li>
+      </ol>
+    </p>
+    <p>
+      Additional Mac-specific advice appears near the end of this article.
+    </p>
+    <p>
+      The steps to install tmux in a Linux environment vary
+      based on the package manager used.<br>
+      Here are the steps when using apt-get:
+      <ol>
+        <li>Open a terminal window.</li>
+        </li>
+        <li><code>sudo apt-get install libevent-dev</code></li>
+        <li><code>sudo apt-get install libncurses5-dev</code></li>
+        <li>Download the latest version of tmux from
+          <a href="https://tmux.github.io/">https://tmux.github.io/</a></li>
+        <li><code>tar -zxvf tmux-{version}.tar.gz</code></li>
+        <li><code>cd tmux-{version}</code></li>
+        <li><code>./configure</code></li>
+        <li><code>make</code></li>
+        <li><code>sudo make install</code></li>
+      </ol>
+    </p>
+    <p>
+      To verify the version of tmux that is installed, enter <code>tmux -V</code>.
+      Note that the flag is a capital V.
+    </p>
+
+    <h2 class="new-page">Commands</h2>
+    <p>
+      There are many tmux commands.
+      The most useful subset and their options (in my opinion)
+      are covered in this article.
+      To see a list of all of them, enter <code>tmux list-commands</code>
+      or <code>tmux lscm</code>.
+    </p>
+    <p>
+      Many commands can be executed in several ways that include:
+      <ul>
+        <li>command-line / shell script</li>
+        <li>command mode in a tmux client</li>
+        <li>keyboard shortcut (default or custom) in a tmux client</li>
+        <li>tmux configuration file</li>
+      </ul>
+    </p>
+    <p>
+      Every keyboard shortcut is bound to a tmux command.
+      Some tmux commands can only be used from the command-line or a shell script.
+      Some tmux commands can only be used from inside a tmux client.
+      Some tmux commands can be used from anywhere.
+    </p>
+    <p>
+      Most keyboard shortcuts are case-sensitive and
+      begin with what tmux refers to as a "prefix key".
+      By default this is ctrl-b, also written as <code>C-b</code>.
+      The control key is abbreviated as C.
+      The tmux man page refers to control key sequences as <code>C-{key}</code>
+      and this article follows that convention.
+      The meta key is abbreviated as M.
+      On a Mac, this is cmd-option by default.
+      See the "Mac-specific Advice" section later
+      for steps that must be taken to enable this.
+      Many users bind the prefix key to <code>C-a</code> for convenience
+      and to match the prefix key in the "screen" program.
+      This is done in the sample tmux configuration file shown later.
+    </p>
+    <p>
+      Some commands briefly replace the status bar with a message.
+      The duration of the display is controlled by the
+      <code>display-time</code> option which defaults to 750ms.
+      Previously displayed messages can be viewed by running
+      the <code>show-messages</code> command whose
+      keyboard shortcut is prefix <code>~</code>.
+    </p>
+
+    <table class="tmux-table">
+      <caption>Key Binding Commands</caption>
+      <tr>
+        <th>Action</th>
+        <th>Command</th>
+      </tr>
+      <tr>
+        <th>list</th>
+        <td>
+          prefix <code>?</code>, <code>list-keys</code> or <code>lsk</code><br>
+          This lists all the current key bindings.<br>
+          Press the return key or "q" when finished viewing.
+        </td>
+      </tr>
+      <tr>
+        <th>bind</th>
+        <td>
+          <code>bind-key [-r] {key} {command}</code><br>
+          <code>bind ... </code><br>
+          This binds a key to one or more commands.<br>
+          Multiple commands are separated by semicolons.<br>
+          If the key is already bound to another command, this replaces the binding.<br>
+          The <code>-r</code> flag makes the key repeat so the command can be<br>
+          executed again by pressing the key without the prefix key.
+        </td>
+      </tr>
+      <tr>
+        <th>unbind</th>
+        <td>
+          <code>unbind-key {key}</code><br>
+          <code>unbind ...</code><br>
+          This removes a key binding.
+        </td>
+      </tr>
+    </table>
+
+    <p>
+      From a command-line or shell script, tmux commands can be executed
+      by entering "<code>tmux {command}</code>".
+      From inside a tmux client, tmux commands can be executed by
+      pressing prefix <code>:</code> to enter command mode
+      and then entering a command in the status bar.
+      Commands can be specified by name (full or shortest unique prefix)
+      or alias for commands that have one.
+      Tab completion can be used to enter command names.
+      The up and down arrows can be used to recall previously entered commands.
+    </p>
+    <p>
+      A common command flag is <code>-t</code> which specifies
+      a target client, session, window or pane.
+    </p>
+
+    <h2 class="new-page">Sample Session</h2>
+    <p>
+      After installing tmux, following along with this sample session
+      to get a feel for what tmux can do.
+     Where "prefix" appears, press <code>C-a</code>.
+    </p>
+    <ol>
+      <li>Create the file ~/.tmux.conf with the following content that will be explained later:<br><code>
+        set -g prefix C-a # changes prefix key sequence from C-b to C-a<br>
+        bind | split-window -h<br>
+        bind - split-window -v
+      </code></li>
+      <br>
+      <li>Create a session named "foo": <code>tmux new -s foo</code></li>
+      <li>Split the window horizontally: prefix <code>|</code></li>
+      <li>Split the right pane vertically: prefix <code>-</code></li>
+      <li>Run the "top" command in the lower-right pane just created: <code>top</code></li>
+      <li>Switch to the left pane: prefix left-arrow</li>
+      <li>cd to the /tmp directory and list the files there: <code>cd /tmp; ls</code></li>
+      <li>Create a second window in this session: prefix <code>c</code></li>
+      <li>Name the window "editor": prefix <code>,</code> (press the comma key)<br>and change the default name (ex. bash) to "editor"</li>
+      <li>Start a text editor in the only pane in this window: <code>vim</code></li>
+      <li>Notice that there are two window names in the status bar at the bottom.</li>
+      <li>Switch back to the first window: prefix <code>l</code></li>
+      <li>Detach from this session: prefix <code>d</code></li>
+      <br>
+      <li>Create a session named "bar": <code>tmux new -s bar</code></li>
+      <li>Split the window vertically: prefix <code>-</code></li>
+      <li>Start a text editor in the bottom pane: <code>vim</code></li>
+      <li>Split the bottom pane horizontally two times: prefix <code>|</code> prefix <code>|</code></li>
+      <li>Split the current pane vertically: prefix <code>-</code></li>
+      <li>Display a clock in the current pane: prefix <code>: clock-mode</code> or prefix <code>t</code></li>
+      <li>Change the layout of the panes in the current window several times: prefix space</li>
+      <li>Note how the pane borders indicate which pane is active.</li>
+      <li>Change the active pane several times: prefix {arrow-key}</li>
+      <li>Make the clock pane the active pane: prefix {arrow-key}</li>
+      <li>Swap the clock pane with the previous pane several times: prefix <code>{</code></li>
+      <li>Rotate all the panes in this window up: prefix <code>C-o</code></li>
+      <li>Make the vim pane the active one: prefix {arrow-key}</li>
+      <li>Move the vim pane to a new window within this session: prefix <code>!</code></li>
+      <li>Detach from this session: prefix <code>d</code></li>
+      <br>
+      <li>List the existing sessions: <code>tmux ls</code></li>
+      <li>Attach to the foo session: <code>tmux attach -t foo</code></li>
+      <li>Switch to the bar session: prefix <code>s</code>, use arrow keys to move to "bar" and press return</li>
+      <li>Detach from this session: prefix <code>d</code></li>
+      <br>
+      <li>Kill the bar session: <code>tmux kill-session -t bar</code></li>
+      <li>List the existing sessions: <code>tmux ls</code></li>
+      <li>Note that only the foo session remains.</li>
+      <li>Kill the foo session: <code>tmux kill-session -t foo</code></li>
+    </ol>
+
+    <table class="new-page tmux-table">
+      <caption>Session Commands</caption>
+      <tr>
+        <th>Action</th>
+        <th>Command</th>
+      </tr>
+      <tr>
+        <th>new</th>
+        <td>
+          <code>$ tmux new-session [-s {session-name}] [-w {first-window-name}] [{command}]</code><br>
+          <code>$ tmux new ...</code><br>
+          This creates a new session with an optional name<br>
+          containing one window with an optional name<br>
+          and starts a new client for interacting with it.<br>
+          The window will contain a single pane that runs an optional command.<br>
+          If the session or window name is omitted,<br>
+          it will be an incrementing integer starting at zero.
+        </td>
+      </tr>
+      <tr>
+        <th>detach</th>
+        <td>
+          prefix <code>d</code>, <code>detach-client</code> or <code>detach</code><br>
+          This exits from the current client.  The session continues running.
+        </td>
+      </tr>
+      <tr>
+        <th>attach</th>
+        <td>
+          <code>$ tmux attach-session -t {sess-name}</code><br>
+          <code>$ tmux attach ...</code><br>
+          This creates a new client and attaches it to an existing session.<br>
+          If there is only one session, the target (<code>-t</code>) can be omitted.
+        </td>
+      </tr>
+      <tr>
+        <th>list</th>
+        <td>
+          <code>list-sessions</code> or <code>ls</code><br>
+          When run from outside tmux, this outputs<br>
+          "failed to connect to server" if there are no sessions.<br>
+        </td>
+      </tr>
+      <tr>
+        <th>rename</th>
+        <td>
+          prefix <code>$</code> (prompts)<br>
+          <code>rename-session [-t {old-name}] {new-name}</code><br>
+          <code>rename ...</code><br>
+          This renames the current session (if <code>-t</code> is omitted) or a specified one.
+        </td>
+      </tr>
+      <tr>
+        <th>switch</th>
+        <td>
+          from a list: prefix <code>s</code> or <code>choose-session</code>
+          to list existing sessions<br>
+          &nbsp;&nbsp;move to a session and press enter to switch to that session or<br>
+          &nbsp;&nbsp;move to a session, press right arrow or space,
+          move to a window name, and press enter<br>
+          &nbsp;&nbsp;to switch to the session and make that window active<br>
+          previous: prefix <code>(</code>, <code>switch-client -p</code> or <code>switchc -p</code><br>
+          next: prefix <code>)</code>, <code>switch-client -n</code> or <code>switchc -n</code><br>
+          These change the session being viewed and operated on by the current client.
+        </td>
+      </tr>
+      <tr>
+        <th>kill</th>
+        <td>
+          <code>kill-session [-a] [-t {sess-name}]</code><br>
+          <code>-a</code> kills all sessions but the one specified with <code>-t</code>.<br>
+          Using <code>-a</code> without <code>-t</code>
+          kills all but the most recently created session.<br>
+          Run from command mode with no flags to kill the current session and client.
+        </td>
+      </tr>
+    </table>
+
+    <table class="new-page tmux-table">
+      <caption>Window Commands</caption>
+      <tr>
+        <th>Action</th>
+        <th>Command</th>
+      </tr>
+      <tr>
+        <th>new</th>
+        <td>
+          prefix <code>c</code>, <code>new-window [-n {name}] [{command}]</code> or <code>neww ...</code><br>
+          This creates a new window in the current session.<br>
+          If no name is specified, it will be the command currently running (ex. bash).
+        </td>
+      </tr>
+      <tr>
+        <th>rename</th>
+        <td>
+          prefix <code>,</code> (prompts for new name)<br>
+          <code>rename-window [-t {old-name}] {new-name}</code> or
+          <code>renamew ...</code><br>
+          This renames the current window or a specified window if <code>-t</code> is used.
+        </td>
+      </tr>
+      <tr>
+        <th>switch</th>
+        <td>
+          last selected: prefix <code>l</code>, <code>last-window</code> or <code>last</code><br>
+          next: prefix <code>n</code>, <code>next-window</code> or <code>next</code><br>
+          previous: prefix <code>p</code>, <code>previous-window</code> or <code>prev</code><br>
+          click window name in status bar (if enabled)<br>
+          by index: prefix {0..9}<br>
+          from list: prefix <code>w</code> or <code>choose-window</code><br>
+          find containing text: prefix <code>f</code> <code>{text}</code> or <code>find-window</code>
+        </td>
+      </tr>
+      <tr>
+        <th>list</th>
+        <td>
+          <code>list-windows</code> or <code>lsw</code><br>
+          A window cannot be selected from the list, so this isn't very useful.<br>
+          Pressing prefix <code>w</code>, described above, is more useful.
+        </td>
+      </tr>
+      <tr>
+        <th>move</th>
+        <td>
+          prefix <code>.</code> (prompts for other session name)<br>
+          <code>move-window -t {dst-session}</code><br>
+          <code>movew ...</code><br>
+          This moves the current window to a different session.
+        </td>
+      </tr>
+      <tr>
+        <th>kill</th>
+        <td>
+          prefix <code>&</code> (asks for confirmation), <code>kill-window</code> or <code>killw</code><br>
+          This kills the current window.
+        </td>
+      </tr>
+    </table>
+
+    <table class="new-page tmux-table">
+      <caption>Pane Commands</caption>
+      <tr>
+        <th>Action</th>
+        <th>Command</th>
+      </tr>
+      <tr>
+        <th>new</th>
+        <td>
+          via horizontal split:<br>
+          &nbsp;&nbsp;prefix <code>%</code> (often re-bound to prefix <code>|</code>), <code>split-window -h</code> or <code>splitw -h</code><br>
+          via vertical split:<br>
+          &nbsp;&nbsp;prefix <code>"</code> (often re-bound to prefix <code>-</code>), <code>split-window -v</code> or <code>splitw -v</code><br>
+        </td>
+      </tr>
+      <tr>
+        <th>switch</th>
+        <td>
+          next: prefix <code>o</code> (doesn't repeat) or <code>select-pane -t i:.+</code><br>
+          last active: prefix <code>;</code> or <code>last-pane</code><br>
+          by direction: prefix {arrow-key} (repeats)<br>
+          by index: prefix <code>q</code> or <code>display-panes</code><br>
+          &nbsp;&nbsp;This briefly displays pane indexes. Press a digit key to select a pane.<br>
+          Pane borders are colored to indicate
+          which pane currently has focus.<br>
+          For vertical borders, the top half is colored
+          when the left pane has focus<br>
+          and the bottom half is colored
+          when the right pane has focus.
+        </td>
+      </tr>
+      <tr>
+        <th>change layout</th>
+        <td>
+          See examples of the supported layouts in the next table.<br>
+          specific layout: prefix <code>M</code> {1-5}<br>
+          &nbsp;&nbsp;where the number matches one of the following layout names:<br>
+          &nbsp;&nbsp;1) <code>even-horizontal</code> (left to right)<br>
+          &nbsp;&nbsp;2) <code>even-vertical</code> (top to bottom)<br>
+          &nbsp;&nbsp;3) <code>main-horizontal</code> (top fills width)<br>
+          &nbsp;&nbsp;4) <code>main-vertical</code> (left fills height)<br>
+          &nbsp;&nbsp;5) <code>tiled</code><br>
+          cycle through layouts: prefix space (doesn't repeat)<br>
+          by layout name: <code>select-layout {name}</code>
+        </td>
+      </tr>
+      <tr>
+        <th>resize</th>
+        <td>
+          to full window: prefix z (toggles)<br>
+          &nbsp;&nbsp;"Z" is added after the window name in the status bar to indicate this.<br>
+          by one cell: prefix C-{arrow-key} (repeats)<br>
+          by five cells: prefix M-{arrow-key} (repeats)<br>
+          by any number of cells: <code>resize-pane -UDLR {cells}</code> or <code>resizep</code> ...<br>
+          These resize the current pane in the specified direction.<br>
+          If the <code>mouse-resize-pane</code> option is on, pane borders can be dragged.
+        </td>
+      </tr>
+      <tr>
+        <th>rotate</th>
+        <td>
+          down: prefix <code>C-o</code> (repeats) or <code>rotate-window -D</code><br>
+          &nbsp;&nbsp;This moves all panes to the next highest numbered position.<br>
+          up: prefix <code>M-o</code> or <code>rotate-window -U</code><br>
+          &nbsp;&nbsp;This moves all panes to the next lowest numbered position.
+        </td>
+      </tr>
+      <tr>
+        <th>swap</th>
+        <td>
+          with previous: prefix <code>{</code> (doesn't repeat)<br>
+          with next: prefix <code>}</code> (doesn't repeat)<br>
+          with a given pane: <code>swap-pane -s {pane-index}</code><br>
+          These swap the position of the current pane with another.
+        </td>
+      </tr>
+      <tr>
+        <th>move</th>
+        <td>
+          current to new window: prefix <code>!</code> or <code>break-pane</code><br>
+          current pane to an existing window:<br>
+          &nbsp;&nbsp;<code>join-pane -t {session-name}:{window}.{pane}</code>
+          or <code>joinp ...</code><br>
+          &nbsp;&nbsp;This adds the pane after the target pane.<br>
+          &nbsp;&nbsp;Omit <code>{session-name}:</code> for the current session (typical).<br>
+          &nbsp;&nbsp;If the <code>-t</code> value is only a number (no colon or period),<br>
+          &nbsp;&nbsp;it is treated as a pane index within current window.<br>
+          &nbsp;&nbsp;To move to last window, <code>joinp -t!</code><br>
+          given pane to current window:<br>
+          &nbsp;&nbsp;<code>join-pane -s {session-name}:{source-window}.{source-pane}</code><br>
+          &nbsp;&nbsp;omit {session-name}: for current session (typical)<br>
+          &nbsp;&nbsp;omit .{source-pane} if only one pane in source window<br>
+          &nbsp;&nbsp;This pane is added after the pane with focus.
+        </td>
+      </tr>
+      <tr>
+        <th>execute command<br>from a script</th>
+        <td>
+          <code>$ tmux send-keys -t {sess}:{win}:{pane} '{commands}' C-m</code><br>
+          <code>$ tmux send ...</code><br>
+          This executes commands (semicolon-separated) in a specified pane.<br>
+          <code>C-m</code> is the return key.
+          See the examples in the "Scripting" section later.
+        </td>
+      </tr>
+      <tr>
+        <th>kill (close)</th>
+        <td>
+          enter "<code>exit</code>", prefix <code>x</code> (asks for confirmation), <code>kill-pane</code> or <code>killp</code><br>
+        </td>
+      </tr>
+    </table>
+
+    <table class="new-page tmux-table">
+      <caption>Predefined Pane Layouts</caption>
+      <tr>
+        <th>Layout Name</th>
+        <th>Example</th>
+      </tr>
+      <tr>
+        <td>even-horizontal</td>
+        <td><img class="layout" title="even-horizontal" src="images/even-horizontal.png"/></td>
+      </tr>
+      <tr>
+        <td>even-vertical</td>
+        <td><img class="layout" title="even-vertical" src="images/even-vertical.png"/></td>
+      </tr>
+      <tr>
+        <td>main-horizontal</td>
+        <td><img class="layout" title="main-horizontal" src="images/main-horizontal.png"/></td>
+      </tr>
+      <tr>
+        <td>main-vertical</td>
+        <td><img class="layout" title="main-vertical" src="images/main-vertical.png"/></td>
+      </tr>
+      <tr>
+        <td>tiled</td>
+        <td><img class="layout" title="tiled" src="images/tiled.png"/></td>
+      </tr>
+    </table>
+
+    <h2 class="new-page">Buffers</h2>
+    <p>
+      Each pane has a history buffer that stores
+      the shell commands entered and their output.
+      The size of this buffer is specified by the <code>history-limit</code>
+      session option and defaults to 2000 lines.
+    </p>
+    <p>
+      To scroll through the content of a pane buffer and optionally copy some
+      of its content, enter copy mode using the buffer command shown below.
+      While in copy mode, the upper-right corner of the pane
+      will display "[m/n]" where n is the number lines in the history
+      and m is the current line number within that starting from zero
+      and numbering back in time.
+    </p>
+    <p>
+      Each copy creates a new "paste buffer" on a stack.
+      There is one paste buffer stack per session.
+      The stack has a limited size that is specified by the
+      <code>buffer-limit</code> server option and defaults to 20.
+      When the limit is reached and a new paste buffer is created,
+      the oldest one is discarded.
+    </p>
+    <table class="tmux-table">
+      <caption>Buffer Commands</caption>
+      <tr>
+        <th>Action</th>
+        <th>Command</th>
+      </tr>
+      <tr>
+        <th>enter copy mode</th>
+        <td>
+          prefix <code>[</code> or <code>copy-mode</code>
+        </td>
+      </tr>
+      <tr>
+        <th>exit copy mode</th>
+        <td>
+          Press return or <code>q</code>.
+        </td>
+      </tr>
+      <tr>
+        <th>move cursor in copy mode</th>
+        <td>
+          Press arrow keys or use Vim keys like<br>
+          <code>gg</code> (go to top), <code>G</code> (go to bottom),<br>
+          <code>C-f</code> (page forward), and <code>C-b</code> (page backward).<br>
+          To configure use of emacs keys, set these global options:<br>
+          <code>set-option -g mode-keys emacs</code><br>
+          <code>set-option -g status-keys emacs</code>
+        </td>
+      </tr>
+      <tr>
+        <th>copy text</th>
+        <td>
+          Enter copy mode, move to start, press space,
+          move to end, and press return.<br>
+          This creates a new paste buffer on the stack and exits copy mode.
+        </td>
+      </tr>
+      <tr>
+        <th>copy text in<br>rectangular copy mode</th>
+        <td>
+          Perform the same steps as normal copy text,<br>
+          but press <code>rv</code> after entering copy mode.<br>
+          Pressing <code>rv</code> toggles rectangular copy mode.
+        </td>
+      </tr>
+      <tr>
+        <th>copy all visible text</th>
+        <td>
+          <code>capture-pane</code><br>
+          This creates a new paste buffer on the stack.
+        </td>
+      </tr>
+      <tr>
+        <th>list paste buffers</th>
+        <td>
+          prefix <code>#</code>, <code>list-buffers</code> or <code>lsb</code><br>
+          This lists each buffer index followed by the beginning of its content.<br>
+          Press return or <code>q</code> when finished viewing.
+        </td>
+      </tr>
+      <tr>
+        <th>view paste buffer contents</th>
+        <td>
+          <code>show-buffer [-b buffer{number}]</code> or <code>showb ...</code><br>
+          This shows the content of the specified buffer<br>
+          or the top one if the buffer name is omitted.<br>
+          Press return or <code>q</code> when finished viewing.
+        </td>
+      </tr>
+      <tr>
+        <th>save paste buffer content to file</th>
+        <td>
+          <code>save-buffer [-b buffer{number}] {file-path}</code> or <code>saveb ...</code><br>
+          If the buffer name is not specified, the most recent paste buffer is saved.
+        </td>
+      </tr>
+      <tr>
+        <th>paste text from top paste buffer</th>
+        <td>
+          When using Vim, enter insert mode before doing this.<br>
+          Press <code>]</code>, <code>paste-buffer</code> or <code>pasteb</code><br>
+        </td>
+      </tr>
+      <tr>
+        <th>paste text from a specific buffer</th>
+        <td>
+          When using Vim, enter insert mode before doing this.<br>
+          Press prefix <code>=</code> or <code>choose-buffer</code><br>
+          Move the cursor to one of the buffers and press return.<br>
+          Press q to exit without choosing a buffer.
+        </td>
+      </tr>
+      <tr>
+        <th>change paste buffer stack size</th>
+        <td>
+          <code>buffer-limit {number}</code>
+        </td>
+      </tr>
+      <tr>
+        <th>delete one paste buffer</th>
+        <td>
+          <code>delete-buffer [-b buffer{number}]</code> or <code>deleteb ...</code><br>
+          This deletes the specified buffer (ex. <code>buffer0013</code>)<br>
+          or the top one if the buffer name is not specified.<br>
+          There isn't much of a reason to do this.
+        </td>
+      </tr>
+      <tr>
+        <th>clear history buffer</th>
+        <td>
+          <code>clear-history</code> or <code>clearhist</code><br>
+          This deletes all the history buffer content for the current pane.<br>
+          It does not delete paste buffers.
+        </td>
+      </tr>
+    </table>
+
+    <h2 class="new-page">Configuration</h2>
+    <p>
+      tmux is highly configurable.
+      There are three kinds of options: server, session, and window.
+      Options can be global (the common case) or apply to a specific session or window.
+    </p>
+
+    <table class="tmux-table">
+      <caption>Option Commands</caption>
+      <tr>
+        <th>Action</th>
+        <th>Command</th>
+      </tr>
+      <tr>
+        <th>set option</th>
+        <td>
+          <code>set-option [-agqsuw] [-t {sess}|{win}] {name} {value}</code><br>
+          <code>set ...</code><br>
+          <code>-a</code> appends value to the existing option value.</br>
+          <code>-g</code> specifies a global option (typically want this), not specific to one session or window.</br>
+          <code>-q</code> operates quietly without informational message output.</br>
+          <code>-s</code> specifies a server option.</br>
+          <code>-u</code> unsets an option specific to a session or window so the global option is used.</br>
+          <code>-t</code> specifies the name of a particular session or window whose option is being set or unset.<br>
+          <code>-w</code> specifies a window option.</br>
+          If neither <code>-s</code> nor <code>-w</code> is used, a session option is assumed.
+        </td>
+      </tr>
+      <tr>
+        <th>show option</th>
+        <td>
+          <code>show-options [-gsw] [-t {sess}|{win}] [{name}]</code><br>
+          <code>show ...</code><br>
+          The flags have the same meaning as in <code>set-option</code>.<br>
+          Omit name to see all options in the specified category.
+        </td>
+      </tr>
+      <tr>
+        <th>set window option</th>
+        <td>
+          <code>set-window-option [-agqu] [-t {win}] {name} {value}</code><br>
+          <code>setw ...</code><br>
+          This is identical to using <code>set-option -w ...</code><br>
+          The flags have the same meaning as in <code>set-option</code>.
+        </td>
+      </tr>
+      <tr>
+        <th>show window option</th>
+        <td>
+          <code>show-window-options [-g] [-t {win}] [{name}]</code><br>
+          <code>showw ...</code><br>
+          This is identical to using <code>show-options -w ...</code><br>
+          The flags have the same meaning as in <code>set-option</code>.<br>
+        </td>
+      </tr>
+    </table>
+
+    <p>
+      There are WAY too many options to describe in detail in this article.
+      The table below is provided simply to give a feel for the configurability of tmux.
+      See the tmux man page for details.
+    </p>
+    <table class="tmux-table">
+      <caption>Supported Options</caption>
+      <tr>
+        <th>Kind</th>
+        <th>Options</th>
+      </tr>
+      <tr>
+        <th>server</th>
+        <td>
+          buffer-limit, escape-time, exit-unattached, quiet, and set-clipboard
+        </td>
+      </tr>
+      <tr>
+        <th>session</th>
+        <td>
+          base-index, bell-action, bell-on-alert, default-{command|path|shell|terminal}, destroy-unattached, detach-on-destroy, display-panes-{active-colour|colour|time}, display-time, history-limit, lock-after-time, lock-command, lock-server, message-{attr|bg|fg|limit}, message-command-{attr|bg|fg}, mouse-resize-pane, mouse-select-{pane|window}, mouse-utf8, pane-active-border-{bg|fg}, pane-border-{bg|fg}, prefix, prefix2, repeat-time, set-remain-on-exit, set-titles, set-titles-string, status, status-{attr|bg|fg|interval|justify|keys}, status-left, status-left-{attr|bg|fg|length}, status-right, status-right-{attr|bg|fg|length}, status-utf8, terminal-overrides, update-environment, visual-{activity|bell|content|silence}, and word-separators
+        </td>
+      </tr>
+      <tr>
+        <th>window</th>
+        <td>
+          aggressive-resize, allow-rename, alternate-screen, automatic-rename, clock-mode-{colour|style}, force-{height|width}, main-pane-{height|width}, mode-{attr|bg|fg}, mode-{keys|mouse}, monitor-{activity|content|silence}, other-pane-{height|width}, pane-base-index, remain-on-exit, renumber-windows, synchronize-panes, utf8, window-status-bell-{attr|bg|fg}, window-status-content-{attr|bg|fg}, window-status-activity-{attr|bg|fg}, window-status-{attr|bg|fg|format}, window-status-current-{attr|bg|fg|format}, and xterm-keys
+        </td>
+      </tr>
+    </table>
+
+    <p class="new-page">
+      tmux configuration comes from two files.
+      If it exists, tmux reads <code>/etc/tmux.conf</code> which is shared by all users.
+      Then it reads <code>.tmux.conf</code> in the user's home directory (<code>~/.tmux.conf</code>)
+      to supplement and override settings in the first file.
+      Here's an example configuration file that is well-commented to describe each piece.
+      This barely scratches the surface of possible status bar customizations.
+      All characters from a <code>#</code> to the end of a line are treated as a comment and ignored.
+    </p>
+    <pre class="brush: plain" xml:space="preserve">
+# Session options
+# reduce time tmux waits to send commands after an escape is input
+set -sg escape-time 1
+
+# Window options
+# allow multiple clients to display windows from the same session in different sizes
+setw -g aggressive-resize-on
+setw -g mode-keys vi # enable vi keys for working with buffers
+# watch for activity in windows so it can be indicated in the status bar
+# (see visual-activity option below)
+setw -g monitor-activity on
+setw -g renumber-windows on # when one is deleted
+setw -g window-status-current-bg magenta # in status bar
+
+# Prefix key
+set -g prefix C-a # instead of default C-b
+unbind C-b # don't want two prefix keys
+bind C-a send-prefix # press C-a twice to send to an app
+
+# Key bindings
+bind r source-file ~/.tmux.conf \; display "reloaded" # reload this file
+# The line above replaces the default binding to the "refresh-client" command.
+bind | split-window -h # in addition to %
+bind - split-window -v # in addition to "
+
+# Mouse options
+set -g mouse on # allow mouse drags to enter copy mode and select text
+
+# Color customizations
+set -g default-terminal "screen-256color" # use 256 colors instead of 16
+# Colors can be specified by name or hex #rrggbb.
+set -g pane-border-fg black # default is "default" which is gray
+set -g pane-active-border-fg red # default is green
+
+# Status bar
+set -g status-bg blue # default is green
+set -g status-fg white # default is black
+set -g status-interval 60 # update status bar every 60 seconds
+set -g status-justify centre # display window list in center of status bar
+set -g status-left "session #S window #I pane #P -"
+set -g status-left-length 40
+set -g status-right "#h %a %m/%d/%y" # hostname, day abbrev., month, day, year
+set -g status-right-length 45
+set -g status-utf8 on # allow status bar to contain Unicode characters
+set -g visual-activity on # highlight window names in status bar on activity
+    </pre>
+    <p>
+      Changes made to a configuration file are not automatically picked up by existing tmux clients.
+      To load configuration changes into a running client,
+      use the command <code>source-file {path}</code> (alias <code>source</code>).
+      This is needed often when testing configuration changes,
+      so it is convenient to bind this to a key
+      as shown in the configuration file above.
+      With that binding in place, changes can be loaded by pressing prefix <code>r</code>.
+    </p>
+
+    <h2 class="new-page">Scripting</h2>
+    <p>
+      Here's an example bash shell script for starting a tmux session named <code>mytmux</code>.
+      A key feature of this type of script is only creating a new session
+      if one with a given name doesn't already exist.
+      If it does exist, the script just attaches to it.
+    </p>
+    <pre class="brush: plain" xml:space="preserve">
+!/bin/bash
+# If this file is modified, kill the existing session
+# with "tmux kill-session -t mytmux" and run this again.
+
+# If the "mytmux" session does not exist ...
+if ! tmux has-session -t mytmux; then
+  # Create a new session named "mytmux" and detach from it.
+  # The name of the first window will be the command running in it (vim).
+  tmux new-session -s mytmux -d
+
+  # In first window, cd to Node labs directory and
+  # start Vim with vertical split and in explore mode.
+  tmux send-keys -t mytmux:0.0 'cd ~/Node.js/nodejs-labs; vim +vs +E' C-m
+
+  # Create a second window named "console" for entering shell commands.
+  tmux new-window -n console -t mytmux
+
+  tmux split-window -h -t mytmux:1 # split into two horizontal panes
+  tmux split-window -v -t mytmux:1.1 # split right pane into two vertical panes
+
+  # In upper-right pane, cd to Node labs directory and start "less-watch".
+  tmux send-keys -t mytmux:1.1 'cd ~/Node.js/labs; less-watch .' C-m
+
+  # In lower-right pane, run "top".
+  tmux send-keys -t mytmux:1.2 'top' C-m
+
+  tmux select-window -t mytmux:0 # move focus to first window
+  #tmux select-pane -t 0 # move focus to vim pane; only one, so not needed
+fi
+
+# Attach to the "mytmux" session.
+tmux attach -t mytmux
+    </pre>
+
+    <h2>Multiple Clients, One Session</h2>
+
+    <p>
+      Sometimes it is useful to attach multiple tmux clients to the same session.
+      This can be done on a single machine using multiple terminal windows.
+      It enables simultaneous viewing of multiple tmux windows
+      that belong to the same session.
+      This is especially useful on computers that have more than one monitor
+      or on a laptop that also has an external monitor.
+      After creating a session or attaching to one
+      in the normal way from the first terminal window,
+      create new sessions from other terminal windows using
+      <code>tmux new -t {session-name}</code>.
+      The new session is "grouped" with the target session which enables
+      the sessions to share the same set of tmux windows,
+      but display different ones.
+    </p>
+
+    <p>
+      If multiple monitors are being used and they are different sizes
+      (the typical case when one is a laptop screen),
+      tmux will only display the same number of cells (rows and columns)
+      in each terminal window.
+      Excess cells in larger terminal windows are filled with period characters.
+      To avoid this, set the window option aggressive-resize to "on",
+      preferably in a tmux configuration file.
+    </p>
+
+    <p>
+      Having multiple clients attached to the same session can be used for
+      collaborative work, including pair programming.
+      To do this, login to a machine where ssh is enabled
+      and start a tmux session.
+      Then ask each participant to ssh to that machine
+      and attach to the tmux session in the normal way,
+      <code>tmux attach -t {session-name}</code>.
+      Each user will see the results
+      of what others do in the shared session.
+    </p>
+
+    <h2 class="new-page">Mac-specific Advice</h2>
+
+    <p>
+      The Mac OS X Terminal program in Snow Leopard and earlier only supports 16 colors.
+      To get 256 colors, iTerm2 must be used.
+      This is a free Terminal replacement that can be downloaded from
+      <a href="http://www.iterm2.com/">http://www.iterm2.com/</a>.
+      After starting iTerm2, activate the iTerm menu and select Preferences ... Profiles ... Terminal.
+      In the "Default" profile, set "Report Terminal Type" to "xterm-256color".
+      Quit iTerm2, restart it, and verify that the TERM environment variable
+      is set to "xterm-256color" instead of "xterm".
+      In addition, add the following command to <code>~/.tmux.conf</code>:<br>
+      <code>set -g default-terminal "screen-256color"</code>
+    </p>
+    <p>
+    To verify correct Terminal color configuration, enter these commands in a Terminal window:<br>
+      <code>
+        wget http://www.vim.org/scripts/download_script.php?src_id=4568 -O colortest<br>
+        perl colortest -w
+      </code>
+    </p>
+
+    <p>
+      There are some preference changes that are needed to
+      allow certain tmux shortcut keys to be used on a Mac.
+      In System Preferences, select Keyboard ... Shortcuts ... Mission Control
+      and uncheck these:
+      "Mission Control", "Application windows",
+      "Move left a space", and "Move right a space".
+      The keyboard shortcuts for those are the tmux defaults
+      for resizing a pane up, down, left, or right by one cell.
+      In iTerm2 preferences, select Profiles ... Keys and
+      select "+Esc" for "Left option key" and "Right option key".
+      This allows cmd-option to be used as the meta key in tmux.
+    </p>
+
+    <p>
+      Earlier it was recommended to change the prefix key to <code>C-a</code>.
+      If this is done, also consider changing the caps lock key
+      to function as the control key.  There are two reasons for this.
+      The caps lock key is larger than the control key
+      and it is next to the "A" key.
+      To make this change, open System Preferences,
+      select Keyboard ... Keyboard tab ... Modifier Keys, and
+      select "^ Control" from the drop-down list next to "Caps Lock Key".
+    </p>
+
+    <p>
+      To make an iTerm2 window fullscreen, press cmd-enter.
+      Press it again to toggle out of fullscreen mode.
+    </p>
+
+    <p>
+      tmux does not integrate with the Mac system clipboard by default.
+      This means <code>cmd-c</code> and <code>cmd-v</code> cannot
+      be used to copy and paste text from and to tmux panes.
+      However, there is a way to configure this functionality with other keys.
+      Here are the configuration steps:
+    </p>
+    <p>
+      <ol>
+        <li>
+          Install the reattach-to-user-namespace command by running<br>
+          <code>brew install reattach-to-user-namespace</code>
+        </li>
+        <li>
+          Add the following lines to <code>~/.tmux.conf</code>:<br>
+          <code>
+            set-option -g default-command "reattach-to-user-namespace -l $SHELL"<br>
+            bind C-c run "tmux show-buffer | reattach-to-user-namespace pbcopy"<br>
+            bind C-v run "reattach-to-user-namespace pbpaste | tmux load-buffer - && tmux paste-buffer"
+          </code>
+        </li>
+        <li>
+          Start a new tmux session or reload the configuration of the current session<br>
+          by entering command mode (prefix <code>:</code>)
+          and entering <code>source-file ~/.tmux.conf</code>
+        </li>
+      </ol>
+    <p>
+      To select text from a tmux pane, select it with the mouse
+      (if <code>mouse</code> option is set to <code>on</code>)<br>
+      or enter copy mode (prefix <code>[</code>), move to start,
+      press space bar, move to end, and press return.<br>
+      To copy the selected text to the Mac system clipboard, press prefix <code>C-c</code>.<br>
+      To paste text from the Mac system clipboard into a tmux pane, prefix <code>C-v</code>.<br>
+      Copying and pasting text from and to Mac applications is done in the normal way.
+    </p>
+    <p>
+      Follow the same steps above to select and copy text
+      from editors like Vim and emacs running in a tmux pane.
+      To paste text into editors running in a tmux pane,
+      <code>cmd-v</code> can be used.
+      For Vim, enter insert mode before pasting.
+    </p>
+
+    <h2 class="new-page">Final Thoughts</h2>
+    <p>
+      tmux certainly has a learning curve.
+      However, the effort pays off in increased productivity.
+    </p>
+    <p>
+      Several people provided feedback on this article.  I especially thank
+      Charles Sharp and Brian Hicks who provided the most extensive reviews.
+    </p>
+    <p>
+      Additional feedback on this article is welcome.  Please email it to
+      <a href="mailto:mark@ociweb.com">mark@ociweb.com</a>.
+    </p>
+
+    <h2>References</h2>
+    <ul>
+      <li>tmux website - <a href="https://tmux.github.io/">https://tmux.github.io/</a></li>
+      <li>tmux book - <a href="http://pragprog.com/book/bhtmux/tmux">http://pragprog.com/book/bhtmux/tmux</a></li>
+    </ul>
+  </body>
+</html>

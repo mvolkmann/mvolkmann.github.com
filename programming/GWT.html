@@ -1,0 +1,1969 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR.html1/DTD.html1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999.html">
+  <head>
+    <title>Google Web Toolkit</title>
+    <link rel="stylesheet" type="text/css" href="../common.css"/>
+  </head>
+  <body>
+    <a name="top"/>
+    <h2>Google Web Toolkit (GWT)</h2>
+    <p>
+      Feedback and corrections are welcomed!
+      Email mark at ociweb dot com.
+    </p>
+    
+    <h3>Contents</h3>
+    <a href="#Introduction">Introduction</a><br/>
+    <a href="#WhoIsUsingIt">Who is using it?</a><br/>
+    <a href="#Installing">Installing</a><br/>
+    <a href="#Creating">Creating a New Project</a><br/>
+    <a href="#Implementing">Implementing a New Project</a><br/>
+    <a href="#Internationalization">Internationalization</a><br/>
+    <a href="#Running">Running</a><br/>
+    <a href="#Testing">Testing</a><br/>
+    <a href="#Deploying">Deploying and Using Ant</a><br/>
+    <a href="#Formatting">Formatting With CSS</a><br/>
+    <a href="#Widgets">Widgets</a><br/>
+    <a href="#Containers">Containers</a><br/>
+    <a href="#ListenersAdapters">Listeners/Adapters</a><br/>
+    <a href="#ServerCalls">Server Calls</a><br/>
+    <a href="#ErrorHandling">Error Handling</a><br/>
+    <a href="#JavaScriptFromJava">JavaScript from Java</a><br/>
+    <a href="#XML">Client-side XML Processing</a><br/>
+    <a href="#CustomWidgets">Custom Widgets</a><br/>
+    <a href="#Reuse">Creating Reusable Modules</a><br/>
+    <a href="#Resources">Resources</a>
+
+    <a name="Introduction"/>
+    <h3>Introduction</h3>
+    <p>
+      GWT is a Java-based framework for creating Ajax web applications that
+      makes writing web applications similar to writing Swing applications.
+      Documentation can be found at the
+      <a target="_blank" href="http://code.google.com/webtoolkit/">main web site</a>, in the 
+      <a target="_blank" href="http://code.google.com/webtoolkit/documentation/">developer guide</a>, and in the 
+      <a target="_blank" href="http://code.google.com/webtoolkit/documentation/gwt.html">class documentation</a>.
+    </p>
+    <p>
+      The main benefits of using GWT over other web app. frameworks are:
+      <ul>
+        <li>no need to write HTML which means no scriptlets</li>
+        <li>no need to populate HTML forms with Java data</li>
+        <li>no messy navigation control with redirects and forwards</li>
+        <li>no need to write JavaScript</li>
+        <li>can use CSS for formatting and some layout</li>
+        <li>can create browser-based GUIs using Swing-like widgets</li>
+        <li>can make asynchronous server calls which results in a
+          better user experience</li>
+        <li>Ajax features can be implemented
+          without thinking about DOM manipulation</li>
+        <li>DOM manipulation, if needed, is easy to do</li>
+        <li>can easily pass Java objects between the client and server</li>
+        <li>can throw Java exceptions
+          from the server back to the client</li>
+        <li>maintained and enhanced by Google
+          which is recognized for their software expertise
+          and is one of the few serious Microsoft competitors</li>
+      </ul>
+    </p>
+    <p>
+      Client-side code is primarily written using a subset of Java.
+      The subset includes selected classes from
+      the java.lang and java.util packages.
+      For example, reflection methods are not supported.
+      To get the type of an object as a String, use
+      <code>GWT.getTypeName(object)</code>.
+      Java 5 features such as generics and enums can be used in GWT 2.0.
+      For details on the supported subset, see
+      <a target="_blank"
+      href="http://code.google.com/webtoolkit/documentation/jre.html">here</a>.
+    </p>
+    <p>
+      The client-side code is "compiled" into HTML and JavaScript.
+      A downside of this is that third party Java libraries cannot be used
+      from client-side Java code unless their source code is available
+      to the GWT compiler and only uses the supported subset of Java.
+      An upside of this is that it dramatically reduces the need
+      to learn HTML and JavaScript, although if needed,
+      JavaScript code can be wrapped in Java methods.
+      This allows JavaScript libraries such as
+      <a target="_blank" href="http://script.aculo.us">script.aculo.us</a>
+      to be used.
+      The use of <a href="#Formatting">CSS for formatting</a>
+      (fonts, colors, sizes, ../) is still encouraged.
+    </p>
+    <p>
+    <a target="_blank" href="http://code.google.com/webtoolkit/documentation/com.google.gwt.doc.DeveloperGuide.Internationalization.html">Internationalization</a> of text is supported through two mechanisms.
+      The first uses custom interfaces that extend the
+      <a target="_blank" href="http://code.google.com/webtoolkit/documentation/com.google.gwt.i18n.client.Messages.html">Messages</a>
+      interface to insert property file values into generated JavaScript.
+      The second uses the GWT
+      <a target="_blank" href="http://code.google.com/webtoolkit/documentation/com.google.gwt.i18n.client.Dictionary.html">Dictionary</a>
+      class to obtain text values from JavaScript maps embedded in HTML.
+    </p>
+    <p>
+      Server-side code can be written using
+      practically any programming language.
+      When written in Java, it is typical to implement
+      server-side functionality using servlets.
+      All features of Java can be used on the server-side,
+      including Java 5 features.
+      This means that common Java server-side technologies such as
+      EJBs, Hibernate, JDBC and Spring can be used.
+    </p>
+    <p>
+      A benefit of the GWT approach is that web applications are easier
+      to maintain. This is due to the notion that maintaining Java code is
+      easier than maintaining a mixture of Java, HTML and JavaScript code.
+    </p>
+    <p>
+      IDE integration simplifies debugging.
+      It can also provides some code generation
+      that greatly simplifies creating GWT RPC services.
+      For information about IDEA integration, see the <a target="_blank"
+      href="http://www.jetbrains.com/idea/features/gwt.html">
+      GWT Studio plugin</a>.
+      For information about Eclispe integration,
+      see the <a target="_blank"
+      href="http://www.googlipse.com">Googlipse plugin</a>.
+      Another Eclipse plugin for GWT is <a target="_blank"
+      href="http://www.instantiations.com/gwtdesigner/">GWT Designer</a>.
+      This is a commercial tool that offers visual GUI creation
+      and two-way synchronization between the GUI design tool and the code.
+      Prices start at $39 per year.
+    </p>
+
+    <a name="WhoIsUsingIt"/>
+    <h3>Who's Using It?</h3>
+    <p>
+      Here's a list of some of the web sites that are using GWT.
+      <ul>
+        <li><a target="_blank" href="http://www.brainboffin.com">Brain Games - Dual N Back</a></li>
+        <li><a target="_blank" href="http://www.cohomefinder.com">Colorado Home Finder</a></li>
+        <li><a target="_blank" href="http://ajaxian.com/archives/gwt-in-the-wild-mortgage-calculator">Colorado Mortgage Calculator</a></li>
+        <li><a target="_blank" href="http://beta.contactoffice.com/">
+          ContactOffice</a>
+        <li><a target="_blank" href="http://www.curriki.org/xwiki/bin/view/Main/WebHome">
+          Curriki</a> - an educational course sharing and editing site
+        <li><a target="_blank" href="http://base.google.com">Google Base</a>
+          - registers items to make them easy to find using Google</li>
+        <li><a target="_blank" href="http://checkout.google.com">Google Checkout</a>
+          - makes it quick and easy to buy from web stores</li>
+        <li>Google has many more web apps. being developed with GWT</li>
+        <li><a target="_blank" href="http://gpokr.com/">gpokr</a> 
+          - online Texas Hold'em game</li>
+        <li><a target="_blank" href="http://www.gtraffic.info/">gTraffic.info</a> 
+          - road traffic in England</li>
+        <li><a target="_blank" href="http://www.gwtpowered.org/">gwtPowered</a> 
+          - lists of GWT books, articles, examples, toolkits
+            and third party widgets</li>
+        <li><a target="_blank" href="http://www.gwtwindowmanager.org/">GWT Window Manager</a> 
+          - GWT Window Manager (has a demo on this website that was built with GWT)</li>
+        <li><a target="_blank" href="http://www.kidsklogs.com.au/">Kids Klogs</a></li>
+        <li><a target="_blank" href="http://googlewebtoolkit.blogspot.com/2007/10/lombardi-blueprint-built-with-gwt.html">Lombardi Blueprint</a></li>
+        <li><a target="_blank" href="http://omnispense.com/">OmniSpense</a> - living and business expense organizer</li>
+        <li><a target="_blank"
+          href="http://www.openkm.com/index.pl/home_en">OpenKM</a>
+          - knowledge management (hosted at SourceForge; good example of GWT usage)
+        <li><a target="_blank" href="http://www.portfoliodirector.com/">
+          Portfolio Systems</a>
+          - viewing investment data and performance preports</li>
+        <li><a target="_blank" href="http://www.therandomhomepage.com">TheRandomHomePage</a> 
+          - random news, photos and Wikipedia articles</li>
+        <li><a target="_blank" href="http://traceurl.com">TraceURL</a> 
+          - traces accesses to specified URLs</li>
+        <li><a target="_blank" href="http://www.spotdue.com/beta">SpotDue</a> 
+          - a simple search engine</li>
+        <li><a target="_blank" href="http://timepedia.org">Timepedia</a></li>
+        <li><a target="_blank" href="http://70.97.166.114:81/xphoto/">Xend Photo</a> 
+          - creates 3-D talking messages</li>
+        <li>according the GWT mailing list,
+          a couple of banks are using it</li>
+      </ul>
+    </p>
+
+    <a name="Installing"/>
+    <h3>Installing <a class="toplink" href="#top">top</a></h3>
+    <p>
+      Here are the steps to install GWT.
+    </p>
+    <ol>
+      <li>
+        Verify that a Java SDK (1.4 or higher) is installed.
+        This can be done by running <code>java -version</code>
+        from a shell/command prompt.
+      </li>
+      <li>
+        Browse to the
+        <a target="_blank" href="http://code.google.com/webtoolkit/">
+        GWT web site</a>.
+      </li>
+      <li>Click the "Download Google Web Toolkit (GWT)" link.</li>
+      <li>
+        Download a platform-specific archive/zip file
+        for a selected version.
+      </li>
+      <li>Unpackage the archive/zip file to a selected directory.</li>
+      <li>
+        Set the environment variable <code>GWT_HOME</code>
+        to the path to the unpackaged GWT directory.
+      </li> 
+    </ol>
+    <p>
+      If you'd like to build the very latest version of GWT
+      from the source code in the trunk of the Subversion repository,
+      follow the steps <a target="_blank"
+      href="http://code.google.com/webtoolkit/makinggwtbetter.html#compiling">here</a>.
+      After the Ant build completes, there will be a
+      trunk/build/staging/gwt-{platform}-0.0.0 directory.
+      That will contain all the JAR and native libraries files needed by GWT.
+      Set the GWT_HOME environment variable to point to this directory.
+    </p>
+
+    <a name="Creating"/>
+    <h3>Creating a new project <a class="toplink" href="#top">top</a></h3>
+    <p>
+      Here are the steps to create a new GWT project.
+    </p>
+    <ol>
+      <li>Create a directory for the application.</li>
+      <li>From a shell or command prompt, navigate to that directory.</li>
+      <li>
+        Use the applicationCreator script to create the project
+        directory structure and populate it with initial project files.<br/>
+        Under Windows, run
+        <code>%GWT_HOME%\applicationcreator {package}.client.{app-name}</code>
+        <br/>
+        Under UNIX/Linux/Mac OS X, run
+        <code>$GWT_HOME/applicationcreator {package}.client.{app-name}</code>
+      </li>
+    </ol>
+
+    <a name="Implementing"/>
+    <h3>Implementing a new project <a class="toplink" href="#top">top</a></h3>
+    <p>
+      The initial files to be edited for a new project are
+      the main HTML file and the main Java file.<br/>
+      The main HTML file is
+      <code>src/{package-dirs}/public/{app-name}.html</code>.<br/>
+      The main Java file is
+      <code>src/{package-dirs}/client/{app-name}.java</code>.
+    </p>
+    <p>
+      Here's an example of a minimal HTML file.
+      <pre><div class="code">&lt;html&gt;
+  &lt;head&gt;
+    &lt;title&gt;{title}&lt;/title&gt;
+    &lt;meta name="gwt:module" content="{package}.{app-name}"&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;script language="javascript" src="gwt.js"&gt;&lt;/script&gt;
+
+    &lt;!-- OPTIONAL: include this if history support is desired --&gt;
+    &lt;iframe id="__gwt_historyFrame" style="width:0;height:0;border:0"&gt;&lt;/iframe&gt;
+  &lt;/body&gt;
+&lt;/html&gt;</div></pre>
+    </p>
+
+    <p>
+      Here's an example of a minimal Java file.
+      Note how the imports below differ from those
+      in the generated source file.
+      <pre><div class="code">package com.ociweb.demo.client;
+
+import com.google.gwt.core.client.EntryPoint;
+import com.google.gwt.user.client.ui.*;
+
+public class {app-name} implements EntryPoint {
+
+  public void onModuleLoad() {
+    final TextBox textBox = new TextBox();
+    textBox.setText("text box");
+
+    final Button button = new Button("Click me");
+
+    button.addClickListener(new ClickListener() {
+      public void onClick(Widget sender) {
+        textBox.setText("clicked");
+      }
+    });
+
+    Panel panel = new FlowPanel();
+    panel.add(textBox);
+    panel.add(button);
+    RootPanel.get().add(panel);
+  }
+}</div></pre>
+    </p>
+
+    <p>
+      A GWT application is referred to as a "module".
+      The module is defined in the XML file
+      <code>src/{package-dirs}/{app-name}.gwt.xml</code>.
+      For most applications, this file doesn't require modification.
+    </p>
+
+    <a name="Internationalization"/>
+    <h3>Internationalization <a class="toplink" href="#top">top</a></h3>
+    <p>
+      Here are the steps to internationalize strings for the default locale
+      in the client side of a GWT project.
+      <ol>
+        <li>Create a property file, perhaps named
+          <code>MyConstants.properties</code> or
+          <code>MyMessages.properties</code>,
+          that will hold the strings for the default locale.
+          Constants are just static strings.
+          For example,
+          <pre><div class="code">homeTeamWon=The home team won.
+</div></pre>
+          <p>
+          Messages allow values to be inserted using numbered parameters
+          starting from zero.
+          For example,
+          </p>
+          <pre><div class="code">homeTeamWon=The home team won by a score of {0} to {1}.
+</div></pre>
+        </li>
+        <li>Add properties to this file whose values
+          will be displayed in the GUI.</li>
+        <li>Create an interface named <code>MyConstants</code>
+          or <code>MyMessages</code>.</li>
+        <li>Make the interface extend
+          <a target="_blank" href="http://code.google.com/webtoolkit/documentation/com.google.gwt.i18n.client.Constants.html">
+            <code>com.google.gwt.i18n.client.Constants</code></a> or
+          <a target="_blank" href="http://code.google.com/webtoolkit/documentation/com.google.gwt.i18n.client.Messages.html">
+            <code>com.google.gwt.i18n.client.Messages</code></a> or
+          .</li>
+        <li>For each property in the property file,
+          add a method to the interface that has the same name,
+          takes the correct number of arguments
+          (zero for constants, possibly greater than zero for messages),
+          and a return type of <code>String</code>.</li>
+        <li>Add the following line to the module XML.<br/>
+          <pre><div class="code">&lt;inherits name="com.google.gwt.i18n.I18N"/&gt;</div></pre>
+          </li>
+        <li>Add one of the following lines of code to entry point Java class.
+          <pre><div class="code">MyConstants constants = (MyConstants) GWT.create(MyConstants.class);
+MyMessages messages = (MyMessages) GWT.create(MyMessages.class);
+</div></pre>
+          </li>
+          <li>To get all text displayed in the GUI,
+            use one of the following lines.
+            <pre><div class="code">String constant = constants.{property-name}();
+String message = messages.{property-name}({parameter-list});
+</div></pre>
+        </li>
+      </ol>
+    </p>
+    <p>
+      Here are the steps to add support for locales other than the default.
+      <ol>
+        <li>Add the following line to the module XML.
+          <pre><div class="code">&lt;extend-property name="locale" values="{comma-separated-language-codes}"/&gt;</div></pre>
+          <p>
+            For example, to add support for French and Spanish,
+            set the <code>values</code> attribute to <code>"fr,es"</code>.
+          </p>
+        </li>
+        <li>Create a new property file for each additional language named
+          <code>MyConstants_{language-code}.properities</code> or
+          <code>MyMessages_{language-code}.properities</code>
+          in the same directory as the previous property file.
+          Each file should define the same property names
+          and values set to the appropriate language-specific translation.</li>
+      </ol>
+    </p>
+
+    <p>
+      To display the GUI in another language, add
+      "<code>?locale={language-code}</code>"
+      to the end of the web app. URL in the browser.
+    </p>
+
+    <p>
+      Here are suggested steps to internationalize strings in a GWT service.
+      <ol>
+        <li>Add a <code>locale</code> property to each property file.
+          In the file for the default locale, add the following line.
+          <pre><div class="code">locale=</div></pre>
+          <p>
+          In the files for other locales, add the following line.
+          </p>
+          <pre><div class="code">locale={language-code}</div></pre>
+          <p>
+          This is a trick recommended by Adam Tacy
+          to allow client-side code to determine the current locale.
+          It works because only the property file associated with the
+          current locale gets loaded by the <code>GWT.create</code> method.
+          </p>
+        </li>
+        <li>
+          Add a <code>locale</code> method
+          to the <code>MyConstants</code> interface
+          that has no arguments and has a return type of <code>String</code>.
+        </li>
+        <li>Add a <code>setLocale</code> method to each remote service
+          that requires the locale.</li>
+        <li>In the client-side code, obtain the locale
+          with the following line.
+          <pre><div class="code">String locale = constants.locale();</div></pre>
+        </li>
+        <li>In the client-side code, pass the locale to the
+          <code>setLocale</code> method of each remote service
+          that requires it.</li>
+        <li>In each service that requires internationalization,
+          <ul>
+            <li>Add an import for the <code>PropertyUtil</code> class
+              (shown below).</li>
+            <li>Add the following field.
+              <pre><div class="code">private PropertyUtil propertyUtil;</div></pre>
+            </li>
+            <li>Set the <code>propertyUtil</code> field
+              in the no-arg constructor of the service class
+              with the following code.
+              <pre><div class="code">    try {
+      propertyUtil = new PropertyUtil("{package}/client/MyConstants");
+    } catch (java.io.IOException e) {
+      throw new RuntimeException(e);
+    }
+</div></pre>
+              </li>
+              <li>Obtain internationalized <code>String</code> values with code like the following.
+              <pre><div class="code">String value = propertyUtil.getProperty("{name}");
+</div></pre>
+              </li>
+          </ul>
+        </li>
+      </ol>
+    </p>
+    <p>
+      Here is the code for the <code>PropertyUtil</code> class
+      which is only needed for server-side internationalization.
+      It maintains a <code>Hash</code> of <code>ResourceBundles</code>
+      so that it can provide translations for multiple languages.
+      <pre><div class="code">package com.ociweb.util;
+
+import java.io.IOException;
+import java.util.Locale;
+import java.util.*;
+
+public class PropertyUtil {
+
+  private Map&lt;String, ResourceBundle&gt; bundles =
+    new HashMap&lt;String, ResourceBundle&gt;();
+  private String propertyFileName;
+
+  public PropertyUtil(String propertyFileName) throws IOException {
+    this.propertyFileName = propertyFileName;
+  }
+
+  private ResourceBundle getBundle(String locale) {
+    ResourceBundle bundle = bundles.get(locale);
+    if (bundle == null) {
+      bundle = ResourceBundle.getBundle(
+        propertyFileName, new Locale(locale));
+      bundles.put(locale, bundle);
+    }
+    return bundle;
+  }
+
+  public String getProperty(String name) {
+    String locale = System.getProperty("locale");
+    return getBundle(locale).getString(name);
+  }
+}
+</div></pre>
+    </p>
+
+    <a name="Running"/>
+    <h3>Running <a class="toplink" href="#top">top</a></h3>
+    <p>
+      The easiest way to run a GWT application is to run it
+      in "hosted mode".  In this mode, a special browser is used to
+      display and exercise the user interface.
+      To run the application in hosted mode, perform the following steps.
+    </p>
+    <ol>
+      <li>
+        From a shell or command prompt,
+        navigate to the application directory.
+      </li>
+      <li>
+        Run the <code>{app-name}-shell</code> script.
+        This compiles the client-side code,
+        starts the hosted mode browser,
+        and runs the application inside it.
+      </li>
+    </ol>
+    <p>
+      Once the hosted mode browser is running,
+      changes to client-side Java code (made in any editor)
+      can be tested by simply
+      clicking the refresh button in the browser.
+      No separate compiling or deploying is required!
+      This allows quick testing of CSS and widget layout changes.
+      However, changes to server code still require
+      recompiling and redeploying.
+    </p>
+
+    <a name="Testing"/>
+    <h3>Testing <a class="toplink" href="#top">top</a></h3>
+    <p>
+      Unit testing is supported through integration with JUnit.
+      An example on the GWT website is <a target="_blank"
+      href="http://code.google.com/webtoolkit/documentation/com.google.gwt.doc.DeveloperGuide.JUnitIntegration.html">here</a>.
+      This demonstrates using the JUnit 3 API.
+      The JUnit 4 API is not supported yet.
+    </p>
+    <p>
+      GWT provides a script to generate unit test source files
+      and scripts to run the tests.  Here's an example of using it.
+      <pre><div class="code">$GWT_HOME/junitCreator -junit $JAVA_DIR/JUnit/junit3.8.2/junit.jar \
+  -module com.ociweb.gwt.Hello -out tests com.ociweb.gwt.client.HelloTest
+</div></pre>
+    </p>
+    <p>
+      Here are the steps to implement a JUnit test for a GWT application.
+      <ol>
+        <li>Add the JUnit 3 <code>junit.jar</code> file to the classpath.</li>
+        <li>Add the following line to the <code>*.gwt.xml</code>
+          module XML file.
+          <pre><div class="code">&lt;inherits name="com.google.gwt.junit.JUnit"/>
+</pre></div>
+        </li>
+        <li>Create a class that extends
+          <a target="_blank"
+          href="http://code.google.com/webtoolkit/documentation/com.google.gwt.junit.client.GWTTestCase.html">
+          <code>com.google.gwt.junit.client.GWTTestCase</code></a>.</li>
+        <li>Implement the <code>getModuleName</code> method that returns
+          the fully-qualified name of the module being tested as a String.</li>
+        <li>Implement test methods that perform asserts.</li>
+      </ol>
+    </p>
+    <p>
+      Some of the things that test methods can do include the following.
+      <ul>
+        <li>create widgets</li>
+        <li>set the state of widgets
+          (for example, the text in a <code>TextBox</code>
+          or the state of a <code>CheckBox</code>)</li>
+        <li>invoke RPC service methods</li>
+        <li>simulate events
+          (such as button clicks or focus leaving a widget)</li>
+        <li>test the state of widgets (perhaps to verify that certain events
+          change widget states in expected ways)</li>
+      </ul>
+    </p>
+    <p>
+      As an example, suppose we have a GWT application
+      with the following functionality.
+      <ul>
+        <li><code>nameTextBox</code> is a <code>TextBox</code>
+          where the user should enter their name.</li>
+        <li><code>clearButton</code> is a <code>Button</code> the user
+          presses to clear their name from <code>nameTextBox</code>.</li>
+        <li><code>greetButton</code> is a <code>Button</code>
+          the user presses to get a personalized greeting.
+          This is done by invoking an RPC service method that returns
+          the greeting as a <code>String</code> which is then used
+          to change the text displayed in <code>greetLabel</code>.
+        </li>
+      </ul>
+      All of this is implemented in the class
+      <code>com.ociweb.gwt.Hello</code>.
+      This class has package-level fields for each widget
+      that needs to be accessed from the test code.
+      A test for this functionality could look like the following.
+    </p>
+    <pre><div class="code">package com.ociweb.gwt.client;
+
+import com.google.gwt.junit.client.GWTTestCase;
+import com.google.gwt.user.client.Timer;
+
+/**
+ * Note: If a GWT hosted mode browser is already running,
+ * even for a different GWT application, this test will fail with
+ * java.lang.IllegalStateException: Embedded Tomcat is already running.
+ */
+public class GreeterTest extends GWTTestCase {
+
+  private static final String NAME = "John Doe";
+
+  // Entry point class of the GWT application being tested.
+  private Hello hello;
+
+  public String getModuleName() { return "com.ociweb.gwt.Hello"; }
+
+  // GWTTestCase has it's own setUp method
+  // that initializes the GWT infrastucture.
+  // You cannot do anything in your own setUp method that involves GWT widgets.
+  private void widgetSetup() {
+    // Build the web GUI.
+    hello = new Hello();
+    hello.onModuleLoad();
+  }
+
+  public void testClear() {
+    widgetSetup();
+    hello.nameTextBox.setText(NAME);
+    assertEquals(NAME, hello.nameTextBox.getText());
+    hello.clearButton.click();
+    assertEquals("", hello.nameTextBox.getText());
+  }
+
+  public void testGreet() {
+    widgetSetup();
+    hello.nameTextBox.setText(NAME);
+    hello.greetButton.click(); // simulate button click
+    
+    // The "Greet" button has a ClickListener that
+    // invokes an RPC service method and registers an AsyncListener.
+    // When the service method returns its result to the AsyncListener,
+    // the AsyncListener will update the text in greetLabel.
+    // Wait long enough (200 milliseconds) for that to happen
+    // before testing the text in greetLabel.
+    Timer timer = new Timer() {
+      public void run() {
+        String text = hello.greetLabel.getText();
+        assertEquals("Hello " + NAME + "!", text);
+        finishTest();
+      }
+    };
+    timer.schedule(200);
+
+    // Since this test involves asynchronous code
+    // (the RPC service method call), notify the GWTTestCase framework
+    // that it needs to give this method some time before it
+    // considers this test method to be finished.
+    // Asserts must be run and finishTest() must be called
+    // before the time expires or this test method will fail.
+    // The Timer run method above will have 100 milliseconds (300 - 200)
+    // to do that.
+    delayTestFinish(300);
+  }
+}
+</div></pre>
+    <p>
+      To run the tests, use a standard JUnit test runner.
+      See the "test" target in the Ant build file below.
+    </p>
+
+    <a name="Deploying"/>
+    <h3>Deploying and Using Ant <a class="toplink" href="#top">top</a></h3>
+    <p>
+      To deploy a GWT application to an app. server
+      so it can be run outside hosted mode,
+      perform the following actions,
+      all of which can be automated with Ant.
+    </p>
+    <ol>
+      <li>
+        <p>
+          Compile the server-side Java code you've written
+          using a standard Java compiler.
+        </p>
+      </li>
+      <li>
+        <p>
+          Compile the client-side Java code you've written
+          into HTML and JavaScript using the GWTCompiler.
+          This can be done from Ant or from a shell/command prompt.
+          To compile from a shell/command prompt,
+          navigate to the application directory and
+          run the <code>{app-name}-compile</code> script
+        </p>
+        <p>
+          By default, the JavaScript code is generated in "obfuscate" mode
+          which results in smaller files.
+          Another supported mode is "pretty"
+          which makes the files readable, but larger.
+          The last mode is "detailed" which is like "pretty",
+          but adds more verbose names to assist with tracing
+          JavaScript functions back to methods in specific Java classes.
+          To specify the mode that the GWT compiler should use,
+          run the compile script with the
+          <code>-style=OBF|PRETTY|DETAILED</code> option.
+        </p>
+        <p>
+          The compiler generates a separate JavaScript file for each
+          supported browser. The correct JavaScript file is automatically
+          downloaded to the requesting browser by the "bootstrap script".
+          This reduces the amount of JavaScript code
+          that must be downloaded
+          since only code applicable to that browser is downloaded.
+        </p>
+      </li>
+      <li>
+        <p>
+          Bundle all the bytecode, generated HTML/JavaScript, and CSS,
+          along with the supplied <code>gwt-servlet.jar</code>
+          in a WAR file.
+        </p>
+      </li>
+      <li>
+        <p>
+          Deploy the WAR file to a J2EE server such as Tomcat or JBoss.
+        </p>
+      </li>
+    </ol>
+
+    <p>
+      Once the application is deployed, it can be run from a web browser
+      by visiting
+      <code>http://{server}:{port}/{package}/{app-name}.html</code>.
+      To shorten the URL, see <a target="_blank"
+      href="http://code.google.com/support/bin/answer.py?answer=60560&topic=10211">here</a>.
+    </p>
+
+    <p>
+      Here's an example of an Ant build.properties file
+      that is used by build.xml. For many applications,
+      only the values of <code>module</code> and
+      <code>package</code> need to be changed.
+    </p>
+    <pre><div class="code">gwt.dir={path-to-gwt}
+junit.dir={path-to-junit3}
+junit.jar=${junit.dir}/junit.jar
+tomcat.dir={path-to-tomcat}
+servlet-api.jar=${tomcat.dir}/common/lib/servlet-api.jar
+
+module={module}
+package={package}
+test=*
+url=http://localhost:8080/${ant.project.name}/${package}.${module}/${module}.html
+war=${ant.project.name}.war</div></pre>
+
+    <p>
+      Here's an example of an Ant build.xml file
+      that builds and deploys a GWT application.
+      For many applications, only the <code>name</code> attribute
+      of the root element <code>project</code> needs to be changed.
+    </p>
+    <p>
+      It expects to find a <code>web.xml</code> file
+      in the same directory.
+      That is described <a href="#web.xml">here</a>.
+      If no RPC services (more on these later) are needed,
+      the <code>servlet</code> and <code>servlet-mapping</code>
+      tags can be omitted.
+    </p>
+    <p>
+      Since the default target is <code>deploy</code>,
+      it can be run by simply running the command <code>ant</code>.
+      It will output a URL that can be copied and pasted into
+      a web browser to run the web app.
+    </p>
+    <pre><div class="code">&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;project name="{module}" default="deploy" basedir="."&gt;
+
+  &lt;property environment="env"/&gt;
+  &lt;property file="build.properties"/&gt;
+
+  &lt;path id="classpath"&gt;
+    &lt;pathelement location="build"/&gt;
+    &lt;pathelement location="src"/&gt;
+    &lt;pathelement location="${gwt.dir}/gwt-user.jar"/&gt;
+    &lt;!-- next line is platform-specific --&gt;
+    &lt;pathelement location="${gwt.dir}/gwt-dev-mac.jar"/&gt;
+    &lt;pathelement location="${gwt.dir}/gwt-servlet.jar"/&gt;
+    &lt;pathelement location="${junit.jar}"/&gt;
+    &lt;pathelement location="${servlet-api.jar}"/&gt;
+  &lt;/path&gt;
+  
+  &lt;target name="clean" depends="clean.test"
+   description="deletes all generated files"&gt;
+    &lt;delete dir=".gwt-cache"/&gt; &lt;!-- generated by GWT --&gt;
+    &lt;delete dir="build"/&gt; &lt;!-- generated by the prepare target --&gt;
+    &lt;delete dir="tomcat"/&gt; &lt;!-- generated by GWT --&gt;
+  &lt;/target&gt;
+
+  &lt;target name="clean.test" description="deletes all generated test files"&gt;
+    &lt;delete dir="test"/&gt;
+  &lt;/target&gt;
+
+  &lt;target name="compile" depends="prepare"
+    description="compiles Java source files to bytecode"&gt;
+    &lt;javac srcdir="src" destdir="build"
+      classpathref="classpath" debug="true"&gt;
+    &lt;/javac&gt;
+  &lt;/target&gt;
+
+  &lt;target name="compile.gwt" depends="compile"
+    description="compiles Java source files to JavaScript"&gt;
+    &lt;!-- Consider adding -Xms256m -Xmx512m to improve performance. --&gt;
+    &lt;java classname="com.google.gwt.dev.GWTCompiler"
+      classpathref="classpath" fork="true"&gt;
+      &lt;arg line="-out build/www"/&gt;
+      &lt;arg line="-style OBFUSCATE"/&gt;
+      &lt;arg value="${package}.${module}"/&gt;
+    &lt;/java&gt;
+  &lt;/target&gt;
+
+  &lt;target name="deploy" depends="war,undeploy"
+    description="deploys the war file to Tomcat"&gt;
+    &lt;copy file="build/${war}" todir="${tomcat.dir}/webapps"/&gt;
+    &lt;echo&gt;browse ${url}&lt;/echo&gt;
+  &lt;/target&gt;
+
+  &lt;target name="hosted" depends="compile"
+    description="runs the application in hosted mode"&gt;
+    &lt;java classname="com.google.gwt.dev.GWTShell"
+      classpathref="classpath" fork="true"&gt;
+      &lt;!-- next line is only for Mac OS X --&gt;
+      &lt;jvmarg value="-XstartOnFirstThread"/&gt;
+      &lt;arg line="-out ./www"/&gt;
+      &lt;arg line="${package}.${module}/${module}.html"/&gt;
+    &lt;/java&gt;
+  &lt;/target&gt;
+
+  &lt;target name="prepare" description="creates output directories"&gt;
+    &lt;mkdir dir="build"/&gt;
+  &lt;/target&gt;
+
+  &lt;target name="test" depends="clean.test,compile"
+    description="runs all JUnit tests"&gt;
+    &lt;mkdir dir="test"/&gt;
+    &lt;junit fork="yes" printsummary="yes"&gt;
+      &lt;!-- next line is only for Mac OS X --&gt;
+      &lt;jvmarg value="-XstartOnFirstThread"/&gt;
+      &lt;classpath refid="classpath"/&gt;
+      &lt;batchtest todir="test"&gt;
+        &lt;fileset dir="src" includes="**/${test}Test.java"/&gt;
+      &lt;/batchtest&gt;
+      &lt;formatter type="xml"/&gt;
+    &lt;/junit&gt;
+    &lt;junitreport toDir="test"&gt;
+      &lt;fileset dir="test"/&gt;
+      &lt;report format="frames" todir="test"/&gt;
+    &lt;/junitreport&gt;
+    &lt;exec os="Windows" executable="cmd.exe"&gt;
+      &lt;arg line="/c start test/index.html"/&gt;
+    &lt;/exec&gt;
+    &lt;exec os="Mac OS X" executable="open"&gt;
+      &lt;arg line="-a /Applications/Safari.app test/index.html"/&gt;
+    &lt;/exec&gt;
+  &lt;/target&gt;
+
+  &lt;target name="undeploy" description="undeploys the web app. from Tomcat"&gt;
+    &lt;delete dir="${tomcat.dir}/webapps/${ant.project.name}"/&gt;
+    &lt;delete file="${tomcat.dir}/webapps/${war}"/&gt;
+  &lt;/target&gt;
+  
+  &lt;target name="war" depends="compile, compile.gwt"
+    description="builds the war file"&gt;
+    &lt;delete file="build/${war}"/&gt;
+    &lt;war warfile="build/${war}" webxml="web.xml"&gt;
+      &lt;!-- bytecode from your Java code --&gt;
+      &lt;classes dir="build" includes="**/*.class"/&gt;
+      &lt;!-- generated HTML/JavaScript plus your CSS --&gt;
+      &lt;fileset dir="build/www"/&gt;
+      &lt;!-- supplied JAR --&gt;
+      &lt;lib file="${gwt.dir}/gwt-servlet.jar"/&gt;
+    &lt;/war&gt;
+  &lt;/target&gt;
+
+&lt;/project></div></pre>
+
+    <a name="Formatting"/>
+    <h3>Formatting With CSS <a class="toplink" href="#top">top</a></h3>
+    <p>
+      GWT encourages formatting with CSS.
+      All widgets support the methods
+      <code>addStyleName</code>
+      (adds to existing list of styles for the widget) and
+      <code>setStyleName</code>
+      (replaces existing list of styles for the widget).
+      To specify formatting for each style name,
+      add a CSS stylesheet file (.css) to the
+      <code>src/{package-dirs}/public</code> directory
+      and add the following line to the module XML in
+      <code>src/{package-dirs}/{app-name}.gwt.xml</code>.<br/>
+      <pre><div class="code">&lt;stylesheet src="{name}.css"/&gt;</div></pre>
+    </p>
+    <p>
+      A good source of information about CSS formatting with GWT is
+      <a target="_blank" href="http://blogs.nubgames.com/code/?p=13">here</a>.
+      Also, see KitchenSink.css in the KitchenSink sample application
+      included with GWT.
+    </p>
+    <p>
+      The mouse cursor can be changed through CSS.
+      Many cursor shapes are supported.
+      Commonly used cursors include "default" (normal arrow),
+      "pointer" (hand with a pointing finger),
+      and "wait" (hourglass).
+      The "pointer" cursor is typically used the mouse is over a widget
+      that the use is allowed to select.
+      The "wait" cursor is typically used when a server call has been made
+      and the GUI will be updated when the call completes.
+
+    <a name="Widgets"/>
+    <h3>Widgets <a class="toplink" href="#top">top</a></h3>
+    <p>
+      GWT currently provides the following user interface widgets.
+      Additional, non-Google-supplied widgets are also available.
+      Concrete classes have a green background.
+      Abstract classes have a red background.
+    </p>
+    <img src="../images/GWT-Widgets.png"/>
+    <table border="1">
+      <tr>
+        <th>Widget Name</th>
+        <th>Description</th>
+        <th>Superclass</th>
+        <th>Default CSS Classes</th>
+        <th>Listeners</th>
+      </tr>
+      <tr>
+        <td class="concrete"><a target="_blank" href="http://code.google.com/webtoolkit/documentation/com.google.gwt.user.client.ui.Button.html">Button</a></td>
+        <td>push-button</td>
+        <td>ButtonBase</td>
+        <td><code>gwt-Button</code></td>
+        <td>none</td>
+      </tr>
+      <tr>
+        <td class="abstract"><a target="_blank" href="http://code.google.com/webtoolkit/documentation/com.google.gwt.user.client.ui.ButtonBase.html">ButtonBase</a></td>
+        <td>superclass of Button and CheckBox</td>
+        <td>FocusWidget</td>
+        <td>none</td>
+        <td>none</td>
+      </tr>
+      <tr>
+        <td class="concrete"><a target="_blank" href="http://code.google.com/webtoolkit/documentation/com.google.gwt.user.client.ui.CheckBox.html">CheckBox</a></td>
+        <td>check box</td>
+        <td>ButtonBase</td>
+        <td><code>gwt-CheckBox</code></td>
+        <td>none</td>
+      </tr>
+      <tr>
+        <td class="concrete"><a target="_blank" href="http://code.google.com/webtoolkit/documentation/com.google.gwt.user.client.ui.Composite.html">Composite</a></td>
+        <td>widget that wraps other widgets contained in a Panel; useful for creating new widgets</td>
+        <td>Widget</td>
+        <td>none</td>
+        <td>none</td>
+      </tr>
+      <tr>
+        <td class="concrete"><a target="_blank" href="http://code.google.com/webtoolkit/documentation/com.google.gwt.user.client.ui.FileUpload.html">FileUpload</a></td>
+        <td>wraps an HTML &lt;input type="file"&gt;</td>
+        <td>Widget</td>
+        <td>none</td>
+        <td>none</td>
+      </tr>
+      <tr>
+        <td class="abstract"><a target="_blank" href="http://code.google.com/webtoolkit/documentation/com.google.gwt.user.client.ui.FocusWidget.html">FocusWidget</a></td>
+        <td>superclass of ButtonBase, ListBox and TextBoxBase</td>
+        <td>Widget</td>
+        <td>none</td>
+        <td>
+          <a href="#ClickListener">ClickListener</a>,
+          <a href="#FocusListener">FocusListener</a>,
+          <a href="#KeyboardListener">KeyboardListener</a>
+        </td>
+      </tr>
+      <tr>
+        <td class="concrete"><a target="_blank" href="http://code.google.com/webtoolkit/documentation/com.google.gwt.user.client.ui.Hidden.html">Hidden</a></td>
+        <td>represents a hidden field in an HTML form</td>
+        <td>Widget</td>
+        <td>none</td>
+        <td>none</td>
+      </tr>
+      <tr>
+        <td class="concrete"><a target="_blank" href="http://code.google.com/webtoolkit/documentation/com.google.gwt.user.client.ui.HTML.html">HTML</a></td>
+        <td>contains arbitrary HTML</td>
+        <td>Label</td>
+        <td><code>gwt-HTML</code></td>
+        <td>none</td>
+      </tr>
+      <tr>
+        <td class="concrete"><a target="_blank" href="http://code.google.com/webtoolkit/documentation/com.google.gwt.user.client.ui.Hyperlink.html">Hyperlink</a></td>
+        <td>internal hyperlink</td>
+        <td>Widget</td>
+        <td><code>gwt-Hyperlink</code></td>
+        <td><a href="#ClickListener">ClickListener</a></td>
+      </tr>
+      <tr>
+        <td class="concrete"><a target="_blank" href="http://code.google.com/webtoolkit/documentation/com.google.gwt.user.client.ui.Image.html">Image</a></td>
+        <td>displays an image at a given URL</td>
+        <td>Widget</td>
+        <td><code>gwt-Image</code></td>
+        <td>
+          <a href="#ClickListener">ClickListener</a>,
+          <a href="#LoadListener">LoadListener</a>,
+          <a href="#MouseListener">MouseListener
+        </a></td>
+      </tr>
+      <tr>
+        <td class="concrete"><a target="_blank" href="http://code.google.com/webtoolkit/documentation/com.google.gwt.user.client.ui.Label.html">Label</a></td>
+        <td>displays non-HTML text</td>
+        <td>Widget</td>
+        <td><code>gwt-Label</code></td>
+        <td>
+          <a href="#ClickListener">ClickListener</a>,
+          <a href="#MouseListener">MouseListener</a>
+        </td>
+      </tr>
+      <tr>
+        <td class="concrete"><a target="_blank" href="http://code.google.com/webtoolkit/documentation/com.google.gwt.user.client.ui.ListBox.html">ListBox</a></td>
+        <td>presents a list of choices as a list box or drop-down list</td>
+        <td>FocusWidget</td>
+        <td><code>gwt-ListBox</td>
+        <td><a href="#ChangeListener">ChangeListener</a></td>
+      </tr>
+      <tr>
+        <td class="concrete"><a target="_blank" href="http://code.google.com/webtoolkit/documentation/com.google.gwt.user.client.ui.MenuBar.html">MenuBar</a></td>
+        <td>menu bar that holds other MenuBar objects and MenuItem objects</td>
+        <td>Widget</td>
+        <td><code>gwt-MenuBar</code></td>
+        <td>none</td>
+      </tr>
+      <tr>
+        <td class="concrete"><a target="_blank" href="http://code.google.com/webtoolkit/documentation/com.google.gwt.user.client.ui.MenuItem.html">MenuItem</a></td>
+        <td>item placed in a MenuBar; when clicked,
+          fires a <a target="_blank"
+          href="http://code.google.com/webtoolkit/documentation/com.google.gwt.user.client.Command.html">
+          Command</a> or opens a submenu</td>
+        <td>UIObject</td>
+        <td><code>gwt-MenuItem</code></td>
+        <td>none</td>
+      </tr>
+      <tr>
+        <td class="concrete"><a target="_blank" href="http://code.google.com/webtoolkit/documentation/com.google.gwt.user.client.ui.PasswordTextBox.html">PasswordTextBox</a></td>
+        <td>single-line text box that masks input</td>
+        <td>TextBoxBase</td>
+        <td><code>gwt-PasswordTextBox</code></td>
+        <td>none</td>
+      </tr>
+      <tr>
+        <td class="concrete"><a target="_blank" href="http://code.google.com/webtoolkit/documentation/com.google.gwt.user.client.ui.RadioButton.html">RadioButton</a></td>
+        <td>mutually-exclusive selection radio button</td>
+        <td>CheckBox</td>
+        <td><code>gwt-RadioButton</code></td>
+        <td>none</td>
+      </tr>
+      <tr>
+        <td class="concrete"><a target="_blank" href="http://code.google.com/webtoolkit/documentation/com.google.gwt.user.client.ui.TabBar.html">TabBar</a></td>
+        <td>horizontal bar of folder-style tabs often used by TabPanel</td>
+        <td>Composite</td>
+        <td>
+          <code>gwt-TabBar</code><br/>
+          <code>gwt-TabBarFirst</code><br/>
+          <code>gwt-TabBarRest</code>
+          <code>gwt-TabBarItem</code><br/>
+          <code>gwt-TabBarItem-selected</code>
+        </td>
+        <td><a href="#TabListener">TabListener</a></td>
+      </tr>
+      <tr>
+        <td class="concrete"><a target="_blank" href="http://code.google.com/webtoolkit/documentation/com.google.gwt.user.client.ui.TextArea.html">TextArea</a></td>
+        <td>multi-line text box</td>
+        <td>TextBoxBase</td>
+        <td><code>gwt-TextArea</code></td>
+        <td>none</td>
+      </tr>
+      <tr>
+        <td class="concrete"><a target="_blank" href="http://code.google.com/webtoolkit/documentation/com.google.gwt.user.client.ui.TextBox.html">TextBox</a></td>
+        <td>single-line text box</td>
+        <td>TextBoxBase</td>
+        <td><code>gwt-TextBox</code></td>
+        <td>none</td>
+      </tr>
+      <tr>
+        <td class="abstract"><a target="_blank" href="http://code.google.com/webtoolkit/documentation/com.google.gwt.user.client.ui.TextBoxBase.html">TextBoxBase</a></td>
+        <td>superclass of PasswordTextBox, TextArea and TextBox</td>
+        <td>FocusWidget</td>
+        <td>none</td>
+        <td>
+          <a href="#ChangeListener">ChangeListener</a>,
+          <a href="#ClickListener">ClickListener</a>,
+          <a href="#KeyboardListener">KeyboardListener</a>
+        </td>
+      </tr>
+      <tr>
+        <td class="concrete"><a target="_blank" href="http://code.google.com/webtoolkit/documentation/com.google.gwt.user.client.ui.Tree.html">Tree</a></td>
+        <td>hierachical tree of TreeItems</td>
+        <td>Widget</td>
+        <td><code>gwt-Tree</code></td>
+        <td>
+          <a href="#FocusListener">FocusListener</a>,
+          <a href="#KeyboardListener">KeyboardListener</a>,
+          <a href="#MouseListener">MouseListener</a>,
+          <a href="#TreeListener">TreeListener</a>
+        </td>
+      </tr>
+      <tr>
+        <td class="concrete"><a target="_blank" href="http://code.google.com/webtoolkit/documentation/com.google.gwt.user.client.ui.TreeItem.html">TreeItem</a></td>
+        <td>item in a Tree</td>
+        <td>UIObject</td>
+        <td>
+          <code>gwt-TreeItem</code>,
+          <code>gwt-TreeItem-selected</code>
+        </td>
+        <td>none;
+          use <a href="#TreeListener">TreeListener</a>
+          on containing Tree</td>
+      </tr>
+      <tr>
+        <td class="abstract"><a target="_blank" href="http://code.google.com/webtoolkit/documentation/com.google.gwt.user.client.ui.UIObject.html">UIObject</a></td>
+        <td>superclass of MenuItem, TreeItem, Widget</td>
+        <td>java.lang.Object</td>
+        <td>none</td>
+        <td>none</td>
+      </tr>
+      <tr>
+        <td class="abstract"><a target="_blank" href="http://code.google.com/webtoolkit/documentation/com.google.gwt.user.client.ui.Widget.html">Widget</a></td>
+        <td>superclass of Composite, FileUpload, FocusWidget, Frame, Hidden,
+          Hyperlink, Image, Label, MenuBar, Panel, and Tree</td>
+        <td>UIObject</td>
+        <td>none</td>
+        <td>none</td>
+      </tr>
+    </table>
+
+    <a name="Containers"/>
+    <h3>Containers <a class="toplink" href="#top">top</a></h3>
+    <p>
+      GWT currently provides the following containers
+      for laying out widgets.
+      Additional, non-Google-supplied containers are also available.
+    </p>
+    <img src="../images/GWT-Containers.png"/>
+    <table border="1">
+      <tr>
+        <th>Container Name</th>
+        <th>Description</th>
+        <th>Superclass</th>
+        <th>Default CSS Classes</th>
+      </tr>
+      <tr>
+        <td class="concrete"><a target="_blank" href="http://code.google.com/webtoolkit/documentation/com.google.gwt.user.client.ui.AbsolutePanel.html">AbsolutePanel</a></td>
+        <td>positions child widgets absolutely, allowing overlap</td>
+        <td>ComplexPanel</td>
+        <td>none</td>
+      </tr>
+      <tr>
+        <td class="concrete"><a target="_blank" href="http://code.google.com/webtoolkit/documentation/com.google.gwt.user.client.ui.CellPanel.html">CellPanel</a></td>
+        <td>child widgets are placed in table cells</td>
+        <td>ComplexPanel</td>
+        <td>none</td>
+      </tr>
+      <tr>
+        <td class="abstract"><a target="_blank" href="http://code.google.com/webtoolkit/documentation/com.google.gwt.user.client.ui.ComplexPanel.html">ComplexPanel</a></td>
+        <td>abstract bse class for panels that contain multiple child widgets</td>
+        <td>Panel</td>
+        <td>none</td>
+      </tr>
+      <tr>
+        <td class="concrete"><a target="_blank" href="http://code.google.com/webtoolkit/documentation/com.google.gwt.user.client.ui.DeckPanel.html">DeckPanel</a></td>
+        <td>displays child widgets in a deck where only one at a time is visible</td>
+        <td>ComplexPanel</td>
+        <td>none</td>
+      </tr>
+      <tr>
+        <td class="concrete"><a target="_blank" href="http://code.google.com/webtoolkit/documentation/com.google.gwt.user.client.ui.DialogBox.html">DialogBox</a></td>
+        <td>a separate window that has a caption area and can be dragged</td>
+        <td>PopupPanel</td>
+        <td>
+          <code>gwt-DialogBox</code><br/>
+          <code>Caption</code>
+        </td>
+      </tr>
+      <tr>
+        <td class="concrete"><a target="_blank" href="http://code.google.com/webtoolkit/documentation/com.google.gwt.user.client.ui.DockPanel.html">DockPanel</a></td>
+        <td>child widgets are docked at outer edges or in the remaining center area</td>
+        <td>CellPanel</td>
+        <td>none</td>
+      </tr>
+      <tr>
+        <td class="concrete"><a target="_blank" href="http://code.google.com/webtoolkit/documentation/com.google.gwt.user.client.ui.FlexTable.html">FlexTable</a></td>
+        <td>flexible table that creates cells on demand</td>
+        <td>HTMLTable</td>
+        <td>none</td>
+      </tr>
+      <tr>
+        <td class="concrete"><a target="_blank" href="http://code.google.com/webtoolkit/documentation/com.google.gwt.user.client.ui.FlowPanel.html">FlowPanel</a></td>
+        <td>child widgets using default HTML layout which means that
+          each line contains as many widgets as will fit</td>
+        <td>ComplexPanel</td>
+        <td>none</td>
+      </tr>
+      <tr>
+        <td class="concrete"><a target="_blank" href="http://code.google.com/webtoolkit/documentation/com.google.gwt.user.client.ui.FocusPanel.html">FocusPanel</a></td>
+        <td>makes content focusable and allows catching mouse and keyboard events (useful for drag-n-drop)</td>
+        <td>SimplePanel</td>
+        <td>none</td>
+      </tr>
+      <tr>
+        <td class="concrete"><a target="_blank" href="http://code.google.com/webtoolkit/documentation/com.google.gwt.user.client.ui.FormPanel.html">FormPanel</a></td>
+        <td>wraps content in an HTML &lt;form&gt; element</td>
+        <td>SimplePanel</td>
+        <td>none</td>
+      </tr>
+      <tr>
+        <td class="concrete"><a target="_blank" href="http://code.google.com/webtoolkit/documentation/com.google.gwt.user.client.ui.Frame.html">Frame</a></td>
+        <td>creates an &lt;iframe> that contains an given website</td>
+        <td>Widget</td>
+        <td><code>gwt-Frame</code> (implemented?)</td>
+      </tr>
+      <tr>
+        <td class="concrete"><a target="_blank" href="http://code.google.com/webtoolkit/documentation/com.google.gwt.user.client.ui.Grid.html">Grid</a></td>
+        <td>grid containing text, HTML or widgets;
+          number of rows/columns must be specified;
+          simpler alternative to FlexTable
+        </td>
+        <td>HTMLTable</td>
+        <td>none</td>
+      </tr>
+      <tr>
+        <td class="concrete"><a target="_blank" href="http://code.google.com/webtoolkit/documentation/com.google.gwt.user.client.ui.HorizontalPanel.html">HorizontalPanel</a></td>
+        <td>lays out child widgets in a single row</td>
+        <td>CellPanel</td>
+        <td>none</td>
+      </tr>
+      <tr>
+        <td class="concrete"><a target="_blank" href="http://code.google.com/webtoolkit/documentation/com.google.gwt.user.client.ui.HTMLPanel.html">HTMLPanel</a></td>
+        <td>contains HTML that can attach child widgets to specific elements insside the HTML</td>
+        <td>ComplexPanel</td>
+        <td>none</td>
+      </tr>
+      <tr>
+        <td class="abstract"><a target="_blank" href="http://code.google.com/webtoolkit/documentation/com.google.gwt.user.client.ui.HTMLTable.html">HTMLTable</a></td>
+        <td>superclass of FlexTable and Grid;
+          supports <a href="#TableListener">TableListener</a></td>
+        <td>Panel</td>
+        <td>none</td>
+      </tr>
+      <tr>
+        <td class="concrete"><a target="_blank" href="http://code.google.com/webtoolkit/documentation/com.google.gwt.user.client.ui.NamedFrame.html">NamedFrame</a></td>
+        <td>a Frame that has a name</td>
+        <td>Frame</td>
+        <td>none</td>
+      </tr>
+      <tr>
+        <td class="abstract"><a target="_blank" href="http://code.google.com/webtoolkit/documentation/com.google.gwt.user.client.ui.Panel.html">Panel</a></td>
+        <td>abstract superclass of all panels which are widgets that contain others</td>
+        <td>Widget</td>
+        <td>none</td>
+      </tr>
+      <tr>
+        <td class="concrete"><a target="_blank" href="http://code.google.com/webtoolkit/documentation/com.google.gwt.user.client.ui.PopupPanel.html">PopupPanel</a></td>
+        <td>a panel that can popup over other widgets; supports
+          <a target="_blank"
+          href="http://code.google.com/webtoolkit/documentation/com.google.gwt.user.client.ui.PopupListener.html">PopupListener</a></td>
+        <td>SimplePanel</td>
+        <td>none</td>
+      </tr>
+      <tr>
+        <td class="concrete"><a target="_blank" href="http://code.google.com/webtoolkit/documentation/com.google.gwt.user.client.ui.RootPanel.html">RootPanel</a></td>
+        <td>the panel to which all others must ultimately be added</td>
+        <td>AbsolutePanel</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td class="concrete"><a target="_blank" href="http://code.google.com/webtoolkit/documentation/com.google.gwt.user.client.ui.ScrollPanel.html">ScrollPanel</a></td>
+        <td>a panel whose content is scrollable</td>
+        <td>SimplePanel</td>
+        <td>none</td>
+      </tr>
+      <tr>
+        <td class="abstract"><a target="_blank" href="http://code.google.com/webtoolkit/documentation/com.google.gwt.user.client.ui.SimplePanel.html">SimplePanel</a></td>
+        <td>abstract superclass for all panels that contain only one widget;
+          call <code>setWidget</code> to specify it</td>
+        <td>Panel</td>
+        <td>none</td>
+      </tr>
+      <tr>
+        <td class="concrete"><a target="_blank" href="http://code.google.com/webtoolkit/documentation/com.google.gwt.user.client.ui.StackPanel.html">StackPanel</a></td>
+        <td>panel that stacks child widgets vertically and displays only
+          one at a time, with a header for each child that the user clicks
+          to display the associated widget</td>
+        <td>ComplexPanel</td>
+        <td>
+          <code>gwt-StackPanel</code><br/>
+          <code>gwt-StackPanelItem</code><br/>
+          <code>gwt-StackPanelItem-selected</code>
+        </td>
+      </tr>
+      <tr>
+        <td class="concrete"><a target="_blank" href="http://code.google.com/webtoolkit/documentation/com.google.gwt.user.client.ui.TabPanel.html">TabPanel</a></td>
+        <td>a panel that represents a tabbed set of pages, each containing another widget</td>
+        <td>Composite</td>
+        <td>
+          <code>gwt-TabBar</code><br/>
+          <code>gwt-TabPanel</code><br/>
+          <code>gwt-TabPanelBottom</code>
+        </td>
+      </tr>
+      <tr>
+        <td class="concrete"><a target="_blank" href="http://code.google.com/webtoolkit/documentation/com.google.gwt.user.client.ui.VerticalPanel.html">VerticalPanel</a></td>
+        <td>lays out child widgets in a single column</td>
+        <td>CellPanel</td>
+        <td>none</td>
+      </tr>
+    </table>
+
+    <a name="ListenersAdapters"/>
+    <h3>Listeners/Adapters <a class="toplink" href="#top">top</a></h3>
+    <p>
+      Listener interfaces define methods that are invoked on
+      objects that implement them when certain events occur.
+      Adapter classes make it easier to implement listener interfaces
+      by providing method implementations that do nothing,
+      saving you the trouble of writing them.
+    </p>
+    <table border="1">
+      <tr>
+        <th>Name</th>
+        <th>Superinterface</th>
+        <th>Adapter</th>
+        <th>Methods</th>
+      </tr>
+      <tr>
+        <td>
+          <a name="ChangeListener"/>
+          <a target="_blank" href="http://code.google.com/webtoolkit/documentation/com.google.gwt.user.client.ui.ChangeListener.html">ChangeListener</a>
+        </td>
+        <td>EventListener</td>
+        <td>none</td>
+        <td><code>void onChange(Widget sender)</code></td>
+      </tr>
+      <tr>
+        <td>
+          <a name="ClickListener"/>
+          <a target="_blank" href="http://code.google.com/webtoolkit/documentation/com.google.gwt.user.client.ui.ClickListener.html">ClickListener</a>
+        </td>
+        <td>EventListener</td>
+        <td>none</td>
+        <td><code>void onClick(Widget sender)</code></td>
+      </tr>
+      <tr>
+        <td>
+          <a name="EventListener"/>
+          <a target="_blank" href="http://code.google.com/webtoolkit/documentation/java.util.EventListener.html">EventListener</a>
+        </td>
+        <td>none</td>
+        <td>none</td>
+        <td>none; a marker interface</td>
+      </tr>
+      <tr>
+        <td>
+          <a name="FocusListener"/>
+          <a target="_blank" href="http://code.google.com/webtoolkit/documentation/com.google.gwt.user.client.ui.FocusListener.html">FocusListener</a>
+        </td>
+        <td>EventListener</td>
+        <td>
+          <a target="_blank" href="http://code.google.com/webtoolkit/documentation/com.google.gwt.user.client.ui.FocusListenerAdapter.html">FocusListenerAdapter</a>
+        </td>
+        <td>
+          <code>void onFocus(Widget sender)</code><br/>
+          <code>void onLostFocus(Widget sender)</code>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <a name="KeyboardListener"/>
+          <a target="_blank" href="http://code.google.com/webtoolkit/documentation/com.google.gwt.user.client.ui.KeyboardListener.html">KeyboardListener</a>
+        </td>
+        <td>EventListener</td>
+        <td>
+          <a target="_blank" href="http://code.google.com/webtoolkit/documentation/com.google.gwt.user.client.ui.KeyboardListenerAdapter.html">KeyboardListenerAdapter</a>
+        </td>
+        <td>
+          <code>void onKeyDown(Widget sender, char keyCode, int modifiers)</code><br/>
+          <code>void onKeyPress(Widget sender, char keyCode, int modifiers)</code><br/>
+          <code>void onKeyUp(Widget sender, char keyCode, int modifiers)</code>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <a name="LoadListener"/>
+          <a target="_blank" href="http://code.google.com/webtoolkit/documentation/com.google.gwt.user.client.ui.LoadListener.html">LoadListener</a>
+        </td>
+        <td>none</td>
+        <td>none</td>
+        <td>
+          <code>void onError(Widget sender)</code><br/>
+          <code>void onLoad(Widget sender)</code>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <a name="MouseListener"/>
+          <a target="_blank" href="http://code.google.com/webtoolkit/documentation/com.google.gwt.user.client.ui.MouseListener.html">MouseListener</a>
+        </td>
+        <td>EventListener</td>
+        <td>
+          <a target="_blank" href="http://code.google.com/webtoolkit/documentation/com.google.gwt.user.client.ui.MouseListenerAdapter.html">MouseListenerAdapter</a>
+        </td>
+        <td>
+          <code>void onMouseDown(Widget sender, int x, int y)</code><br/>
+          <code>void onMouseEnter(Widget sender)</code><br/>
+          <code>void onMouseLeave(Widget sender)</code><br/>
+          <code>void onMouseMove(Widget sender, int x, int y)</code><br/>
+          <code>void onMouseUp(Widget sender, int x, inty)</code>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <a name="PopupListener"/>
+          <a target="_blank" href="http://code.google.com/webtoolkit/documentation/com.google.gwt.user.client.ui.PopupListener.html">PopupListener</a>
+        </td>
+        <td>EventListener</td>
+        <td>none</td>
+        <td><code>void onPopupClosed(PopupPanel sender, boolean autoClosed)</code></td>
+      </tr>
+      <tr>
+        <td>
+          <a name="ScrollListener"/>
+          <a target="_blank" href="http://code.google.com/webtoolkit/documentation/com.google.gwt.user.client.ui.ScrollListener.html">ScrollListener</a>
+        </td>
+        <td>EventListener</td>
+        <td>none</td>
+        <td>
+          <code>void onScroll(Widget sender, int scrollLeft, int scrollTop)</code>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <a name="TableListener"/>
+          <a target="_blank" href="http://code.google.com/webtoolkit/documentation/com.google.gwt.user.client.ui.TableListener.html">TableListener</a>
+        </td>
+        <td>none</td>
+        <td>none</td>
+        <td>
+          <code>void onCellClicked(SourcedTableEvents sender, int row, int cell)</code>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <a name="TabListener"/>
+          <a target="_blank" href="http://code.google.com/webtoolkit/documentation/com.google.gwt.user.client.ui.TabListener.html">TabListener</a>
+        </td>
+        <td>EventListener</td>
+        <td>none</td>
+        <td>
+          <code>void onBeforeTabSelected(SourcesTabEvents sender, int tabIndex)</code><br/>
+          <code>void onTabSelected(SourcesTabEvents sender, int tabIndex)</code>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <a name="TreeListener"/>
+          <a target="_blank" href="http://code.google.com/webtoolkit/documentation/com.google.gwt.user.client.ui.TreeListener.html">TreeListener</a>
+        </td>
+        <td>EventListener</td>
+        <td>none</td>
+        <td>
+          <code>void onTreeItemSelected(TreeItem item)</code><br/>
+          <code>void onTreeItemStateChanged(TreeItem item)</code>
+        </td>
+      </tr>
+    </table>
+
+    <a name="ServerCalls"/>
+    <h3>Server Calls <a class="toplink" href="#top">top</a></h3>
+    <p>
+      GWT supports four methods for client-side code to invoke server-side
+      functionality. These options are described below. Regardless of the
+      option selected, it's important to let the user know when background
+      processing that may update the GUI is taking place.  Typical ways to
+      do this include displaying an animated GIF image in a standard
+      screen location, changing the cursor to an hourglass (wait), or both.
+    </p>
+
+    <h4>HTML forms</h4>
+    <p>
+      This option is not described further here.
+    </p>
+
+    <h4>XMLHttpRequest</h4>
+    <p>
+      This option is not described further here.
+    </p>
+    </p>
+
+    <h4>JavaScript Object Notation (JSON)</h4>
+    <p>
+      This is a form of object serialization that is useful when working
+      with non-Java services.
+      By default, only a limited number of object types can be passed
+      using this mechanism.
+      They include arrays, maps, numbers, strings and booleans.
+      Note that JSON does not support circular references between objects.
+      For more information, see the <a target="_blank" href="http://code.google.com/webtoolkit/documentation/com.google.gwt.json.client.html">class reference</a>
+      and the
+      <a target="_blank" href="http://code.google.com/webtoolkit/documentation/examples/jsonrpc/">JSON example project</a>.
+    </p>
+
+    <h4>GWT RPC</h4>
+    <p>
+      This approach utilizes Java servlets that extend the GWT
+      <a target="_blank" href="http://code.google.com/webtoolkit/documentation/com.google.gwt.user.server.rpc.RemoteServiceServlet.html">RemoteServiceServlet</a> class.
+      An alternative approach based on Spring is described
+      <a target="_blank" href="http://g.georgovassilis.googlepages.com/usingthegwthandler">here</a>.
+      Any Java object that implements the GWT
+      <a target="_blank" href="http://code.google.com/webtoolkit/documentation/com.google.gwt.user.client.rpc.IsSerializable.html">IsSerializable</a>
+      interface AND has a no-arg constructor can be passed using this method.
+      This is just a marker interface.
+      No additional methods need to be implemented.
+      Many of the GWT versions of standard Java classes,
+      such as the <code>java.util</code>
+      <code>Map</code> and <code>List</code> classes, do this.
+    </p>
+    <p>
+      The steps to implement a service are:
+    </p>
+    <ol>
+      <li>
+        Create a service interface that extends
+        <code><a href="http://code.google.com/webtoolkit/documentation/com.google.gwt.user.client.rpc.RemoteService.html">com.google.gwt.user.client.rpc.RemoteService</a></code>
+        under <code>src/{package-dirs}/client</code>.
+        For example,<pre><div class="code">package {package}.client;
+
+import com.google.gwt.user.client.rpc.RemoteService;
+
+public interface MyService extends RemoteService {
+  public MyType3 doSomething(MyType1 p1, MyType2 p2);
+}</div></pre>
+      </li>
+      <li>
+        Create an asynchronous service interface that extends nothing
+        under <code>src/{package-dirs}/client</code>.
+        The methods in this interface should return <code>void</code>
+        and have the same arguments as the service interface
+        with an additional last argument of the type
+        <code><a href="http://code.google.com/webtoolkit/documentation/com.google.gwt.user.client.rpc.AsyncCallback.html">com.google.gwt.user.client.rpc.AsyncCallback</a></code>.
+        For example,<pre><div class="code">package {package}.client;
+
+import com.google.gwt.user.client.rpc.AsyncCallback;
+
+public interface MyServiceAsync {
+  public void doSomething(MyType1 p1, MyType2 p2, AsyncCallback callback);
+}</div></pre>
+      </li>
+      <li>
+        Create a <code>server</code> directory
+        under <code>src/{package-dirs}</code>
+        if it doesn't already exist.
+      </li>
+      <li>
+        Create a service implementation servlet that extends
+        <code><a href="http://code.google.com/webtoolkit/documentation/com.google.gwt.user.server.rpc.RemoteServiceServlet.html">com.google.gwt.server.rpc.RemoteServiceServlet</a></code>
+        and implements the service interface
+        under <code>src/{package-dirs}/server</code>.
+        For example,<pre><div class="code">package {package}.server;
+
+import com.google.gwt.user.server.rpc.RemoteServiceServlet;
+import {package}.client.MyService;
+
+public class MyServlet
+extends RemoteServiceServlet implements MyService {
+
+  // This is required because HttpServlet implements Serializable.
+  private static final long serialVersionUID = 1L; 
+
+  public MyServlet() {
+    // Put any needed initialization code here.
+  }
+
+  public MyType3 doSomething(MyType1 p1, MyType2 p2) {
+    // implement service method here
+  }
+}</div></pre>
+      </li>
+      <li>
+        Add a servlet mapping to the module XML file
+        in src/{package-dirs}/{app-name}.gwt.xml.
+        For example,<pre><div class="code">&lt;servlet path="/MyServlet" class="{package}.server.MyServlet"/&gt;</div></pre>
+      </li>
+      <li>
+        <a name="web.xml"/>
+        Create a <code>web.xml</code> web deployment descriptor file
+        at the top of the project directory
+        and add content like the following.
+        <pre><div class="code">&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;web-app version="2.4"
+  xmlns="http://java.sun.com/xml/ns/j2ee"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee
+    http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"&gt;
+
+  &lt;servlet&gt;
+    &lt;servlet-name&gt;MyServlet&lt;/servlet-name&gt;
+    &lt;servlet-class&gt;{package}.server.MyServlet&lt;/servlet-class&gt;
+  &lt;/servlet&gt;
+
+  &lt;servlet-mapping&gt;
+    &lt;servlet-name&gt;MyServlet&lt;/servlet-name&gt;
+    &lt;url-pattern&gt;/{package}.{module}/MyServlet&lt;/url-pattern&gt;
+  &lt;/servlet-mapping&gt;
+&lt;/web-app&gt;
+</div></pre>
+      </li>
+    </ol>
+    <p>
+      As described above in the <a href="#Deploying">Deploying</a>
+      section above, the servlet can be compiled and deployed using Ant.
+    </p>
+    <p>
+      The steps to invoke a GWT RPC service from a client are:
+    </p>
+    <ol>
+      <li>
+        Get an instance of the service, 
+        cast it to the asychronous interface type,
+        and configure it as a <a href="http://code.google.com/webtoolkit/documentation/com.google.gwt.user.client.rpc.ServiceDefTarget.html">ServiceDefTarget</a>.
+        For example,<pre><div class="code">import com.google.gwt.core.client.GWT;
+import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.rpc.ServiceDefTarget;
+../
+MyServiceAsync myService = (MyServiceAsync) GWT.create(MyService.class);
+String myURL = GWT.getModuleBaseURL() + "/MyServlet";
+((ServiceDefTarget myService).setServiceEntryPoint(myURL);</div></pre>
+      </li>
+      <li>
+        Create an object from a class that implements
+        <code><a href="http://code.google.com/webtoolkit/documentation/com.google.gwt.user.client.rpc.AsyncCallback.html">com.google.gwt.user.client.rpc.AsyncCallback</a></code>.
+        Often this is done using an anonymous inner class.
+        <code>AsyncCallback</code> requires two methods,
+        <code>onFailure</code> and <code>onSuccess</code>.
+        For example,<pre><div class="code">AsyncCallback callback = new AsyncCallback() {
+  public void onFailure(Throwable e) {
+    // Put code to handle failures here.
+  }
+  public void onSuccess(Object result) {
+    // Put code to handle success here.
+    // To use the result, cast it to the type of object it is.
+  }
+};</div></pre>
+      </li>
+      <li>
+        Invoke service methods by passing a callback object
+        to methods in the asynchronous interface.
+        For example,<pre><div class="code">myService.doSomething(p1, p2, callback);</div></pre>
+        <p>
+        It is not allowed to pass <code>null</code> for the callback object
+        even if there is nothing that needs to be done on the client-side
+        after the service call completes.
+        </p>
+      </li>
+    </ol>
+
+    <p>
+      For more information on remote procedure calls, see
+      <a target="_blank" href="http://code.google.com/webtoolkit/documentation/com.google.gwt.doc.DeveloperGuide.RemoteProcedureCalls.html">here</a>.
+    </p>
+
+    <a name="ErrorHandling"/>
+    <h3>Error Handling <a class="toplink" href="#top">top</a></h3>
+    <p>
+      If an exception is not caught when running in hosted mode,
+      a stack trace is displayed in the log window.
+      If an exception is not caught when running in a web browser,
+      no stack trace is displayed.
+      To change this default behaviour,
+      <ol>
+        <li>Write a class that implements <a target="_blank"
+          href="http://code.google.com/webtoolkit/documentation/com.google.gwt.core.client.GWT.UncaughtExceptionHandler.html">GWT.UncaughtExceptionHandler</a>. This interface only has the following method.<pre><div class="code">public void onUncaughtException(Throwable e)</div></pre>
+        </li>
+        <li>Create an object from this class.</li>
+        <li>Pass the object to the static method
+          <code>GWT.setUncaughtExceptionHandler(handler);</code></li>
+      </ol>
+    </p>
+    <p>
+      A common thing to do in the handler is to
+      display a stack trace in a dialog box.
+      The GWT JRE does not have a StackTraceElement class.
+      A substitute for this is to write a method like the following.
+    </p>
+    <pre><div class="code">private String printStackTrace(Object[] stackTrace) {
+  String output = "";
+  for (Object line : stackTrace) {
+    output += line + "&lt;br/&gt;";
+  }
+  return output;
+}</div></pre>
+    <p>
+      To display a stack trace in a dialog box,
+      create HTML to display as follows.
+    </p>
+    <pre><div class="code">HTML error = new HTML("&lt;pre&gt;" + printStackTrace(throwable.getStackTrace()) + "&lt;/pre&gt;");</div></pre>
+
+    <a name="JavaScriptFromJava"/>
+    <h3>JavaScript From Java <a class="toplink" href="#top">top</a></h3>
+    <p>
+      JavaScript code can be imbedded in Java code and
+      invoked from Java as if it were a Java method.
+      This is done with the
+      <a target="_blank" href="http://code.google.com/webtoolkit/documentation/com.google.gwt.doc.DeveloperGuide.JavaScriptNativeInterface.html">JavaScript Native Interface</a> (JSNI).
+      To do this, a Java method is declared as "native"
+      and the JavaScript code it should run is included in a special comment.
+    </p>
+    <p>
+      Here's an example.<pre><div class="code">public native int add(int n1, int n2)
+/*-{
+  var sum = n1 + n2;
+  return sum;
+}-*/;</div></pre>
+    </p>
+    <p>
+      Here's another example that tests whether a string matches a
+      regular expression. This is useful for validating the content of
+      widgets that allow the user to enter text such as <code>TextBox</code>.
+      The JRE subset supported by GWT doesn't provide
+      this capability, but JavaScript does.
+<pre><div class="code">public native static boolean matches(String regExp, String value) /*-{
+  var pattern = new RegExp(regExp);
+  return value.search(pattern) != -1;
+}-*/;
+</div></pre>
+    </p>
+
+    <a name="XML"/>
+    <h3>Client-side XML Processing <a class="toplink" href="#top">top</a></h3>
+    <p>
+      GWT provides a Java package for parsing and creating XML using
+      the DOM API.  For documentation, see <a target="_blank"
+      href="http://code.google.com/webtoolkit/documentation/com.google.gwt.xml.client.html">here</a>.
+    </p>
+
+    <a name="CustomWidgets"/>
+    <h3>Custom Widgets
+      <a class="toplink" href="#top">top</a></h3>
+    <p>
+      Custom widgets can be implemented by creating a new class that
+      extends an existing widget or extends from <code>Composite</code>.
+      Extending another widget should be avoided if the custom widget
+      should not expose all of the public interface of that widget.
+      When extending from <code>Composite</code>, be sure to call
+      <code>initWidget</code> at the end of the constructor,
+      passing it the outermost panel or a widget.
+    </p>
+
+    <a name="Reuse"/>
+    <h3>Creating Reusable Modules
+      <a class="toplink" href="#top">top</a></h3>
+    <p>
+      Custom widgets and other client-side classes and resources
+      (such as images) can be shared between multiple GWT applications.
+      To do so they must be bundled in a JAR.
+      Here are the steps to create such a JAR.
+    </p>
+    <ol>
+      <li>
+        Select a package name for the module, for example,
+        <code>com.ociweb.gwt</code>.
+      </li>
+      <li>
+        Select a name for the module, for example,
+        <code>OCIWidgets</code>.
+      </li>
+      <li>
+        Create a module XML file.
+        For the examples given above the file must be named
+        <code>OCIWidgets.gwt.xml</code>
+        and it must be in the src/com/ociweb/gwt directory.
+        This file must inherit other modules on which it depends.
+        For a module that only depends on resources
+        that ship with GWT the following content would suffice.
+        <pre><div class="code">&lt;module&gt;
+  &lt;inherits name="com.google.gwt.user.User"/&gt;
+&lt;/module&gt;
+</div></pre>
+      </li>
+      <li>
+        Add a <code>source</code> element for each subdirectory of the
+        module package that contains code to be compiled to JavaScript.
+        If none are provided, a default of "client" is assumed.
+        If any are provided, this default goes away.
+        For example, if the directory "src/com/ociweb/gwt/model"
+        contains such code and the sibling directory "client" does also
+        then the following elements must be added.
+        <pre><div class="code">  &lt;source path="client"/&gt;
+  &lt;source path="model"/&gt;
+</div></pre>
+        <p>
+        For more detail on the content of module XML files, see
+        <a target="_blank" href="http://code.google.com/webtoolkit/documentation/com.google.gwt.doc.DeveloperGuide.Fundamentals.Modules.ModuleXml.html">here</a>.
+        </p>
+      </li>
+      <li>
+        Create a JAR that contains
+        <ul>
+          <li>module XML (<code>*.gwt.xml</code>)</li>
+          <li>Java source files (<code>*.java</code>)</li>
+          <li>Java bytecode files (<code>*.class</code>)</li>
+          <li>other resources such as image files</li>
+        </ul>
+        The Java files must be their package directory structure.
+        Unless additional configuration is performed,
+        resources such as image files must be in a directory
+        that is named "<code>public</code>" or a directory below one.
+      </li>
+    </ol>
+    <p>
+      Ant can be used to create the JAR.
+      Here's an example target.
+      <pre><div class="code">  &lt;target name="jar" depends="compile"
+    description="creates a module JAR that other GWT applications can use"&gt;
+    &lt;jar destfile="build/${ant.project.name}.jar"&gt;
+      &lt;fileset dir="build/classes"/&gt;
+      &lt;fileset dir="src"/&gt;
+    &lt;/jar&gt;
+  &lt;/target&gt;
+</div></pre>
+    </p>
+    <p>
+      Suppose we want to create a JAR to allow a custom widget named
+      <code>com.ociweb.gwt.client.EmailTextBox</code>
+      to be reused by other GWT applicaitons.
+      The content of the JAR would be as follows.
+      <pre><div class="code">com/ociweb/gwt/client/EmailTextBox.class
+com/ociweb/gwt/client/EmailTextBox.class
+com/ociweb/gwt/OCIWidgets.gwt.xml
+</div></pre>
+    </p>
+    <p>
+      Here are the steps to use a JAR containing reusable GWT resources.
+    </p>
+    <ol>
+      <li>
+        Add the JAR to the classpath. How this is done differs based on
+        on whether you are using generated GWT scripts, an IDE, Ant,
+        or some other approach to build and run your application.
+      </li>
+      <li>
+        Add an <code>inherits</code> tag to your <code>*.gwt.xml</code>
+        module XML file.  The value of the <code>name</code> attribute
+        must be the module package name, followed by a ".", followed by the module name.
+        To use the module described above, the following line must be added.
+        <pre><div class="code">&lt;inherits name="com.ociweb.gwt.OCIWidgets"/&gt;
+</div></pre>
+      </li>
+    </ol>
+
+    <a name="Resources"/>
+    <h3>Resources <a class="toplink" href="#top">top</a></h3>
+    <ul>
+      <li>Books<br/>
+        <a target="_blank" href="http://www.manning.com/hanson/">
+          <img src="../images/BookGWTinAction.jpg" height="150"/></a> 
+        <a target="_blank" href="http://www.manning.com/cooper/">
+          <img src="../images/BookGWTinPractice.jpg" height="150"/></a> 
+        <a target="_blank" href="http://www.packtpub.com/google-web-toolkit-GWT-Java-AJAX/book">
+          <img src="../images/BookGWTJavaAjaxProgramming.png" height="150"/></a> 
+        <a target="_blank" href="http://www.pearsoned.co.uk/Bookshop/detail.asp?item=100000000257399">
+          <img height="140" src="../images/BookGWTSolutions.jpg"</img></a>
+        <a target="_blank" href="http://www.amazon.com/Google-Toolkit-Applications-Ryan-Dewsbury/dp/0321501969">
+          <img height="140" src="../images/BookGWTApplications.jpg"</img></a>
+        <ul>
+          <li>
+            <a target="_blank"
+              href="http://www.pragmaticprogrammer.com/titles/ebgwt/">
+            Google Web Toolkit - Taking the pain out of Ajax</a> - a PDF book
+          </li>
+          <li>
+            <a target="_blank"
+              href="http://www.awprofessional.com/promotions/promotion.asp?promo=3854&rl=1">Google Web Toolkit</a>
+            by Bruce Johnson and Joel Webber,
+            creators of GWT - Addison Wesley
+          </li>
+        </ul>
+      </li>
+      <li>Libraries
+        <ul>
+          <li>
+            <a target="_blank"
+              href="http://gwt.components.googlepages.com/">GWT Component Library</a>
+            - includes Canvas, rounded corners, simple calendar,
+              Scriptaculous effects, auto-completion TextBox and more
+          </li>
+          <li>
+            <a target="_blank"
+              href="http://code.google.com/p/gwt-dnd/">GWT DND</a>
+            - drag and drop support
+          </li>
+          <li>
+            <a target="_blank"
+              href="http://code.google.com/p/gwt-jsonizer/">GWT JSONizer</a>
+            - This "allows you to 'Jsonize' (instead of 'Serialize') JavaBeans to JSON objects, and JSON objects to JavaBeans in the context of the Google Web Toolkit. For performance reasons, this API doesn't uses the GWT JSON API."
+          </li>
+          <li>
+            <a target="_blank"
+              href="http://gwt-widget.sourceforge.net/">GWT Server Library</a>
+            - a simpler way to implement GWT RPC services that uses Spring
+            (see <a target="_blank"
+              href="http://g.georgovassilis.googlepages.com/usingthegwthandler">here</a>)
+          </li>
+          <li>
+            <a target="_blank"
+              href="http://www.asquare.net/gwttk/">GWT Tk Library</a>
+            - includes an implementation of modal dialogs
+          </li>
+          <li>
+            <a target="_blank"
+              href="http://gwt-widget.sourceforge.net/">GWT Widget Library</a>
+            - provides many custom widgets such as a calculator, calendar, 
+            image button, progress bar, Scriptaculous effects wrapper,
+            SVG display, toggle button and more 
+          </li>
+          <li>
+            <a target="_blank"
+              href="http://code.google.com/p/gwtwindowmanager/">GWT Window Manager</a>
+            - a Multiple Document Interface (MDI) framework that includes
+            the class <code>GInternalFrame</code>.
+          </li>
+          <li>
+            <a target="_blank"
+              href="http://code.google.com/p/gwtx/">GWTX</a> -
+            an extended GWT JRE emulation library that adds support for
+            <code>java.io.Serializable</code>,
+            <code>java.util.StringTokenizer</code>,
+            <code>java.util.logging.*</code>,
+            and <code>PropertyChangeEvent</code> processing
+          </li>
+          <li>For more, visit <a target="_blank"
+            href="http://gwtpowered.org/">http://gwtpowered.org/</a>
+            and click the "Widgets" link.
+        </ul>
+      </li>
+      <li><a target="_blank" href="http://code.google.com/webtoolkit/makinggwtbetter.html#roadmap">Roadmap</a> for the future of GWT</li>
+      <li>
+        Links to third party tools, including additional widgets,
+        and books on GWT can be found <a target="_blank"
+        href="http://code.google.com/webtoolkit/thirdparty.html">here</a>.
+      </li>
+      <li>
+        <a target="_blank" href="http://www.examples.roughian.com/">Ian Bambury GWT Examples</a>
+      </li>
+      <li>
+        Another site with even more resources is
+        <a target="_blank" href="http://www.gwtpowered.org/">gwtPowered</a>.
+      </li>
+      <li>IntelliJ IDEA <a target="_blank" href="http://www.jetbrains.com/idea/training/demos/GWT.html">GWT Studio Plugin demo</a></li>
+      <li>
+        Marcelo Emanoel is developing a set of widgets that have the same
+        API as Swing components so that Swing applications can be easily
+        converted to GWT. See <a target="_blank"
+        href="http://code.google.com/p/gwings/">gwings</a>. 
+      </li>
+      <li>
+        IBM article "<a target="_blank"
+          href="http://www-128.ibm.com/developerworks/opensource/library/os-ad-gwt1/">Build an Ajax application using Google Web Toolkit,
+        Apache Derby and Eclipse</a>", a three part series
+      </li> 
+      <li>
+        Examples from Ian Bambury are <a target="_blank"
+        href="http://examples.roughian.com/">here<a>.
+      </li>
+    </ul>
+
+    <hr/>
+    <p style="text-align:center">
+      Copyright &#169; 2007 Object Computing, Inc. All rights reserved.
+    </p>
+  </body>
+</html>

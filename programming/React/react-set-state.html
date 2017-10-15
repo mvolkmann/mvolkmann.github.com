@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Redux in One</title>
+    <meta charset="utf-8">
+    <style>
+      .author {
+        font-style: italic;
+      }
+      body {
+        background: linen;
+        font-family: sans-serif;
+      }
+      h3 {
+        color: blue;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>React setState</h1>
+    <p class="author">
+    R. Mark Volkmann, Object Computing, Inc.<br>
+      March 30, 2017
+    </p>
+
+    <p>
+      Recently there has been a lot of conversation on Twitter about whether
+      the React <code>setState</code> method is hard to learn.
+      There are claims that it is better to learn Redux.
+      This was triggered by a tweet from Eric Elliott
+      which was further elaborated in
+      <a href="https://medium.com/javascript-scene/setstate-gate-abc10a9b2d82">this post</a>.
+      Here is my take on the debate.
+    </p>
+
+    <h3>What does setState do?</h3>
+    <p>
+      The <code>setState</code> method is called on an instance of a component
+      to update its state.
+      After updating the state, the component and all components it renders
+      are re-rendered.
+      This is done asynchronously and the virtual DOM makes it very efficient.
+    </p>
+
+    <h3>How is setState called?</h3>
+    <p>
+      One way to call setState is <code>this.setState(<i>someObject</i>);</code>
+      The properties in <code><i>someObject</i></code>
+      replace properties in the current state.
+      This is referred to as a shallow merge.
+      Any properties in <code><i>someObject</i></code>
+      that are not already in the state are added.
+      Any properties in <code><i>someObject</i></code>
+      that are already in the state are replaced.
+    </p>
+    <p>
+      Another way to call <code>setState</code> is
+      <code>this.setState(<i>someFunction</i>);</code>
+      The function is passed the current state as an object.
+      It must return an object that will be shallow merged into
+      the current state just like in the first approach.
+    </p>
+
+    <h3>How does one choose which way to call setState?</h3>
+    <p>
+      If any of the new state values need to be computed based on current state values, use the function approach.
+      Otherwise use the object approach.  It is really that simple.
+    </p>
+    <p>
+      For example, if you want to set <code>name</code> to Bob
+      and <code>score</code> to 5
+      regardless of the current state, do this:
+    </p>
+    <pre>
+      this.setState({name: 'Bob', score: 5});</pre>
+    <p>
+      If you want to uppercase the current name and increase the current score by one, do this:
+    </p>
+    <pre>
+      this.setState(state => ({
+        name: state.name.toUpperCase(),
+        score: state.score + 1
+      });</pre>
+
+    <h3>When are the results available?</h3>
+    <p>
+      If you attempt to access a state property that you just changed
+      by calling <code>setState</code> it will still have its old value.
+      This is because <code>setState</code> performs the updates asynchronously.
+      However, typically you want to use the new state values
+      in the component <code>render</code> method.
+      That works fine because <code>setState</code> triggers a re-render
+      and it only does this after it has
+      finished making the requested state changes.
+    </p>
+
+    <h3>Can setState be used as an alternative to Redux?</h3>
+    <p>
+      Definitely!  One of the main characteristics of Redux is that it holds
+      all the application state in one place, called the "store".
+      If you decide that the top component will hold all the application state
+      then it can be viewed as the equivalent of the Redux store.
+    </p>
+    <p>
+      In Redux, actions can be dispatched from anywhere.
+      These typically result in updates to the store.
+      So if Redux isn't being used, how would other components
+      update the state of the top component?  It's easy!
+      You just need some strategy to make the <code>setState</code> method
+      of the top component available everywhere.
+      Here's one approach:
+    </p>
+    <pre>
+      React.setTopState = this.setState.bind(this);</pre>
+    <p>
+      Do this in the constructor of the top component.
+      Now any component can call <code>React.setTopState</code>.
+    </p>
+
+    <h3>Is using setState simpler than using Redux?</h3>
+    <p>
+      Let's compile a list of the concepts that need to be learned
+      in order to use Redux.
+    </p>
+    <ul>
+      <li>action objects</li>
+      <li>action type constants</li>
+      <li>action creator functions</li>
+      <li>dispatching actions</li>
+      <li>reducers</li>
+      <li>creating the store</li>
+      <li>listening for store changes and re-rendering</li>
+    </ul>
+    <p>
+      These are the minimum concepts that must be understood.
+      Typically additional layers are added such as
+      react-redux, redux-saga, redux-thunk, and more.
+      Each of these introduce more concepts.
+    </p>
+    <p>
+      Really, how can anyone claim using Redux is simpler than
+      the just using <code>setState</code>?
+      Of course there are benefits in using Redux,
+      especially for large applications.
+      A big one is the ability to use the Redux Chrome plugin
+      and "time travel debugging".
+      However, for small to medium size applications
+      trading that for the simplicity of using <code>setState</code>
+      is often a good trade.
+    </p>
+
+    <p>
+      I'm very interested in feedback.
+      Please email me <a href="mailto:r.mark.volkmann@gmail.com">here</a>.
+    </p>
+  </body>
+</html>

@@ -1,0 +1,26 @@
+table {
+  border-collapse: collapse;
+}
+
+td {
+  background-color: #f2f2f2; /* lightgray */
+  padding: 10px;
+  vertical-align: top;
+}
+
+td > ol {
+  margin: 0;
+  padding-left: 20px;
+}
+
+td > pre {
+  margin: 0;
+}
+
+th {
+  background-color: linen;
+}
+
+th, td {
+  border: solid gray 1px;
+}

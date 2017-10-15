@@ -1,0 +1,27 @@
+.positionable {
+  /* border: solid black 1px; */
+  color: white;
+  height: 75px;
+  width: 100px;
+  line-height: 75px; /* centers text vertically */
+  text-align: center;
+/* The following was suggested at the bottom of
+ * http://www.w3.org/Style/Examples/007/center#block,
+ * but it doesn't work and the value "table-cell" isn't supported in IE.
+  display: table-cell;
+  vertical-align: middle;
+*/
+}
+
+#outer {
+  background-color: linen;
+  border: solid black 3px;
+  height: 300px;
+  width: 400px;
+}
+
+#center { background-color: red; }
+#bottom { background-color: blue; }
+#left { background-color: purple; }
+#right { background-color: green; }
+#top { background-color: orange; }

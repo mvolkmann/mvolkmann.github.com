@@ -1,0 +1,386 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR.html1/DTD.html1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>Seaside</title>
+    <link rel="stylesheet" type="text/css" href="../common.css"/>
+  </head>
+  <body>
+    <h2>Seaside</h2>
+    
+    <h3><a name="Contents">Quick Links</a></h3>
+    <p>
+      <a href="#Ajax">Ajax</a>
+      <a href="#BrowserDebugging">Browser Debugging</a>
+      <a href="#Components">Components</a>
+      <a href="#Configuration">Configuration</a>
+      <a href="#Databases">Databases</a>
+      <a href="#Databases">GLORP</a>
+      <a href="#Debugging">Debugging</a>
+      <a href="#Hosting">Hosting</a>
+      <a href="#Installing">Installing</a>
+      <a href="#Magritte">Magritte</a>
+      <a href="#Overview">Overview</a>
+      <a href="#Pier">Pier</a>
+      <a href="#Resources">Resources</a>
+      <a href="#Server">Server</a>
+      <a href="#Testing">Testing</a>
+      <a href="#URLs">URLs</a>
+    </p>
+
+    <h3><a name="Introduction">Introduction</a></h3>
+    <p>
+      <a href="http://www.seaside.st">Seaside</a> 
+      is a web app. framework implemented in Smalltalk.
+      The name stands for
+      "Squeak Enterprise Aubergines Server with
+      Integrated Development Environment".
+      "aubergine" is a British term for "eggplant".
+      The name is meant to poke fun at "Enterprise JavaBeans".
+      Seaside was written by Avi Bryant and Julian Fitzell.
+      It was inspired by Avi's Ruby-based Iowa web app. framework.
+      Other people, including Lukas Renglli, have now taken over
+      much of the maintainance and enhancment activities.
+      Seaside has been ported to Ruby by Eric Hodel and goes by the name Borges.
+    </p>
+    <p>
+      One of the primary characteristics of Seaside is that it is a
+      continuation-based framework.
+      This solves many typical issues in implementing web applications
+      such as correctly maintaining state on the server-side
+      regardless of the use of browser back and forward buttons.
+      Seaside maintains the entire state of the application for each page "hit".
+      If the user uses the back button to return to a previous page,
+      Seaside restores the state the application was in
+      when that page was previously displayed.
+      This can be customized on a case-by-case basis.
+      For example, in a shopping cart application
+      if the user has placed items in the cart, the application
+      shouldn't behave as though the items have been removed
+      just because the user has pressed the back button.
+    </p>
+    <p>
+      Unlike most other frameworks, Seaside doesn't use templating
+      to generate HTML.
+      Instead, page content is specified using Smalltalk code
+      to send messages to an HTML "canvas"
+      (see instance methods in the WAHtmlCanvas class). 
+      The Seaside philosophy is that developers should control HTML output,
+      using lots of div tags with ids, and web designers should
+      use CSS, referencing the ids of those divs, to make pages look nice.
+      Common templating languages used by other web app. frameworks
+      include JSP, ASP and Velocity.
+      Ruby on Rails also uses this approach.
+    </p>
+    <p>
+      Seaside has good solutions for persistence and scaling.
+      For persistence to a relational database,
+      see the open source library <a href="#Databases">GLORP</a>.
+    </p>
+    <p>
+      Seaside applications are portable to the four main
+      Smalltalk implementations:
+      Squeak (open source), GNU Smalltalk (open source),
+      Cincom VisualWorks (commercial) and
+      GemStone/S (commercial, essentially a Smalltalk database).
+      What about Object Arts Dolphin?
+    </p>
+
+    <h3><a name="Installing">Installing</a></h3>
+    <p>
+      Seaside can be installed into an existing image.
+      However, it's much easier to download an image that already contains it.
+      Two such options are the
+      "<a href="http://www.seaside.st/download/squeak">Seaside One-Click Experience</a>" and
+      <a href="http://damiencassou.seasidehosting.st/seaside/pier/Smalltalk/squeak-dev">squeak-dev</a> images from Damien Cassou.
+    </p>
+    <p>
+      To install Seaside into an existing image ...
+    </p>
+    <p>
+      To determine the version that is currently installed,
+      open a Monticello Browser and locate "Seaside2" in the left pane.
+      The version number will appear in parentheses after the name.
+    </p>
+
+    <h3><a name="Overview">Overview</a></h3>
+    <p>
+      Classes in Seaside have a prefix of "WA" to distinguish them from
+      other classes.  This stands for "Web Application".
+    </p>
+
+    <h3><a name="Server">Server</a></h3>
+    <p>
+      The HTTP server most commonly used with Seaside is KomHttpServer.
+      To determine whether an instances of this are already running,
+      enter the following in a Workspace and explore-it (ctrl-I):
+    <div class="code"><pre>
+HttpService allInstances
+</pre></div>
+    <p>
+      To start a new instance, enter the following in a Workspace and do-it:
+    </p>
+    <div class="code"><pre>
+WAKom startOn: 8080
+</pre></div>
+    <p>
+      When an instance is running,
+      the explore-it above should display the following:
+    </p>
+    <img src="../images/SeasideHttpServiceExploreIt.png" alt="HttpService explore-it"/>
+    <p>
+      After doing this, if you save the image, the server will restart
+      automatically each time the image is reopened.
+    </p>
+    <p>
+      To stop the running instance,
+      enter the following in a Workspace and do-it:
+    </p>
+    <div class="code"><pre>
+WAKom stop
+</pre></div>
+    <p>
+      The main Seaside page, called the "Dispatcher Viewer",
+      in this server is at
+      <a href="http://localhost:8080/seaside/">http://localhost:8080/seaside/</a>.
+    </p>
+
+    <h3><a name="URLs">URLs</a></h3>
+    <p>
+      Seaside URLs have two query parameters.
+      The first is named "_s".  This is a session identifier that is
+      the same for all pages browsed in the current session.
+      The second is named "_k".  This is request key that is used by Seaside
+      to track the progress of the user within a web application.
+      Each link and form field (which includes buttons) is given
+      a unique request key value.
+    </p>
+
+    <h3><a name="Components">Components</a></h3>
+    <p>
+      Components represent whole pages or portions of pages.
+      They inherit from the <code>WAComponent</code> class.
+      Components can maintain state such as the current values of form fields.
+      When a component is ready to be rendered, it enters a response loop that:
+      <ol>
+        <li>renders the component</li>
+        <li>waits for user input</li>
+        <li>executes a block of code when a link or button is clicked</li>
+        <li>re-renders itself or renders another component in its place</li>
+      </ol>
+    </p>
+
+    <h3><a name="HelloWorld">Hello World</a></h3>
+    <p>
+      Here are the steps to develop a simple "hello world" web application.
+    </p>
+    <ol>
+      <li>Create a new class category.</li>
+      <li>Create a new class in that category named <code>HelloComponent</code>
+        that inherits from <code>WAComponent</code>.</li>
+      <li>Add a <code>canBeRoot</code> <u>class method</u>
+        that simply returns <code>true</code>.</li>
+      <li>Add a <code>renderContentOn:</code> <u>instance method</u>
+        that takes a parameter named "<code>html</code>"
+        and contains the following message send:<br />
+        <code>html text: 'Hello World!'</code><br />
+        The parameter <code>html</code> is a <code>WARenderCanvas</code> object
+        which inherits from <code>WAHtmlCanvas</code>.
+        An
+      </li>
+      <li>Browse <a href="http://localhost:8080/seaside/config/">http://localhost:8080/seaside/config/</a> (username: admin; password: seaside).</li>
+      <li>Enter "hello" in the "Name" field under "Add entry point"
+        and press the "Add" button.
+        The entry point specifies part of the URL that will be used
+        to access the web application.<br />
+        <img src="../images/SeasideAddEntry.png" alt="add entry"/>
+      </li>
+      <li>In the "Root Component" drop-down list, select "HelloComponent".</li>
+      <li>Press the Save button.</li>
+      <li>Browse <a href="http://localhost:8080/seaside/hello">http://localhost:8080/seaside/hello</a>.</li>
+    </ol>
+    <p>
+      Changes that are made to the code within Squeak and saved
+      can be seen in the browser by simply presssing the browser refresh button.
+    </p>
+
+    <h3><a name="BrowserDebugging">Browser Debugging</a></h3>
+    <p>
+      Seaside web applications can be debugged
+      in the browser where they are running.
+      When not run in "deployment mode", a toolbar at the bottom
+      of the browser window provides the options shown below.<br />
+      <img src="../images/SeasideBrowserToolbar.png"
+        alt="Seaside browser toolbar"/><br />
+    </p>
+    <p>
+      Clicking "Toggle Halos" adds options for debugging as shown below:<br />
+      <img src="../images/SeasideToggleHalos.png"
+        alt="Seaside Toggle Halos"/>
+    </p>
+    <p>
+      The pencil button opens a web-based System Browser than can be used to
+      browse and modify the code of the web application.
+      This modifies code in the running Squeak images, just as if the
+      changes had been made in the Squeak environment.
+      When finished using it, click the "x" in the upper-right corner
+      to return to the web application.
+    </p>
+    <p>
+      The magnifying glass button opens an Inspector
+      on the current Seaside component.
+      This is used to examine the values of instance variables.
+      It also provides a text window where Smalltalk expressions can be entered.
+      The "do it" and "inspect it" buttons operate on that text.
+    </p>
+    <p>
+      The paint brush button is a CSS editor.
+    </p>
+    <p>
+      "[R|S]" appears in the upper-right corner.
+      Clicking the "R" renders the current component.
+      Clicking the "S" shows the HTML source of the current component.
+    </p>
+
+    <h3><a name="Debugging">Debugging</a></h3>
+    <p>
+      Just like in the Squeak environment, when an error occurs in a
+      Seaside application that is running in development mode,
+      a live stack trace is displayed.  Clicking a link in the web-based
+      stack trace runs the debugger in the Squeak environment.
+      Code and variables can be examined and modified.
+      The code that caused the error can be rerun
+      without starting the applicatio from scratch.
+    </p>
+
+    <h3><a name="Testing">Testing</a></h3>
+    <p>
+      In addition to SUnit, the standard Smalltalk testing tool,
+      <a href="http://www.shaffer-consulting.com/david/Seaside/TestingComponents/TestingComponents.html">SeasideTesting</a>
+      can be used to test Seaside applications.
+      This includes testing various form inputs and button/link clicks.
+    </p>
+    
+    <h3><a name="Configuration">Configuration</a></h3>
+    <p>
+      To configure the current web application,
+      click the "Configure" link at the bottom.
+    </p>
+    <p>
+      To turn deployment mode on,
+      click the "override" link for "Deployment Mode",
+      and change the value in the newly displayed drop-down list to "true".
+    </p>
+    <p>
+      To prevent the user from being presented with a stack trace
+      when an error occurs, change the "Error Handler"
+      from "WAWalkbackErrorHandler" to another error handler.
+      Custom error handlers can be created.
+    </p>
+    <p>
+      To control the number of continuation frames that are retained,
+      change "Session Expiry Seconds".
+      In code, the <code>isolate</code> message can be used to purge
+      all previous continuation frames.
+    </p>
+
+    <h3><a name="Ajax">Ajax</a></h3>
+    <p>
+      Ajax-style web interfaces are supported through integration with
+      Scriptaculous, YUI and other Ajax libraries.
+    </p>
+
+    <h3><a name="Databases">Databases</a></h3>
+    <p>
+      The most popular object-relational mapping (ORM) tool for Smalltalk
+      is <a href="http://www.glorp.org/">GLORP</a>.
+      This stands for "Generic Lightweight Object-Relational Persistence".
+      It is the Smalltalk equivalent of the Ruby on Rails ActiveRecord library.
+      GLORP works with any database for wich a driver has been written.
+      Squeak only has a driver for Postgres.  VisualWorks has more.
+    </p>
+    <p>
+      Cincom ActiveRecord is like Ruby on Rails ActiveRecord.
+    </p>
+    <p>
+      <a href="http://wiki.squeak.org/squeak/2316">ImageSegment</a>
+      is an open source library for Squeak
+      that serializes a collection objects
+      into a form that can written to a file and reconstituted later.
+    </p>
+    <p>
+      <a href="http://wiki.squeak.org/squeak/2665">Magma</a>
+      is an open source, multi-user, object-oriented database for Squeak.
+      It watches a collection of objects and serializes them when they change.
+      It supports transactions.
+    </p>
+    <p>
+      <a href="http://www.gemstone.com/products/smalltalk/">GemStone/S</a>
+      is like an enterprise version of Magma.
+    </p>
+
+    <h3><a name="Hosting">Hosting</a></h3>
+    <p>
+      <a href="http://www.seasidehosting.st">http://www.seasidehosting.st</a>
+      provides free hosting for non-commercial Seaside applications.
+      It does not serve files or provide access to a database.
+    </p>
+
+    <h3><a name="Magritte">Magritte</a></h3>
+    <p>
+      <a href="http://www.lukas-renggli.ch/smalltalk/magritte">Magritte</a>
+      generates Seaside-based HTML "views, reports, validating editors and
+      persistency mechanisms" for data and constraints described by it.
+      This similar to Rails scaffolding.
+    </p>
+    <h3><a name="Pier">Pier</a></h3>
+    <p>
+      <a href="http://www.piercms.com/">Pier</a> is a content management system
+      that is built on Seaside.
+      It was primarily developed by
+      <a href="http://www.lukas-renggli.ch/">Lukas Renggli</a>.
+      The content of a Pier site is managed in a web browser.
+      Any Seaside application can serve as a Pier widget.
+      It can be used to build web-based iPhone applications.
+    </p>
+    <p>
+      To begin using Pier, download it, unzip it, run the application,
+      and browse
+      <a href="http://localhost:8080/seaside/pier">http://localhost:8080/seaside/pier</a>.
+      The application is a Squeak image and opens like any other Squeak image.
+    </p>
+    <p>
+      A summary of Pier terminology follows:
+    </p>
+    <ul>
+      <li><u>Structures</u> are pages, components, files or blogs.</li>
+      <li><u>Pages</u> display static content.</li>
+      <li><u>Components</u> encapulate logic and can be embedded in pages.
+        An example of a component is a menu.</li>
+      <li><u>Blogs</u> supports posts.</li>
+      <li><u>Posts</u> are pages with fields that can be added to a blog.</li>
+      <li><u>Commands</u> are actions that can be performed on a structure.</li>
+      <li><u>Views</u> are a "point of view" from which
+        a structure can be rendered.</li>
+    </ul>
+    <p>
+      They are created using a wiki-like syntax that is documented
+      <a href="http://www.piercms.com/doc/syntax">here</a>.
+    </p>
+
+    <h3><a name="Resources">Resources</a></h3>
+    <ul>
+      <li><a href="http://www.seaside.st">main website</a></li>
+      <li><a href="http://www.hpi.uni-potsdam.de/swa/seaside/">Seaside Tutorial</a> - same content as the book?</li>
+      <li><a href="http://www.lulu.com/content/2234565">"An Introduction to Seaside" book</a> dated April 17, 2008</li> 
+      <li><a href="http://vids.myspace.com/index.cfm?fuseaction=vids.individual&videoid=35394470">Randal Schwartz Seaside Dojo talk video - 6/2/08</a></li>
+      <li><a href="http://dabbledb.com">Dabble DB</a> - built with Seaside</li>
+    </ul>
+
+    <hr />
+    <p style="text-align:center">
+      Copyright &#169; 2007 Object Computing, Inc. All rights reserved.
+    </p>
+  </body>
+</html>

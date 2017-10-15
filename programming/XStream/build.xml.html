@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR.html1/DTD.html1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999.html">
+  <head>
+    <title>XStream build.xml</title>
+    <link rel="stylesheet" type="text/css" href="../../common.css"/>
+  </head>
+  <body>
+    <h2>XStream build.xml</h2>
+    
+    <pre><div class="code">&lt;project name="XStreamDemo" default="test">
+  &lt;property environment="env"/>
+  &lt;property file="build.properties"/>
+
+  &lt;path id="classpath">
+    &lt;pathelement location="build/classes"/>
+    &lt;pathelement location="${xpp3.jar}"/>
+    &lt;pathelement location="${xstream.jar}"/>
+    &lt;pathelement location="${junit.jar}"/>
+  &lt;/path>
+
+  &lt;target name="clean" depends="clean.test"
+    description="deletes all generated files">
+    &lt;delete dir="build"/>
+  &lt;/target>
+
+  &lt;target name="clean.test" description="deletes all generated files">
+    &lt;delete dir="test"/>
+  &lt;/target>
+
+  &lt;target name="compile" depends="prepare"
+    description="compiles source files">
+    &lt;javac srcdir="src/java" destdir="build/classes"
+      classpathref="classpath" deprecation="on" debug="on">
+      &lt;compilerarg line="-Xlint"/>
+    &lt;/javac>
+  &lt;/target>
+
+  &lt;target name="prepare">
+    &lt;mkdir dir="build/classes"/>
+    &lt;mkdir dir="test"/>
+  &lt;/target>
+
+  &lt;target name="test" depends="clean.test,compile"
+   description="runs all JUnit tests">
+    &lt;junit fork="yes" printsummary="yes">
+      &lt;classpath refid="classpath"/>
+      &lt;batchtest todir="test">
+        &lt;fileset dir="src/java" includes="**/${test}Test.java"/>
+      &lt;/batchtest>
+      &lt;formatter type="xml"/>
+    &lt;/junit>
+    &lt;junitreport toDir="test">
+      &lt;fileset dir="test"/>
+      &lt;report format="frames" todir="test"/>
+    &lt;/junitreport>
+    &lt;exec os="Windows XP" executable="cmd.exe">
+      &lt;arg line="/c start test/index.html"/>
+    &lt;/exec>
+    &lt;exec os="Mac OS X" executable="open">
+      &lt;arg line="-a /Applications/Safari.app test/index.html"/>
+    &lt;/exec>
+  &lt;/target>
+
+&lt;/project></div></pre>
+
+    <hr/>
+    <p style="text-align:center">
+      Copyright &#169; 2007 Object Computing, Inc. All rights reserved.
+    </p>
+  </body>
+</html>

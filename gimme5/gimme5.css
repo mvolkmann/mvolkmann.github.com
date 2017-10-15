@@ -1,0 +1,37 @@
+body {
+  background: linen;
+  font-family: comic sans ms, serif
+}
+
+h1 {
+  color: green;
+}
+
+table {
+  background: white;
+}
+
+table caption {
+  font-size: 18pt;
+  font-weight: bold;
+}
+
+.gender {
+  text-align: center;
+}
+
+.pace {
+  text-align: right;
+}
+
+.place {
+  text-align: right;
+}
+
+.table-header {
+  background: red;
+}
+
+.time {
+  text-align: right;
+}

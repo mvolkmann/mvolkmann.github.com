@@ -1,0 +1,422 @@
+<html>
+  <head>
+    <title>Smashing Node.js Errata</title>
+    <link rel="stylesheet" type="text/css" href="../../common.css"/>
+  </head>
+  <body>
+    <h2>
+      Errata for the book "Smashing Node.js" by Guillermo Rauch<br/>
+      first edition, 2012
+    </h2>
+
+    <p>
+      This is an excellent book!  However, it contains a large number of
+      mostly minor typos and errors.  I have submitted all of these to the
+      publisher, Wiley.  Before submitting them, I asked why none were
+      posted on their site.  They told me it was because they hadn't
+      received any.  I find that hard to believe.
+    </p>
+
+    <p>
+      Months after submitting all of these, there is still no official
+      errata for the book.  This is not the authors fault.  I sent the
+      same list to him and he thanked me for doing so.
+    </p>
+
+    <p>
+      I teach a class on Node.js and the students all get a copy of
+      this book.  They need an errata so I decided to just publish it myself.
+    </p>
+
+    <p>
+      If you would like to contribute additional items to this errata,
+      email them to <a href="mailto:r.mark.volkmann@gmail.com?subject=Smashing%20Node.js%20errata">r.mark.volkmann@gmail.com</a>.
+    </p>
+
+    <h3>Chapter 2</h3>
+
+    <h4>"Function Arity" p. 19</h4>
+    The function "a" needs a body to be valid syntax.
+
+    <h4>"Closures" p. 19</h4>
+    The line "a == 3" at the bottom of the page is first statement in the book
+    to not end with a semicolon.  Most statements in the book do, but a
+    significant number do not.  It would be good to address this or be
+    consistent.
+
+    <h4>"Inheritance" p. 21</h4>
+    if (false !== a) return;<br/>
+    should be<br/>
+    if (false === a) return;
+
+    <h4>"Array Methods" p. 23</h4>
+    From Yihang Ho ...<br/>
+    In the code after "To filter elements",<br/>
+    [1, 2, 3].forEach(function (v) {<br/>
+    should be<br/>
+    [1, 2, 3].filter(function (v) {
+
+    <h3>Chapter 3</h3>
+
+    <h4>"Stack Traces" p. 37 1st paragraph</h4>
+    It says "in future versions of Node, machinery will".
+    Mention that the machinery is "domains".
+
+    <h3>Chapter 4</h3>
+
+    <h4>"Useful Globals" p. 40 3rd paragraph</h4>
+    "An example of this is a the setImmediate API"
+    should be
+    "An example of this is the setImmediate API"
+
+    <h4>"Useful Globals" p. 40 3rd paragraph</h4>
+    Add "and setImmediate" to the end of the last sentence.
+
+    <h4>"Events" p. 46 2nd paragraph</h4>
+    Change "process.EventEmitter" to "events.EventEmitter".
+
+    <h3>Chapter 5</h3>
+
+    <h4>"Sync or Async?" p. 54</h4>
+    Near the middle of the page "__dirname" is used for the first time,
+    but it is not described until page 64.
+
+    <h4>"Sync or Async?" p. 54</h4>
+    After the first screenshot on the page,
+    change "The approach" to "The next approach".
+
+    <h4>"Input and Output" p. 57</h4>
+    After call to "process.stdin.resume();"
+    add "process.stdin.setEncoding('utf8');"
+
+    <h4>"Interacting with the FS" p. 63</h4>
+    On the first code line, it may be preferred to
+    use "parseInt(data)" instead of "Number(data)".
+
+    <h4>"Watch" p. 68</h4>
+    Change the regular express from
+    /\.css/ to /\.css$/
+
+    <h3>Chapter 6</h3>
+
+    <h4>"Telnet" p. 72</h4>
+    In the paragraph before the second screenshot,
+    change "node server.js" to "node web-server.js".
+
+    <h4>"Understanding the net.server API" p. 75</h4>
+    In the last paragraph, change "callback passes"
+    to "callback is passed".
+
+    <h4>"Receiving Connections" p. 77</h4>
+    I cannot get alt+[ (or option+[) to end a telnet connection
+    on a Mac, but ctrl+] works on a Mac.
+
+    <h4>"Testing with a Real-World IRC Server" p. 85</h4>
+    A screen shot is missing.
+    In its place is some syntax that supposedly refers to it.
+
+    <h3>Chapter 7</h3>
+
+    <h4>"Connections" p. 94 2nd paragraph</h4>
+    Change "connections to a same" to "connections to the same".
+
+    <h4>"Printing Out the Form" p. 96</h4>
+    It says "You can try pressing Enter."
+    Doesn't the button have to be marked as submit button for this work?
+    Even if it is, doesn't the button have to have focus?
+
+    <h4>"Putting the Pieces Together" p. 102</h4>
+    Change "the querystring parse module" to
+    "the querystring parse method".
+
+    <h4>"Sending a Body of Data" p. 107</h4>
+    The second line of code contains two statements.
+    The author probably intended to put those on separate lines.
+
+    <h4>"Getting Tweets" p. 107</h4>
+    I think the public search API for Twitter now requires the use of OAuth.
+    If that's true, none of the Twitter examples in the book work now.
+
+    <h4>"Getting Tweets" p. 109 2nd paragraph</h4>
+    Change "fairly uncommon" to "fairly common".
+
+    <h3>Chapter 8</h3>
+
+    <h4>"A Simple Website with HTTP" p. 117 last paragraph</h4>
+    It says "If an error occurs, you abort the process and send the HTTP
+    status code 404 ...".  This is not a good status to send for errors.
+
+    <h4>"A Simple Website With Connect" p. 120</h4>
+    Change "npm install" to "npn install connect".
+
+    <h4>"Body Parse" p. 134</h4>
+    Remove the duplicate &lt;input&gt; tag in the first code example.
+
+    <h4>"BasicAuth" p. 142</h4>
+    Why isn't the basicAuth middleware registered like other middleware
+    with server.use?
+    The example requires a person to interactively approve or deny each user.
+    It would be a better, more realistic example if it
+    compared to users and passwords in a file or databases.
+
+    <h3>Chapter 9</h3>
+
+    <h4>"Setup" p. 147</h4>
+    The API for Express has changed.
+    Change "var app = express.createServer();"
+    to "var app = express();"
+    This same change is needed in several pages that follow.
+
+    <h4>"Setup" p. 148 1st paragraph</h4>
+    Change "just one flag" to "just an option name".
+
+    <h4>"Defining Routes" p. 150</h4>
+    In the paragraph that starts with "Notice", after "search function,"
+    add "to its callback".
+
+    <h4>"Defining Routes" p. 150</h4>
+    In the paragraph that starts with "In this route",
+    change "tweets" to "results".
+
+    <h4>"Search" p. 151</h4>
+    In the second code block, the name of the callback function is "fn".
+    It seems much more common in Node to name this "cb".
+    In this same code block, the callback function passed to "end"
+    should check the HTTP status code for an error.
+
+    <h4>"Search" p. 151</h4>
+    The statement that it's smarter to ask whether an array of tweets was
+    received instead of checking the status code seems questionable.
+
+    <h4>"Settings" p. 153</h4>
+    The commands "NODE_ENV=production" and "node server"
+    are combined on one line without a semicolon between them.
+
+    <h4>"Settings" p. 153</h4>
+    Change "If node NODE_ENV is defined"
+    to "If NODE_ENV is not defined".
+
+    <h4>"Settings" p. 154</h4>
+    In the second bullet, "transparent jsonp"
+    should not be in a monospace font.
+
+    <h4>"Template Engines" p. 154</h4>
+    Change "many other templates" to "many other template engines".
+
+    <h4>"Routes" p. 157</h4>
+    Change "the variable name" to "the property name".
+
+    <h4>"Organization Strategies p. 162</h4>
+    Remove the space between the method name and left paren.
+    in the second code line.
+
+    <h3>Chapter 10</h3>
+
+    <h4>"Ajax" p. 165</h4>
+    Change "TCP traffic" to "HTTP traffic".
+
+    <h4>"Setting It Up" p. 167</h4>
+    From Yihang Ho ...<br/>
+    Change the version of websocket.io from "0.1.6" to "0.2.1".
+    The code that follows does not work with version 0.1.6,
+    but does with 0.2.1.
+
+    <h4>"Setting Up the Server" p. 169 and 170</h4>
+    In the ping function, remove the "+" before "new Date".
+
+    <h4>"Setting Up the Server" p. 169</h4>
+    In the ping function, fix the indentation of the closing curly brace.
+
+    <h4>"Setting Up the Client" p. 174</h4>
+    From Yihang Ho ...<br/>
+    In the last codeblock<br/>
+	  var ws = new WebSocket('ws://localhost')<br/>
+    should be<br/>
+	  var ws = new WebSocket('ws://localhost:3000')
+
+    <h4>"Close Doesn't Mean Disconnect" p. 177 1st paragraph</h4>
+    Change "appropriately close" to "appropriately closed".
+
+    <h3>Chapter 11</h3>
+
+    <h4>"Namespaces" p. 181</h4>
+    In calls to "io.of", show passing a callback function.
+
+    <h4>"Ensuring Reception" p. 190</h4>
+    Remove slashes around the file names "chat.js" and "server.js".
+
+    <h4>"Extending the Chat" p. 192</h4>
+    Fix indentation of second line of code.
+
+    <h4>"Integrating with the GrooveShark API" p. 194</h4>
+    In the last code block that is from the file chat.css
+    the one "#results ul" element could be hidden and shown
+    instead of each "#results a" element.
+
+    <h4>"Integrating with the GrooveShark API" p. 195</h4>
+    There is no need to set form.style.display to 'block'
+    since that is the default.
+
+    <h4>"Integrating with the GrooveShark API" p. 196</h4>
+    In first paragraph, add quotes around the id attribute value "playing"
+    of the div.
+
+    <h3>Chapter 12</h3>
+
+    <h4>"Accessing MongoDB: A User Authentication Example" p. 209</h4>
+    Very minor ... change "Is equivalent" to "is equivalent"
+    since it is not the beginning of a new sentence.
+
+    <h4>"Creating Documents" p. 215</h4>
+    The line before the call to "db.users.find()" is a note to someone
+    named Brian that should have been removed from the final draft.
+
+    <h4>"Finding Documents" p. 216</h4>
+    Just a comment ... MongoDB needs a better API for creating indexes on
+    multiple properties that avoids the function call nesting
+    in the first code example.
+
+    <h4>"Defining a Model" p. 220</h4>
+    Change "var PostSchema" to "var postSchema"
+    because it is an object, not a class.
+
+    <h4>"Setting Up Indexes" p. 223</h4>
+    After the sentence that starts with "To set up more complicated indexes",
+    add an explanation of the values (-1 and 1) in the object passed to
+    BlogPost.index.
+
+    <h4>"Skipping" p. 225</h4>
+    In callback to Post.count, check err.o
+
+    <h3>Chapter 13</h3>
+
+    <h4>"Initializing the Script" p. 236</h4>
+    Remove indentation of last line.
+
+    <h4>"Initializing the Script" p. 237</h4>
+    Remove indentation in the line "db.query('CREATE TABLE item (' +".
+
+    <h4>"Initializing the Script" p. 237</h4>
+    Mention the "describe" command for showing the columns in a given
+    table.
+
+    <h4>"Creating Data" p. 240</h4>
+    Does the line ".review" create a div with the class "review"?
+
+    <h4>"Fetching Data" p. 243</h4>
+    In server.js, remove spaces before the left paren in the function
+    definitions for getItem and getReviews.
+
+    <h4>"Setting Up the Express App" p. 248</h4>
+    The text "button(type="submit") Add" at the top of the page belongs
+    with the code at the bottom of the previous page.
+
+    <h4>"Defining Models and Synchronizing" p. 250</h4>
+    Remove the indentation before "Project.hasMany(Task);".
+
+    <h4>"Defining Models and Synchronizing" p. 250</h4>
+    In the paragraph that starts with "The implication", change "field" to
+    "property".
+
+    <h4>"Creating Data" p. 252</h4>
+    In the code for server.js, change "..error(next)" to ".error(next)".
+    bottom of the previous page.
+
+    <h4>"Creating Data" p. 253</h4>
+    In the paragraph that starts with "Notice that", change "field" to
+    "property".
+
+    <h4>"Retrieving Data" p. 254</h4>
+    In "server.js" after the call to project.getTasks(), change
+    "on('success', function" to "success(function".
+
+    <h4>"Retrieving Data" p. 254</h4>
+    Is "primary key lookup" always performed on a column named "id"?
+    Does Sequelize add an "id" column to every table it creates?
+
+    <h4>"Removing Data" p. 254</h4>
+    In the sentence that starts with "Delegation allows", change "anchor
+    that" to "anchor inside a ul that"
+
+    <h4>"Wrapping Up" p. 256</h4>
+    In the sentence that starts with "For example", chnage "your tasks" to
+    "your tasks titles".
+
+    <h3>Chapter 14</h3>
+
+    <h4>p. 260</h4>
+    In the last sentence of the paragraph that starts with "What this
+    means", change "durable,, but" to "durable, but".
+
+    <h4>"Lists" p. 265</h4>
+    At the end of the paragraph that starts with "The LRANGE command",
+    change "of the list" to "up to the end of the list".
+
+    <h4>"Sorted Sets" p. 266</h4>
+    Change "they are sortable" to "they are sorted".
+
+    <h4>"Implementing a Social Graph With Node-REDIS" p. 268</h4>
+    In the definition of the User constructor function, remove the space
+    before the left paren.
+
+    <h4>"Implementing a Social Graph With Node-REDIS" p. 269</h4>
+    In the paragraph that starts with "And when", change "JavaScriopt
+    object" to "JavaScript function".
+
+    <h4>"Implementing a Social Graph With Node-REDIS" p. 271</h4>
+    In the definition of the User constructor function, remove the space
+    before the left paren.
+
+    <h4>"Implementing a Social Graph With Node-REDIS" p. 273</h4>
+    In the definition of the create function, remove the space before the
+    left paren.
+
+    <h4>"Implementing a Social Graph With Node-REDIS" p. 274</h4>
+    In the definition of the hydrate function, remove the space before the
+    left paren.
+
+    <h4>"Summary" p. 276</h4>
+    In the last paragraph, change "Node.JS" to "Node.js".
+
+    <h3>Chapter 15</h3>
+
+    <h4>p. 279</h4>
+    In the first paragraph, change "Node.JS" to "Node.js".
+
+    <h4>"Writing Compatible JavaScript" p. 280</h4>
+    In the first paragraph, change "Node.JS" to "Node.js".
+
+    <h4>"Writing Compatible JavaScript" p. 281</h4>
+    In the paragraph that starts with "Unlike in",
+    change "Node.JS" to "Node.js".
+
+    <h4>"Shimming ECMA APIs" p. 282</h4>
+    In the paragraph that starts with "Sometimes the v8", change "v8" to
+    "V8".
+    This paragraph also says that Safari does not support Function#bind.
+    That was probably true when the book was written, but Safari supports
+    it now.
+
+    <h4>"Cross-Browser Inheritance" p. 285</h4>
+    In all the function definitions at the top of the page (4 of them),
+    remove the space before the left paren.
+
+    <h4>"A Basic Example" p. 286</h4>
+    Indent the line of code that starts with "log(".
+
+    <h4>"A Basic Example" p. 286</h4>
+    In log.js, why is "return" used?
+
+    <h4>"A Basic Example" p. 286</h4>
+    At the end of them browserbuild command, change "out.js" to
+    "compiled.js".
+
+    <h3>Chapter 16</h3>
+
+    <h4>"Expect" p. 292</h4>
+    In the first sentence, change "you leverage" to "you leveraged".
+
+    <h4>"Mocha" p. 294</h4>
+    In test.js, why is the second call to describe nested in the first?
+  </body>
+</html>

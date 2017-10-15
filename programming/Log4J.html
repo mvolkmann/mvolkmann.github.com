@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR.html1/DTD.html1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999.html">
+  <head>
+    <title>Log4J</title>
+    <link rel="stylesheet" type="text/css" href="../common.css"/>
+  </head>
+  <body>
+    <h2>Log4J</h2>
+    
+    <h3>Contents</h3>
+    <a href="#Introduction">Introduction</a><br/>
+    <a href="#Installing">Installing</a><br/>
+    <a href="#Usage">Usage</a><br/>
+    <a href="#Configuration">Configuration</a><br/>
+    <a href="#Example">Example</a><br/>
+
+    <h3>Introduction</h3>
+    <p>
+      <a target="_blank" href="http://logging.apache.org/log4j/">Log4J</a>
+      is the defacto standard logging framework for Java.
+      Other popular options include
+      <a target="_blank" href="http://java.sun.com/javase/6/docs/technotes/guides/logging/">Java Logging</a> and
+      <a target="_blank" href="http://jakarta.apache.org/commons/logging/">Jakarta Commons Logging</a>.
+    </p>
+
+    <a name="Installing"/>
+    <h3>Installing <a class="toplink" href="#top">top</a></h3>
+    <p>
+      Log4J can be downloaded from <a target="_blank"
+      href="http://logging.apache.org">here</a>.
+      Unzip the downloaded file.
+      To use it, insure that log4j-{version}.jar,
+      found in the dist/lib directory, is in the classpath.
+    </p>
+
+    <a name="Usage"/>
+    <h3>Usage <a class="toplink" href="#top">top</a></h3>
+    <p>
+      The basic steps to use Log4J are:
+      <ol>
+        <li>Configure Log4j.</li>
+        <li>In each Java class that needs logging,
+          <ol style="list-style-type: lower-alpha">
+            <li>Obtain a Logger object.</li>
+            <li>Invoking logging methods on it.</li>
+          </ol>
+        </li>
+      </ol>
+    </p>
+
+    <a name="Configuration"/>
+    <h3>Configuration <a class="toplink" href="#top">top</a></h3>
+    <p>
+      Log4J can be configured in three ways.
+      <ol>
+        <li>from Java code</li>
+        <li>from a Java property file</li>
+        <li>from an XML file</li>
+      </ol>
+      The last option is typically preferred.
+    </p>
+    <p>
+      Here's an example of an XML configuration file, named log4j.xml.
+      Log4J will look for this file in the current directory by default.
+      JEE servers differ in where they look for this.
+      JBoss looks in <code>$JBOSS_HOME/server/default/conf</code>.
+    </p>
+    <pre><div class="code">
+&lt;?xml version="1.0" encoding="UTF-8"?>
+&lt;!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+
+&lt;log4j:configuration
+  xmlns:log4j="http://jakarta.apache.org/log4j/">
+
+  &lt;!-- Order of child elements is appender*, logger*, root?. -->
+
+  &lt;!-- Appenders control how logging is output. -->
+  &lt;appender name="file" class="org.apache.log4j.FileAppender">
+    &lt;param name="File" value="demo.log"/>
+    &lt;layout class="org.apache.log4j.PatternLayout">
+      &lt;!-- {fully-qualified-class-name}:{method-name}:{line-number}
+            - {message}{newline} -->
+      &lt;param name="ConversionPattern" value="%C:%M:%L - %m%n"/>
+    &lt;/layout>        
+  &lt;/appender>
+
+  &lt;appender name="stdout" class="org.apache.log4j.ConsoleAppender">
+    &lt;layout class="org.apache.log4j.PatternLayout">
+      &lt;param name="ConversionPattern" value="%C:%M:%L - %m%n"/>
+    &lt;/layout>
+  &lt;/appender>
+
+  &lt;!-- Logger hierarchy example:
+       root - com - com.ociweb - com.ociweb.demo - com.ociweb.demo.LogJDemo
+  -->
+  &lt;!-- Setting additivity to false prevents ancestor categories
+       for being used in addition to this one. -->
+  &lt;category name="com.ociweb" additivity="false">
+    &lt;priority value="debug"/>
+    &lt;appender-ref ref="file"/>
+  &lt;/category>
+
+  &lt;!-- Levels from lowest to highest are
+       trace, debug, info, warn, error, fatal & off. -->
+  &lt;!-- The root category is used for all loggers
+       unless a more specific logger matches. -->
+  &lt;root>
+    &lt;priority value="error"/>
+    &lt;appender-ref ref="stdout"/>
+  &lt;/root>
+
+&lt;/log4j:configuration>
+</div></pre>
+
+    <p>
+      The DTD referenced in the DOCTYPE of this XML can be found in
+      src/java/org/apache/log4j/xml/log4j.dtd.
+      Copy this to the directory where log4j.xml resides.
+    </p>
+
+    <p>
+      To troubleshoot problems with Log4J, it can be useful to
+      add the "debug" attribute to the root element as follows.
+      This will produce additional output when Log4J is configured.
+    </p>
+    <pre><div class="code">
+&lt;log4j:configuration debug="true" ...
+</div></pre>
+
+    <a name="Example"/>
+    <h3>Example <a class="toplink" href="#top">top</a></h3>
+    <p>
+      Here's an example of using Log4J in Java code.
+      Note how a <a target="_blank"
+      href="http://logging.apache.org/log4j/docs/api/org/apache/log4j/Logger.html">Logger</a>
+      instance is obtained.
+    </p>
+  
+    <pre><div class="code">
+package com.ociweb.demo;
+
+import org.apache.log4j.Logger;
+
+public class Log4JDemo {
+
+  private Logger logger = Logger.getLogger(getClass());
+
+  public static void main(String[] args) {
+    Log4JDemo app = new Log4JDemo();
+
+    // To do something only if debugging is enabled,
+    // such as construct a complicated log message ...
+    //if (logger.isDebugEnabled()) { ... }
+
+    app.doSomething();
+  }
+
+  public Log4JDemo() {
+    logger.debug("message 1");
+  }
+
+  public void doSomething() {
+    logger.debug("message 2");
+  }
+}
+</div></pre>
+
+    <p>
+      In this example, using the configuration shown earlier,
+      the file demo.log is created in the current directory
+      with the following contents.
+      Note how the method name reported for logging from a constructor
+      is <code>&lt;init></code>.
+    </p>
+    <pre><div class="code">
+com.ociweb.demo.Log4JDemo:&lt;init>:21 - message 1
+com.ociweb.demo.Log4JDemo:doSomething:25 - message 2
+</div></pre>
+    <p>
+      Methods in the <a target="_blank"
+      href="http://logging.apache.org/log4j/docs/api/org/apache/log4j/Logger.html">Logger</a> interface for writing log messages include the following.
+      Each of these has two forms.
+      The first takes an Object whose toString value is used for the message.
+      The second takes that plus a Throwable whose stack trace is
+      output after the message.
+      Neither form has a return value.
+      <ul>
+        <li><code>debug</code></li>
+        <li><code>error</code></li>
+        <li><code>fatal</code></li>
+        <li><code>info</code></li>
+        <li><code>trace</code></li>
+        <li><code>warn</code></li>
+      </ul>
+    </p>
+
+    <p>
+      Methods in the <a target="_blank"
+        href="http://logging.apache.org/log4j/docs/api/org/apache/log4j/Logger.html">Logger</a> interface for obtaining information about the current level
+      of the Logger include the following.
+      These are commonly used to avoid construction of a
+      complicated log message when it will not be output.
+      <ul>
+        <li><code>Level getLevel()</code></li>
+        <li><code>boolean isDebugEnabled()</code></li>
+        <li><code>boolean isEnabledFor(Priority level)</code></li>
+      </ul>
+    </p>
+
+    <hr />
+    <p style="text-align:center">
+      Copyright &#169; 2007 Object Computing, Inc. All rights reserved.
+    </p>
+  </body>
+</html>

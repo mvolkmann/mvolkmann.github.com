@@ -1,0 +1,97 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR.html1/DTD.html1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999.html">
+  <head>
+    <title>Running Calculator AIR App.</title>
+
+    <link rel="stylesheet" type="text/css" href="../../common.css"/>
+
+    <script type="text/javascript">
+      //<![CDATA[
+      var requiredMajorVersion = 9; // Flash Player 9
+      var requiredMinorVersion = 0;
+      var requiredRevision = 115; // update 3
+      //]]>
+    </script>
+  </head>
+  
+  <body>
+    <h2>Running Calculator</h2>
+
+    <p>
+      This application runs on Adobe AIR which is
+      currently only supported on Windows and Mac OS X.
+      Work is underway to add support for Linux.
+    </p>
+
+    <!-- Get this script from
+         Programming/Adobe/AIR/AIR SDK/samples/badge. -->
+    <script src="AC_RunActiveContent.js" type="text/javascript"></script>
+
+    <script type="text/javascript">
+      //<![CDATA[
+
+      appURL = 'http://www.ociweb.com/mark/programming/AIR/' +
+        'RunningCalculator/RunningCalculator.air';
+
+      // Version check based upon the values entered above in "Globals".
+      var hasRequestedVersion = DetectFlashVer(
+        requiredMajorVersion, requiredMinorVersion, requiredRevision);
+      //hasRequestedVersion = false; // TODO: JUST FOR DEBUGGING!
+
+      // If the version meets the requirements for playback ...
+      if (hasRequestedVersion) {
+        cabURL = 'http://fpdownload.macromedia.com/pub/shockwave/cabs' +
+          '/flash/swflash.cab';
+        AC_FL_RunContent(
+          'codebase', cabURL,
+          'width', '217',
+          'height', '180',
+          'id', 'badge',
+          'align', 'middle',
+          'src', 'badge',
+          'quality', 'high',
+          'bgcolor', '#FFFFFF',
+          'name', 'badge',
+          'allowscriptaccess', 'all',
+          'pluginspage','http://www.macromedia.com/go/getflashplayer',
+          'flashvars',
+          'appname=Running%20Calculator&appurl=' + appURL +
+          '&airversion=1.0&imageurl=screenshot.png',
+          'movie', 'badge');
+      } else {
+        // Determine the URL for downloading the AIR runtime
+        // based on the user platform.
+        var airURL = 'http://www.adobe.com/go/getair/';
+        if (typeof(window.navigator.platform) != undefined) {
+          var urlPrefix = 'http://airdownload.adobe.com/air/';
+          if (window.navigator.platform.indexOf('win') != -1) {
+            airURL = urlPrefix + 'win/download/1.0/AdobeAIRInstaller.exe';
+          } else if (window.navigator.platform.indexOf('Mac') != -1) {
+            airURL = urlPrefix + 'mac/download/1.0/AdobeAIR.dmg';
+          }
+        }
+        
+        document.write(
+          '<h3>Steps to Install</h3>' +
+          '<ol>' +
+          '<li>Downand and run the <a href="' + airURL +
+          '">Adobe&#174;&nbsp;AIR&#8482; Installer</a>.</li>' +
+          '<li>Download and run the <a href="' + appURL +
+          '">Running Calculator AIR file</a> which will ' +
+          'install the application.</li>' +
+          '</ol>'
+        );
+      }
+      //]]>
+    </script>
+    
+    <p>
+      Under Windows it will be installed under
+      C:\Program Files by default.<br/>
+      Under Mac OS X it will be installed under
+      /Applications by default.
+    </p>
+
+  </body>
+</html>

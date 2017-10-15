@@ -1,0 +1,303 @@
+<?xml version="1.0"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>CAWFrameTabbedViewAdapter.java</title>
+    <link rel="stylesheet" type="text/css" href="common.css"/>
+  </head>
+
+  <body>
+    <div class="title">CAWFrameTabbedViewAdapter.java</div>
+
+    <h2>Method Summary</h2>
+
+    <ul>
+
+      <li>docking
+        <ul>
+          <li>canDock</li>
+          <li>createUndockedFrame</li>
+          <li>disableUndock</li>
+          <li>fireViewDocked</li>
+          <li>fireViewUndocked</li>
+          <li>removeDockableFromFrame</li>
+          <li>titleUndocked</li>
+          <li>titleUndockedAndArrange</li>
+          <li>undockSelectorTile</li>
+          <li>undockSelectorTileAndArrange</li>
+          <li>undockSelectorView</li>
+        </ul>
+      </li>
+
+      <li>drag and drop
+        <ul>
+          <li>applyTransferableListener</li>
+          <li>setTransferableDataFlavor</li>
+          <li>setTransferableListener</li>
+        </ul>
+      </li>
+
+      <li>frames
+        <ul>
+          <li>canCloseThisFrame</li>
+          <li>closeFrame</li>
+          <li>createFrame</li>
+          <li>createFrameOnLocation</li>
+          <li>disableMaximize</li>
+          <li>frameActivated</li>
+          <li>frameClosed</li>
+          <li>frameClosing</li>
+          <li>frameDeactivated</li>
+          <li>frameMaximized</li>
+          <li>frameMinimized</li>
+          <li>frameOpened</li>
+          <li>fromNormalized</li>
+          <li>getFrame</li>
+          <li>getFrameActivationOrder</li>
+          <li>getFrameNode</li>
+          <li>getLoadedModuleNameListInFrame</li>
+          <li>getMaximizedViewFrame</li>
+          <li>internalFrameSelected</li>
+          <li>isSetCloseFrameWhenEmpty</li>
+          <li>lastFrameClosed</li>
+          <li>setCloseFrameWhenEmpty</li>
+          <li>setFrame</li>
+          <li>setFrameLayout</li>
+          <li>setFrameNodeForComponent</li>
+        </ul>
+      </li>
+
+      <li>hover
+        <ul>
+          <li>getHoverDelay</li>
+          <li>isHoverSelecteEnabled</li>
+          <li>setHoverDelay</li>
+          <li>setHoverSelectEnabled</li>
+        </ul>
+      </li>
+
+      <li>memory
+        <ul>
+          <li>addMemoryWatcher</li>
+          <li>removeMemoryWatcher</li>
+          <li>setMemoryWatcherEnabled</li>
+        </ul>
+      </li>
+
+      <li>menus
+        <ul>
+          <li>addGlobalMenuUIMgr</li>
+          <li>addGlobalMenuUIMgrs</li>
+          <li>adjustMenuAndToolBars</li>
+          <li>getGlobalMenuUIMgrs</li>
+          <li>removeGlobalMenuUIMgr</li>
+          <li>removeGlobalMenuUIMgrs</li>
+        </ul>
+      </li>
+
+      <li>names
+        <ul>
+          <li>disableRename</li>
+          <li>getFrameNamingOption</li>
+          <li>setFrameNamingOption</li>
+        </ul>
+      </li>
+
+      <li>property changes
+        <ul>
+          <li>addPropertyChangeListener</li>
+          <li>addPropertyChangeListener</li>
+          <li>firePropertyChange</li>
+          <li>removePropertyChangeListener</li>
+          <li>removePropertyChangeListener</li>
+        </ul>
+      </li>
+
+      <li>selector
+        <ul>
+          <li>addSelectorView</li>
+          <li>closeAllSelectorViews</li>
+          <li>closeSelectorView</li>
+          <li>getSelectorPaneUIMgr</li>
+          <li>isSelectorPaneVisible</li>
+          <li>setSelectorPaneVisible</li>
+        </ul>
+      </li>
+
+      <li>status bar
+        <ul>
+          <li>getStatusBarComponent</li>
+          <li>showStatusBar</li>
+        </ul>
+      </li>
+
+      <li>tab views
+        <ul>
+          <li>addTabView (2)</li>
+          <li>closeActiveTabView</li>
+          <li>getActiveTabView</li>
+          <li>getAllTabViewComponents</li>
+          <li>getAllTabViews</li>
+          <li>getAllTabViewsInJVM</li>
+          <li>getTabPlacement (2)</li>
+          <li>getTabViewAdapterForComponent</li>
+          <li>getTabViewByTitle</li>
+          <li>getTabViewContentsOfTile</li>
+          <li>getTabViewForComponent</li>
+          <li>getTabViewForViewComponent</li>
+          <li>getTabViewLocation</li>
+          <li>getTabViews</li>
+          <li>getTabbedViewFrameForFrame</li>
+          <li>getTabbedViewFrameForKey</li>
+          <li>getTabbedViewFrameForView</li>
+          <li>getTabbedViewFrameList</li>
+          <li>inheritDefaultTabView</li>
+          <li>moveTabViewOutOfFrame</li>
+          <li>redistributeTabViews</li>
+          <li>removeTabView</li>
+          <li>removeTabViewTreeNode</li>
+          <li>removeTabViewsOnSessionOpen</li>
+          <li>selectTabView</li>
+          <li>setActiveTabView (2)</li>
+          <li>setDefaultTabbedView</li>
+          <li>setTabViewIcon</li>
+          <li>setTabViewLocation</li>
+          <li>setTabViewTitle</li>
+          <li>setTabViewTooltip</li>
+          <li>setTabbedViewNodeForComponent</li>
+        </ul>
+      </li>
+
+      <li>tabbed panes
+        <ul>
+          <li>setTabbedPaneForComponent</li>
+        </ul>
+      </li>
+
+      <li>task bar
+        <ul>
+          <li>enableTaskBar</li>
+          <li>getTaskBarInfo</li>
+          <li>getTaskBarUIMgr</li>
+          <li>initTaskBar</li>
+          <li>setTaskBarInfo</li>
+          <li>setTaskBarInherited</li>
+          <li>setTaskbarEnabled</li>
+        </ul>
+      </li>
+
+      <li>task panes
+        <ul>
+          <li>cloneTaskPaneManager</li>
+          <li>inheritTaskPaneBar</li>
+        </ul>
+      </li>
+
+      <li>tiling
+        <ul>
+          <li>arrangeTile</li>
+          <li>getActiveTileLocation</li>
+          <li>getTileGroup</li>
+          <li>getTileSplitMode</li>
+          <li>resizeTileEqually</li>
+          <li>setActiveTile</li>
+          <li>setTileSplitMode</li>
+        </ul>
+      </li>
+
+      <li>titles
+        <ul>
+          <li>activateFrameTitleMode</li>
+          <li>getFrameTitle</li>
+          <li>getFrameTitleMode</li>
+          <li>invalidFrameTitleMode</li>
+          <li>isViewTitleUsedAsFrameTitle</li>
+          <li>setFrameTitle</li>
+          <li>setViewTitleUsedAsFrameTitle</li>
+          <li>titleChanged</li>
+        </ul>
+      </li>
+
+      <li>tool bars
+        <ul>
+          <li>addGlobalToolBarUIMgr</li>
+          <li>addGlobalToolBarUIMgrs</li>
+          <li>getGlobalToolBarUIMgrs</li>
+          <li>removeGlobalToolBarUIMgr</li>
+          <li>removeGlobalToolBarUIMgrs</li>
+        </ul>
+      </li>
+
+      <li>views
+        <ul>
+          <li>activateHoverViewSelection</li>
+          <li>closeMaximizedView</li>
+          <li>fireViewClosed (2)</li>
+          <li>fireViewDeselected</li>
+          <li>fireViewGCChanged</li>
+          <li>fireViewMaximized</li>
+          <li>fireViewMovedOutOfFrame</li>
+          <li>fireViewRenamed</li>
+          <li>fireViewSelected</li>
+          <li>getSupportedViewTypeList</li>
+          <li>getTrueView</li>
+          <li>moveViewToDifferentFrame</li>
+          <li>newViewRequested</li>
+          <li>notifyViewContainerChanged</li>
+          <li>removeViewInFullScreenMode</li>
+          <li>setMaximizedView</li>
+          <li>setSupportedViewTypeList</li>
+          <li>setViewInFullScreenMode</li>
+          <li>viewCloneRequested</li>
+          <li>viewClosed</li>
+          <li>viewDropped</li>
+          <li>viewMaximized</li>
+          <li>viewMovedOutOfFrame</li>
+          <li>viewRenamed</li>
+          <li>viewSelected</li>
+          <li>viewUndocked</li>
+        </ul>
+      </li>
+
+      <li>miscellaneous
+        <ul>
+          <li>addDndTabbedViewActionListener</li>
+          <li>addInstanceListener</li>
+          <li>clearComponentProperties</li>
+          <li>disableFeatures</li>
+          <li>disableSlideShow</li>
+          <li>enableConfirmedClose</li>
+          <li>eventDispatched</li>
+          <li>getCollectionTreeRoot</li>
+          <li>getComponentProperties</li>
+          <li>getKey</li>
+          <li>getProperties</li>
+          <li>isApplyAllActive</li>
+          <li>isLastJVMLockingFrame</li>
+          <li>layoutChanged</li>
+          <li>removeDnDTabbedViewActionListener</li>
+          <li>removeInstanceListener</li>
+          <li>setApplyAllActive</li>
+          <li>setContentPaneVisible</li>
+          <li>setKey</li>
+          <li>setTabPlacement (2)</li>
+          <li>switchScreen</li>
+        </ul>
+      </li>
+
+      <li>nested classes
+        <ul>
+          <li>class StatusBarComponent</li>
+          <li>static class HoverTask</li>
+          <li>class TrueView</li>
+          <li>class MaximizedViewContainer</li>
+        </ul>
+      </li>
+
+    </ul>
+
+  </body>
+</html>

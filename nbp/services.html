@@ -1,0 +1,238 @@
+<?xml version="1.0"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>Services</title>
+    <link rel="stylesheet" type="text/css" href="common.css"/>
+  </head>
+
+  <body>
+    <div class="title">Services</div>
+
+    <p> The general steps to implement a NetBeans Platform service are as follows: </p>
+    <ol>
+      <li>Create a new module for the service interfaces.</li>
+      <li>Add one or more Java interfaces to this module.</li>
+      <li>Create a new module for the service implementations.</li>
+      <li>Add one or more Java classes to this module that implement the interfaces.</li>
+      <li>Create META-INF/services/{full-interface-name} files for each interface that list the
+        classes that implement them.</li>
+      <li>Obtain instances of implementation classes by using the global Lookup to find them by
+        their interface.</li>
+      <li>Invoke methods on those instances.</li>
+    </ol>
+
+    <p> Here's an example. We'll create an application with the following simple GUI. </p>
+    <p>
+      <img src="images/MathGUI.png" alt="example GUI"/>
+    </p>
+
+    <ol>
+      <li>Start the NetBeans 6.5 IDE.</li>
+
+      <li style="margin-top: 10px">
+        Create the application.
+        <ol style="list-style-type: lower-alpha">
+          <li>Select New Project...NetBeans Modules...NetBeans Platform Application.</li>
+          <li>Enter "MathDemo" for the project name and enter a location.</li>
+          <li>Press the "Finish" button.</li>
+        </ol>
+      </li>
+
+      <li style="margin-top: 10px">
+        Create the service interface module.
+        <ol style="list-style-type: lower-alpha">
+          <li>In the Explorer window, right-click the "Modules" folder under the MathDemo project
+            and select "Add New...".</li>
+          <li>Enter "MathService" for the name of the interface module and press "Next".</li>
+          <li>Enter "com.halliburton.service" for the "Code Name Base" and press "Finish". This will
+            create a new module project in the IDE named "MathService". </li>
+          <li>In the Explorer window, expand the MathService project and "Source Packages".</li>
+          <li>Right-click the package name and select New...Java Interface....</li>
+          <li>Enter "MathService" for the interface name and press "Finish". Note that the interface
+            name doesn't have to match the module name. </li>
+          <li>Enter the following method signature in the interface.<br/>
+            <code>int add(int n1, int n2);</code>
+          </li>
+          <li>This example only adds one service interface to the module, but more could be added.</li>
+          <li>In the Explorer window, right-click the "MathService" project node and select
+            Properties...API Versioning.</li>
+          <li>Select the checkbox under "Public Packages" for the package and press "OK".</li>
+          <li>In the Explorer window, right-click the "MathService" project node and select "Set as
+            Main Project".</li>
+          <li>In the toolbar, press the "Build Main Project" button with a hammer on it.</li>
+        </ol>
+      </li>
+
+      <li style="margin-top: 10px">
+        Create the service implementation module.
+        <ol style="list-style-type: lower-alpha">
+          <li>In the Explorer window, right-click the "Modules" folder under the "MathDemo" project
+            and select "Add New...".</li>
+          <li>Enter "MathServiceImpl" for the name of the implementation module and press "Next".</li>
+          <li>Enter "com.halliburton.serviceimpl" for the "Code Name Base" and press "Finish". This
+            will create a new module project in the IDE named "MathServiceImpl".</li>
+          <li>In the Explorer window, right-click the "MathServiceImpl" project node and select
+            Properties...Libraries.</li>
+          <li>Press "Add Dependency...".</li>
+          <li>Under "Module", select "MathService", the name of the interface module, and press
+            "OK".</li>
+          <li>Press "OK" again.</li>
+          <li>In the Explorer window, expand the MathServiceImpl project and "Source Packages".</li>
+          <li>In the Explorer window, right-click the package name and select New...Java Class....</li>
+          <li>Enter "MathServiceImpl" for the class name and press "Finish". Note that the class
+            name doesn't have to match the module name. </li>
+          <li>Change the class to implement the MathService interface.</li>
+          <li>Press ctrl-I to add an import for the interface being implemented,
+              <code>com.halliburton.service.MathService</code>.</li>
+          <li>Enter the following method implementation in the class.
+            <pre>
+public int add(int n1, int n2) {
+    return n1 + n2;
+}</pre>
+          </li>
+          <li>This example only adds one service implementation class to the module, but more could
+            be added.</li>
+        </ol>
+      </li>
+
+      <li style="margin-top: 10px">
+        Create the GUI module.
+        <ol style="list-style-type: lower-alpha">
+          <li>In the Explorer window, right-click the "Modules" folder under the "MathDemo" project
+            and select "Add New...".</li>
+          <li>Enter "MathGUI" for the name of the GUI module and press "Next".</li>
+          <li>Enter "com.halliburton.gui" for the "Code Name Base" and press "Finish". This will
+            create a new module project in the IDE named "MathGUI".</li>
+          <li>In the Explorer window, right-click the "MathGUI" project node and select
+            Properties...Libraries.</li>
+          <li>Press "Add Dependency...".</li>
+          <li>Select the "Show Non-API Modules" checkbox.</li>
+          <li>Under "Module", select "MathService", which is the name of the service interface, and
+            press "OK"</li>
+          <li>Press "OK" again.</li>
+          <li>In the Explorer window, expand the MathGUI project and "Source Packages".</li>
+          <li>In the Explorer window, right-click the package name and select New...Window
+            Component....</li>
+          <li>Select "editor" for the "Window Position".</li>
+          <li>Select the "Open on Application Start" checkbox.</li>
+          <li>Press the "Next >" button.</li>
+          <li>Enter "Math" for the "Class Name Prefix".</li>
+          <li>Press the "Finish" button. This creates two Java source files,
+            <code>MathAction.java</code> and <code>MathTopComponent.java</code>. It also creates two
+            XML files, <code>MathTopComponentSettings.xml</code> and
+              <code>MathTopComponentWstcref.xml</code>. </li>
+          <li><code>MathTopComponent.java</code> will open in "Design" mode. If you switch to
+            "Source" mode, get back to "Design" mode by selecting View...Editors...Design.</li>
+          <li>Drag out the following components from the Palette.
+            <ol>
+              <li>Text Field for the first number
+                <ol style="list-style-type: lower-alpha">
+                  <li>in the Properties window, select "Properties"</li>
+                  <li>delete the value of text </li>
+                  <li>in the Properties window, select "Code"</li>
+                  <li>change the variable name to "n1Field"</li>
+                  <li>size the text field by dragging the right side handle</li>
+                </ol>
+              </li>
+              <li>Label with "+" on it that goes between the Text Fields
+                <ol style="list-style-type: lower-alpha">
+                  <li>in the Properties window, select "Properties"</li>
+                  <li>change the value of text to "+"</li>
+                  <li>in the Properties window, select "Code"</li>
+                  <li>change the variable name to "plusLabel"</li>
+                </ol>
+              </li>
+              <li>Text Field for the second number
+                <ol style="list-style-type: lower-alpha">
+                  <li>in the Properties window, select "Properties"</li>
+                  <li>delete the value of text </li>
+                  <li>in the Properties window, select "Code"</li>
+                  <li>change the variable name to "n2Field"</li>
+                  <li>size the text field by dragging the right side handle</li>
+                </ol>
+              </li>
+              <li>Button with "=" on it
+                <ol style="list-style-type: lower-alpha">
+                  <li>in the Properties window, select "Properties"</li>
+                  <li>change the value of text to "="</li>
+                  <li>in the Properties window, select "Code"</li>
+                  <li>change the variable name to "equalButton"</li>
+                </ol>
+              </li>
+              <li>Label with no text that will display the result
+                <ol style="list-style-type: lower-alpha">
+                  <li>in the Properties window, select "Properties"</li>
+                  <li>delete the value of text</li>
+                  <li>in the Properties window, select "Code"</li>
+                  <li>change the variable name to "sumLabel"</li>
+                </ol>
+              </li>
+            </ol>
+          </li>
+          <li>add code for the "=" button
+            <ol>
+              <li>double-click the "=" button to switch to source view and scroll to the
+                  <code>equalButtonActionPerformed</code> method</li>
+              <li>enter the following code in that method
+                <pre>
+// Obtain the global Lookup.
+Lookup lookup = Lookup.getDefault();
+
+// Obtain an instance of the implementation of MathService.
+MathService ms = lookup.lookup(MathService.class);
+if (ms == null) {
+    JOptionPane.showMessageDialog(this, "Failed to find MathService!");
+    return;
+}
+                                                
+String n1Text = n1Field.getText();
+String n2Text = n2Field.getText();
+try {
+    int n1 = Integer.parseInt(n1Text);
+    int n2 = Integer.parseInt(n2Text);
+    // Use MathService.
+    sumLabel.setText(String.valueOf(ms.add(n1, n2)));
+} catch (NumberFormatException e) {
+   JOptionPane.showMessageDialog(this, e.toString());
+   }</pre>
+              </li>
+              <li>Press ctrl-I to add missing imports.</li>
+            </ol>
+          </li>
+        </ol>
+      </li>
+      
+      <li style="margin-top: 10px">Specify the service implementation to be used.
+        <ol style="list-style-type: lower-alpha">
+          <li>In the Explorer window, right-click the "Source Packages" folder under the MathGUI
+            project and select New...Other...Other...Folder.</li>
+          <li>Enter "META-INF" for the folder name and press "Finish".</li>
+          <li>In the Explorer window, right-click the "META-INF" folder and select New...Folder...
+            (now that option is there).</li>
+          <li>Enter "services" for the folder name and press "Finish".</li>
+          <li>In the Explorer window, right-click "META-INF.services" and select
+            New...Other...Other...Empty File.</li>
+          <li>Enter "com.halliburton.service.MathService" for the file name and press "Finish".</li>
+          <li>Enter the following line into this text file.
+            <pre>
+com.halliburton.serviceimpl.MathServiceImpl</pre>
+          </li>
+        </ol>
+      </li>
+
+      <li>Build and run the application.
+        <ol style="list-style-type: lower-alpha">
+          <li>Make "MathDemo" the "Main Project".</li>
+          <li>Press the "clean and build" button.</li>
+          <li>Press the "run" button.</li>
+          <li>When the GUI appears, enter two numbers and press the "=" button.</li>
+          <li>Verify that the correct sum is displayed.</li>
+        </ol>
+      </li>
+    </ol>
+  </body>
+</html>

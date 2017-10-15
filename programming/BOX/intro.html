@@ -1,0 +1,60 @@
+<?xml version="1.0"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>BOX Introduction</title>
+    <link rel="stylesheet" type="text/css" href="box.css"/>
+  </head>
+
+  <body>
+    <div class="title">Introduction</div>
+    <p>
+      BOX provides a binary encoding for XML that is:
+    </p>
+    <ul>
+      <li>easy to understand</li>
+        <ul>
+          <li>see <a href="example.html">Example</a> for details</li>
+        </ul>
+      <li>
+        somewhat human readable
+        <ul>
+          <li>text values are ASCII or UTF-8</li>
+          <li>relationships between the text values are not apparent</li>
+        </ul>
+      </li>
+      <li>more compact than standard XML</li>
+        <ul>
+          <li>see <a href="example.html">FAQ</a> for details</li>
+        </ul>
+      <li>can be parsed rapidily into a DOM Document</i>
+        <ul>
+          <li>see <a href="example.html">FAQ</a> for details</li>
+        </ul>
+      <li>can be parsed rapidily into a series of SAX events</i>
+        <ul>
+          <li>see <a href="example.html">FAQ</a> for details</li>
+        </ul>
+    </ul>
+
+    <p>
+      BOX may be created from a DOM Document using BOXDOMEncoderImpl
+      or through a series of methods calls in BOXEmitter.
+      To encode XML in the BOX format using a DOM Document you
+    </p>
+    <ul>
+      <li>create a DOM Document</li>
+      <li>create an OutputStream where the BOX will be written</li>
+      <li>specify whether UTF-8 or ASCII should be used</li>
+      <li>specify whether whitespace in text nodes should be trimmed</li>
+      <li>tell BOXDOMEncoderImpl to encode the Document</li>
+    </ul>
+    <p>
+      See the <a href="usersguide.html" target="body">User's Guide</a>
+      for examples of this and using BOXEmitter.
+    </p>
+  </body>
+</html>

@@ -1,0 +1,11 @@
+<!ELEMENT bookmarks (topic*)>
+
+<!ELEMENT topic ((topic | mark)*)>
+<!ATTLIST topic
+  name CDATA #REQUIRED>
+
+<!ELEMENT mark EMPTY>
+<!ATTLIST mark
+  name CDATA #REQUIRED
+  desc CDATA #IMPLIED
+  href CDATA #REQUIRED>
