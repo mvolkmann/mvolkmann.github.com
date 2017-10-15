@@ -1915,15 +1915,6 @@ set result (echo "s($radians)" | bc --mathlib) # .70710678</pre>
       <code>set <i>listName</i>[<i>index</i>] <i>value</i></code>
     </div>
     <div>
-      To remove the first item in a list, use
-      <code>set --erase <i>listName</i>[1]</code> (<code>-e</code>)
-      or <code>set <i>listName</i> <i>listName</i>[2..-1]</code>
-    </div>
-    <div>
-      To remove the last item in a list, use
-      <code>set --erase <i>listName</i>[(count $<i>listName</i>)]</code>
-    </div>
-    <div>
       To get a slice of an existing list which is a new list, use
       <code>$<i>listName</i>[<i>start</i>..<i>end</i>]</code><br>
       <code><i>start</i></code> and <code><i>end</i></code>
@@ -1939,6 +1930,15 @@ set result (echo "s($radians)" | bc --mathlib) # .70710678</pre>
     <div>
       To create a reversed version of an existing list, use
       <code>set <i>newListName</i> <i>existingListName</i>[-1..1]</code>
+    </div>
+    <div>
+      To remove the first item in a list, use
+      <code>set --erase <i>listName</i>[1]</code> (<code>-e</code>)
+      or <code>set <i>listName</i> <i>listName</i>[2..-1]</code>
+    </div>
+    <div>
+      To remove the last item in a list, use
+      <code>set --erase <i>listName</i>[(count $<i>listName</i>)]</code>
     </div>
     <div>
       To test whether an item is in a list, use:
