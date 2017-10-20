@@ -323,7 +323,7 @@
     <div>
       Instructions for installing fish are at
       <a href="https://fishshell.com/">https://fishshell.com/</a>.
-      Search that page for "Go Fish".
+      Search that page for "Go f
     </div>
     <div>
       For macOS, there is an installer.
@@ -346,6 +346,9 @@
       To make fish the default shell
       so new terminal windows automatically use it,
       enter <code>chsh -s /usr/local/bin/fish</code>.
+      This assumes that the path to <code>fish</code> is
+      included in the file <code>/etc/shells</code>
+      which is the case when standard installers are used.
       Perhaps it's best to hold off on doing this until you become
       convinced that fish is for you.  I'm confident you will!
     </div>
@@ -362,6 +365,8 @@
       <li><code>rm /usr/local/share/man/man1/fish*.1</code></li>
       <li><code>rm -f /usr/local/bin/fish</code></li>
       <li><code>rm -f /usr/local/bin/fish_indent</code></li>
+      <li>Edit the file <code>/etc/shells</code> and
+        remove the path to <code>fish</code>.</li>
     </ul>
 
     <h3><a name="Starting">Starting</a></h3>
@@ -379,8 +384,8 @@
       provides excellent documentation.
       Entering just <code>help</code> in a terminal
       opens the local copy of that documentation
-      for the version of fish that is installed
-      in the default web browser.
+      in the default web browser
+      for the version of fish that is installed.
     </div>
     <div>
       Entering <code>man <i>command-name</i></code>
@@ -522,8 +527,8 @@
       again to execute the <code>man</code> command.
     </div>
     <div>
-      To run an npm command,
-      enter <code>npm</code> followed by a space and press tab.
+      To run an npm command, enter <code>npm</code>
+      followed by a space and press tab twice.
       All npm commands will be displayed.
       Use the arrow keys to navigate to the desired command
       and press enter to select it.
@@ -593,10 +598,10 @@
       The fish shell is somewhat like Lisp in this regard.
     </div>
     <div>
-      By default when entering commands,
+      By default, when entering commands,
       text is red until a valid command is entered.
-      Then it changes to "normal" which is the
-      configurable, default, foreground color.
+      The text color then changes to "normal" which is
+      the configurable, default, foreground color.
       When typing file paths, the text is underlined
       unless no directory or file matches what has been typed so far.
     </div>
@@ -665,9 +670,11 @@
     <div>
       Commands can be split over multiple lines in two ways.
       One is by pressing enter when there is an unterminated block.
-      Another is by typing the <code>\</code> continuation character
-      before a command has been completely entered
+      Another is by typing the backslash (<code>\</code>)
+      continuation character before a command has been completely entered
       and pressing the enter key.
+      Backslashes and newlines used for line continuation
+      are removed before commands are executed.
     </div>
     <div>
       Multi-line commands can be recalled and edited
@@ -770,6 +777,9 @@ date &amp;&amp; ls
       entered in other sessions after it was started.
       However, a session can add command history from all other sessions
       to its own by entering <code>history merge</code>.
+      This is a one-time merge that can be manually repeated later.
+      The histories of other sessions will not be
+      continually merged into the current session.
     </div>
     <div>
       To navigate through all previously entered commands,
@@ -820,8 +830,9 @@ date &amp;&amp; ls
       To use the output of one command as an argument to another,
       surround the command with parentheses,
       not backticks like in some other shells.
-      This allows nesting of command substitution, something
-      that isn't possible in shells that use backticks for this.
+      This allows nesting of command substitution which is achieved in
+      other shells by using <code>$(<i>command</i>)</code>
+      instead of <code>`<i>command</i>`</code>.
       If the command outputs more than one line,
       each will be treated as a separate argument
       to the outer command.
@@ -848,8 +859,7 @@ set dateFormat '+%A %B %d, %G' # ex. Tuesday, November 1, 2017
 set announcement 'Today is '(date $dateFormat)'.'</pre>
     <div>
       The <code>#</code> above indicates the beginning of a comment
-      that extends extend to the end of the line,
-      like in other shells.
+      that extends to the end of the line, like in other shells.
     </div>
     <div>
       Note the use of string concatention by placing
@@ -1693,14 +1703,14 @@ set initials (string join '' $initialList) # RMV</pre>
     <div>
       To determine if a string matches a pattern,
       use <code>string match</code>.
-      By default this just compares one string to another
+      By default, this just compares one string to another
       for an exact match which isn't very useful.
     </div>
     <div>
       A more common use is to match against a regular expression
       by adding the <code>--regex</code> (<code>-r</code>) switch.
       This uses Perl regular expression syntax.
-      By default only the first match is output,
+      By default, only the first match is output,
       or nothing if not found.
       It sets <code>status</code> to 0 if at least one match was found and 1 if not.
       To suppress output describing the matches,
