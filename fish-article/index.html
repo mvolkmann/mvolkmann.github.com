@@ -3,8 +3,9 @@
   <head>
     <title>The fish Shell</title>
     <style type="text/css">
-      blockquote {
+      aside, blockquote {
         border: solid lightgray 2px;
+        margin-bottom: 15px;
         margin-left: 0;
         padding: 10px;
       }
@@ -600,6 +601,11 @@
       with such a consistent syntax.
       The fish shell is somewhat like Lisp in this regard.
     </div>
+    <aside>
+      Technically there are three kinds of "commands" in fish.
+      This is explained in detail later in the section titled
+      <a href="#TypesOfCommands">Types of Commands</a>.
+    </aside>
     <div>
       By default, when entering commands,
       text is red until a valid command is entered.
@@ -832,7 +838,7 @@ date &amp;&amp; ls
     <div>
       To use the output of one command as an argument to another,
       surround the command with parentheses,
-      not backticks like in some other shells.
+      not backticks like other shells.
       This allows nesting of command substitution which is achieved in
       other shells by using <code>$(<i>command</i>)</code>
       instead of <code>`<i>command</i>`</code>.
@@ -862,7 +868,7 @@ set dateFormat '+%A %B %d, %G' # ex. Tuesday, November 1, 2017
 set announcement 'Today is '(date $dateFormat)'.'</pre>
     <div>
       The <code>#</code> above indicates the beginning of a comment
-      that extends to the end of the line, like in other shells.
+      that extends to the end of the line, like other shells.
     </div>
     <div>
       Note the use of string concatention by placing
@@ -890,12 +896,12 @@ set announcement 'Today is '(date $dateFormat)'.'</pre>
     </div>
     <div>
       For commands that read from stdin, to read from a file instead
-      use <code>&lt;</code> like in other shells.
+      use <code>&lt;</code> like other shells.
       For example, <code><i>someCommand</i> &lt; <i>someFilePath</i></code>.
     </div>
     <div>
       For commands that write to stdout, to write to a file instead
-      use <code>&gt;</code> like in other shells.
+      use <code>&gt;</code> like other shells.
       For example, <code><i>someCommand</i> &gt; <i>someFilePath</i></code>.
       To avoid overwriting an existing file, use <code>&gt;?</code> instead of <code>&gt;</code>.
       To append to an existing file, use <code>&gt;&gt;</code> instead of <code>&gt;</code>.
@@ -911,13 +917,13 @@ set announcement 'Today is '(date $dateFormat)'.'</pre>
     <div>
       To redirect stderr to stdout,
       use <code><i>someCommand</i> 2&gt;&amp;1</code>
-      like in other shells.
+      like other shells.
     </div>
 
     <h3><a name="BraceExpansion">Brace Expansion</a></h3>
     <div>
       Brace expansion is used to produce multiple arguments for a command.
-      For example, <code>ls *.{css,html.js}</code>
+      For example, <code>ls *.{css,html,js}</code>
       expands to <code>ls *.css *.html *.js</code>.
       This is also useful in the <code>cp</code> and <code>mv</code> commands.
     </div>
@@ -972,7 +978,7 @@ set cells {a,b,c}{1,2} # a1 b1 c1 a2 b2 c2</pre>
     <h3><a name="Abbreviations">Abbreviations</a></h3>
     <div>
       In addition to aliases, fish supports abbreviations.
-      These are similar, but expand when typed.
+      These are similar but expand when typed.
     </div>
     <div>
       To define an abbreviation, enter
@@ -982,9 +988,10 @@ set cells {a,b,c}{1,2} # a1 b1 c1 a2 b2 c2</pre>
       For example, the following defines an abbreviation
       for checking out a git branch:
       <code>abbr --add co git checkout</code>.
-      Once this is defined, enter <code>co</code> followed by a space
-      and that will expand to <code>git checkout</code>.
-      Continue typing a branch name and press enter to execute the command.
+      Once this abbreviation is defined, enter <code>co</code> followed by
+      a space and that will expand to <code>git checkout</code>.
+      Continue the command by typing a branch name
+      and press enter to execute the command.
       The branch name is often auto-suggested and can be tab completed.
     </div>
     <div>
@@ -1058,12 +1065,12 @@ set cells {a,b,c}{1,2} # a1 b1 c1 a2 b2 c2</pre>
       against that background.
       It does not actually change the terminal background color.
     </div>
-    <div>
+    <aside>
       If using the Terminal app in macOS, the background color can be changed by
       selecting Preferences...Profiles...Background...Colors &amp; Effects.
       If using the iTerm2 app in macOS, the background color can be changed by
       selecting Preferences...Profiles...Colors...Background.
-    </div>
+    </aside>
 
     <h4><a name="PromptTab">Prompt Tab</a></h4>
     <div>
@@ -1148,7 +1155,7 @@ set cells {a,b,c}{1,2} # a1 b1 c1 a2 b2 c2</pre>
       the <code>fish_config</code> command was entered
       shuts down the server that serves this web UI.
       To restart it, enter <code>fish_config</code> again,
-      which will also open a new browser tab.
+      which will open the web configuration UI in a new browser tab.
     </div>
 
     <h3><a name="ConfigurationViaFishConfig">Configuration via config.fish</a></h3>
@@ -1160,7 +1167,7 @@ set cells {a,b,c}{1,2} # a1 b1 c1 a2 b2 c2</pre>
       (in <code>~/.bash_profile</code> and <code>~/.bashrc</code>)
       and will want similar configuration for fish.
       Examples include
-      creating aliases and abbreviations,
+      creating aliases, creating abbreviations,
       and setting variables such as <code>PATH</code>.
     </div>
     <div>
@@ -1202,11 +1209,11 @@ set cells {a,b,c}{1,2} # a1 b1 c1 a2 b2 c2</pre>
     <div>
       <code>PATH</code> is a variable that holds a list of paths
       that the shell searches when a command is entered.
-      <code>PATH</code> is a global variable, which means that
-      changes to it are available anywhere in the current session,
-      but not in other sessions.
+      <code>PATH</code> is a <a href="#Variables">global variable</a>
+      which means that changes to it are available anywhere
+      in the current session but not in other sessions.
       Its value is a space-separated string,
-      not a colon-separated string like in other shells.
+      not a colon-separated string like other shells.
       .
     </div>
     <div>
@@ -1333,7 +1340,7 @@ end</pre>
     <div>
       The <code>echo</code> command
       writes its expanded arguments to stdout.
-      It is often uses to output the values of variables.
+      It is often used to output the values of variables.
       For example, <code>echo $PATH</code>.
       Normally all arguments are output with a space between them.
       To suppress this, add the <code>-s</code> switch (no long form).
@@ -1345,13 +1352,13 @@ end</pre>
     <h3><a name="Variables">Variables</a></h3>
     <div>
       Variable names consist of letters, digits, and underscores.
-      Unlike variable names in most programming languages,
+      Unlike variable names in other shells (and programming languages),
       these can begin with a digit.
       Variable names are case-sensitive, so
       <code>myvar</code> and <code>myVar</code> are different variables.
     </div>
     <div>
-      The value of every variable is a list that hold zero, one, or more
+      The value of every variable is a list that holds zero, one, or more
       string values, although most have only one.
     </div>
     <div>
@@ -1371,8 +1378,8 @@ end</pre>
     </div>
     <div>
       <b>Universal variables</b> are available in every session,
-      even in future sessions
-      because they are saved across reboots.
+      even in future sessions because they are
+      saved across session terminations (even reboots).
       Settings of universal variables are stored in the file
       <code>~/.config/fish/fishd.<i>machine-id</i></code>.
     </div>
@@ -1596,7 +1603,11 @@ set listName colors</pre>
 set middle 'some middle'
 set result 'some prefix'$middle'some suffix'</pre>
     <div>
-      These are similar, but result in a list with a "count" of 3.
+      These are similar, but result in a list
+      with a "count" (list length) of 3
+      because the first token "some" and the last token "suffix"
+      are treated as separate list items
+      from the string concatenation that occurs in the middle.
     </div>
     <pre>
 set result some prefix"$middle"some suffix
@@ -1612,7 +1623,7 @@ set result some prefix{$middle}some suffix</pre>
       <li>is not equal to another: <code>if "$<i>var1</i>" != "$<i>var2</i>"</code></li>
     </ul>
     <div>
-      To test the relationship between two strings in sorting order,
+      To test the relationship between two strings in lexical order,
       use the <code>expr</code> command.
       This evaluates an expression where each operand and operator
       is passed as a separate argument.
@@ -1681,7 +1692,7 @@ set result (string trim --left --chars 0 $myText) # 19</pre>
       To create a new string by joining existing ones with
       a delimiter between them, use <code>string join</code>.
       For example,<br>
-      <code>set dateStr (string join '/' $month $day $year) # 8/26/2017</code>
+      <code>set dateStr (string join '/' $month $day $year) # 11/1/2017</code>
     </div>
     <div>
       Another example of joining strings
@@ -1692,6 +1703,9 @@ set result (string trim --left --chars 0 $myText) # 19</pre>
       can be an empty string.
     </div>
     <pre>
+set first Richard
+set middle Mark
+set last Volkmann
 set initialList (string sub -l 1 $first $middle $last) # R M V
 set initials (string join '' $initialList) # RMV</pre>
     <div>
@@ -1714,7 +1728,7 @@ set initials (string join '' $initialList) # RMV</pre>
       by adding the <code>--regex</code> (<code>-r</code>) switch.
       This uses Perl regular expression syntax.
       By default, only the first match is output,
-      or nothing if not found.
+      or nothing if no match is found.
       It sets <code>status</code> to 0 if at least one match was found and 1 if not.
       To suppress output describing the matches,
       add the <code>--quiet</code> (<code>-q</code>) switch.
@@ -1795,7 +1809,7 @@ set newText (string replace -ar '.oo' 'bar' $text) # regex matching more than fo
       use the <code>test</code> command.
       This supports many switches for various comparisons.
       For numeric comparisons, both operands must be numbers,
-      or strings that only contain digits which will be
+      or strings that contain only digits which will be
       converted to numbers for the comparison.
     </div>
     <ul>
@@ -1882,7 +1896,7 @@ set radians (math -s8 "$degrees * $pi / 180") # .78539816
 set result (echo "s($radians)" | bc --mathlib) # .70710678</pre>
     <div>
       While this kind of math is possible in fish,
-      it may be better to use another language/tool such as
+      it may be better to use another language or tool such as
       Node.js, Ruby, Python, or Perl.
     </div>
 
@@ -1975,7 +1989,7 @@ end</pre>
       To remove an item from a list, use
     </div>
 <pre>
-if set --local index (contains -i <i>item</i> $<i>listName</i>)
+if set --local index (contains --index <i>item</i> $<i>listName</i>)
   set --erase <i>listName</i>[$index]
 end</pre>
     <div>
@@ -2077,7 +2091,7 @@ echo Roses are (set_color red)red(set_color normal), \
         sets reverse mode where foreground and background colors are swapped</li>
       <li><code>--underline</code> (<code>-u</code>) sets underline mode</li>
     </ul>
-    <blockquote>
+    <aside>
       To enable the use of <code>--dim</code> and <code>--italics</code>
       on macOS in iTerm2, vim, and tmux, see
       <a href="https://alexpearce.me/2014/05/italics-in-iterm2-vim-tmux/">https://alexpearce.me/2014/05/italics-in-iterm2-vim-tmux/</a>,
@@ -2089,7 +2103,7 @@ echo Roses are (set_color red)red(set_color normal), \
       <a href="https://github.com/mvolkmann/MyUnixEnv">https://github.com/mvolkmann/MyUnixEnv</a>
       and the <code>setup</code> script there that
       runs the <code>tic</code> command on the <code>.terminfo</code> files.
-    </blockquote>
+    </aside>
     <div>
       Using <code>set_color</code> without these switches turns all modes off.
     </div>
@@ -2120,26 +2134,24 @@ echo Roses are (set_color red)red(set_color normal), \
       followed by the values to be output.
     </div>
     <div>
-      The format string can contain a format specifier
+      The format string can contain a format specifier (taken from the printf library)
       for each of the values to be output.
-      The supported format specifiers include:
+      Examples include:
     </div>
     <ul>
       <li><code>%d</code> or <code>%i</code> for signed decimal (integer)</li>
       <li><code>%f</code> for float</li>
       <li><code>%s</code> for string</li>
       <li><code>%%</code> for literal %</li>
-      <li>and more</li>
     </ul>
     <div>
-      The <code>printf</code> command supports several escape characters
-      that include:
+      The <code>printf</code> command supports several escape characters.
+      Examples include:
     </div>
     <ul>
       <li><code>\a</code> for bell</li>
       <li><code>\n</code> for newline</li>
       <li><code>\t</code> for tab</li>
-      <li>and more</li>
     </ul>
     <div>
       Here are some examples of using the <code>printf</code> command.
@@ -2203,7 +2215,9 @@ end &lt; <i>filePath</i> </pre>
       <li>is writable: <code>if test -w $file</code></li>
       <li>is executable: <code>if test -x $file</code></li>
       <li>is non-empty (has size): <code>if test -s $file</code></li>
-      <li>and more (see the <code>test</code> command for details)</li>
+      <li>and more (see the
+        <a href="https://fishshell.com/docs/current/commands.html#test">test</a>
+        command for details)</li>
     </ul>
     <div>
       The <code>test</code> command does not support
@@ -2219,7 +2233,8 @@ end &lt; <i>filePath</i> </pre>
       For example, <code>test "$color" = 'yellow'</code>.
       This can also be written as
       <code>[ "$color" = 'yellow' ]</code>
-      for compatibility with other shells,
+      for compatibility with other shells
+      (although most use double square brackets now),
       but explicitly using the <code>test</code> command is preferred.
     </div>
     <div>
@@ -2529,11 +2544,12 @@ set result (product 2 3) # 6</pre>
       in the current fish session.
     </div>
     <div>
-      To save a function definition that has been entered interactively
-      in a file in <code>~/.config/fish/functions</code>
-      so it can be autoloaded,
+      To save a function definition that has been entered interactively,
       enter <code>funcsave <i>name</i></code>.
-      This uses tabs for indentation.
+      This creates a file with the same name as the function in the
+      <code>~/.config/fish/functions</code> directory
+      so it can be autoloaded.
+      The <code>funcsave</code> command uses tabs for indentation.
     </div>
     <div>
       To edit a function definition, enter <code>funced <i>name</i></code>.
@@ -2579,7 +2595,7 @@ funced foo; and funcsave foo; and source ~/.config/fish/functions/foo.fish</pre>
       executes commands in the file without starting a new process.
     </div>
     <div>
-      Changes to non-local variables made in these functions
+      Changes to non-local variables made in functions
       affect the current shell.
     </div>
 
