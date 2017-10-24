@@ -400,6 +400,12 @@
       but only for fish commands and with better formatting.
     </div>
     <div>
+      Some commands, such as <code>expr</code>,
+      are considered to be "system commands"
+      and not fish commands.  Use <code>man</code> rather than
+      <code>help</code> to get help on those.
+    </div>
+    <div>
       Other great sources of help include:
     </div>
     <ul>
@@ -2459,9 +2465,10 @@ set_color normal
 return <i>someNonZeroStatus</i></pre>
     <div>
       To output a formatted version of a <code>.fish</code> file, enter
-      <code>fish_indent &lt; <i>someName</i>.fish</code>.
-      The <code>fish_indent</code> command writes to stdout,
-      so this redirects the output into a new file.
+      <code>fish_indent <i>someName</i>.fish</code>.
+      This just writes to stdout.
+      To save the formatted version in place of the current version
+      add the <code>--write</code> (<code>-w</code>) switch.
       To output using the colors specified using <code>fish_config</code>
       (or the color variables that sets which can
       also be set in the <code>config.fish</code> file),
@@ -2503,6 +2510,7 @@ function product -a n1 n2
   math "$n1 * $n2"
 end
 set result (product 2 3) # 6</pre>
+
     <h3><a name="FunctionAutoLoading">Function Autoloading</a></h3>
     <div>
       Every time a command is evaluated, fish first checks whether there
@@ -2762,6 +2770,15 @@ kill -hup %self # got hup</pre>
       enter <code>command <i>name</i></code>.
     </div>
     <div>
+      Some "commands" are available as both
+      a builtin and a function or a command and a function.
+      The function wraps access to the corresponding builtin or command
+      and adds functionality.
+      For example, <code>cd</code> is a builtin and a function.
+      Enter <code>type cd</code> to see the definition of the function
+      and the functionality that it adds.
+    </div>
+    <div>
       Recall that the <code>alias</code> command generates a function
       that implements the alias.  For example,
     </div>
@@ -2920,8 +2937,10 @@ for <i>var</i> in <i>list</i>
   # use $<i>var</i> here
 end</pre>
     <div>
-      To iterate over a list of numbers, use the <code>seq</code> command.
-      For example:
+      While the <code>seq</code> command is not unique to fish,
+      it is useful to see how it is used in conjunction
+      with the <code>for</code> command.
+      To iterate over a sequence of numbers:
     </div>
     <pre>
 for n in (seq 5)
