@@ -324,7 +324,7 @@
     <div>
       Instructions for installing fish are at
       <a href="https://fishshell.com/">https://fishshell.com/</a>.
-      Search that page for "Go f
+      Search that page for "Go fish".
     </div>
     <div>
       For macOS, there is an installer.
@@ -430,7 +430,8 @@
     <h3><a name="Autosuggestions">Autosuggestions</a></h3>
     <div>
       Autosuggestions suggest remaining text for a command
-      while the command is being typed.
+      while the command is being typed,
+      without requiring another key like tab to be pressed.
       Typically this appears as gray text,
       sometimes referred to as ghosting,
       but the color can be customized.
@@ -1617,8 +1618,8 @@ set result some prefix{$middle}some suffix</pre>
     <ul>
       <li>is empty: <code>if test -z "$<i>var</i>"</code></li>
       <li>is not empty: <code>if test -n "$<i>var</i>"</code></li>
-      <li>is equal to another: <code>if "$<i>var1</i>" = "$<i>var2</i>"</code></li>
-      <li>is not equal to another: <code>if "$<i>var1</i>" != "$<i>var2</i>"</code></li>
+      <li>is equal to another: <code>if test "$<i>var1</i>" = "$<i>var2</i>"</code></li>
+      <li>is not equal to another: <code>if test "$<i>var1</i>" != "$<i>var2</i>"</code></li>
     </ul>
     <div>
       To test the relationship between two strings in lexical order,
@@ -3549,6 +3550,10 @@ end</pre>
       In particularly I want to thank Kurtis Rader,
       Charles Sharp (Object Computing, Inc.),
       and Jason Schindler (Object Computing, Inc.).
+    </div>
+    <div>
+      For more articles like these, visit
+      <a href="https://objectcomputing.com/resources/publications/sett/">https://objectcomputing.com/resources/publications/sett/</a>.
     </div>
   </body>
 </html>
