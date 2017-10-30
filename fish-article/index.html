@@ -3052,7 +3052,8 @@ function fish_prompt
       echo -n ' ' # space between PWD and branch name
     else
       echo # newline
-      echo -n '  ' # indents past Vim mode on previous line
+      # Indent past Vim mode on previous line.
+      echo -n (string repeat -n$vimModeLen ' ')
       set remaining $COLUMNS # resets to full width
     end
 
@@ -3068,7 +3069,7 @@ function fish_prompt
   # Always display "fish" prompt on new line.
   set_color normal
   # This uses printf instead of echo to output a leading newline.
-  printf '\\n🐠  ' # uses Unicode for fish emoji
+  printf '\\n🐠  ' # uses Unicode for tropical fish emoji &amp;#x1F420;
 end</pre>
     <div>
       It is also possible to define a "right prompt"
@@ -3240,6 +3241,12 @@ complete --command cecho -f -r -s c -l color -a "$colors"</pre>
       For example, <code>open demo.html</code>
       opens the file in the default web browser.
     </div>
+    <aside>
+      The documentation for the fish <code>open</code> command says
+      "On GNU/Linux, this requires the common but optional xdg-open utility,
+      from the xdg-utils package.  Note that this function will not be used
+      if a command by this name exists (which is the case on macOS or Haiku)."
+    </aside>
 
     <h3><a name="ReadingFromStdin">Reading From stdin</a></h3>
     <div>
@@ -3252,7 +3259,7 @@ complete --command cecho -f -r -s c -l color -a "$colors"</pre>
       The <code>read</code> command accepts many switches.
       These include the same switches as the <code>set</code> command
       for choosing the scope of the variable that is set.
-      It also accepts the following switches:
+      It also accepts the following switches (and more not listed here):
     </div>
     <ul>
       <li>
@@ -3263,11 +3270,11 @@ complete --command cecho -f -r -s c -l color -a "$colors"</pre>
         This sets the variable <code>color</code> to what the user enters.
       </li>
       <li>
-        <code>--prompt-cmd <i>command</i></code> (<code>-p</code>)<br>
+        <code>--prompt <i>command</i></code> (<code>-p</code>)<br>
         This sets the prompt text to the output of the specified command.
         It is useful for dynamic prompts.
         For example, to ask the user if they were born in the current month, use<br>
-        <code>read --prompt-cmd "echo Were you born in (date '+%B')'? '" bornThisMonth</code>
+        <code>read --prompt "echo Were you born in (date '+%B')'? '" bornThisMonth</code>
       </li>
       <li>
         <code>--command <i>text</i></code> (<code>-c</code>)<br>
@@ -3290,7 +3297,6 @@ complete --command cecho -f -r -s c -l color -a "$colors"</pre>
         If "red green blue" is entered, <code>favColors</code> will be set
         to that list and <code>count $colors</code> will output 3.
       </li>
-      <li>and many more</li>
     </ul>
     <div>
       The read command can set more than one variable.
@@ -3365,10 +3371,10 @@ end</pre>
     <h3><a name="RandomNumbersAndOptions">Random Numbers and Options</a></h3>
     <div>
       The <code>random</code> command outputs
-      an integer in the range [0, 32767].
+      an integer in a range which defaults to [0, 32767].
       It takes up to three arguments and
       typically at least two are specified.
-      Their meaning depends on the number given.
+      Their meaning depends on the number of arguments given.
       If only one is specified, it is a seed.
       If two are specified,
       they are the start and end of the range.
@@ -3401,8 +3407,8 @@ set color (random choice $colors)</pre>
       can be specified with arguments of the form
       <code><i>extension</i>=<i>color</i></code> .
       By default, files with an unspecified extension
-      are output in the default text color,
-      but that can also be overridden with <code>default=<i>color</i></code>.
+      are output in the default text color.
+      The default color can be overridden with <code>default=<i>color</i></code>.
       For example, <code>lscolor fish=magenta js=cyan default=yellow</code>
       produces the following output:
     </div>
@@ -3476,7 +3482,8 @@ usage() {
 }
 
 # Use colors specified in switches.
-for arg in "$@"; do
+for arg in "$@"
+do
   extension=${arg%%=*}
   [[ -z $extension ]] &amp;&amp; usage
   color=${arg##*=}
@@ -3485,14 +3492,17 @@ for arg in "$@"; do
   eval $varName=\${!color}
 done
 
-for file in *; do
+for file in *
+do
   extension=${file##*.}
-  if [[ $extension == $file ]]; then # no extension found
+  if [[ $extension == $file ]]
+  then # no extension found
     color=$defaultColor
   else
     colorVar=${extension}Color
     color=${!colorVar}
-    if [ -z $color ]; then
+    if [[ -z $color ]]
+    then
       color=$defaultColor
     fi
   fi
@@ -3527,7 +3537,7 @@ function lscolor
   for file in (ls -d *)
     set pieces (string split . $file)
     if test (count $pieces) -ge 2
-      set extension $pieces[2]
+      set extension $pieces[-1] # last piece
       set varName $extension'Color'
       set color $$varName
       if test -z "$color"; set color $defaultColor; end
