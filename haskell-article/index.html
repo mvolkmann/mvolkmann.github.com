@@ -72,7 +72,7 @@
       by Mark Volkmann<br>
       <a href="mailto:mark@objectcomputing.com">mark@objectcomputing.com</a><br>
       <a href="http://objectcomputing.com" target="_blank">Object Computing, Inc.</a><br>
-      November 2017
+      April 2018
     </div>
     <h4>
       Get serious about functional programming!
@@ -94,6 +94,26 @@
 
     <h3><a name="Overview">Overview</a></h3>
     <div>
+      Haskell is a functional programming language.
+      It's primary characteristics are that it:
+    </div>
+    <ul>
+      <li>is purely functional, not supporting procedural or object-oriented programming</li>
+      <li>only supports immutable data (cannot be modified)</li>
+      <li>impure functions (those with side effects)
+        are strictly separated from pure functions</li>
+      <li>is statically typed with type inference</li>
+      <li>is lazy meaning that expressions are not evaluated until their value is needed</li>
+      <li>addresses
+        <a href="https://en.wikipedia.org/wiki/Concurrency_(computer_science)">Concurrency</a>
+        and
+        <a href="https://en.wikipedia.org/wiki/Parallel_computing">parallelism</a>
+        </li>
+    </ul>
+    <div>
+      TODO: Get more from Wikipedia page!
+    </div>
+    <div>
       This article is targeted at software developers that
       have not yet been exposed to the Haskell programming language
       and want to quickly learn why so many developers love it.
@@ -101,14 +121,18 @@
 
     <h3><a name="WhyLearn">Why Learn Haskell</a></h3>
     <div>
-- list some reasons
-- it's fun to learn a new programming language
-- learn functional programming
-- inspired Elm
-- can compile to JavaScript with PureScript
-  * can React apps be written in it?
-  * can Node apps be written in it?
+      There are many reasons to learn Haskell including:
     </div>
+    <ul>
+      <li>It can be fun and challenging to learn a new programming language.</li>
+      <li>It's good learn about the functional style of programming
+        if you have only primarily used procedural or object-oriented programming.</li>
+      <li>Haskell inspired the design of the Elm programming language,
+        so learning Haskell is a step toward learning Elm.</li>
+      <li>PureScript can be used to compile most Haskell code to JavaScript,
+        so it can be used to develop Node apps and web apps.</li>
+      <li></li>
+    </ul>
 
     <h3><a name="LearningResources">Learning Resources</a></h3>
     <div>
@@ -158,29 +182,10 @@
       A committee of about 20 members is working on the next version,
       "Haskell 2020".
     </div>
-    <div>
-      The primary characteristics of Haskell are that it:
-    </div>
-    <ul>
-      <li>is purely functional</li>
-      <li>only supports immutable data (cannot be modified)</li>
-      <li>impure functions (those with side effects)
-        are strictly separated from pure functions</li>
-      <li>is statically typed with type inference</li>
-      <li>is lazy meaning that expressions are not evaluated until their value is needed</li>
-      <li>addresses
-        <a href="https://en.wikipedia.org/wiki/Concurrency_(computer_science)">Concurrency</a>
-        and
-        <a href="https://en.wikipedia.org/wiki/Parallel_computing">parallelism</a>
-        </li>
-    </ul>
-    <div>
-      TODO: Get more from Wikipedia page!
-    </div>
 
     <h3><a name="Compilers">Compilers</a></h3>
     <div>
-      There are many Haskell compilers.
+      There are many Haskell compilers that produce executables from Haskell source code.
       The most popular is the Glasgow Haskell Compiler
       (<a href="https://www.haskell.org/ghc/">GHC</a>).
       The latest stable version of the GHC compiler
@@ -225,6 +230,110 @@
       so you can try each code example in this article.
     </div>
 
+    <h3><a name="Libraries">Libraries</a></h3>
+    <div>
+      Haskell software libraries can be found at
+      <a href="http://hackage.haskell.org/">http://hackage.haskell.org/</a>.
+      Are there other popular sites?
+    </div>
+
+    <h3><a name="Tools">Tools</a></h3>
+    <div>
+      Testing tools for Haskell include:
+    </div>
+    <ul>
+      <li>Hspec at
+        <a href=" https://hspec.github.io/"> https://hspec.github.io/</a>
+      </li>
+      <li>QuickCheck at
+        <a href="https://github.com/nick8325/quickcheck">https://github.com/nick8325/quickcheck</a> and
+        <a href="https://www.fpcomplete.com/blog/2017/01/quickcheck">https://www.fpcomplete.com/blog/2017/01/quickcheck</a>
+      </li>
+      <li>test-framework at
+        <a href="https://batterseapower.github.io/test-framework/">https://batterseapower.github.io/test-framework/</a>
+      </li>
+    </ul>
+
+    <div>
+      Editor plugins for Haskell include:
+    </div>
+    <ul>
+      <li>ALE for Vim at
+        <a href="https://github.com/w0rp/ale">https://github.com/w0rp/ale</a>
+        provides automatic linting of Haskell code using
+        <a href="https://github.com/ndmitchell/hlint">HLint</a>.
+      </li>
+    </ul>
+
+    <div>
+      Library installing tools for Haskell include:
+    </div>
+    <ul>
+      <li>Stack at
+        <a href="https://haskellstack.org">https://haskellstack.org</a>
+        "is a cross-platform program for developing Haskell projects"
+      </li>
+      <li>Cabal at
+        <a href="https://www.haskell.org/cabal/">https://www.haskell.org/cabal/</a>
+        "is a system for building and packaging Haskell libraries and programs"
+      </li>
+    </ul>
+
+    <h3><a name="InteractiveSessions">Interactive Sessions</a></h3>
+    <div>
+      GHC comes with a "read-evaluate-print-loop" (REPL) tool
+      for experimenting with Haskell code.
+      It's a great tool, especially when just getting started with Haskell.
+      To start it, enter <code>gchi</code>.
+      To exit, press ctrl-d or enter <code>:quit</code>.
+      Previously entered commands can be recalled using the up and down arrow keys.
+    </div>
+    <div>
+      The default prompt is <code>Prelude></code>.
+      This is the name of the standard library that is automatically loaded.
+      To change the prompt within the current session, enter
+      <code>:set prompt "new prompt"</code>.
+      To make this a permanent change that is used in all future ghci sessions,
+      add that command to the file <code>~/.ghci</code>.
+      Mine uses an elephant emoji for the elephant on the
+      cover of the book "Learn You a Haskell for Great Good!".
+    </div>
+    <div>
+      To enable Vim keybindings inside ghci,
+      create the file <code>~/.haskeline</code>
+      and add the command <code>editMode: Vi</code> to it.
+    </div>
+    <div>
+      When Haskell expressions are entered in ghci,
+      they are evaluated the their value is printed
+      by calling <code>show</code> on it which
+      converts many kinds of values to a string representation.
+    </div>
+    <div>
+      Besides entering Haskell expressions,
+      there are many commands that can be entered,
+      all preceded by a colon.
+      The most useful of these include:
+    </div>
+    <ul>
+      <li><code>:help</code> or <code>:?</code> to get help</li>
+      <li><code>:info <i>fn-name</i></code> to get information about a function</li>
+      <li><code>:type <i>name</i></code> or <code>:t <i>name</i></code> to see the type of a name</li>
+      <li><code>:set +t</code> to automatically see the type of all expressions entered</li>
+      <li><code>:unset +t</code> to turn off automatically displaying types</li>
+      <li><code>:show modules</code> to list all modules that have been imported</li>
+      <li><code>:!<i>command</i></code> to run a shell command; For example, :!clear clears the screen.</li>
+    </ul>
+    <div>
+      All functions defined in the Prelude module are available by default in ghci.
+      To use functions in other modules, import them by entered
+      <code>import <i>module-name</i></code>.
+    </div>
+    <div>
+      ghci has a builtin debugger supported by many colon commands.
+      TODO: Add more detail about this.
+    </div>
+
     <div>
       TODO:
 - describe Haskell's use of persistent data structures
@@ -235,44 +344,15 @@
 - the Vim ALE plugin has support for linting Haskell code!
     </div>
 
-Libraries
-- browse http://hackage.haskell.org/
-
-Testing Tools
-- QuickCheck - https://www.fpcomplete.com/blog/2017/01/quickcheck
-
-Interactive sessions
-- enter "ghci" to start the REPL
-- to exit, press ctrl-d or enter :quit
-- recall previous commands with up arrow
-- prompt
-  * default is "Prelude> "
-    - this is the name of the standard library that is automatically loaded
-  * change with :set prompt "new prompt"
-  * can add this command to ~/.ghci to change for all future sessions
-  * mine uses an elephant emoji for the elephant on the
-    cover of the book "Learn You a Haskell for Great Good!"
-- to enable Vim keybindings
-  * create ~/.haskeline and add "editMode: Vi"
-- to get help, :help or :?
-- to get information about a function, :info name
-- to see the type of a name, enter :type {name} or :t {name}
-  * very useful for learning
-- to see the type of all expressions entered, :set +t
-  * turn off with :unset +t
-- to list all modules that have been imported, :show modules
-- to run a shell command, :!{command}
-  * ex. :!date
-  * to clear the screen within ghci, :!clear
-- has a builtin debugger supported by many colon commands
-
-Source Files
-- referred to as Haskell scripts
-- have a file extension of .hs
-- load these into an interactive session with
-  :load {filename} or :l {filename}
-  * can omit .hs extension when loading
-- reload current script with :reload or :r
+    <h3><a name="SourceFiles">Source Files</a></h3>
+    <div>
+      Haskell source files have a file extension of <code>.hs</code>.
+      To load these into a ghci session, enter
+      <code>:load <i>filename</i></code> or <code>:l <i>filename</i></code>.
+      The <code>.hs</code> file extension can be omitted.
+      If a loaded source file is modified, enter
+      <code>:reload</code> or <code>:r</code> to reload it in ghci.
+    </div>
 - example
   * create file hello.hs containing this function definition:
     hello name = "Hello, " ++ name + "!"
