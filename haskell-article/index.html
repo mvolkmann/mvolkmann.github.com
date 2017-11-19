@@ -1,0 +1,1383 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Haskell</title>
+    <style type="text/css">
+      aside, blockquote {
+        border: solid lightgray 2px;
+        margin-bottom: 15px;
+        margin-left: 0;
+        padding: 10px;
+      }
+      body {
+        font-family: sans-serif;
+        margin: 20px 40px;
+      }
+      code {
+        background-color: lightyellow;
+        font-weight: bold;
+        padding: 3px 2px;
+      }
+      div {
+        margin-bottom: 10px;
+      }
+      #logo {
+        width: 300px;
+      }
+      h1, h3 {
+        color: blue;
+      }
+      h2 {
+        border-top: solid red 3px;
+        color: purple;
+        padding-top: 20px;
+        text-decoration: underline;
+      }
+      h4 {
+        color: purple;
+      }
+      img {
+        margin: 10px 0;
+        width: 800px;
+      }
+      #lscolors {
+        width: 200px;
+      }
+      pre {
+        background-color: lightyellow;
+        font-weight: bold;
+        width: 800px;
+      }
+      .toc > .level1 {
+        font-weight: bold;
+        margin-left: 0;
+        margin-top: 10px;
+      }
+      .toc > .level2 {
+        margin-left: 16px;
+      }
+      .toc > .level3 {
+        font-size: 14px;
+        margin-left: 32px;
+      }
+
+      @media print {
+        margin: 1in;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Haskell</h1>
+    <div>
+      by Mark Volkmann<br>
+      <a href="mailto:mark@objectcomputing.com">mark@objectcomputing.com</a><br>
+      <a href="http://objectcomputing.com" target="_blank">Object Computing, Inc.</a><br>
+      November 2017
+    </div>
+    <h4>
+      Get serious about functional programming!
+    </h4>
+    <img id="logo" src="haskell-logo.png" alt="Haskell logo">
+
+    <h3>Table of Contents</h3>
+    <ul class="toc">
+      <li class="level1"><a href="#Overview">Overview</a></li>
+      <li class="level2"><a href="#License">License</a></li>
+      <li class="level2"><a href="#History">History</a></li>
+      <li class="level2"><a href="#Sections">Sections</a></li>
+
+      <li class="level1"><a href="#UsingFish">Using Fish</a></li>
+      <li class="level2"><a href="#Installing">Installing</a></li>
+      <li class="level1"><a href="#Summary">Summary</a></li>
+      <li class="level1"><a href="#Acknowledgments">Acknowledgments</a></li>
+    </ul>
+
+    <h3><a name="Overview">Overview</a></h3>
+    <div>
+      This article is targeted at software developers that
+      have not yet been exposed to the Haskell programming language
+      and want to quickly learn why so many developers love it.
+    </div>
+
+    <h3><a name="WhyLearn">Why Learn Haskell</a></h3>
+    <div>
+- list some reasons
+- it's fun to learn a new programming language
+- learn functional programming
+- inspired Elm
+- can compile to JavaScript with PureScript
+  * can React apps be written in it?
+  * can Node apps be written in it?
+    </div>
+
+    <h3><a name="LearningResources">Learning Resources</a></h3>
+    <div>
+      There are many resources for learning Haskell.
+      Many of them are much longer and more technical that this article.
+      I suggest starting here and then moving on to the following resources:
+    </div>
+    <ul>
+      <li>"Learn You a Haskell for Great Good!" book -
+        This can be purchased or read online at
+        <a href="http://learnyouahaskell.com/">http://learnyouahaskell.com/</a>.
+        (360 pages)
+      </li>
+      <li>Haskell Homepage
+      <a href="https://www.haskell.org/">https://www.haskell.org/</a>
+      </li>
+      <li>Haskell Wiki
+      <a href="https://wiki.haskell.org/">https://wiki.haskell.org/</a>
+      </li>
+      <li>Hoogle - Haskell API search engine
+        <a href="https://www.haskell.org/hoogle/">https://www.haskell.org/hoogle/</a>
+      </li>
+    </ul>
+
+    <h3><a name="History">History</a></h3>
+    <div>
+      The Haskell programming language was named after
+      the American mathmatician Dr. Haskell Brooks Curry (1900-1982).
+      He was a Harvard graduate, known for his work in conbinatory logic.
+      Dr. Curry taught at Harvard, Princeton, Penn State,
+      and the University of Amsterdam.
+      Interestingly there are three programming languages named after him,
+      Haskell, Brook, and Curry.
+      Of the three, Haskell is by far the most popular.
+    </div>
+    <div>
+      Work on Haskell started in 1987.
+      It was designed by a committee that at various times included
+      Simon Peyton Jones, Erik Meijer, and Philip Wadler.
+      Haskell was first released in 1990.
+      The language was standardized in 1999 as "Haskell 98",
+      and revised in 2003.
+      The current version of the standard, released in 2010,
+      is called "Haskell 2010".  Among other things this added
+      the LANGUAGE pragma and
+      a foreign function interface (FFI) for calling C code
+      A committee of about 20 members is working on the next version,
+      "Haskell 2020".
+    </div>
+    <div>
+      The primary characteristics of Haskell are that it:
+    </div>
+    <ul>
+      <li>is purely functional</li>
+      <li>only supports immutable data (cannot be modified)</li>
+      <li>impure functions (those with side effects)
+        are strictly separated from pure functions</li>
+      <li>is statically typed with type inference</li>
+      <li>is lazy meaning that expressions are not evaluated until their value is needed</li>
+      <li>addresses
+        <a href="https://en.wikipedia.org/wiki/Concurrency_(computer_science)">Concurrency</a>
+        and
+        <a href="https://en.wikipedia.org/wiki/Parallel_computing">parallelism</a>
+        </li>
+    </ul>
+    <div>
+      TODO: Get more from Wikipedia page!
+    </div>
+
+    <h3><a name="Compilers">Compilers</a></h3>
+    <div>
+      There are many Haskell compilers.
+      The most popular is the Glasgow Haskell Compiler
+      (<a href="https://www.haskell.org/ghc/">GHC</a>).
+      The latest stable version of the GHC compiler
+      at the time of this article was 8.2.1.
+      Other include the Utrecht Haskell Compiler
+      (<a href="http://foswiki.cs.uu.nl/foswiki/UHC">UHC</a>)
+      and the LLVM Haskell Compiler
+      (<a href="https://ghc.haskell.org/trac/ghc/wiki/Commentary/Compiler/Backends/LLVM">LHC</a>) which is included with GHC.
+    </div>
+    <div>
+      There are also dialects of Haskell that include:
+    </div>
+    <ul>
+      <li>Disciple
+        <a href="http://disciple.ouroborus.net/">http://disciple.ouroborus.net/</a>
+        "an experimental dialect of Haskell which investigates static typing
+        and program transformation in the presence of computational effects."
+      </li>
+      <li>Frege
+        <a href="https://github.com/Frege/frege">https://github.com/Frege/frege</a>
+        "a Haskell for the JVM"
+      </li>
+      <li>PureScript
+        <a href="http://www.purescript.org/">http://www.purescript.org/</a>
+        "a strongly-typed functional programming language
+        that compiles to JavaScript"
+      </li>
+    </ul>
+    - GHC has cryptic error messages
+
+    <h3><a name="Installing">Installing</a></h3>
+    <div>
+      Instructions for the GHC compiler are at
+      <a href="http://hackage.haskell.org/platform/">http://hackage.haskell.org/platform/</a>.
+      There are two options for installing in macOS.
+      You can download .dmg file and double-click it.
+      You can also use Homebrew and run
+      <code>brew cask install haskell-platform</code>.
+    </div>
+    <div>
+      I highly recommend installing GHC now
+      so you can try each code example in this article.
+    </div>
+
+    <div>
+      TODO:
+- describe Haskell's use of persistent data structures
+  to efficient create modified copies of existing data structures
+- has no for or while loops
+  * instead iteration is performed with recursion
+    and functions like map, filter, and foldl
+- the Vim ALE plugin has support for linting Haskell code!
+    </div>
+
+Libraries
+- browse http://hackage.haskell.org/
+
+Testing Tools
+- QuickCheck - https://www.fpcomplete.com/blog/2017/01/quickcheck
+
+Interactive sessions
+- enter "ghci" to start the REPL
+- to exit, press ctrl-d or enter :quit
+- recall previous commands with up arrow
+- prompt
+  * default is "Prelude> "
+    - this is the name of the standard library that is automatically loaded
+  * change with :set prompt "new prompt"
+  * can add this command to ~/.ghci to change for all future sessions
+  * mine uses an elephant emoji for the elephant on the
+    cover of the book "Learn You a Haskell for Great Good!"
+- to enable Vim keybindings
+  * create ~/.haskeline and add "editMode: Vi"
+- to get help, :help or :?
+- to get information about a function, :info name
+- to see the type of a name, enter :type {name} or :t {name}
+  * very useful for learning
+- to see the type of all expressions entered, :set +t
+  * turn off with :unset +t
+- to list all modules that have been imported, :show modules
+- to run a shell command, :!{command}
+  * ex. :!date
+  * to clear the screen within ghci, :!clear
+- has a builtin debugger supported by many colon commands
+
+Source Files
+- referred to as Haskell scripts
+- have a file extension of .hs
+- load these into an interactive session with
+  :load {filename} or :l {filename}
+  * can omit .hs extension when loading
+- reload current script with :reload or :r
+- example
+  * create file hello.hs containing this function definition:
+    hello name = "Hello, " ++ name + "!"
+  * ghci
+  * :l hello
+  * hello "Mark"
+
+Comments
+- single-line: start with --
+- multi-line: surround with {- -}
+
+Assignment
+- to assign a value to a variable,
+  name = value
+- to assign values to multiple variables on one line,
+  (name1, name2) = (value1, value2)
+  * like destructuring in JavaScript
+
+Operators
+- these are actually infix functions
+- numbers
+  * basic: + - * /
+  * exponentiation
+    ** - Floating exponent
+    ^  - Num exponent
+    ^^ - Fractional exponent
+    - ex. 2 ** 3 == 8
+  * use parens to control order of evaluation
+  * div performs integer division, discarding the remainder
+    - ex. div 8 3 == 2
+  * mod a b retunns a modulo b
+  * gcd a b returns the greatest common denominator of a and b
+    - ex. gcd 12 15 == 3
+  * lcm a b returns the lowest common multiple of a and b
+    - ex. lcm 6 10 == 30
+  * even n determines if n is even
+  * odd n determines if n is odd
+  * abs n retunns absolute value of n
+- logic
+  && for and
+  || for or
+  not (the word rather than ! as in some other languages)
+- comparison
+  * operands must be the same type
+  * == for equal
+  * /= for not equal
+  * < <= >= >
+
+Boolean
+- Bool - only values are True and False
+
+Numbers
+- primitive types
+  * Int - 4 bytes
+    - "bounded" since it has a min and max value
+  * Integer - arbitrary precison
+    - not bounded
+  * Float - 4 bytes (single precision)
+  * Double - 8 bytes (double precision)
+  * surround negative numbers with parens
+    to avoid confusion with the subtraction operator
+    - ex. 5 + (-2)
+- number typeclass hierarchy
+  * note that a typeclass can derive from multiple other typeclasses
+  * Num
+    * Fractional
+      * Floating
+        * Float
+        * Double
+      * RealFrac
+        * Float
+        * Double
+    * Real derives from Ord which adds ordering functions
+      * Integral derives from Enum
+        * Int
+        * Integer
+      * RealFrac
+        * Float
+        * Double
+  * RealFloat derives from RealFrac and Floating
+    * Float
+    * Double
+  * Complex
+- to set a variable to a number and specify its type, name = value :: type
+  * ex. n = 3 :: Int
+- most functions that take two or more numbers require them to be the same type
+  * ex.
+    a = 3
+    b = 2.1
+    a + b -- okay, 5.1
+    a = 3 :: Int
+    b = 2.1 :: Float
+    a + b -- error
+- type conversions
+  * to convert an Integral to a Floating, fromIntegral integralValue
+
+Characters
+- Char - single unicode character surrounded by single quotes
+
+Strings
+- literal values are surrounded by double quotes
+- really a List of Char
+  * String is the same as [Char] - interchangable
+- concatenate with ++
+  * really builds a new list from two lists
+- the show function converts nearly anything into a String
+- change case
+  * import Data.Char
+  * map toUpper "foo" == "FOO"
+  * map toLower "FOO" == "foo"
+  * another way
+    - import qualified Data.Text as T
+    - p = T.pack "foo"
+    - T.toUpper p
+
+Currying
+- functions automatically support currying
+  * passing fewer arguments than allowed and getting back a new function
+  * see example below
+
+Types
+- ues Hindley-Milner type system
+- syntax is name :: type
+  * :: means "has type of"
+- variable examples
+  * firstName :: String
+  * names :: [String]
+    - an array of Strings
+- function examples
+  * add :: Int -> Int -> Int
+    - each parameter type is followed by ->
+      with the return type at the end
+    - takes two Ints and returns an Int
+    - also takes one Int and returns a
+      function that takes and Int and returns an Int
+  * type variables can be used to specify that
+    an argument type or the return type can be
+    any type or a type that derives from a specific type class
+    - ex. the swap function below takes any kind of list
+      and returns a new list where the first two items are swapped
+      swap :: [a] -> [a]
+      swap (first:second:rest) = second:first:rest
+      swap [1,2,3,4] == [2,1,3,4]
+  * to restrict a type variable to types that
+    derive from a given type class (not an actual type!)
+      swap :: Num n => [n] -> [n]
+      swap (first:second:rest) = second:first:rest
+      swap [1,2,3,4] == [2,1,3,4]
+  * add :: Num a => a -> a -> a -- syntax only works with type classes
+    - means all occurrences of a in the signature have type Num
+    - takes two Num arguments and returns a Num
+    - "a" here is called a "type alias"
+    - => and the part to its left is called a "class constraint"
+      * if more than one, surround with parens and separate with commas
+      * ex. (Num a, String b) =>
+    - can require a type variable to derive from more than one type class
+      * ex. (Eq a, Ord a) =>
+  * add x y = x + y
+    - implementation of the two function declarations
+  * currying example
+    plus5 = add 5
+    plus5 2 == 7
+  * ghci detail
+    - entering the type signature and definition on two lines doesn't work
+    - workarounds
+      * enter them on same line separated by a semicolon
+        - ex. let add :: Num a => a -> a -> a; add x y = x + y
+      * enter them in a block
+        :{
+        let add :: Num a => a -> a -> a
+            add x y = x + y -- indented 4 spaces
+        :}
+      * turn on multline mode which automatically infers use of :{ and :}
+        :set +m -- one tie
+        let add :: Num a => a -> a -> a
+            add x y = x + y -- indented 4 spaces
+        press return to exit block
+- another function example
+  * charAt :: String -> Int -> Char
+    charAt str index = str !! index
+- can see the type of a function in ghci with :t {function-name}
+
+Predefined Types
+- are all of these defined in the Prelude module?
+- Bool, Char, String
+- Int, Integer, Float, Double
+- [a] - polymorphic list
+- (...) - tuple
+- () - unit (What is this?)
+- function
+- Maybe is Nothing or Just a
+- Either a b is Left a or Right b
+- Ordering is LT, EQ, or GT
+
+Predefined Type Classes
+- Bounded, Eq, Enum, Ord, Read, Show
+- Fractional, Num, ...
+- Data?
+- Bits?, FiniteBits?
+- Generic?
+- Ix?
+- Storable?
+
+Type Classes
+- not like classes in OO languages
+- define an interface (set of functions)
+- names start uppercase
+- types that are instances implement all the functions
+  and are said to "derive" from the type class
+- a type can derive from any number of type classes
+- builtin examples include
+  * Eq
+    - for types whose values can be compared for equality
+    - functions are = and /=
+    - all standard Haskell classes implement Eq
+  * Ord
+    - for types whose values can be ordered
+    - funcions are <, <=, >=, and >
+  * Show
+    - for types can be converted to a String representation
+    - only function is show
+      * a little like JavaScript's JSON.stringify
+    - ex. show 3.14
+    - ex. show [1, 2, 3]
+    - ex. show ("foo", 7, True)
+  * Read
+    - for types that can be created from a String
+    - opposite of Show
+      * a little like JavaScript's JSON.parse
+    - only function is read
+    - when desired type is not known from context, must specify
+      * ex. read "3.14" raises an exception
+      * ex. read "3.14" :: Float
+      * ex. read "[1, 2, 3]" :: [Int]
+      * ex. read "(\"foo\", 7, True)" :: (String, Int, Bool)
+  * Enum
+    - for types with values that can be enumerated
+      and used in ranges to create Lists
+    - functions are succ and pred
+    - examples of builtin types that implement this are
+      Int, Integer, Float, and Double
+  * Bounded
+    - for types that have bounds
+    - functions are minBound and maxBound
+    - called on the type, not a value of the type
+      * ex. maxBound :: Int
+    - examples of builtin types that implement this are
+      Char, Int, Float, and Double
+  * Num
+    - for types that can be used as numbers
+    - builtin types that implement this are
+      Int, Integer, Float, and Double
+    - when a function type signature says that
+      two or more parameters have a type of Num,
+      those must have the same actual type
+      * ex. add :: (Num a) => a -> a -> a
+        add a b = a + b
+        n = 3 :: Int
+        add n 7.2 -- error because n and 7.2 are not the same type
+  * Floating
+    - the Float and Double types implement this
+    - some math functions take arguments of this type (ex. sqrt and sin)
+    - ex.
+      n = 3 :: Int
+      sqrt n -- error because n is not Floating
+  * Integral
+    - the Int and Integer types implement this
+    - fromIntegral function takes an Integral and converts it to Num
+      * needed in order to call a function like + on an Integral and a Floating
+      * ex. length [1,2,3] + 2.1 raises an error because
+        length returns an Int and 2.1 is not an Int
+
+Type and Data Constructors
+- parameterized type definitions that can be passed many types (polymorphic)
+- pass types to a type constructor of a type class or a to create a new type
+- pass values to a data constructor to create an instance of a type
+
+Dates and Times
+- see https://two-wrongs.com/haskell-time-library-tutorial
+- import Data.Time
+- to create a Day instance, use fromGregorian[Valid] year month day
+  * year must Integer; month and year must be Int
+  * returns Day
+  * without Valid
+    - returns a Day where the month is 1 if given < 1
+      and the day is the last day in the month if given > last day
+  * with Valid
+    - returns a Maybe that is
+      a Maybe Day if it's a valid date
+      and Nothing if it isn't a valid date
+- to get a triple (year, month, day) from a Day,
+  ymd = toGregorian someDay
+- to get a String representation of a Day,
+  show someDay
+- to create a Day that is n days after someDay,
+  newDay = addDays n someDay
+  * n can be negative to subtract days
+- to create a Day that is n months after someDay,
+  newDay = addGregorianMonthsClip n someDay
+  * n can be negative to subtract months
+  * "Clip" means that it will adjust the day to be within the result month
+- to get the number of days between to Day instances,
+  diff = diffDays day1 day2
+- to get the current date and time,
+  now <- getCurrentTime -- type is IO UTCTime
+  * getCurrentTime is impure
+    (can return a different value each time it is called)
+  * to get the UTCTime value out of it, use <- instead of =
+- to create a new UTCTime that is n seconds after someTime,
+  newTime = addUTCTime n someTime
+- to get the number of seconds between two UTCTime instances,
+  diff = diffUTCTime time1 time2
+
+Type Variables
+- allow a parameter or return type to be more than one type
+  * ex. the head function works on lists of *any* type
+    - its signature is head :: [a] -> a
+      where a represents any type
+  * ex. myFn :: Num n => n -> n
+    - n can be any type that derives from Num
+    - the part after :: up to and including =>
+      is called a "type constraint"
+  * ex. myFn :: (Read r, Show s) => r -> s
+    - a contrived example; maybe there's a better one
+    - r can be any type that derives from Read and
+      s can be any type that derives from Show
+- all type classes and types start uppercase
+  and all type variables start lowercase
+  * typically type variable names are a single character
+- similar to generics in other languages such as Java and Flow/TypeScript
+- functions whose signatures use type variables
+  are called "polymorphic functions"
+
+Enumerated Types
+- ex. creating a custom Color type
+  data Color = Red | Green | Blue deriving (Eq, Ord, Show, Read)
+  * Red, Green, and Blue are "value constructors"
+    - used to create an instance of Color
+    - they can take arguments as shown below
+    - they can be used in pattern matching
+  * deriving causes the compiler to implement the
+    functions in a type class for your type for you
+    - don't need if you're going to supply the implementation
+  * deriving from Eq allows Color values to be compared with == and /=
+  * deriving from Ord allows Color values to be compared with <, <=, >=, >
+  * deriving from Show allows Color values to be converted to Strings
+  * deriving from Read allows strings to be Color values
+    - ex. read "Red" :: Color
+- using the custom Color type
+  colorToTemp2 :: Color -> String
+  colorToTemp2 color = case color of
+    Red -> "hot"
+    Blue -> "cold"
+    _ -> "normal"
+
+Overriding a type class implementation
+- ex.
+  data Size = S | M | L -- cannot say "deriving Show" since overridden below
+  instance Show Size where
+    show S = "small"
+    show M = "medium"
+    show L = "large"
+  show S == "small"
+  size = M
+  show size == "medium"
+
+Custom Types
+-- Custom, struct-like data type.
+-- Parens around Show are only need when
+-- deriving from more than one type class.
+-- Why can't a field use the name "id"?
+-- It seems to conflict with Prelude.id.
+data Person = Person
+  { personId :: Int
+  , firstName :: String
+  , lastName :: String
+  , middleName :: String
+  --, birthday :: Date
+  } deriving (Show)
+
+-- Can get a string representation with "show p".
+-- Can use field names as accessor functions with "{field-name} p".
+-- Will get an error if the field has no value.
+p1 = Person 1 "Joe" "Boxer"
+
+-- Creating an instance using record syntax,
+-- but must provide a value for ALL fields!
+p2 =
+  Person
+  { personId = 2
+  , firstName = "Richard"
+  , middleName = "Mark"
+  , lastName = "Volkmann"
+  }
+
+-- Function that operates on a Person.
+initials :: Person -> String
+initials p = head (firstName p) : head (middleName p) : head (lastName p) : []
+
+-- Create a new Person that is a modified version of an existing one.
+p3 = p2 {firstName = "Tamara", middleName = "Ann"}
+
+- union types
+  data Shape =
+    Circle {
+      centerX :: Float,
+      centerY :: Float,
+      radius :: Float
+    } |
+    Rectangle {
+      x1 :: Float,
+      y1 :: Float,
+      x2 :: Float,
+      y2 :: Float
+    }
+  area :: Shape -> Float
+  area (Circle _ _ radius) = pi * radius ^ 2
+  area (Rectangle x1 y1 x2 y2) = (abs (x1 - x2)) * (abs (y1 - y2))
+  circle = Circle 1 2 3
+  rectangle = Rectangle 2 2 6 5
+  area circle == 28.27
+  area rectangle == 12.0
+
+Custom Type Classes
+- ex. ShapeCompare
+
+-- function that computes the width of a shape
+width :: Shape -> Float
+-- Circle version
+width (Circle _ _ radius) = radius * 2
+-- Rectangle version
+width (Rectangle x1 _ x2 _) = abs (x1 - x2)
+
+-- function that computes the height of a circle
+height :: Shape -> Float
+-- Circle version
+height (Circle _ _ radius) = radius * 2
+-- Rectangle version
+height (Rectangle _ y1 _ y2) = abs (y1 - y2)
+
+-- custom type class
+class ShapeCompare kind where
+  isLarger :: kind -> kind -> Bool
+  isWider :: kind -> kind -> Bool
+  isTaller :: kind -> kind -> Bool
+
+-- implementation of ShapeCompare for Shape type
+-- Note that the name of the type class being implemented
+-- is followed by the name of the type for which it is being implemented.
+-- We could implement the same type class for many types.
+instance ShapeCompare Shape where
+  isLarger shape1 shape2 = area shape1 > area shape2
+  isWider shape1 shape2 = width shape1 > width shape2
+  isTaller shape1 shape2 = height shape1 > height shape2
+-- isLarger circle rectangle == False
+-- isWider circle rectangle == False
+-- isTaller circle rectangle == True
+
+$ precedence operator
+- means expression after it takes precedence over expression before it
+- ex. abs (x1 - x2) == abs $ x1 - x2
+- I don't like this!
+- another example
+  putStrLn ("Hello, " ++ name)
+  is the same as
+  putStrLn $ "Hello, " ++ name
+
+. precedence operator
+- evaluates expression on right and passes it to function left
+- need a good example
+
+Names
+- variable identifiers start with a lowercase letter
+- constructor identifiers with an uppercase letter
+- both can contain underscores, single quotes, letters and digits
+- operators are formed from one or more of '!#$%&*+./<=>?@\^|-~'
+- constructors can be operator names, if they start with a ':'
+  - ex. :+ for Data.Complex
+
+Modules
+- typically define functions that are useful in other code
+- module names must start with an uppercase letter
+- Haskell Standard Library
+  * modules that ship with a Haskell compiler
+  * https://downloads.haskell.org/~ghc/latest/docs/html/libraries/
+  * top-level module names are:
+    Compiler, Control, Data, Debug, Distribution, Foreign,
+    GHC, GHCi, Graphics, Language, Media, Numeric, Prelude,
+    SizedSeq, System, Text, Trace, Type, Unsafe, Utils
+    - for async I/O, see Control.Concurrent.Async
+      * in standard library or separate download?
+- can use functions in any module by prefixing them with the module name
+  * ex. Data.List, Data.Map, System.IO
+- to use functions in a module
+  * without prefixes, import {ModuleName}
+    - ex. import Data.Text
+    - some names in Data.Text conflict with names in Prelude,
+      so doing this is not recommended
+  * with full name, import qualified {ModuleName}
+    - ex. import qualified Data.Text
+    - use Data.Text. as prefix on all names in this module
+  * with a specified prefix, import qualified {ModuleName} as {prefix}
+    - ex. import qualified Data.Text as T
+    - use T. as prefix on all names in this module
+- the most commonly used functions are defined in the Prelude module
+  * "imported by default into all Haskell modules unless
+    either there is an explicit import statement for it,
+    or the NoImplicitPrelude extension is enabled"
+- to define a module
+  * create a file named {module-name}.hs
+  * first line must be
+    module {module-name} where
+  * add definitions after this
+
+Functions
+- syntax to call
+  * name arguments
+  * arguments are separated by spaces
+  * to use the result of another function as an argument
+    surround the call with parens
+    - ex. max (min 2 3) (min 5 4) == 4
+- syntax to define
+  * name parameters = expression
+  * parameters are separated by spaces
+  * if the name consists of letters, the function is prefix
+    - if the function has two parameters,
+      surround with backticks to use as infix
+    - ex. 8 `div` 3 == 2
+  * if the name consists of only symbols, the function is infix
+    - if the function has two parameters,
+      surround with parens to use as prefix
+    - ex. (*) 2 3 == 6
+    - to pass an infix function as an argument to another function
+      surround with parens
+      * can also use parens to create a curried version
+        to pass to another function
+        - ex. map (* 2) someList
+- defaults to prefix
+  - can you specify that a function is infix?
+- name cannot begin with an uppercase letter
+- most functions are prefix functions,
+  but some are infix functions
+- to call a prefix function,
+  start with the name followed by arguments
+  all separated by spaces (no parens)
+- all functions return a value
+- prefix functions are evaluated before infix functions,
+  so parens are needed in succ (2 * 3) which returns 7
+  * succ 2 * 3 returns 9
+- builtin functions
+  * for numbers
+    - div returns integer division result
+    - max returns largest of two arguments
+    - min returns smallest of two arguments
+    - pred n returns n - 1
+    - succ n returns n + 1
+    - round (closest), ceiling (up), floor (down), truncate (toward zero)
+    - sqrt n returns square root of n
+    - trigonometry: sin, cos, tan, asin, acos, atan,
+    - hyperbolic: sinh, cosh, tanh, asinh, acosh, atanh
+    - logarithmic: log, exp (e ** n)
+- builtin variables
+  * for numbers
+    - pi
+- example
+  hypot x y = sqrt (x * x + y * y)
+  hypot 3 4 returns 5
+- scripts can call functions defined later in the file
+
+Function Composition (dot operator)
+- to create a function that calls a set of functions
+  from right to left, use the dot operator to compose them
+  * (f . g . h) x === f (g (h x))
+  * when x is 2, 2 * ((4 * x) + 3) is 22
+  * can be written as ((* 2) . (+ 3) . (* 4)) 2 === 22
+- ex.
+  import Data.Char
+  capitalize :: String -> String
+  capitalize (x:xs) = toUpper x : map toLower xs
+  -- words breaks a sentence into a list of words by splitting on spaces.
+  -- map capitalize runs on that list and returns a list of capitalized words.
+  -- unwords concatenates all the Strings in list into a single String,
+  -- adding a space between each.
+  titleCase = unwords . map capitalize . words
+  title = titleCase "pEE wee'S Big adventure"
+
+Pattern Matching
+- creates overloaded versions of a function
+  based on specific argument values
+- evaluated in the order defined
+- ex.
+  place :: Int => String
+  place 0 = "not started"
+  place 1 = "first"
+  place 2 = "second"
+  place 3 = "third"
+  place n = show n ++ "th" -- catchall pattern
+  * TODO: Handle 11, 12, 13, 21, 22, 23, ...
+- ex.
+  quadrant :: (Num n, String s) => n -> n -> s
+  quadrant 0 y = "on y-axis"
+  quadrant x 0 = "on x-axis"
+  quadrant x y = -- preferable to use guards (see below)
+    if x > 0 && y > 0 then "first"
+    else if x < 0 && y > 0 then "second"
+    else if x < 0 && y < 0 then "third"
+    else if x > 0 && y < 0 then "fourth"
+    else "impossible"
+- non-exhaustive pattern matching
+  * will get exception "Non-exhaustive patterns in function greek" from greek 3
+  greek :: Int -> String
+  greek 1 = "alpha"
+  greek 2 = "beta"
+- with tuples
+  - ex.
+  tupleMult :: Int -> (Int, Int) -> (Int, Int)
+  tupleMult n (a, b) = (a * n, b * n)
+  tupleMult 2 (3, 4) == (6, 8)
+  * ex.
+  tupleLast :: (Int, Int, Int) -> Int
+  tupleLast (_, _, last) = last
+  tupleLast (5, 2, 7) == 7
+- with lists
+  * note use of parens instead of []
+  * ex.
+  listSumFirst3 :: [Int] -> Int
+  listSumFirst3 (i1:i2:i3:rest) = i1 + i2 + i3
+  listSumFirst3 [1,2,3,4,5] == 6
+  * ex.
+  addHead :: [Int] -> [Int]
+  addHead (x:xs) = map (+ x) xs
+  addHead [2, 3, 4, 5] == [5, 6, 7]
+  - the use of variable names x and xs are common to get
+    the first item and the rest of the items in a list
+
+Function Guards
+- can use both pattern matching and guards for same function,
+  but often it is best to use one or the other
+- improved vesion of quadrant
+  quadrant x y -- with guards
+    | x == 0 = "on y axis"
+    | y == 0 = "on x axis"
+    | x > 0 && y > 0 = "first"
+    | x < 0 && y > 0 = "second"
+    | x < 0 && y < 0 = "third"
+    | x > 0 && y < 0 = "fourth"
+    | otherwise = "impossible"
+- ex.
+  colorMeaning :: String -> String
+  colorMeaning color
+    | color == "red" = "fire"
+    | color == "green" = "land"
+    | color == "blue" = "water"
+    | otherwise = "no meaning"
+- a where clause computes values used in guards
+  * ex.
+    grade :: Int -> Int -> Char
+    grade points possible
+      | percent >= 90 = 'A'
+      | percent >= 80 = 'B'
+      | percent >= 70 = 'C'
+      | percent >= 60 = 'D'
+      | otherwise = 'F'
+      where percent = (fromIntegral points) / (fromIntegral possible) * 100
+- using both guards and pattern matching
+  runLengthEncode :: Eq a => [a] -> [a]
+  runLengthEncode (x1:x2:xs) -- for lists of length 2 or more
+    | x1 == x2 = runLengthEncode (x2 : xs)
+    | otherwise = x1 : runLengthEncode (x2 : xs)
+  runLengthEncode xs = xs -- for lists of length 1 or 0
+
+Functions on Lists
+- can use a kind of destructuring to get items from a list parameter
+  * ex.
+    -- This takes a list of Ints and returns a String.
+    listReport :: [Int] -> String
+    -- only matches empty lists
+    listReport [] = "empty"
+    -- only matches lists with one item
+    listReport (first:[]) = "first is " ++ show first
+    -- only matches lists with two items
+    listReport (first:second:[]) =
+      "initial are " ++ show first ++ " and " ++ show second
+    -- only matches lists with more than two items
+    listReport (first:rest) = show first ++ " and " ++ show rest
+- can get full list and some items
+  * ex.
+    initial :: String -> String
+    -- first is a Char; [first] is a list of Chars which is a String
+    initial name@(first:rest) = name ++ " starts with " ++ [first]
+- can build a new list by processing each item in a list recursively
+  * ex.
+    doubleList :: [Int] -> [Int]
+    doubleList [] = []
+    doubleList (first:rest) = first * 2 : doubleList rest
+    -- Note use of cons operator (:) above.
+  * can also do this with
+    map (* 2) [1,2,3]
+
+Functions that take a Function
+- ex.
+  double :: Int -> Int
+  double x = x * 2
+  -- first parameter type is a function that takes an Int and returns an Int
+  process :: (Int -> Int) -> Int -> Int
+  process fn n = fn (n + 1)
+  -- process double 2 == 6 which is (2 + 1) * 2
+
+Recurison
+- factorial with pattern matching and recursion
+  fac :: Int -> Int
+  fac 0 = 1
+  fac n = n * fac (n - 1)
+  fac 4 -- 24
+- factorial without recursion
+  fac2 :: Int -> Int
+  fac2 n = product [1..n]
+
+Lambdas
+- functions that do not have a name
+- often used to pass short functions to another function
+  such as map
+- ex. double and add one to each item in a list
+  map (\x -> x * 2 + 1) [1,2,3] = [3,5,7]
+- \ was selected because it is part of the character lambda
+
+Lists
+- all items must be the same type
+- items are surrounded by square brackets
+  and separated by commas
+- ex. [1, 3, 7]
+  * same as 1 : 3 : 7 : []
+  * : is called the "cons" operator
+- implemented as linked lists, so
+  accessing items other than the first is not efficient
+- to get number of items, length list
+- to test whether a list is empty, null list
+  * returns a boolean
+- slicing
+  * these raise an exception if called on an empty list
+  * to get first item, head list
+  * to get last item, last list
+  * to get all but first item, tail list
+  * to get all but last item, init list
+- to create a list that contains the first n items, take n list
+- to create a list that contains the last n items, drop n list
+- to create list that is result of prepending new item
+  * item : list
+- to create list that is result of appending new item
+  * list ++ [item]
+- to create list where first item is modified
+  * newItem : tail list
+- to create a new list by concatenating two lists
+  * list1 ++ list2
+  * both arguments must be a list
+- to get an item at a given index
+  * list !! index
+  * indexes start at 1
+  * also used to get a character from a string since those are lists
+  * slow for long lists since implemented with a linked list
+- to create a reversed copy of a list: reverse list
+- to get smallest number in a list: minimum list
+- to get largest number in a list: maximum list
+- to get sum of numbers in a list: sum list
+- to get product of numbers in a list: product list
+- to test whether an item is in a list: elem item list
+- lists can be nested
+- lists can be compared if corresponding items can be compared
+  * ex. [1, 3, 5] < [2, 4, 6] gives True
+  * ex. [1, 3, 5] < [1, 4, 6] gives True
+  * ex. [1, 3, 5] < [1, 3, 6] gives True
+  * ex. [1, 3, 5] < [1, 3, 5] gives False
+- other list functions
+  * notElem
+  * concat takes a list of list and returns a flatten list
+    - the lists cannot contain nested lists
+      * recall that all items in a list must be the same type,
+        so [1, [2, 3]] is not a valid list
+    - ex. concat [[1,2], [3,4,5]] == [1,2,3,4,5]
+  * takeWhile creates a list of all initial items
+    in another list that meet a predicate
+    - ex. takeWhile even [2,4,6,7,8] == [2,4,6]
+  * dropWhile creates a list of all remaining items
+    in another list after the initial elements meet a predicat
+    - ex. dropWhile even [2,4,6,7,8] == [7,8]
+  * words takes a string and returns a list of words delimited by spaces
+    - ex. words "foo bar baz" == ["foo","bar","baz"]
+  * unwords takes a list of works and returns a string of the words separated by spaces
+    - ex. unwords ["foo","bar","baz"] == "foo bar baz"
+  * splitAt creates a list of two lists obtained by
+    spliting a given list at an index
+    - ex. splitAt 3 [1,2,3,4,5] == [[1,2,3], [4,5]]
+  * sort creates a sorted version of a list
+    - must import Data.List
+    - ex. sort [9, 3, 6, 2] == [2, 3, 6, 9]
+  * zipWith creates a list from multiple lists using the result
+    of a function called with items at corresponding positions
+    - ex. zipWith min [1, 9, 5, 4] [2, 7, 6] === [1, 7, 5, 4]
+    - note how the last item in the first list has no corresponding item
+      in the second, so it just used that item in the result
+
+Ranges
+- create lists of all elements between two items inclusive
+  * ex. [3..7] == [3,4,5,6,7]
+  * ex. ['c'..'f'] == "cdef"
+- can specify a step by including second item
+  * ex. [5, 10..27] == [5,10,15,20,25]
+- specifying a step is the only way to get a decreasing range
+  * ex. [10, 9..0] == [10,9,8,7,6,5,4,3,2,1,0]
+- to create an infinite list, don't specify upper bound
+  * ex. [3, 6..]
+  * in the REPL this will output items forever (ctrl-c to stop)
+  * use a function like take to limit the output
+    - ex. take 10 [3, 6..]
+- replicate creates a list containing a given number of the same item
+  * ex. replicate 3 "Ho" == ["Ho","Ho","Ho"]
+  - note how this creates a list of strings rather than an single string
+- repeat creates an infinite list of a single repeated item
+  * ex. take 4 (repeat 3) === [3,3,3,3]
+- cycle creates an infinite list of repeating items
+  * ex. take 6 (cycle [5, 10]) === [5,10,5,10,5,10]
+
+List Comprehensions
+- like a list factory
+- produces a list containing the results of an expression
+  where a variable is set to each value in another list
+- ex. [n * 2 | n <- [1..4]] == [2,4,6,8]
+  * n * 2 is called the "output"
+  * [1..4] is the list from which values are "drawn"
+  * each item drawn is bound to n
+- a "predicate" can be added after the draw list
+  to filter the items drawn
+  * ex. [n * 2 | n <- [1..4], even n] == [4,8]
+  * can have any number of predicates separated by commas
+- can draw values from more than one list
+  * ex. [a + b | a <- [1,2,3], b <- [4,5]] == [5,6,6,7,7,8]
+  * uses the cartesian product of the lists
+  * goes through all items in second list for each item in first list
+    - order is 1 and 4, 1 and 5, 2 and 4, 2 and 5, 3 and 4, 3 and 5
+  * can split onto multiple lines, but not in the REPL
+    - ex.
+      [n * 2 |
+       n <- [1..4],
+       even n]
+- ex. remove all spaces, dashes, and underscores from a string
+  * squeeze str = [char | char <- str, not (elem char [' ', '-', '_'])]
+  * squeeze "foo bar-baz_qux" == "foobarbazqux"
+
+Tuples
+- a fixed length set of values with specific types at each position
+  * each position can hold a different type
+  * called a "pair" if two items (most common size)
+  * called a "triple" if three items
+  * maximum length is 62
+- items are surrounded by parens instead of
+  square brackets that are used for lists
+- fst t returns the first item in the two-item tuple t
+  * only works for tuples with a length of 2
+- snd t returns the second item in the two-item tuple t
+  * only works for tuples with a length of 2
+- zip creates a list of tuples from two lists
+  * ex. zip [1, 2, 3] [4, 5] === [(1,4), (2, 5)]
+  * number of tuples in result is equal to length of shortest list
+- unzip creates a tuple of lists from a list of tuples
+  * ex. unzip [(1,4), (2,5)] == ([1,2], [4,5])
+- in functions that take a tuple as an argument, can destructure
+  * ex. addTuples (a1, a2) (b1, b2) = (a1 + b1, a2 + b2)
+    addTuples (3, 4) (7, 9) == (10, 13)
+
+Association Lists
+- a list of tuples where each tuple is a key/value pair
+- there is also a Map type defined in Data.Map
+- ex. mapping = [("foo", 1), ("bar", 2)]
+- lookup function finds the value for a given key
+  * ex. lookup "bar" mapping == Just 2
+  * ex. lookup "baz" mapping == Nothing
+  * just does a sequential search, so not efficient
+
+Data.Map
+- a hashmap data structure
+- can create from an association list
+- to use, without Data.Map prefix, import Data.Map
+- ex. myMap = fromList [("foo", 1), ("bar", 2)]
+- to get the value for a given key, myMap ! key
+- to get the number of keys in a Map, size myMap
+
+Conditional Logic
+- if expression
+  * if condition then expression else expression
+  * else is required
+  * no parens or semicolons
+  * returns value of selected expression
+  * ex.
+- case expression
+  * case variable of
+      v1 -> r1
+      v2 -> r2
+      _ -> r3
+  * ex.
+    tempToColor :: String -> String
+    tempToColor temp = case temp of
+      "hot" -> "red"
+      "cold" -> "blue"
+      _ -> "green"
+
+Higher Order Functions
+- these are functions that take an argument that is a function
+- map returns a list contructed from the results
+  of passing each item in a list to a function
+  * ex. map succ [1,3,7] == [2,4,8]
+- filter
+  * takes a function and list and returns a list of
+    the items for which the function returns True
+  * ex. filter odd [1,4,7,10] == [1,7]
+  * ex. filter (> 5) [1,4,7,10] == [7, 10]
+    - (> 5) creates a function using currying
+- foldl is like reduce in JavaScript
+  * takes a function, starting value, and a list
+    - if the function is an infix function,
+      surround it with parens to turn it into a prefix function
+  * ex. foldl (*) 1 [1,2,3,4] == 24
+    - of course this can be done more easily with product [1,2,3,4]
+- foldr is like foldl, but processes
+  the list items from right to left
+
+Other Functions
+- show thing
+  returns the string representation of thing
+  * requires thing to have a Show function
+- read str :: type
+  returns result of converting str to an instance of type
+
+Variables
+- to set use name = expression
+- does this really create a function that
+  always returns the value of the expression?
+
+Libraries
+- array
+- base
+- binary
+- bytestring
+- Cabal
+- containers
+- deepseq
+- directory
+- filepath
+- ghc
+- ghc-boot
+- ghc-compact
+- ghc-prim
+- hoopl
+- hpc
+- integer-gmp
+- process
+- template-haskell
+- time
+- unix
+- Win32
+
+do
+- creates a block
+- is the value of the last expression the value of the do?
+
+File I/O
+- import System.IO
+- to write from a file
+  filePath = "demo.txt"
+  writeDemo = do
+    file <- openFile filePath WriteMode
+    hPutStrLn file ("some text")
+    hClose file
+  writeDemo
+- to read from a file
+  readDemo = do
+    file <- openFile filePath ReadMode
+    contents <- hGetContents file
+    putStr contents
+    hClose file
+--readDemo
+
+Creating Executables
+- create a .hs file with a "main" function
+- ghc {name}.hs
+- run with ./name
+- example
+  * in file greet.hs
+    import System.IO
+    main = do
+      -- lines inside do must have the same indentation
+      putStrLn "Enter your name."
+      name <- getLine
+      putStrLn ("Hello, " ++ name ++ "!")
+  * ghc greet
+  * ./greet
+- example that uses a command-line argument
+  * see fact.hs in your Haskell directory
+
+Related Tools
+- Cabal
+- Stack
+
+Pretty Printing
+- setup
+  stack install
+  stack install hindent
+  add ~/.local/bin to PATH
+  hindent {file-path}
+  * modifies file in place
+  * gives "Parse error" and doesn't modify the file
+    if there is a syntax error
+- Vim configuration
+  * browse https://github.com/alx741/vim-hindent
+  * create the directory ~/.vim/ftplugin/haskell
+  * save the file hindent.vim there
+  * add this .vimrc
+    let g:hindent_on_save = 1
+  * may only work in a newly created shell
+
+Any support for async I/O?
+
+Terminology (copied from Wikipedia)
+- Monad
+  * "a way to structure computations in terms of values and
+    sequences of computations using those values
+    and returning monads"
+  * can think of creating a monad as putting a value in a box
+    and having a way to get the value out
+  * three monad properties
+    - modularity: allow computations to be composed of simpler computations
+      and separate composition strategy from the computations
+    - flexibility: allows computations to be easily reused
+      with different composition strategies
+    - isolation - isolates impure code (with side effects such as
+      I/O and state modification) from pure code (no side effects)
+  * a design pattern that defines how functions, actions, inputs, and outputs
+    can be used together to build generic types with the following organization:
+    - Define a data type, and how values of that data type are combined.
+    - Create functions that use the data type, and compose them together
+      into actions, following the rules defined in the first step
+    - For example, the Maybe monad encapsulates variables which may have a
+      null value, representing an option type, and automatically ensures that
+      null values are not passed as arguments to functions that
+      cannot handle them, serving as an alternative programming technique
+      to throwing and catching exceptions when null values arise.
+    - Another example is the List monad, where the empty list is a
+      constant value of type List, and the cons operator binds a plain value
+      as the head of a previous list.
+  * many kinds of monads can be defined, but a small set are so
+    commonly used that they are included in the Haskel standard library
+  * Maybe monad
+    - data Maybe a = Nothing | Just a
+    - represents the result of a computation that may not return a result
+    - "if a combined computation consists of one computation B
+      that depends on the result of another computation A,
+      then the combined computation should yield Nothing
+      whenever either A or B yield Nothing and
+      the combined computation should yield
+      the result of B applied to the result of A
+      when both computations succeed"
+  * IO monad
+  * List monad
+- Monoid
+- Functor
+- Combinator
+- Transducer
+- Lens
+- Applicative
+
+Things I would change
+- remove -> tokens from function type signatures
+- drop the . and $ operators for changing evaluation order
+- remove need to use commas in lists and tuples
+- remove need to surround negative numbers with parens
+  by saying that subtraction requires a space on both sides of -
+  and negation does not allow a space between - and the number
+- don't require parens around type aliases when there is more than one
+- change :: to : because where else is : used?
+
+PureScript
+- compiles Haskell to JavaScript
+
+    <h3><a name="Summary">Summary</a></h3>
+    <div>
+      This article covered everything you need to know to make effective
+      use of the fish shell.  Using fish has been a game changer for me.
+      I believe that by adopting fish you will make yourself
+      more productive and happier at the command line!
+    </div>
+    <div>
+      Please send feedback on this article to
+      <a href="mailto:mark@objectcomputing.com">mark@objectcomputing.com</a>.
+    </div>
+
+    <h3><a name="Acknowledgments">Acknowledgments</a></h3>
+    <div>
+      Many people helped me write this article
+      by answering questions about fish or reviewing the article.
+      In particularly I want to thank Kurtis Rader,
+      Charles Sharp (Object Computing, Inc.),
+      and Jason Schindler (Object Computing, Inc.).
+    </div>
+    <div>
+      For more articles like these, visit
+      <a href="https://objectcomputing.com/resources/publications/sett/" target="_blank">https://objectcomputing.com/resources/publications/sett/</a>.
+    </div>
+  </body>
+</html>
