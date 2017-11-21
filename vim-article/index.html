@@ -88,7 +88,7 @@
       by Mark Volkmann<br>
       mark@objectcomputing.com<br>
       Object Computing, Inc.<br>
-      January 2018
+      December 2017
     </div>
     <h4>
       Move past the basics quickly!
@@ -107,13 +107,12 @@
       <li class="level2"><a href="#VisualMode">Visual Mode</a></li>
       <li class="level2"><a href="#OtherModes">Other Modes</a></li>
       <li class="level1"><a href="#Movement">Movement</a></li>
-      <li class="level1"><a href="#WritingAndQuitting">Starting and Quitting</a></li>
+      <li class="level1"><a href="#WritingAndQuitting">Writing and Quitting</a></li>
       <li class="level1"><a href="#netrw">netrw</a></li>
       <li class="level1"><a href="#Buffers">Buffers</a></li>
       <li class="level1"><a href="#Splits">Splits</a></li>
       <li class="level1"><a href="#Macros">Macros</a></li>
       <li class="level1"><a href="#Summary">Summary</a></li>
-      <li class="level1"><a href="#Acknowledgements">Acknowledgments</a></li>
     </ul>
 
     <h3><a name="Overview">Overview</a></h3>
@@ -133,7 +132,7 @@
       This is not to suggest that you shouldn't customize
       Vim or use plugins, just that it isn't necessary
       in order to be productive.
-      By learning just a few things,
+      By learning only a few things,
       you can make the experience of using Vim much nicer.
     </div>
     <div>
@@ -180,7 +179,7 @@
       to locate and open files from within Vim.
     </div>
     <div>
-      Next, let's cover some Vim basics including
+      Next, we will cover some Vim basics including
       modes, commands, writing, and quitting.
       It would be easy to go overboard.
       We just want to hit the highlights to get you started.
@@ -231,19 +230,21 @@
       </tr>
       <tr>
         <td class="center"><code>dd</code></td>
-        <td>deletes current line</td>
+        <td>deletes current line, placing it in the clipboard</td>
       </tr>
       <tr>
         <td class="center"><code>dw</code></td>
-        <td>deletes word starting at cursor</td>
+        <td>deletes word starting at cursor, placing it in the clipboard</td>
       </tr>
       <tr>
         <td class="center"><code>d$</code></td>
-        <td>deletes from cursor to end of current line</td>
+        <td>deletes from cursor to end of current line,
+          placing it in the clipboard</td>
       </tr>
       <tr>
         <td class="center"><code>dt</code> followed<br>by a character</td>
-        <td>deletes from cursor to first occurrence of specified character</td>
+        <td>deletes from cursor "to" first occurrence of specified character,<br>
+          placing it in the clipboard</td>
       </tr>
       <tr>
         <td class="center"><code>J</code></td>
@@ -270,25 +271,29 @@
         <td>undoes last change; press repeatedly to undo multiple changes</td>
       </tr>
       <tr>
+        <td class="center">ctrl-<code>r</code></td>
+        <td>reverses last undo; press repeatedly to redo multiple undo's</td>
+      </tr>
+      <tr>
         <td class="center"><code>y</code></td>
-        <td>yanks (copies) character under cursor</td>
+        <td>yanks (copies) character under cursor into the clipboard</td>
       </tr>
       <tr>
         <td class="center"><code>yw</code></td>
-        <td>yanks (copies) word starting at cursor</td>
+        <td>yanks (copies) word starting at cursor into the clipboard</td>
       </tr>
       <tr>
         <td class="center"><code>yy</code></td>
-        <td>yanks (copies) current line</td>
+        <td>yanks (copies) current line into the clipboard</td>
       </tr>
       <tr>
         <td class="center"><code>y$</code></td>
         <td>yanks (copies) characters from cursor
-          to end of current line</td>
+          to end of current line into the clipboard</td>
       </tr>
       <tr>
         <td class="center"><code>x</code></td>
-        <td>cuts character under cursor</td>
+        <td>cuts character under cursor, placing it in the clipboard</td>
       </tr>
       <tr>
         <td class="center"><code>z</code> enter</td>
@@ -305,7 +310,8 @@
       </tr>
       <tr>
         <td class="center"><code>.</code></td>
-        <td>repeats last command</td>
+        <td>repeats last command;<br>
+          It cannot be overemphasized how useful this is!</td>
       </tr>
       <tr>
         <td class="center"><code>/<i>text</i></code> or<br>
@@ -332,6 +338,12 @@
       </tr>
     </table>
     <div>
+      Many commands can be preceded by a number
+      to execute the command that many times.
+      For example, <code>3dd</code> deletes three lines
+      starting with the current one.
+    </div>
+    <div>
       Also see keys for movement described <a href="#Movement">later</a>.
     </div>
 
@@ -339,8 +351,6 @@
     <div>
        This mode is for inserting text into the current buffer.
        There are many keys that can be pressed to enter insert mode.
-       To exit from this mode and return to command mode,
-       press the escape key.
     </div>
     <table summary="insert mode keys">
       <tr>
@@ -365,11 +375,15 @@
       </tr>
       <tr>
         <td class="center"><code>o</code></td>
-        <td>with new line below current line</td>
+        <td>opening new line below current line</td>
       </tr>
       <tr>
         <td class="center"><code>O</code></td>
-        <td>with new line above current line</td>
+        <td>opening new line above current line</td>
+      </tr>
+      <tr>
+        <td class="center">esc or ctrl-<code>[</code></td>
+        <td>exits insert mode and returns to command mode</td>
       </tr>
     </table>
 
@@ -377,6 +391,9 @@
     <div>
       This mode allows selecting text visually,
       either by characters or by lines.
+      After entering visual mode,
+      move to the opposite end of the desired selection
+      and enter a command to act on the selection.
     </div>
     <table summary="visual mode keys">
       <tr>
@@ -397,7 +414,8 @@
       </tr>
       <tr>
         <td class="center"><code>y</code></td>
-        <td>yanks (copies) selected text and exits visual mode</td>
+        <td>yanks (copies) selected text into the clipboard
+          and exits visual mode</td>
       </tr>
       <tr>
         <td class="center"><code>~</code></td>
@@ -405,15 +423,10 @@
           and exits visual mode</td>
       </tr>
       <tr>
-        <td class="center">esc</td>
-        <td>exits visual mode</td>
+        <td class="center">esc or ctrl-<code>[</code></td>
+        <td>exits visual mode and returns to command mode</td>
       </tr>
     </table>
-
-    <h4><a name="OtherModes">Other Mode</a></h4>
-    <div>
-      What do you want to say here?
-    </div>
 
     <h3><a name="Movement">Movement</a></h3>
     <table summary="movement keys">
@@ -482,9 +495,8 @@
       </tr>
       <tr>
         <td class="center"><code>%</code></td>
-        <td>when cursor is on one of the following delimiters,<br>
-          moves to matching delimiter:
-          <code>{ } [ ] ( ) /* */</code>
+        <td>to matching delimiter when cursor is on one<br>
+          of the following delimiters <code>{ } [ ] ( ) /* */</code>
         </td>
       </tr>
     </table>
@@ -524,17 +536,16 @@
       This is unnecessary.
       The netrw utility that comes with Vim
       makes it easy to locate and open multiple files.
-      Each is in its own buffer.
     </div>
     <div>
       netrw stands for "NETwork oriented Reading, Writing, and browsing".
-      While it does "net" things, it's also
+      While it does "net" things, it is also
       really great for exploring the file system.
       Some people prefer to use plugins such as NerdTree for this,
       but netrw works great and doesn't require configuration or a plugin.
     </div>
     <div>
-      To open a newrw "explorer" in the current window,
+      To open a netrw "explorer" in the current window,
       enter <code>:E</code>.
       To open one on the left side of a new vertical split,
       enter <code>:Ve</code>.
@@ -546,13 +557,16 @@
     </div>
     <img src="netrw1.png" alt="netrw screenshot #1">
     <div>
-      Here's a screenshot after press enter
+      Here's a screenshot after pressing enter
       with the cursor on the "pics" directory.
+      Doing this navigates into the directory
+      and displays the files and directories found there.
     </div>
     <img src="netrw2.png" alt="netrw screenshot #2">
     <div>
-      Use normal motion keys to move cursor to a file or directory name.
-      Use commands described below to operate on file under cursor.
+      Use normal motion keys to move the cursor to a file or directory name.
+      Use the commands described below to
+      operate on the file under the cursor.
     </div>
     <table summary="netrw commands">
       <tr>
@@ -565,15 +579,15 @@
       </tr>
       <tr>
         <td class="center"><code>R</code></td>
-        <td>rename file or directory; will prompt for new name</td>
+        <td>renames file or directory; will prompt for new name</td>
       </tr>
       <tr>
         <td class="center"><code>D</code></td>
-        <td>delete file or directory (if empty)</td>
+        <td>deletes file or directory (if empty)</td>
       </tr>
     </table>
     <div>
-      For more on netrw, see
+      For more information on netrw, see
       <a href="https://shapeshed.com/vim-netrw/">https://shapeshed.com/vim-netrw/</a>.
     </div>
 
@@ -599,20 +613,25 @@
       <tr>
         <td class="center"><code>bd</code>
           followed by a<br>space-separated list<br>of buffer numbers</td>
-        <td>deletes specified buffers, but not their associated files;<br>
-          will no longer appear in <code>:ls</code> output</td>
+        <td>deletes specified buffers,
+          but not their associated files;<br>
+          Deleted buffers will no longer appear
+          in <code>:ls</code> output.</td>
       </tr>
     </table>
     <div>
       Here's a screenshot after entering :ls with a few buffers opened.
     </div>
     <img src="ls-buffers.png" alt="ls buffers screenshot">
+    <div>
+      To open the <code>phones.txt</code> buffer, enter <code>b4</code>.
+    </div>
 
     <h3><a name="Splits">Splits</a></h3>
     <div>
-      It is often useful to view two or more files simultaneously.
-      To do this, open each file in a different "split".
-      This can also be used to view multiple parts
+      It is useful to view two or more files simultaneously.
+      To do this, open the corresponding buffers in a different "splits".
+      Splits can also be used to view multiple parts
       of the same file simultaneously.
       Here are commands that operate on splits.
     </div>
@@ -656,16 +675,22 @@
         <th class="left">Action</th>
       </tr>
       <tr>
-        <td class="center"><code>q</code> followed by<br>a registry letter</td>
+        <td class="center"><code>q</code> followed by<br>a register letter</td>
         <td>begins recording a macro in the specified register</td>
       </tr>
       <tr>
-        <td class="center"><code>@</code> followed by<br>a registry letter</td>
+        <td class="center"><code>q</code></td>
+        <td>when already recording a macro, ends the recording</td>
+      </tr>
+      <tr>
+        <td class="center"><code>@</code> followed by<br>a register letter</td>
         <td>executes the macro in the specified register</td>
       </tr>
       <tr>
         <td class="center"><code>@@</code></td>
-        <td>executes the last macro that was executed</td>
+        <td>executes the last macro that was executed;<br>
+          faster than typing <code>@</code> and a register letter
+          for repeated execution</td>
       </tr>
     </table>
     <div>
@@ -694,7 +719,7 @@
       <code>q</code> end the macro recording.
     </div>
     <div>
-      Now that the macro has been recorded, move to the
+      Now that the macro has been recorded, move to
       other phone numbers and press <code>@p</code> to format them.
       After the macro has been run once,
       it can also be run again by pressing <code>@@</code>.
@@ -714,8 +739,8 @@
       enter <code>10@p</code>.
     </div>
     <div>
-      This example is not related to software development,
-      but similar reformatting needs frequently occur in that setting.
+      While this example is not related to software development,
+      similar reformatting is frequently needed in that setting.
     </div>
     <div>
       Macros are one of the reasons I cannot bear to use another editor.
@@ -727,7 +752,8 @@
     <div>
       This article covered everything you need to know to make effective
       use of Vim.  Of course it can be made even better by configuring
-      certain aspects in a .vimrc file or adding the use of plugins.
+      certain aspects in a <code>.vimrc</code> file
+      or adding the use of plugins.
       But those are more advanced topics that you can learn about elsewhere.
     </div>
     <div>
@@ -738,13 +764,6 @@
     <div>
       Please send feedback on this article to
       <a href="mailto:mark@objectcomputing.com">mark@objectcomputing.com</a>.
-    </div>
-
-    <h3><a name="Acknowledgements">Acknowledgements</a></h3>
-    <div>
-      Many people provided helped me write this article
-      by answering questions about fish or reviewing the article.
-      In particularly I want to thank ...
     </div>
   </body>
 </html>

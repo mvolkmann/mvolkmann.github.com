@@ -117,6 +117,8 @@
       This article is targeted at software developers that
       have not yet been exposed to the Haskell programming language
       and want to quickly learn why so many developers love it.
+      The goal is to provide something that is more detailed that
+      a cheatsheet and less detailed than a book.
     </div>
 
     <h3><a name="WhyLearn">Why Learn Haskell</a></h3>
@@ -127,11 +129,16 @@
       <li>It can be fun and challenging to learn a new programming language.</li>
       <li>It's good learn about the functional style of programming
         if you have only primarily used procedural or object-oriented programming.</li>
+      <li>Learning Haskell will give you a greater appreciation of types.</li>
       <li>Haskell inspired the design of the Elm programming language,
         so learning Haskell is a step toward learning Elm.</li>
       <li>PureScript can be used to compile most Haskell code to JavaScript,
         so it can be used to develop Node apps and web apps.</li>
-      <li></li>
+      <li>It may cause you to thinking about programming in other languages in a new, better way.</li>
+      <li>You may actually decide to write an appliation in Haskell.</li>
+      <li>And finally, you may decide you do not like Haskell.
+        That's fine, but you'll want to be able to explain why
+        and that requires learning some things about the language.</li>
     </ul>
 
     <h3><a name="LearningResources">Learning Resources</a></h3>
@@ -333,6 +340,118 @@
       ghci has a builtin debugger supported by many colon commands.
       TODO: Add more detail about this.
     </div>
+
+    <h3><a name="Purity">Purity</a></h3>
+    <div>
+      Pure functions are ...
+      Impure functions ...
+      Examples of side effects include I/O, error handling,
+      and modifying global state.
+    </div>
+
+    <h3><a name="Monoieds">Monoids</a></h3>
+    <div>
+    </div>
+
+    <h3><a name="Monads">Monads</a></h3>
+    <div>
+      Monads can be used to isolate pure functions from impure functions.
+      A monad is a type that supports bind and return functions.
+      The bind function
+    </div>
+    <div>
+      Examples of monads in Haskell include IO, Maybe, List, and State.
+      The IO monad ...
+      The Maybe monad ...
+      The List monad ...
+      The State monad is used to simulate mutability
+      because there is no real mutability in Haskell.
+    </div>
+    <div>
+      In Haskell, monads are type classes.
+    </div>
+    <div>
+      In Haskell, the bind operation is performed
+      with the infix function <code>>>=</code>.
+      Its signature is
+      (>>=) :: m a -> (a -> m b) -> m b
+      where m represents the monad and a represents a normal value.
+      m a is a normal value wrapped by the monad.
+      This can be viewed as putting a in a box
+      where the details of the box vary by monad.
+      The bind function takes a monad wrapping a and a pure function.
+      The function takes an a,
+      does some calculation to create b from a,
+      and returns b wrapped in the monad.
+      The bind function does three things.
+      First, it extracts a from the monad passed as the first argument.
+      Second, it passes a to the function passed as the second argument.
+      Third, it returns the result of that function result.
+    </div>
+    <div>
+      Uses of the bind function can be chained to implement
+      a complex computation from many simpler computations.
+      For example, ...
+    </div>
+    <div>
+      In Haskell, the return operation is performed
+      with the <code>return</code> function.
+      Its signature is
+      return :: a -> m a
+      where m represents the monad and a represents a normal value.
+      It returns the result of wrapping a in the monad.
+    </div>
+    <div>
+      <code>Maybe</code> is one of the simpler monads.
+      Here is its Haskell implementation.
+    </div>
+    <pre>
+data Maybe x = Just x | Nothing
+return x = Just x</pre>
+Nothing >>= f = Nothing
+Just x >>= f = f x
+    <div>
+      This says that Maybe is a type class that includes two types,
+      Just and Nothing where Just takes a value and Nothing does not.
+      Think of Nothing as a box with nothing in it
+      and Just as a box with one thing in it.
+      The return function just takes a value and
+      wraps it in one of the members of the <code>Maybe</code> type class,
+      in this case a <code>Just</code>.
+      When bind is called with a <code>Nothing</code> and any function,
+      it always returns Nothing.
+      When bind is called with a <code>Just</code> and a function
+      that takes the value in the just and returns another <code>Just</code>,
+      it extracts the value from the passed <code>Just</code>,
+      calls the function on the value,
+      and returns its result wrapped in a <code>Just</code>.
+    </div>
+    <div>
+      Unless you have already studied monads, this probably seems complex.
+      Why are monads a good thing?
+      Let's consider a common operation and how it is handled in other programming languages.
+      Division seems like a simple operation.
+      However there are corner cases to consider.
+      What if the dividend or divisor is "null"?
+      What if the divisor is zero?
+      In many programming languages an exception is thrown.
+      It is up to the calling code to catch and correctly deal with those situations.
+      When they are not correctly handled, software can crash at runtime,
+      or worse, continue running with incorrect data.
+      Monads provide a way to address these situations.
+      And in languages with strict type checking, use of monads
+      can required calling code to handle these situations.
+      For example,
+      show SafeDiv.hs
+    </div>
+    <div>
+      <code>List</code> is another Haskell monad.
+      Here is its Haskell implementation.
+    </div>
+    <pre>
+return x = [x]
+l >>= f = concatMap f l
+    </pre>
 
     <div>
       TODO:
