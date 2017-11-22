@@ -93,7 +93,9 @@
     <h4>
       Move past the basics quickly!
     </h4>
-    <img id="vim-logo" src="vim-logo.png" alt="Vim logo">
+    <a href="http://www.vim.org" target="_blank">
+      <img id="vim-logo" src="vim-logo.png" alt="Vim logo">
+    </a>
 
     <h3>Table of Contents</h3>
     <ul class="toc">
@@ -105,7 +107,6 @@
       <li class="level2"><a href="#CommandMode">Command Mode</a></li>
       <li class="level2"><a href="#InsertMode">Insert Mode</a></li>
       <li class="level2"><a href="#VisualMode">Visual Mode</a></li>
-      <li class="level2"><a href="#OtherModes">Other Modes</a></li>
       <li class="level1"><a href="#Movement">Movement</a></li>
       <li class="level1"><a href="#WritingAndQuitting">Writing and Quitting</a></li>
       <li class="level1"><a href="#netrw">netrw</a></li>
@@ -163,7 +164,7 @@
       <a href="https://macvim-dev.github.io/macvim/">https://macvim-dev.github.io/macvim/</a>.
     </div>
     <div>
-      To install Vim in Linux, ...
+      To install Vim in Linux ...
       If you are using Linux you likely already know how to do this.
     </div>
 
@@ -172,7 +173,7 @@
       If using a GUI version of Vim like MacVim,
       double-click the application icon to start it.
       If using a terminal-based version of Vim,
-      open a termimal (or Command Prompt in Windows)
+      open a terminal (or Command Prompt in Windows)
       and enter <code>vim</code>.
       This can be followed by a file path to open a
       specific file, but as we'll see it is very easy
@@ -194,7 +195,7 @@
       The most commonly used modes are command, insert, and visual.
     </div>
     <div>
-      For those that disklike Vim,
+      For those that dislike Vim,
       modes are typically the primary reason.
       Interestingly this is also true for those that like Vim!
       Modes are the key to why working in Vim is so efficient.
@@ -299,7 +300,7 @@
         <td class="center"><code>z</code> enter</td>
         <td>moves current line to top;<br>
           especially useful when cursor is on
-          the first line of a long function definiton<br>
+          the first line of a long function definition<br>
           and you want to see as much code as possible
           on the screen at once
         </td>
@@ -321,8 +322,8 @@
           or <code>N</code> to repeat the search backward</td>
       </tr>
       <tr>
-        <td class="center"><code>%s/<i>text</i>/g</code> or<br>
-          <code>%s/<i>regex</i>/g</code> </td>
+        <td class="center"><code>%s/<i>old</i>/<i>new</i>/g</code> or<br>
+          <code>%s/<i>regex</i>/<i>new</i>/g</code> </td>
         <td>replaces all occurrences of matching text in the entire file
           with the specified text;<br>
           add <code>c</code> to end of command to confirm each replacement
@@ -531,7 +532,7 @@
 
     <h3><a name="netrw">netrw</a></h3>
     <div>
-      Many people who use Vim only occassionally quit out
+      Many people who use Vim only occasionally quit out
       of Vim and restart it in order to edit a different file.
       This is unnecessary.
       The netrw utility that comes with Vim
@@ -631,7 +632,9 @@
     <div>
       It is useful to view two or more files simultaneously.
       To do this, open the corresponding buffers in a different "splits".
-      Splits can also be used to view multiple parts
+      Splits also make it easier to copy content from one file
+      and paste in another.
+      They can also be used to view multiple parts
       of the same file simultaneously.
       Here are commands that operate on splits.
     </div>
@@ -665,7 +668,7 @@
 
     <h3><a name="Macros">Macros</a></h3>
     <div>
-      Macros record a series a keystrokes and assign them to a Vim register
+      Macros record a series of keystrokes and assign them to a Vim register
       so they can be replayed by a key combination.
       Here are commands for creating and running macros.
     </div>
@@ -716,7 +719,7 @@
       This could also be done with <code>4l</code>.<br>
       <code>r)</code> replaces the character under the cursor,
       a dash in this case, with a right paren.<br>
-      <code>q</code> end the macro recording.
+      <code>q</code> ends the macro recording.
     </div>
     <div>
       Now that the macro has been recorded, move to
@@ -744,7 +747,7 @@
     </div>
     <div>
       Macros are one of the reasons I cannot bear to use another editor.
-      There are too many occassions where macros save me a tremendous
+      There are too many occasions where macros save me a tremendous
       amount of time to consider using an editor that doesn't support them.
     </div>
 
