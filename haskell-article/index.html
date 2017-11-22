@@ -245,6 +245,75 @@
     </div>
 
     <h3><a name="Tools">Tools</a></h3>
+
+    <div>
+      Library installing tools for Haskell include:
+    </div>
+    <ul>
+      <li>Stack at
+        <a href="https://haskellstack.org">https://haskellstack.org</a>
+        "is a cross-platform program for developing Haskell projects"
+        To install in Linux and macOS, enter
+        <code>curl -sSL https://get.haskellstack.org/ | sh</code>.
+        To install other Haskell-related tools using stack, enter
+        <code>stack install ghc-mod hlint hdevtools hfmt</code>.
+      </li>
+      <li>Cabal at
+        <a href="https://www.haskell.org/cabal/">https://www.haskell.org/cabal/</a>
+        "is a system for building and packaging Haskell libraries and programs"
+      </li>
+    </ul>
+
+    <div>
+      Editor plugins for Haskell include:
+    </div>
+    <ul>
+      <li>ALE for Vim at
+        <a href="https://github.com/w0rp/ale">https://github.com/w0rp/ale</a>
+        provides automatic linting of Haskell code using
+        <a href="https://github.com/ndmitchell/hlint">HLint</a>.
+        See http://monicalent.com/blog/2017/11/19/haskell-in-vim/!
+        Install the Vim plugin vimproc from
+        https://github.com/Shougo/vimproc.vim.
+        cd to the vimproc directory and run "make".
+        Install the Vim plugin ghcmod-vim from
+        https://github.com/eagletmt/ghcmod-vim.
+        Add these lines to .vimrc:
+        nnoremap <Leader>ht :GhcModType<cr>
+        nnoremap <Leader>htc :GhcModTypeClear<cr>
+        Press ,ht to see type of name under cursor.
+        Press ,htc to clear type display.
+        Press ,? to show the error message in the status line
+        in a multi-line buffer so it is easier to read long messages.
+        Other commands include
+        :GhcModCheck displays messages in quickfix window.
+        :GhcModLint displays messages in quickfix window.
+        :GhcModCheckAsync, :GhcModLintAsync, :GhcModCheckAndLintAsync
+        and more described at https://github.com/eagletmt/ghcmod-vim.
+      </li>
+    </ul>
+
+    <div>
+      Code formatting tools for Haskell include:
+    </div>
+    <ul>
+      <li>hfmt<br>
+        Install this using stack.
+        To format a file, enter <code>hlint <i>filepath</i></code>.
+        How can you run this inside Vim?
+      </li>
+    </ul>
+
+    <div>
+      Linting tools for Haskell include:
+    </div>
+    <ul>
+      <li>hlint<br>
+        Install this using stack.
+        To lint a file, enter <code>hlint <i>filepath</i></code>.
+      </li>
+    </ul>
+
     <div>
       Testing tools for Haskell include:
     </div>
@@ -261,30 +330,6 @@
       </li>
     </ul>
 
-    <div>
-      Editor plugins for Haskell include:
-    </div>
-    <ul>
-      <li>ALE for Vim at
-        <a href="https://github.com/w0rp/ale">https://github.com/w0rp/ale</a>
-        provides automatic linting of Haskell code using
-        <a href="https://github.com/ndmitchell/hlint">HLint</a>.
-      </li>
-    </ul>
-
-    <div>
-      Library installing tools for Haskell include:
-    </div>
-    <ul>
-      <li>Stack at
-        <a href="https://haskellstack.org">https://haskellstack.org</a>
-        "is a cross-platform program for developing Haskell projects"
-      </li>
-      <li>Cabal at
-        <a href="https://www.haskell.org/cabal/">https://www.haskell.org/cabal/</a>
-        "is a system for building and packaging Haskell libraries and programs"
-      </li>
-    </ul>
 
     <h3><a name="InteractiveSessions">Interactive Sessions</a></h3>
     <div>
