@@ -13,6 +13,9 @@
         font-family: sans-serif;
         margin: 20px 40px;
       }
+      .center {
+        text-align: center;
+      }
       code {
         background-color: lightyellow;
         font-weight: bold;
@@ -47,6 +50,25 @@
         background-color: lightyellow;
         font-weight: bold;
         width: 800px;
+      }
+      table {
+        border-collapse: collapse;
+      }
+      table caption {
+        font-size: 18px;
+        font-weight: bold;
+        margin: 10px 0 5px 0;
+        text-align: left;
+      }
+      table.operators td:first-child {
+        font-family: monospace;
+      }
+      table.operators td:nth-child(3) {
+        font-family: monospace;
+      }
+      td, th {
+        border: solid lightgray 1px;
+        padding: 3px 6px;
       }
       .toc > .level1 {
         font-weight: bold;
@@ -279,8 +301,8 @@
         Install the Vim plugin ghcmod-vim from
         https://github.com/eagletmt/ghcmod-vim.
         Add these lines to .vimrc:
-        nnoremap <Leader>ht :GhcModType<cr>
-        nnoremap <Leader>htc :GhcModTypeClear<cr>
+        nnoremap &lt;Leader&gt;ht :GhcModType&lt;cr&gt;
+        nnoremap &lt;Leader&gt;htc :GhcModTypeClear&lt;cr&gt;
         Press ,ht to see type of name under cursor.
         Press ,htc to clear type display.
         Press ,? to show the error message in the status line
@@ -319,7 +341,7 @@
     </div>
     <ul>
       <li>Hspec at
-        <a href=" https://hspec.github.io/"> https://hspec.github.io/</a>
+        <a href="https://hspec.github.io/">https://hspec.github.io/</a>
       </li>
       <li>QuickCheck at
         <a href="https://github.com/nick8325/quickcheck">https://github.com/nick8325/quickcheck</a> and
@@ -329,7 +351,6 @@
         <a href="https://batterseapower.github.io/test-framework/">https://batterseapower.github.io/test-framework/</a>
       </li>
     </ul>
-
 
     <h3><a name="InteractiveSessions">Interactive Sessions</a></h3>
     <div>
@@ -394,7 +415,7 @@
       and modifying global state.
     </div>
 
-    <h3><a name="Monoieds">Monoids</a></h3>
+    <h3><a name="Monoids">Monoids</a></h3>
     <div>
     </div>
 
@@ -517,70 +538,214 @@ l >>= f = concatMap f l
       If a loaded source file is modified, enter
       <code>:reload</code> or <code>:r</code> to reload it in ghci.
     </div>
-- example
-  * create file hello.hs containing this function definition:
-    hello name = "Hello, " ++ name + "!"
-  * ghci
-  * :l hello
-  * hello "Mark"
+    <div>
+      For example, create file <code>hello.hs</code>
+      containing this function definition:
+    </div>
+    <pre>
+hello name = "Hello, " ++ name + "!"</pre>
+    <div>
+      To run this inside the GHC REPL,
+      enter <code>ghci</code>,
+      <code>:l hello</code>, and
+      <code>hello "Mark"</code>.
+    </div>
 
-Comments
-- single-line: start with --
-- multi-line: surround with {- -}
+    <h3><a name="Comments">Comments</a></h3>
+    <div>
+      Single-line comments in Haskell start with <code>--</code>
+      and continue to the end of the line.
+      Multi-line comments are surrounded with
+      <code>{-</code> and <code>-}</code>.
+    </div>
 
-Assignment
-- to assign a value to a variable,
-  name = value
-- to assign values to multiple variables on one line,
-  (name1, name2) = (value1, value2)
-  * like destructuring in JavaScript
+    <h3><a name="Assignment">Assignment</a></h3>
+    <div>
+      To assign the value of an expression to a name,
+      use <code><i>name</i> = <i>expression</i></code>.
+      The value cannot be changed later
+      since all data in Haskell is immutable.
+      When is <code>let</code> needed?
+    </div>
+    <div>
+      Values can be assigned to multiple variables in a single assignment.
+      This is similar to destructuring in JavaScript.
+      The syntax is for doing this is:<br>
+      <code>(<i>name1</i>, <i>name2</i>) = (<i>value1</i>, <i>value2</i>)</code>
+    </div>
 
-Operators
-- these are actually infix functions
-- numbers
-  * basic: + - * /
-  * exponentiation
-    ** - Floating exponent
-    ^  - Num exponent
-    ^^ - Fractional exponent
-    - ex. 2 ** 3 == 8
-  * use parens to control order of evaluation
-  * div performs integer division, discarding the remainder
-    - ex. div 8 3 == 2
-  * mod a b retunns a modulo b
-  * gcd a b returns the greatest common denominator of a and b
-    - ex. gcd 12 15 == 3
-  * lcm a b returns the lowest common multiple of a and b
-    - ex. lcm 6 10 == 30
-  * even n determines if n is even
-  * odd n determines if n is odd
-  * abs n retunns absolute value of n
-- logic
-  && for and
-  || for or
-  not (the word rather than ! as in some other languages)
-- comparison
-  * operands must be the same type
-  * == for equal
-  * /= for not equal
-  * < <= >= >
+    <h3><a name="Operators">Operators</a></h3>
+    <div>
+      What are viewed as operators in other programming languages
+      are actually infix functions in Haskell.
+      Parentheses can be used to control order of evaluation.
+      The tables below summarize the provided
+      functions for operation on primitive types
+      like numbers and booleans.
+    </div>
+    <table class="operators">
+      <caption>Number Functions</caption>
+      <tr>
+        <th>Name</th>
+        <th>Operation</th>
+        <th>Example</th>
+      </tr>
+      <tr><td class="center">+</td><td>addition</td><td>&nbsp;</td></tr>
+      <tr><td class="center">-</td><td>subtraction</td><td>&nbsp;</td></tr>
+      <tr><td class="center">*</td><td>multiplication</td><td>&nbsp;</td></tr>
+      <tr><td class="center">/</td><td>division</td><td>&nbsp;</td></tr>
+      <tr><td class="center">**</td><td>Float exponentiation (and Double?)</td><td>2 ** 3 == 8</td></tr>
+      <tr><td class="center">^</><td>Num exponentiation</td><td>&nbsp;</td></tr>
+      <tr><td class="center">^^</td><td>Fractional exponentiation</td><td>&nbsp;</td></tr>
+      <tr><td class="center">div</td><td>integer division, discarding remainder</td><td>div 8 3 == 2</td></tr>
+      <tr><td class="center">mod</td><td>modulo</td><td>mod 8 3 == 2</td></tr>
+      <tr><td class="center">gcd</td><td>greatest common denominator</td><td>gcd 12 15 == 3</td></tr>
+      <tr><td class="center">lcm</td><td>least common multiple</td><td>lcm 6 10 == 30</td></tr>
+      <tr><td class="center">even</td><td>determines if a number is even</td><td>&nbsp;</td></tr>
+      <tr><td class="center">odd</td><td>determines if a number is odd</td><td>&nbsp;</td></tr>
+      <tr><td class="center">abs</td><td>returns the absolute value of a number</td><td>&nbsp;</td></tr>
+    </table>
 
-Boolean
-- Bool - only values are True and False
+    <table class="operators">
+      <caption>Logic Functions</caption>
+      <tr>
+        <th>Name</th>
+        <th>Operation</th>
+      </tr>
+      <tr><td class="center">&&</td><td>and</td></tr>
+      <tr><td class="center">||</td><td>or</td></tr>
+      <tr><td class="center">not</td><td>not</td></tr>
+    </table>
 
-Numbers
-- primitive types
-  * Int - 4 bytes
-    - "bounded" since it has a min and max value
-  * Integer - arbitrary precison
-    - not bounded
-  * Float - 4 bytes (single precision)
-  * Double - 8 bytes (double precision)
-  * surround negative numbers with parens
-    to avoid confusion with the subtraction operator
-    - ex. 5 + (-2)
-- number typeclass hierarchy
-  * note that a typeclass can derive from multiple other typeclasses
+    <div>
+      These comparison functions required their operands
+      to be the same type.
+    </div>
+    <table class="operators">
+      <caption>Comparison Functions</caption>
+      <tr>
+        <th>Name</th>
+        <th>Operation</th>
+      </tr>
+      <tr><td class="center">==</td><td>equal</td></tr>
+      <tr><td class="center">/=</td><td>not equal</td></tr>
+      <tr><td class="center">&lt;</td><td>less than</td></tr>
+      <tr><td class="center">&lt;=</td><td>less than or equal</td></tr>
+      <tr><td class="center">&gt;</td><td>greater than</td></tr>
+      <tr><td class="center">&gt;=</td><td>greater than or equal</td></tr>
+    </table>
+
+    <h3><a name="PrimitiveTypes">Primitive Types</a></h3>
+    <div>
+      There are essential four categories of primitives in Haskell.
+      They are booleans, characters, strings, and numbers.
+    </div>
+    <div>
+      Booleans are represented by the type <code>Bool</code>.
+      The only valid values are <code>True</code> and <code>False</code>.
+    </div>
+    <div>
+      Single Unicode characters are represented by the type <code>Char</code>.
+      Literal values are surrounded by single quotes.
+    </div>
+    <div>
+      Strings are represented by the type <code>String</code>
+      which is a alias for the type <code>[Char]</code>.
+      Literal values are surrounded by double quotes.
+      Strings are actually <code>List</code>s of <code>Char</code> values,
+      so they can be passed to any function that accepts a list
+      where the element type is allowed to be <code>Char</code>.
+    </div>
+
+    <table>
+      <caption>List Functions</caption>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+        <th>Example</th>
+      </tr>
+      <tr>
+        <td>++</td>
+        <td>builds a new list that is the concatenation of two lists</td>
+        <td></td>
+      </tr>
+    </table>
+
+    <table>
+      <caption>Char Functions (<code>import Data.Char</code>)</caption>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+        <th>Example</th>
+      </tr>
+      <tr>
+        <td>toUpper</td>
+        <td>returns the uppercase version of a Char</td>
+        <td>toUpper 'g' == 'G'</td>
+      </tr>
+      <tr>
+        <td>toLower</td>
+        <td>returns the lowercase version of a Char</td>
+        <td>toLower 'G' == 'g'</td>
+      </tr>
+      <tr>
+        <td>other?</td>
+        <td></td>
+        <td></td>
+      </tr>
+    </table>
+
+    <table>
+      <caption>String Functions</caption>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+        <th>Example</th>
+      </tr>
+      <tr>
+        <td>++</td>
+        <td>concatenates (building a new list from two lists)</td>
+        <td>"foo" ++ "bar" == "foobar"</td>
+      </tr>
+      <tr>
+        <td>show</td>
+        <td>converts a value of any type that derives Show to a String</td>
+        <td>show 19 == "19"</td>
+      </tr>
+      <tr>
+        <td>map toUpper</td>
+        <td>returns the uppercase version of a String</td>
+        <td>map toUpper "abc" == "ABC"</td>
+      </tr>
+      <tr>
+        <td>map toLower</td>
+        <td>returns the lowercase version of a String</td>
+        <td>map toLower "ABC" == "abc"</td>
+      </tr>
+    </table>
+
+  * another way to change the case of a String
+    - import qualified Data.Text as T
+    - p = T.pack "foo"
+    - T.toUpper p
+    - Why is this every preferred?
+
+    <div>
+      Numbers are represented by many types.<br>
+      The <code>Int</code> type represents integers in four bytes.<br>
+      The <code>Integer</code> type represents arbirtrary precision integers.<br>
+      The <code>Float</code> type represents floating point numbers in four byte.<br>
+      The <code>Double</code> type represents floating point numbers in eight bytes.<br>
+    </div>
+    <div>
+      Negative numbers must be surrounded by parentheses to
+      indicate that the dash is not the subtraction operator.
+      For example, <code>5 - (-2) == 7</code>.
+    </div>
+    <div>
+      The number types exist in a type hierarchy shown in the following diagram.
+    </div>
+    <img src="number-hierarchy.png" alt="number hierarchy">
   * Num
     * Fractional
       * Floating
@@ -600,42 +765,57 @@ Numbers
     * Float
     * Double
   * Complex
-- to set a variable to a number and specify its type, name = value :: type
-  * ex. n = 3 :: Int
-- most functions that take two or more numbers require them to be the same type
-  * ex.
-    a = 3
-    b = 2.1
-    a + b -- okay, 5.1
-    a = 3 :: Int
-    b = 2.1 :: Float
-    a + b -- error
-- type conversions
-  * to convert an Integral to a Floating, fromIntegral integralValue
 
-Characters
-- Char - single unicode character surrounded by single quotes
+    <div>
+      The syntax to set a variable to the value of an expression
+      and specify its type is:<br>
+      <code><i>name</i> = <i>expression</i> :: <i>type</i></code>
+    </div>
+    <div>
+      For example, <code>n = 3 :: Int</code>.
+    </div>
 
-Strings
-- literal values are surrounded by double quotes
-- really a List of Char
-  * String is the same as [Char] - interchangable
-- concatenate with ++
-  * really builds a new list from two lists
-- the show function converts nearly anything into a String
-- change case
-  * import Data.Char
-  * map toUpper "foo" == "FOO"
-  * map toLower "FOO" == "foo"
-  * another way
-    - import qualified Data.Text as T
-    - p = T.pack "foo"
-    - T.toUpper p
+    <div>
+      Most functions that take two or more numbers
+      require them to be the same type.
+      For example,
+    </div>
+    <pre>
+a = 3
+b = 2.1
+a + b -- okay, 5.1
+a = 3 :: Int
+b = 2.1 :: Float
+a + b -- error</pre>
 
-Currying
-- functions automatically support currying
-  * passing fewer arguments than allowed and getting back a new function
-  * see example below
+    <div>
+      To convert an <code>Integral</code> to a <code>Floating</code>,
+      <code>fromIntegral <i>integralValue</i></code>.
+    </div>
+    <div>
+      Say more about type conversions.
+    </div>
+
+    <h3><a name="Currying">Currying</a></h3>
+    <div>
+      Haskell functions automatically support currying.
+      If a function is called with fewer arguments than allowed,
+      a new function is returned that accepts the remaining arguments.
+      For example,
+    </div>
+    <pre>
+volume :: Num n => n -> n -> n -> n
+volume w h d = w * h * d
+
+v2 :: Num n => n -> n -> n
+v2 = volume 2
+
+v3 :: Num n => n -> n
+v3 = volume 2 3
+
+volume 2 3 4 == 24
+v2 4 == 24
+v3 3 4 == 24</pre>
 
 Types
 - ues Hindley-Milner type system
