@@ -175,11 +175,18 @@
         <a href="http://learnyouahaskell.com/">http://learnyouahaskell.com/</a>.
         (360 pages)
       </li>
+      <li>"Real World Haskell" book -
+        This can be purchased or read online at
+        <a href="http://book.realworldhaskell.org/">http://book.realworldhaskell.org/</a>.
+      </li>
       <li>Haskell Homepage
-      <a href="https://www.haskell.org/">https://www.haskell.org/</a>
+        <a href="https://www.haskell.org/">https://www.haskell.org/</a>
       </li>
       <li>Haskell Wiki
-      <a href="https://wiki.haskell.org/">https://wiki.haskell.org/</a>
+        <a href="https://wiki.haskell.org/">https://wiki.haskell.org/</a>
+      </li>
+      <li>Haskell WikiBook
+        <a href="https://en.wikibooks.org/wiki/Haskell">https://en.wikibooks.org/wiki/Haskell</a>
       </li>
       <li>Hoogle - Haskell API search engine
         <a href="https://www.haskell.org/hoogle/">https://www.haskell.org/hoogle/</a>
@@ -265,6 +272,16 @@
       <a href="http://hackage.haskell.org/">http://hackage.haskell.org/</a>.
       Are there other popular sites?
     </div>
+    <ul>
+      <li>Hackage -
+        "the Haskell community's central package archive of open source software"
+        <a href="https://hackage.haskell.org/">https://hackage.haskell.org/</a>
+      </li>
+      <li>Stackage -
+        "a stable source of Haskell packages"
+        <a href="https://www.stackage.org/">https://www.stackage.org/</a>
+      </li>
+    </ul>
 
     <h3><a name="Tools">Tools</a></h3>
 
@@ -423,7 +440,14 @@
     <div>
       Monads can be used to isolate pure functions from impure functions.
       A monad is a type that supports bind and return functions.
-      The bind function
+      The return function creates a Monad instance that wraps a given value.
+      The bind function extracts the value from a Monad instance.
+    </div>
+    <div>
+      Is it true that all functions that have a side effect
+      must return a Monad?  If so, how is that enforced?
+      Does this only apply to functions that
+      perform I/O, may throw an exception, or modify state?
     </div>
     <div>
       Examples of monads in Haskell include IO, Maybe, List, and State.
@@ -537,6 +561,11 @@ l >>= f = concatMap f l
       The <code>.hs</code> file extension can be omitted.
       If a loaded source file is modified, enter
       <code>:reload</code> or <code>:r</code> to reload it in ghci.
+      To execute a Haskell source file without saving intermediate files
+      or an executable, enter <code>runghc <i>filename</i></code>.
+      The <code>.hs</code> file extension can be omitted.
+      Note that <code>runhaskell</code> is an alias (symbolic link)
+      for <code>runghc</code>.
     </div>
     <div>
       For example, create file <code>hello.hs</code>
@@ -1158,7 +1187,10 @@ instance ShapeCompare Shape where
 $ precedence operator
 - means expression after it takes precedence over expression before it
 - ex. abs (x1 - x2) == abs $ x1 - x2
-- I don't like this!
+- Most people don't like this at first.
+  You may think that it adds new syntax for no real gain.
+  You may think you'll always use parens instead.
+  You will probably cave in a use it later.
 - another example
   putStrLn ("Hello, " ++ name)
   is the same as
@@ -1658,8 +1690,60 @@ Libraries
 - Win32
 
 do
-- creates a block
+- creates a block of monadic expressions
 - is the value of the last expression the value of the do?
+
+Exception Handling
+- there are several approaches
+  * use Either monad where
+    the Left value is an exception description and
+    the Right value is the success value
+  * use catch from Control.Exception in one of these ways
+    - use parens
+      catch
+        (do
+          ...
+        )
+        handler
+    - move handler to front
+      (`catch` handler) $ do
+        ...
+    - use a helper function
+      catch handler helper
+        where helper = do
+          ...
+
+I/O
+- to print a line to stdout
+  * putStrLn someString
+  * print someValue
+    - same as putStrLn, but calls show on its argument
+      to get string represenation of someValue
+- simple example
+main :: IO ()
+main = do
+  putStrLn "Enter your name:"
+  name <- getLine
+  putStrLn ("Hello, " ++ name ++ "!")
+
+- moving prompt and getLine to a function
+getName :: IO String
+getName = do
+  putStrLn "Enter your name:"
+  getLine -- returns an IO monad wrapping a string
+main :: IO ()
+main = do
+  name <- getName
+  putStrLn ("Hello, " ++ name ++ "!")
+
+- moving all to a function
+getName :: IO ()
+getName = do
+  putStrLn "Enter your name:"
+  name <- getName
+  putStrLn ("Hello, " ++ name ++ "!") -- returns an IO monad wrapping nothing
+main :: IO ()
+main = getName
 
 File I/O
 - import System.IO
@@ -1676,11 +1760,29 @@ File I/O
     contents <- hGetContents file
     putStr contents
     hClose file
---readDemo
+  readDemo
+- to read from a file and write its contents
+  to a new file where all text is uppercase
+import Data.Char -- for toUpper
+import System.IO ()
+main :: IO ()
+main = do
+  contents <- readFile "in.txt"
+  let transformed = map toUpper contents
+  writeFile "out.txt" transformed
 
 Creating Executables
 - create a .hs file with a "main" function
 - ghc {name}.hs
+  * produces two intermediate files
+  * .hi is an interface file
+    - a binary file containing:
+      * details about the compilation including the GHC version
+      * list of exports including their types, arity, and strictness
+    - can be viewed with
+      ghc --show-iface name.hi
+  * .o is an object file
+    - a binary file containing compiled code
 - run with ./name
 - example
   * in file greet.hs
