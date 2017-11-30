@@ -337,9 +337,18 @@
     </div>
     <ul>
       <li>hfmt<br>
-        Install this using stack.
-        To format a file, enter <code>hlint <i>filepath</i></code>.
-        How can you run this inside Vim?
+        To install this, enter <code>stack install hfmt</code>.
+        To format a file, enter <code>hfmt -w <i>filepath</i></code>.
+        Can you run this inside Vim?
+      </li>
+      <li>brittany<br>
+        To install this,
+        <code>git clone https://github.com/lspitzner/brittany.git<br>
+        cd brittany<br>
+        stack install</code>.<br>
+        To format a file, enter
+        <code>brittany -i <i>filepath</i> -o <i>filepath</i></code>.
+        Can you run this inside Vim?
       </li>
     </ul>
 
@@ -561,6 +570,18 @@ l >>= f = concatMap f l
       The <code>.hs</code> file extension can be omitted.
       If a loaded source file is modified, enter
       <code>:reload</code> or <code>:r</code> to reload it in ghci.
+      Note that these source files must define a valid Haskell module.
+      They are not merely a series of expressions to be evaluated by ghci.
+      To make it easy to demonstrate
+      use of functions defined in the module,
+      consider defining a function with a name like "demo"
+      that can be called from ghci.
+    </div>
+    <div>
+      Is it fair to say that ghci always evaluates expressions
+      in a monadic context, so "do" is not needed?
+    </div>
+    <div>
       To execute a Haskell source file without saving intermediate files
       or an executable, enter <code>runghc <i>filename</i></code>.
       The <code>.hs</code> file extension can be omitted.
