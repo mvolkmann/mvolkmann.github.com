@@ -104,12 +104,100 @@
     <h3>Table of Contents</h3>
     <ul class="toc">
       <li class="level1"><a href="#Overview">Overview</a></li>
+      <li class="level2"><a href="#WhyLearn">WhyLearn</a></li>
+      <li class="level2"><a href="#LearningResources">LearningResources</a></li>
       <li class="level2"><a href="#License">License</a></li>
       <li class="level2"><a href="#History">History</a></li>
+
+      <li class="level1"><a href="#Compilers">Compilers</a></li>
+      <li class="level2"><a href="#GHC">GHC</a></li>
+      <li class="level2"><a href="#Libraries">Libraries</a></li>
+      <li class="level2"><a href="#Tools">Tools</a></li>
+      <li class="level2"><a href="#SourceFiles">Source Files</a></li>
+
+      <li class="level1"><a href="#Names">Names</a></li>
+      <li class="level1"><a href="#Types">Types</a></li>
+      <li class="level2"><a href="#PreludeTypes">Prelude Types</a></li>
+      <!-- Include Unit () -->
+      <li class="level2"><a href="#TypeSignatures">Type Signatures</a></li>
+      <li class="level2"><a href="#ClassConstraints">Class Constraints</a></li>
+      <li class="level2"><a href="#TypeInference">Type Inference</a></li>
+      <li class="level2"><a href="#TypeClasses">Type Classes</a></li>
+      <!-- Include default implementations -->
+      <li class="level2"><a href="#TypeAliases">Type Aliases</a></li>
+      <li class="level2"><a href="#TypeInstances">Type Instances</a></li>
+      <li class="level2"><a href="#TypeConstructors">Type Constructors</a></li>
+      <li class="level2"><a href="#Algebraic Data Types">Algebraic Data Types</a></li>
+      <!-- Include constructors with arguments -->
+      <li class="level2"><a href="#Deriving">Deriving</a></li>
+
+      <li class="level1"><a href="#Operators">Operators</a></li>
+      <li class="level2"><a href="#OperatorBasics">Basics</a></li>
+      <li class="level2"><a href="#Precedence">Precedence</a></li>
+      <li class="level2"><a href="#Associativity">Associativity</a></li>
       <li class="level2"><a href="#Sections">Sections</a></li>
 
-      <li class="level1"><a href="#UsingFish">Using Fish</a></li>
-      <li class="level2"><a href="#Installing">Installing</a></li>
+      <li class="level1"><a href="#Variables">Variables</a></li>
+
+      <li class="level1"><a href="#Functions">Functions</a></li>
+      <li class="level2"><a href="#FunctionBasics">Basics</a></li>
+      <li class="level2"><a href="#Currying">Currying</a></li>
+      <li class="level2"><a href="#Recursion">Recursion</a></li>
+      <li class="level2"><a href="#ArgumentCapture">ArgumentCapture</a></li>
+      <li class="level2"><a href="#PatternMatching">Pattern Matching</a></li>
+      <li class="level2"><a href="#Guards">Guards</a></li>
+      <li class="level2"><a href="#HigherOrderFunctions">Higher Order Functions</a></li>
+
+      <li class="level1"><a href="#Lists">Lists</a></li>
+      <li class="level2"><a href="#ListBasics">Basics</a></li>
+      <li class="level2"><a href="#ListComprehension">List Comprehension</a></li>
+
+      <li class="level1"><a href="#Tuples">Tuples</a></li>
+      <li class="level2"><a href="#"></a></li>
+
+      <li class="level1"><a href="#Records">Records</a></li>
+      <li class="level2"><a href="#RecordBasics">Basics</a></li>
+      <li class="level2"><a href="#RecordUpdating">Updating</a></li>
+
+      <li class="level1"><a href="#Maps">Maps</a></li>
+      <li class="level2"><a href="#"></a></li>
+
+      <li class="level1"><a href="#Modules">Modules</a></li>
+      <li class="level2"><a href="#Importing">Importing</a></li>
+      <li class="level2"><a href="#QualifiedImports">Qualified Imports</a></li>
+      <li class="level2"><a href="#Exclusions">Exclusions</a></li>
+      <li class="level2"><a href="#Exporting">Exporting</a></li>
+
+      <li class="level1"><a href="#Syntax">Syntax</a></li>
+      <li class="level2"><a href="#Comments">Comments</a></li>
+      <li class="level2"><a href="#ReservedWords">Reserved Words</a></li>
+      <li class="level2"><a href="#StringsAndCharacters">Strings &amp; Character</a></li>
+      <li class="level2"><a href="#Numbers">Numbers</a></li>
+      <li class="level2"><a href="#DatesAndTimes">Dates and Times</a></li>
+      <li class="level2"><a href="#Enumerations">Enumerations</a></li>
+      <li class="level2"><a href="#Let">Let</a></li>
+      <!-- include deconstruction -->
+      <li class="level2"><a href="#IfThenElse">IfThenElse</a></li>
+      <li class="level2"><a href="#Case">Case</a></li>
+      <li class="level2"><a href="#Where"></a></li>
+
+      <li class="level1"><a href="#InputOutput">Input/Output</a></li>
+      <li class="level2"><a href="#DoBlocks">Do Blocks</a></li>
+      <li class="level2"><a href="#CommandLineArguments">Command Line Arguments</a></li>
+      <li class="level2"><a href="#Files">Files</a></li>
+      <li class="level2"><a href="#Streams">Streams</a></li>
+      <li class="level2"><a href="#Bytestrings">Bytestrings</a></li>
+      <li class="level2"><a href="#"></a></li>
+
+      <li class="level1"><a href="#GoingDeep">Going Deep</a></li>
+      <li class="level2"><a href="#Monoids">Monoids</a></li>
+      <li class="level2"><a href="#Monads">Monads</a></li>
+      <li class="level2"><a href="#Functors">Functors</a></li>
+      <li class="level2"><a href="#Applicatives">Applicatives</a></li>
+      <li class="level2"><a href="#Foldables">Foldables</a></li>
+      <li class="level2"><a href="#Traversables">Traversables</a></li>
+      <li class="level2"><a href="#HigherKindedTypes">Higher Kinded Types</a></li>
+
       <li class="level1"><a href="#Summary">Summary</a></li>
       <li class="level1"><a href="#Acknowledgments">Acknowledgments</a></li>
     </ul>
@@ -126,6 +214,11 @@
         are strictly separated from pure functions</li>
       <li>is statically typed with type inference</li>
       <li>is lazy meaning that expressions are not evaluated until their value is needed</li>
+      <li>has no for or while loops;
+        instead iteration is performed with recursion
+        and functions like map, filter, and foldl</li>
+      <li>uses persistent data structures to efficiently
+        create modified copies of existing data structures</li>
       <li>addresses
         <a href="https://en.wikipedia.org/wiki/Concurrency_(computer_science)">Concurrency</a>
         and
@@ -143,7 +236,7 @@
       a cheatsheet and less detailed than a book.
     </div>
 
-    <h3><a name="WhyLearn">Why Learn Haskell</a></h3>
+    <h4><a href="#WhyLearn">Why Learn Haskell?</a></h4>
     <div>
       There are many reasons to learn Haskell including:
     </div>
@@ -193,7 +286,11 @@
       </li>
     </ul>
 
-    <h3><a name="History">History</a></h3>
+    <h4><a href="#License">License</a></h4>
+    <div>
+    </div>
+
+    <h4><a href="#History">History</a></h4>
     <div>
       The Haskell programming language was named after
       the American mathmatician Dr. Haskell Brooks Curry (1900-1982).
@@ -250,11 +347,16 @@
         that compiles to JavaScript"
       </li>
     </ul>
-    - GHC has cryptic error messages
 
-    <h3><a name="Installing">Installing</a></h3>
+    <h4><a href="#GHC">GHC</a></h4>
     <div>
-      Instructions for the GHC compiler are at
+      One complaint about GHC is that it has cryptic error messages.
+      Another is that it produces executables that are larger
+      than those produces by compilers for other languages
+      for similar applications.
+    </div>
+    <div>
+      Instructions for installing the GHC compiler are at
       <a href="http://hackage.haskell.org/platform/">http://hackage.haskell.org/platform/</a>.
       There are two options for installing in macOS.
       You can download .dmg file and double-click it.
@@ -265,8 +367,61 @@
       I highly recommend installing GHC now
       so you can try each code example in this article.
     </div>
+    <div>
+      GHC comes with a "read-evaluate-print-loop" (REPL) tool
+      for experimenting with Haskell code.
+      It's a great tool, especially when just getting started with Haskell.
+      To start it, enter <code>gchi</code>.
+      To exit, press ctrl-d or enter <code>:quit</code>.
+      Previously entered commands can be recalled using the up and down arrow keys.
+    </div>
+    <div>
+      The default prompt is <code>Prelude></code>.
+      This is the name of the standard library that is automatically loaded.
+      To change the prompt within the current session, enter
+      <code>:set prompt "new prompt"</code>.
+      To make this a permanent change that is used in all future ghci sessions,
+      add that command to the file <code>~/.ghci</code>.
+      Mine uses an elephant emoji for the elephant on the
+      cover of the book "Learn You a Haskell for Great Good!".
+    </div>
+    <div>
+      To enable Vim keybindings inside ghci,
+      create the file <code>~/.haskeline</code>
+      and add the command <code>editMode: Vi</code> to it.
+    </div>
+    <div>
+      When Haskell expressions are entered in ghci,
+      they are evaluated the their value is printed
+      by calling <code>show</code> on it which
+      converts many kinds of values to a string representation.
+    </div>
+    <div>
+      Besides entering Haskell expressions,
+      there are many commands that can be entered,
+      all preceded by a colon.
+      The most useful of these include:
+    </div>
+    <ul>
+      <li><code>:help</code> or <code>:?</code> to get help</li>
+      <li><code>:info <i>fn-name</i></code> to get information about a function</li>
+      <li><code>:type <i>name</i></code> or <code>:t <i>name</i></code> to see the type of a name</li>
+      <li><code>:set +t</code> to automatically see the type of all expressions entered</li>
+      <li><code>:unset +t</code> to turn off automatically displaying types</li>
+      <li><code>:show modules</code> to list all modules that have been imported</li>
+      <li><code>:!<i>command</i></code> to run a shell command; For example, :!clear clears the screen.</li>
+    </ul>
+    <div>
+      All functions defined in the Prelude module are available by default in ghci.
+      To use functions in other modules, import them by entered
+      <code>import <i>module-name</i></code>.
+    </div>
+    <div>
+      ghci has a builtin debugger supported by many colon commands.
+      TODO: Add more detail about this.
+    </div>
 
-    <h3><a name="Libraries">Libraries</a></h3>
+    <h4><a href="#Libraries">Libraries</a></h4>
     <div>
       Haskell software libraries can be found at
       <a href="http://hackage.haskell.org/">http://hackage.haskell.org/</a>.
@@ -378,62 +533,553 @@
       </li>
     </ul>
 
-    <h3><a name="InteractiveSessions">Interactive Sessions</a></h3>
+    <h4><a name="SourceFiles">SourceFiles</a></h3>
     <div>
-      GHC comes with a "read-evaluate-print-loop" (REPL) tool
-      for experimenting with Haskell code.
-      It's a great tool, especially when just getting started with Haskell.
-      To start it, enter <code>gchi</code>.
-      To exit, press ctrl-d or enter <code>:quit</code>.
-      Previously entered commands can be recalled using the up and down arrow keys.
+      Haskell source files have a file extension of <code>.hs</code>.
+      To load these into a ghci session, enter
+      <code>:load <i>filename</i></code> or <code>:l <i>filename</i></code>.
+      The <code>.hs</code> file extension can be omitted.
+      If a loaded source file is modified, enter
+      <code>:reload</code> or <code>:r</code> to reload it in ghci.
+      Note that these source files must define a valid Haskell module.
+      They are not merely a series of expressions to be evaluated by ghci.
+      To make it easy to demonstrate
+      use of functions defined in the module,
+      consider defining a function with a name like "demo"
+      that can be called from ghci.
     </div>
     <div>
-      The default prompt is <code>Prelude></code>.
-      This is the name of the standard library that is automatically loaded.
-      To change the prompt within the current session, enter
-      <code>:set prompt "new prompt"</code>.
-      To make this a permanent change that is used in all future ghci sessions,
-      add that command to the file <code>~/.ghci</code>.
-      Mine uses an elephant emoji for the elephant on the
-      cover of the book "Learn You a Haskell for Great Good!".
+      Is it fair to say that ghci always evaluates expressions
+      in a monadic context, so "do" is not needed?
     </div>
     <div>
-      To enable Vim keybindings inside ghci,
-      create the file <code>~/.haskeline</code>
-      and add the command <code>editMode: Vi</code> to it.
+      To execute a Haskell source file without saving intermediate files
+      or an executable, enter <code>runghc <i>filename</i></code>.
+      The <code>.hs</code> file extension can be omitted.
+      Note that <code>runhaskell</code> is an alias (symbolic link)
+      for <code>runghc</code>.
     </div>
     <div>
-      When Haskell expressions are entered in ghci,
-      they are evaluated the their value is printed
-      by calling <code>show</code> on it which
-      converts many kinds of values to a string representation.
+      For example, create file <code>hello.hs</code>
+      containing this function definition:
     </div>
+    <pre>
+hello name = "Hello, " ++ name + "!"</pre>
     <div>
-      Besides entering Haskell expressions,
-      there are many commands that can be entered,
-      all preceded by a colon.
-      The most useful of these include:
-    </div>
-    <ul>
-      <li><code>:help</code> or <code>:?</code> to get help</li>
-      <li><code>:info <i>fn-name</i></code> to get information about a function</li>
-      <li><code>:type <i>name</i></code> or <code>:t <i>name</i></code> to see the type of a name</li>
-      <li><code>:set +t</code> to automatically see the type of all expressions entered</li>
-      <li><code>:unset +t</code> to turn off automatically displaying types</li>
-      <li><code>:show modules</code> to list all modules that have been imported</li>
-      <li><code>:!<i>command</i></code> to run a shell command; For example, :!clear clears the screen.</li>
-    </ul>
-    <div>
-      All functions defined in the Prelude module are available by default in ghci.
-      To use functions in other modules, import them by entered
-      <code>import <i>module-name</i></code>.
-    </div>
-    <div>
-      ghci has a builtin debugger supported by many colon commands.
-      TODO: Add more detail about this.
+      To run this inside the GHC REPL,
+      enter <code>ghci</code>,
+      <code>:l hello</code>, and
+      <code>hello "Mark"</code>.
     </div>
 
-    <h3><a name="Purity">Purity</a></h3>
+    <h3><a name="Names">Names</a></h3>
+    <pre>
+- variable identifiers start with a lowercase letter
+- constructor identifiers with an uppercase letter
+- both can contain underscores, single quotes, letters and digits
+- operators are formed from one or more of '!#$%&*+./<=>?@\^|-~'
+- constructors can be operator names, if they start with a ':'
+  - ex. :+ for Data.Complex
+    </pre>
+
+    <h3><a name="Types">Types</a></h3>
+
+    <h4><a href="#PreludeTypes">Prelude Types</a></h4>
+    <div>
+      By default the standard module <code>Prelude</code>
+      is imported into all Haskell modules.
+      However, if a module contains any explicit imports
+      or the NoImplicitPrelude extension is enabled,
+      <code>Prelude</code> is not automatically imported.
+      For details on what the Prelude module defines, see
+      <a href="https://hackage.haskell.org/package/base-4.10.0.0/docs/Prelude.html">https://hackage.haskell.org/package/base-4.10.0.0/docs/Prelude.html</a>.
+    </div>
+    <div>
+      There are essential four categories of primitives in Haskell.
+      They are booleans, characters, strings, and numbers.
+      These are supported by the types <code>Bool</code>,
+      <code>Char</code>, <code>String</code>, and
+      several numeric types defined in the <code>Prelude</code> module.
+    </div>
+    <div>
+      Booleans are represented by the type <code>Bool</code>.
+      The only valid values are <code>True</code> and <code>False</code>.
+    </div>
+    <div>
+      Single Unicode characters are represented by the type <code>Char</code>.
+      Literal values are surrounded by single quotes.
+    </div>
+    <div>
+      Strings are represented by the type <code>String</code>
+      which is a alias for the type <code>[Char]</code>.
+      Literal values are surrounded by double quotes.
+      Strings are actually <code>List</code>s of <code>Char</code> values,
+      so they can be passed to any function that accepts a list
+      where the element type is allowed to be <code>Char</code>.
+    </div>
+    <div>
+      Numbers are represented by many types.<br>
+      The <code>Int</code> type represents integers in four bytes.<br>
+      The <code>Integer</code> type represents arbirtrary precision integers.<br>
+      The <code>Float</code> type represents floating point numbers in four byte.<br>
+      The <code>Double</code> type represents floating point numbers in eight bytes.<br>
+      The <code>Rational</code> type represents ?.<br>
+      The <code>Word</code> type represents ?.<br>
+    </div>
+    <div>
+      Many type classes describe the functions supported by numeric types.
+      These include:
+      Num
+      Real
+      Integral
+      Floating
+      RealFrac
+      RealFloat
+    </div>
+    <pre>
+  * Num
+    - for types that can be used as numbers
+    - builtin types that implement this are
+      Int, Integer, Float, and Double
+    - when a function type signature says that
+      two or more parameters have a type of Num,
+      those must have the same actual type
+      * ex. add :: (Num a) => a -> a -> a
+        add a b = a + b
+        n = 3 :: Int
+        add n 7.2 -- error because n and 7.2 are not the same type
+  * Floating
+    - the Float and Double types implement this
+    - some math functions take arguments of this type (ex. sqrt and sin)
+    - ex.
+      n = 3 :: Int
+      sqrt n -- error because n is not Floating
+  * Integral
+    - the Int and Integer types implement this
+    - fromIntegral function takes an Integral and converts it to Num
+      * needed in order to call a function like + on an Integral and a Floating
+      * ex. length [1,2,3] + 2.1 raises an error because
+        length returns an Int and 2.1 is not an Int
+    </pre>
+    <pre>
+    The functions defined in the Prelude module
+    that operate on numbers include
+    even, odd, gcd, lcm, ^, ^^, fromIntegral, and realToFrac.
+    </pre>
+    <div>
+      Negative numbers must be surrounded by parentheses to
+      indicate that the dash is not the subtraction operator.
+      For example, <code>5 - (-2) == 7</code>.
+    </div>
+    <div>
+      The number types exist in a type hierarchy shown in the following diagram.
+    </div>
+    <img src="number-hierarchy.png" alt="number hierarchy">
+    <pre>
+  * Num
+    * Fractional
+      * Floating
+        * Float
+        * Double
+      * RealFrac
+        * Float
+        * Double
+    * Real derives from Ord which adds ordering functions
+      * Integral derives from Enum
+        * Int
+        * Integer
+      * RealFrac
+        * Float
+        * Double
+  * RealFloat derives from RealFrac and Floating
+    * Float
+    * Double
+  * Complex
+    </pre>
+    <div>
+      Say something about the Unit () type.
+    </div>
+
+    <h4><a href="#TypeSignatures">Type Signatures</a></h4>
+    <div>
+      Haskell type declarations use the Hindley-Milner type system.
+      The syntax is <code><i>name</i> :: <i>type</i> </code>
+      where <code>::</code> means "has type of".
+    </div>
+    <pre>
+- variable examples
+  * firstName :: String
+  * names :: [String]
+    - an array of Strings
+- function examples
+  * add :: Int -> Int -> Int
+    add x y = x + y
+    - each parameter type is followed by ->
+      with the return type at the end
+    - takes two Ints and returns an Int
+    - also takes one Int and returns a
+      function that takes and Int and returns an Int
+  * type variables can be used to specify that
+    an argument type or the return type can be
+    any type or a type that derives from a specific type class
+    - ex. the swap function below takes any kind of list
+      and returns a new list where the first two items are swapped
+      swap :: [a] -> [a]
+      swap (first:second:rest) = second:first:rest
+      swap [1,2,3,4] == [2,1,3,4]
+  * to restrict a type variable to types that
+    derive from a given type class (not an actual type!)
+      swap :: Num n => [n] -> [n]
+      swap (first:second:rest) = second:first:rest
+      swap [1,2,3,4] == [2,1,3,4]
+  * add :: Num a => a -> a -> a -- syntax only works with type classes
+    - means all occurrences of a in the signature have type Num
+    - takes two Num arguments and returns a Num
+    - "a" here is called a "type alias"
+    - => and the part to its left is called a "class constraint"
+      * if more than one, surround with parens and separate with commas
+      * ex. (Num a, String b) =>
+    - can require a type variable to derive from more than one type class
+      * ex. (Eq a, Ord a) =>
+  * add x y = x + y
+    - implementation of the two function declarations
+  * ghci detail
+    - entering the type signature and definition on two lines doesn't work
+    - workarounds
+      * enter them on same line separated by a semicolon
+        - ex. let add :: Num a => a -> a -> a; add x y = x + y
+      * enter them in a block
+        :{
+        let add :: Num a => a -> a -> a
+            add x y = x + y -- indented 4 spaces
+        :}
+      * turn on multline mode which automatically infers use of :{ and :}
+        :set +m -- one tie
+        let add :: Num a => a -> a -> a
+            add x y = x + y -- indented 4 spaces
+        press return to exit block
+- another function example
+  * charAt :: String -> Int -> Char
+    charAt str index = str !! index
+- can see the type of a function in ghci with :t {function-name}
+    </pre>
+
+    <h4><a href="#ClassConstraints">Class Constraints</a></h4>
+    <div>
+    </div>
+
+    <h4><a href="#TypeInference">Type Inference</a></h4>
+    <div>
+    </div>
+
+    <h4><a href="#TypeClasses">Type Classes</a></h4>
+    <pre>
+- not like classes in OO languages
+- define an interface (set of functions)
+- names start uppercase
+- types that are instances implement all the functions
+  and are said to "derive" from the type class
+- a type can derive from any number of type classes
+- builtin examples include
+    </pre>
+    <!-- Include default implementations -->
+    <div>
+      The Prelude module defines the type classes
+      described in the table below
+      (duplicated in the Deriving section):
+    </div>
+    <table summary="Prelude type classes">
+      <caption>Prelude Type Classes</caption>
+      <tr>
+        <th>Type Class Name</th>
+        <th>Type Constructors</th>
+        <th>Description</th>
+        <th>Example</th>
+      </tr>
+      <tr>
+        <td>Bounded</td>
+        <td></td>
+        <td>
+    - for types that have bounds
+    - functions are minBound and maxBound
+    - called on the type, not a value of the type
+      * ex. maxBound :: Int
+    - examples of builtin types that implement this are
+      Char, Int, Float, and Double
+        </td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>Eq</td>
+        <td></td>
+        <td>
+    - for types whose values can be compared for equality
+    - functions are = and /=
+    - all standard Haskell classes implement this
+        </td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>Ord/td>
+        <td></td>
+        <td>
+    - for types whose values can be ordered
+    - functions are <, <=, >=, and >
+        </td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>Ordering</td>
+        <td>EQ, LT, and GT</td>
+        <td>used by the <code>compare</code> function
+          in the <code>Ord</code> type class</td>
+        <td>compare 1 2 == LT</td>
+      </tr>
+      <tr>
+        <td>Enum</td>
+        <td></td>
+        <td>
+    - for types with values that can be enumerated
+      and used in ranges to create Lists
+    - functions are succ and pred
+    - examples of builtin types that implement this are
+      Int, Integer, Float, and Double
+        </td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>Read</td>
+        <td></td>
+        <td>
+          parses a string to create a value
+    - opposite of Show
+      * a little like JavaScript's JSON.parse
+    - only function is read
+    - when desired type is not known from context, must specify
+      * ex. read "3.14" raises an exception
+      * ex. read "3.14" :: Float
+      * ex. read "[1, 2, 3]" :: [Int]
+      * ex. read "(\"foo\", 7, True)" :: (String, Int, Bool)
+        </td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>Show</td>
+        <td></td>
+        <td>
+          creates a string representation of a value
+    - only function is show
+      * a little like JavaScript's JSON.stringify
+    - ex. show 3.14
+    - ex. show [1, 2, 3]
+    - ex. show ("foo", 7, True)
+        </td>
+        <td></td>
+      </tr>
+    </table>
+
+    <h4><a href="#TypeAliases">Type Aliases</a></h4>
+    <div>
+    </div>
+
+    <h4><a href="#TypeInstances">Type Instances</a></h4>
+    <div>
+    </div>
+
+    <h4><a href="#TypeConstructors">Type Constructors</a></h4>
+    <div>
+    </div>
+
+    <h4><a href="#AlgebraicDataTypes">Algebraic Data Types</a></h4>
+    <!-- Include constructors with arguments -->
+    <div>
+    </div>
+
+    <h4><a href="#Deriving">Deriving</a></h4>
+    <div>
+      The deriving keyword specifies that a type
+      derives from any of seven provided type classes.
+      It automatically implements them for you.
+      These type classes are described in the following table
+      (duplicated in the Type Classes section):
+    </div>
+    <table>
+      <tr>
+        <th>Type Class Name</th>
+        <th>Functions</th>
+        <th>Description</th>
+      </tr>
+      <tr>
+        <td>Eq</td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>Ord</td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>Enum</td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>Read</td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>Show</td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>Bounded</td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>Ix</td>
+        <td></td>
+        <td></td>
+      </tr>
+    </table>
+    <div>
+      It is possible to override the function definitions
+      provided by Haskell.  For example:
+    </div>
+    <pre>
+data Size = S | M | L -- cannot say "deriving Show" since overridden below
+instance Show Size where
+  show S = "small"
+  show M = "medium"
+  show L = "large"
+show S == "small"
+size = M
+show size == "medium"</pre>
+
+    <h3><a name="Operators">Operators</a></h3>
+    <h4><a href="#OperatorBasics">Basics</a></h4>
+    <div>
+      What are viewed as operators in other programming languages
+      are actually infix functions in Haskell.
+      Parentheses can be used to control order of evaluation.
+      The tables below summarize the provided
+      functions for operation on primitive types
+      like numbers and booleans.
+    </div>
+    <table class="operators">
+      <caption>Number Functions</caption>
+      <tr>
+        <th>Name</th>
+        <th>Operation</th>
+        <th>Example</th>
+      </tr>
+      <tr><td class="center">+</td><td>addition</td><td>&nbsp;</td></tr>
+      <tr><td class="center">-</td><td>subtraction</td><td>&nbsp;</td></tr>
+      <tr><td class="center">*</td><td>multiplication</td><td>&nbsp;</td></tr>
+      <tr><td class="center">/</td><td>division</td><td>&nbsp;</td></tr>
+      <tr><td class="center">**</td><td>Float exponentiation (and Double?)</td><td>2 ** 3 == 8</td></tr>
+      <tr><td class="center">^</><td>Num exponentiation</td><td>&nbsp;</td></tr>
+      <tr><td class="center">^^</td><td>Fractional exponentiation</td><td>&nbsp;</td></tr>
+      <tr><td class="center">div</td><td>integer division, discarding remainder</td><td>div 8 3 == 2</td></tr>
+      <tr><td class="center">mod</td><td>modulo</td><td>mod 8 3 == 2</td></tr>
+      <tr><td class="center">gcd</td><td>greatest common denominator</td><td>gcd 12 15 == 3</td></tr>
+      <tr><td class="center">lcm</td><td>least common multiple</td><td>lcm 6 10 == 30</td></tr>
+      <tr><td class="center">even</td><td>determines if a number is even</td><td>&nbsp;</td></tr>
+      <tr><td class="center">odd</td><td>determines if a number is odd</td><td>&nbsp;</td></tr>
+      <tr><td class="center">abs</td><td>returns the absolute value of a number</td><td>&nbsp;</td></tr>
+    </table>
+
+    <table class="operators">
+      <caption>Logic Functions</caption>
+      <tr>
+        <th>Name</th>
+        <th>Operation</th>
+      </tr>
+      <tr><td class="center">&&</td><td>and</td></tr>
+      <tr><td class="center">||</td><td>or</td></tr>
+      <tr><td class="center">not</td><td>not</td></tr>
+    </table>
+
+    <div>
+      These comparison functions required their operands
+      to be the same type.
+    </div>
+    <table class="operators">
+      <caption>Comparison Functions</caption>
+      <tr>
+        <th>Name</th>
+        <th>Operation</th>
+      </tr>
+      <tr><td class="center">==</td><td>equal</td></tr>
+      <tr><td class="center">/=</td><td>not equal</td></tr>
+      <tr><td class="center">&lt;</td><td>less than</td></tr>
+      <tr><td class="center">&lt;=</td><td>less than or equal</td></tr>
+      <tr><td class="center">&gt;</td><td>greater than</td></tr>
+      <tr><td class="center">&gt;=</td><td>greater than or equal</td></tr>
+    </table>
+
+    <h4><a href="#Precedence">Precedence</a></h4>
+    <div>
+    </div>
+    <pre>
+$ precedence operator
+- means expression after it takes precedence over expression before it
+- ex. abs (x1 - x2) == abs $ x1 - x2
+- Most people don't like this at first.
+  You may think that it adds new syntax for no real gain.
+  You may think you'll always use parens instead.
+  You will probably cave in a use it later.
+- another example
+  putStrLn ("Hello, " ++ name)
+  is the same as
+  putStrLn $ "Hello, " ++ name
+
+. precedence operator
+- evaluates expression on right and passes it to function left
+- need a good example</pre>
+
+    <h4><a href="#Associativity">Associativity</a></h4>
+    <div>
+      See the infix, infixl, and infixr keywords.
+    </div>
+
+    <h3><a href="#Variables">Variables</a></h3>
+    <div>
+      The ghci REPL supports assigning values to variables with
+      <code><i>name</i> = <i>expression</i></code>.
+      However, this is only supported in ghci.
+      In normal Haskell code, the let and where keywords
+      are used to assign value to variables and
+      then use those variables in a expression.
+    </div>
+    <div>
+      The syntax to set a variable to the value of an expression
+      and specify its type is:<br>
+      <code><i>name</i> = <i>expression</i> :: <i>type</i></code>
+    </div>
+    <div>
+      For example, <code>n = 3 :: Int</code>.
+    </div>
+    <div>
+      All data in Haskell is immutable, meaning it cannot be modified.
+      This means that variables are really constants.
+    </div>
+    <div>
+      Values can be assigned to multiple variables in a single assignment.
+      This is similar to destructuring in JavaScript.
+      The syntax is for doing this is:<br>
+      <code>(<i>name1</i>, <i>name2</i>) = (<i>value1</i>, <i>value2</i>)</code>
+    </div>
+
+
+    <h3><a name="Functions">Functions</a></h3>
+
+    <h4><a href="#FunctionBasics">Basics</a></h4>
+    <div>
+    </div>
     <div>
       Pure functions are ...
       Impure functions ...
@@ -441,11 +1087,645 @@
       and modifying global state.
     </div>
 
-    <h3><a name="Monoids">Monoids</a></h3>
+    <h4><a href="#Currying">Currying</a></h4>
+    <div>
+      Haskell functions automatically support currying.
+      If a function is called with fewer arguments than allowed,
+      a new function is returned that accepts the remaining arguments.
+      For example,
+    </div>
+    <pre>
+add :: Int -> Int -> Int
+add x y = x + y
+plus5 = add 5
+plus5 2 == 7
+
+volume :: Num n => n -> n -> n -> n
+volume w h d = w * h * d
+
+v2 :: Num n => n -> n -> n
+v2 = volume 2
+
+v3 :: Num n => n -> n
+v3 = volume 2 3
+
+volume 2 3 4 == 24
+v2 4 == 24
+v3 3 4 == 24</pre>
+
+    <h4><a href="#Recursion">Recursion</a></h4>
     <div>
     </div>
 
-    <h3><a name="Monads">Monads</a></h3>
+    <h4><a href="#ArgumentCapture">ArgumentCapture</a></h4>
+    <div>
+    </div>
+
+    <h4><a href="#PatternMatching">Pattern Matching</a></h4>
+    <div>
+    </div>
+
+    <h4><a href="#Guards">Guards</a></h4>
+    <div>
+    </div>
+
+    <h4><a href="#HigherOrderFunctions">Higher Order Functions</a></h4>
+    <div>
+    </div>
+
+
+    <h3><a name="#Lists">Lists</a></h3>
+
+    <h4><a href="#ListBasics">Basics</a></h4>
+    <div>
+    </div>
+    <table summary="List functions">
+      <caption>List Functions</caption>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+        <th>Example</th>
+      </tr>
+      <tr>
+        <td>!!</td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>++</td>
+        <td>builds a new list that is the concatenation of two lists</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>filter</td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>head</td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>init</td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>last</td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>length</td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>map</td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>null</td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>reverse</td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>tail</td>
+        <td></td>
+        <td></td>
+      </tr>
+    </table>
+    <table summary="functions that build finite lists">
+      <caption>Functions That Build Finite Lists</caption>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+        <th>Example</th>
+      </tr>
+      <tr>
+        <td>replicate</td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>scanl</td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>scanl1</td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>scanr</td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>scanr1</td>
+        <td></td>
+        <td></td>
+      </tr>
+    </table>
+    <table summary="functions that build infinite lists">
+      <caption>Functions That Build Infinite Lists</caption>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+        <th>Example</th>
+      </tr>
+      <tr>
+        <td>cycle</td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>iterate</td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>repeat</td>
+        <td></td>
+        <td></td>
+      </tr>
+    </table>
+    <table summary="functions that extract part of a list">
+      <caption>Functions That Extract Part of a List</caption>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+        <th>Example</th>
+      </tr>
+      <tr>
+        <td>take</td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>takeWhile</td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>drop</td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>dropWhile</td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>splitAt</td>
+        <td></td>
+        <td></td>
+      </tr>
+    </table>
+    <table summary="functions that search a list">
+      <caption>Functions That Search a List</caption>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+        <th>Example</th>
+      </tr>
+      <tr>
+        <td>lookup</td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>notElem</td>
+        <td></td>
+        <td></td>
+      </tr>
+    </table>
+    <table summary="functions that zip and unzip lists">
+      <caption>Functions That Zip and Unzip Lists</caption>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+        <th>Example</th>
+      </tr>
+      <tr>
+        <td>zip</td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>zipWith</td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>zipWith3</td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>unzip</td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>unzip3</td>
+        <td></td>
+        <td></td>
+      </tr>
+    </table>
+    <table summary="functions that convert between strings and lists">
+      <caption>Functions That Convert Between Strings and Lists</caption>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+        <th>Example</th>
+      </tr>
+      <tr>
+        <td>lines</td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>words</td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>unlines</td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>unwords</td>
+        <td></td>
+        <td></td>
+      </tr>
+    </table>
+
+    <h4><a href="#ListComprehension">List Comprehension</a></h4>
+    <div>
+    </div>
+
+    <h3><a name="#Tuples">Tuples</a></h3>
+    <div>
+      Tuples are similar to Lists, but the length is fixed
+      and each element can have a different type.
+    </div>
+    <table summary="Tuple functions">
+      <caption>Tuple Functions</caption>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+        <th>Example</th>
+      </tr>
+      <tr>
+        <td>fst</td>
+        <td>returns the first element</td>
+        <td>fst ("foo", "bar") == "foo"</td>
+      </tr>
+      <tr>
+        <td>snd</td>
+        <td>returns the first element</td>
+        <td>snd ("foo", "bar") == "bar"</td>
+      </tr>
+      <tr>
+        <td>curry</td>
+        <td></td>
+        <td>converts an uncurried function to a curried one</td>
+      </tr>
+      <tr>
+        <td>uncurry</td>
+        <td></td>
+        <td>converts a curried function to an uncurried one</td>
+      </tr>
+    </table>
+
+    <h3><a name="#Records">Records</a></h3>
+
+    <h4><a href="#RecordBasics">Basics</a></h4>
+    <div>
+    </div>
+
+    <h4><a href="#RecordUpdating">Updating</a></h4>
+    <div>
+    </div>
+
+    <h3><a name="#Maps">Maps</a></h3>
+
+    <h4><a href="#"></a></h4>
+    <div>
+    </div>
+
+    <h3><a name="Modules">Modules</a></h3>
+
+    <h4><a href="#Importing">Importing</a></h4>
+    <div>
+    </div>
+
+    <h4><a href="#QualifiedImports">Qualified Imports</a></h4>
+    <div>
+    </div>
+
+    <h4><a href="#Exclusions">Exclusions</a></h4>
+    <div>
+    </div>
+
+    <h4><a href="#Exporting">Exporting</a></h4>
+    <div>
+    </div>
+
+    <h3><a name="Syntax">Syntax</a></h3>
+
+    <h4><a href="#Comments">Comments</a></h4>
+    <div>
+      Single-line comments in Haskell start with <code>--</code>
+      and continue to the end of the line.
+      Multi-line comments are surrounded with
+      <code>{-</code> and <code>-}</code>.
+    </div>
+
+    <h4><a href="#ReservedWords">Reserved Words</a></h4>
+    <div>
+    </div>
+
+    <h4><a href="#StringsAndCharacters">Strings &amp; Character</a></h4>
+    <div>
+    </div>
+    <table>
+      <caption>Char Functions (<code>import Data.Char</code>)</caption>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+        <th>Example</th>
+      </tr>
+      <tr>
+        <td>toUpper</td>
+        <td>returns the uppercase version of a Char</td>
+        <td>toUpper 'g' == 'G'</td>
+      </tr>
+      <tr>
+        <td>toLower</td>
+        <td>returns the lowercase version of a Char</td>
+        <td>toLower 'G' == 'g'</td>
+      </tr>
+      <tr>
+        <td>other?</td>
+        <td></td>
+        <td></td>
+      </tr>
+    </table>
+    <table>
+      <caption>String Functions</caption>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+        <th>Example</th>
+      </tr>
+      <tr>
+        <td>++</td>
+        <td>concatenates (building a new list from two lists)</td>
+        <td>"foo" ++ "bar" == "foobar"</td>
+      </tr>
+      <tr>
+        <td>show</td>
+        <td>converts a value of any type that derives Show to a String</td>
+        <td>show 19 == "19"</td>
+      </tr>
+      <tr>
+        <td>map toUpper</td>
+        <td>returns the uppercase version of a String</td>
+        <td>map toUpper "abc" == "ABC"</td>
+      </tr>
+      <tr>
+        <td>map toLower</td>
+        <td>returns the lowercase version of a String</td>
+        <td>map toLower "ABC" == "abc"</td>
+      </tr>
+    </table>
+    <div>
+      Another way to change the case of a String is:
+    </div>
+    <pre>
+      things to convert values to a string
+      * ShowS type
+      * Show type class
+      * shows, showChar, showString, and showParen functions
+      things to convert strings to a value
+      * ReadS type
+      * Read type class
+      * reads, readParen, read, and lex functions
+    </pre>
+    <pre>
+import qualified Data.Text as T
+p = T.pack "foo"
+T.toUpper p</pre>
+    <div>
+      Why would this approach every be preferred?
+    </div>
+
+    <h4><a href="#Numbers">Numbers</a></h4>
+    <div>
+      This was already covered in the "Prelude Types" section.
+    </div>
+    <div>
+      Most functions that take two or more numbers
+      require them to be the same type.
+      For example,
+    </div>
+    <pre>
+a = 3
+b = 2.1
+a + b -- okay, 5.1
+a = 3 :: Int
+b = 2.1 :: Float
+a + b -- error</pre>
+    <div>
+      To convert an <code>Integral</code> to a <code>Floating</code>,
+      <code>fromIntegral <i>integralValue</i></code>.
+    </div>
+    <div>
+      Say more about type conversions.
+    </div>
+
+    <h4><a href="#DatesAndTimes">Dates and Times</a></h4>
+    <pre>
+- see https://two-wrongs.com/haskell-time-library-tutorial
+- import Data.Time
+- to create a Day instance, use fromGregorian[Valid] year month day
+  * year must Integer; month and year must be Int
+  * returns Day
+  * without Valid
+    - returns a Day where the month is 1 if given < 1
+      and the day is the last day in the month if given > last day
+  * with Valid
+    - returns a Maybe that is
+      a Maybe Day if it's a valid date
+      and Nothing if it isn't a valid date
+- to get a triple (year, month, day) from a Day,
+  ymd = toGregorian someDay
+- to get a String representation of a Day,
+  show someDay
+- to create a Day that is n days after someDay,
+  newDay = addDays n someDay
+  * n can be negative to subtract days
+- to create a Day that is n months after someDay,
+  newDay = addGregorianMonthsClip n someDay
+  * n can be negative to subtract months
+  * "Clip" means that it will adjust the day to be within the result month
+- to get the number of days between to Day instances,
+  diff = diffDays day1 day2
+- to get the current date and time,
+  now <- getCurrentTime -- type is IO UTCTime
+  * getCurrentTime is impure
+    (can return a different value each time it is called)
+  * to get the UTCTime value out of it, use <- instead of =
+- to create a new UTCTime that is n seconds after someTime,
+  newTime = addUTCTime n someTime
+- to get the number of seconds between two UTCTime instances,
+  diff = diffUTCTime time1 time2
+    </pre>
+
+    <h4><a href="#Enumerations">Enumerations</a></h4>
+    <div>
+      Enumerated types are types with a fixed list of values.
+      They are also referred to as algebraic data types.
+    </div>
+    <pre>
+- ex. creating a custom Color type
+  data Color = Red | Green | Blue deriving (Eq, Ord, Show, Read)
+  * Red, Green, and Blue are "value constructors"
+    - used to create an instance of Color
+    - they can take arguments as shown below
+    - they can be used in pattern matching
+  * deriving causes the compiler to implement the
+    functions in a type class for your type for you
+    - don't need if you're going to supply the implementation
+  * deriving from Eq allows Cocalor values to be compared with == and /=
+  * deriving from Ord allows Color values to be compared with <, <=, >=, >
+  * deriving from Show allows Color values to be converted to Strings
+  * deriving from Read allows strings to be Color values
+    - ex. read "Red" :: Color
+- using the custom Color type
+  colorToTemp2 :: Color -> String
+  colorToTemp2 color = case color of
+    Red -> "hot"
+    Blue -> "cold"
+    _ -> "normal"
+    </pre>
+
+    <h4><a href="#Let">Let</a></h4>
+    <div>
+      The <code>let</code> keyword allows multiple assignments to names
+      that are then used to evaluate an expression
+      that follows the <code>in</code> keyword.  For example:
+    </div>
+    <pre>
+sumOfSquares :: Num a => a -> a -> a
+sumOfSquares x y =
+  let xSquared = x * x
+      ySquared = y * y
+  in xSquared + ySquared</pre>
+
+    <h4><a href="#Where">Where</a></h4>
+    <div>
+      The <code>where</code> keyword is similar to the <code>let</code> keyword.
+      One differences is that the expression to be evaluated precedes
+      the assignments to names.
+      Another difference is the scope of ?.
+      For example:
+    </div>
+    <pre>
+sumOfSquares :: Num a => a -> a -> a
+sumOfSquares x y = xSquared + ySquared
+  where
+    xSquared = x * x
+    ySquared = y * y</pre>
+
+    <h4><a href="#Do">Do</a></h4>
+    <div>
+      The do keyword is typically used in conjunction with monads,
+      but it can also be used just to have a block of expressions
+      where the value of the do is the value of the last expression.
+      However, do is typically only used when there is at least
+      one expression that evaluates to a monad.
+      For example:
+    </div>
+    <pre>
+sumOfSquares :: Num a => a -> a -> a
+sumOfSquares x y = do
+  let xSquared = x * x
+  let ySquared = y * y
+  xSquared + ySquared</pre>
+
+    <!-- include deconstruction -->
+    <h4><a href="#IfThenElse">IfThenElse</a></h4>
+    <div>
+    </div>
+
+    <h4><a href="#Case">Case</a></h4>
+    <div>
+    </div>
+
+    <h3><a name="#InputOutput">Input/Output</a></h3>
+    <pre>
+      input/output with stdin and stdout
+      * IO monad
+      * output functions putChar, putStr, putStrLn, and print
+      * input functions getChar, getLine, getContents, and interact
+      input/output with files
+      * FilePath type
+      * readfile, writeFile, appendFile, readIO, and readLn functions
+      exception handling
+      * IOError type
+      * ioError and userError functions
+    </pre>
+
+    <h4><a href="#DoBlocks">Do Blocks</a></h4>
+    <div>
+    </div>
+
+    <h4><a href="#CommandLineArguments">Command Line Arguments</a></h4>
+    <div>
+    </div>
+
+    <h4><a href="#Files">Files</a></h4>
+    <div>
+    </div>
+
+    <h4><a href="#Streams">Streams</a></h4>
+    <div>
+    </div>
+
+    <h4><a href="#Bytestrings">Bytestrings</a></h4>
+    <div>
+    </div>
+
+    <h4><a href="#"></a></h4>
+    <div>
+    </div>
+
+    <h3><a name="GoingDeep">Going Deep</a></h3>
+
+    <h4><a href="#Monoids">Monoids</a></h4>
+    <div>
+      <code>Monoid</code> is a type class
+      defined in the <code>Prelude</code> module.
+    </div>
+
+    <h4><a href="#Monads">Monads</a></h4>
+    <div>
+      <code>Monad</code> is a type class
+      defined in the <code>Prelude</code> module.
+    </div>
     <div>
       Monads can be used to isolate pure functions from impure functions.
       A monad is a type that supports bind and return functions.
@@ -458,17 +1738,41 @@
       Does this only apply to functions that
       perform I/O, may throw an exception, or modify state?
     </div>
-    <div>
-      Examples of monads in Haskell include IO, Maybe, List, and State.
-      The IO monad ...
-      The Maybe monad ...
-      The List monad ...
-      The State monad is used to simulate mutability
-      because there is no real mutability in Haskell.
-    </div>
-    <div>
-      In Haskell, monads are type classes.
-    </div>
+    <table summary="Prelude monads">
+      <caption>Prelude Monads</caption>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+      <tr>
+        <td>Maybe</td>
+        <td>
+          supports error handling;
+          has constructors Just and Nothing;
+          Nothing typically represents an error condition
+        </td>
+      </tr>
+      <tr>
+        <td>Either</td>
+        <td>
+          supports error handling;
+          has constructors Left and Right;
+          Right typically represents an error condition
+        </td>
+      </tr>
+      <tr>
+        <td>List</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>IO</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>State</td>
+        <td>used to simulate mutability</td>
+      </tr>
+    </table>
     <div>
       In Haskell, the bind operation is performed
       with the infix function <code>>>=</code>.
@@ -552,513 +1856,105 @@ return x = [x]
 l >>= f = concatMap f l
     </pre>
 
+    <h4><a href="#Functors">Functors</a></h4>
     <div>
-      TODO:
-- describe Haskell's use of persistent data structures
-  to efficient create modified copies of existing data structures
-- has no for or while loops
-  * instead iteration is performed with recursion
-    and functions like map, filter, and foldl
-- the Vim ALE plugin has support for linting Haskell code!
+      <code>Functor</code> is a type class
+      defined in the <code>Prelude</code> module.
     </div>
 
-    <h3><a name="SourceFiles">Source Files</a></h3>
+    <h4><a href="#Applicatives">Applicatives</a></h4>
     <div>
-      Haskell source files have a file extension of <code>.hs</code>.
-      To load these into a ghci session, enter
-      <code>:load <i>filename</i></code> or <code>:l <i>filename</i></code>.
-      The <code>.hs</code> file extension can be omitted.
-      If a loaded source file is modified, enter
-      <code>:reload</code> or <code>:r</code> to reload it in ghci.
-      Note that these source files must define a valid Haskell module.
-      They are not merely a series of expressions to be evaluated by ghci.
-      To make it easy to demonstrate
-      use of functions defined in the module,
-      consider defining a function with a name like "demo"
-      that can be called from ghci.
-    </div>
-    <div>
-      Is it fair to say that ghci always evaluates expressions
-      in a monadic context, so "do" is not needed?
-    </div>
-    <div>
-      To execute a Haskell source file without saving intermediate files
-      or an executable, enter <code>runghc <i>filename</i></code>.
-      The <code>.hs</code> file extension can be omitted.
-      Note that <code>runhaskell</code> is an alias (symbolic link)
-      for <code>runghc</code>.
-    </div>
-    <div>
-      For example, create file <code>hello.hs</code>
-      containing this function definition:
-    </div>
-    <pre>
-hello name = "Hello, " ++ name + "!"</pre>
-    <div>
-      To run this inside the GHC REPL,
-      enter <code>ghci</code>,
-      <code>:l hello</code>, and
-      <code>hello "Mark"</code>.
+      <code>Applicative</code> is a type that is
+      an instance of the <code>Functor</code> type class
+      defined in the <code>Prelude</code> module.
     </div>
 
-    <h3><a name="Comments">Comments</a></h3>
+    <h4><a href="#Foldables">Foldables</a></h4>
     <div>
-      Single-line comments in Haskell start with <code>--</code>
-      and continue to the end of the line.
-      Multi-line comments are surrounded with
-      <code>{-</code> and <code>-}</code>.
+      <code>Foldable</code> is a type class
+      defined in the <code>Prelude</code> module.
     </div>
-
-    <h3><a name="Assignment">Assignment</a></h3>
-    <div>
-      To assign the value of an expression to a name,
-      use <code><i>name</i> = <i>expression</i></code>.
-      The value cannot be changed later
-      since all data in Haskell is immutable.
-      When is <code>let</code> needed?
-    </div>
-    <div>
-      Values can be assigned to multiple variables in a single assignment.
-      This is similar to destructuring in JavaScript.
-      The syntax is for doing this is:<br>
-      <code>(<i>name1</i>, <i>name2</i>) = (<i>value1</i>, <i>value2</i>)</code>
-    </div>
-
-    <h3><a name="Operators">Operators</a></h3>
-    <div>
-      What are viewed as operators in other programming languages
-      are actually infix functions in Haskell.
-      Parentheses can be used to control order of evaluation.
-      The tables below summarize the provided
-      functions for operation on primitive types
-      like numbers and booleans.
-    </div>
-    <table class="operators">
-      <caption>Number Functions</caption>
-      <tr>
-        <th>Name</th>
-        <th>Operation</th>
-        <th>Example</th>
-      </tr>
-      <tr><td class="center">+</td><td>addition</td><td>&nbsp;</td></tr>
-      <tr><td class="center">-</td><td>subtraction</td><td>&nbsp;</td></tr>
-      <tr><td class="center">*</td><td>multiplication</td><td>&nbsp;</td></tr>
-      <tr><td class="center">/</td><td>division</td><td>&nbsp;</td></tr>
-      <tr><td class="center">**</td><td>Float exponentiation (and Double?)</td><td>2 ** 3 == 8</td></tr>
-      <tr><td class="center">^</><td>Num exponentiation</td><td>&nbsp;</td></tr>
-      <tr><td class="center">^^</td><td>Fractional exponentiation</td><td>&nbsp;</td></tr>
-      <tr><td class="center">div</td><td>integer division, discarding remainder</td><td>div 8 3 == 2</td></tr>
-      <tr><td class="center">mod</td><td>modulo</td><td>mod 8 3 == 2</td></tr>
-      <tr><td class="center">gcd</td><td>greatest common denominator</td><td>gcd 12 15 == 3</td></tr>
-      <tr><td class="center">lcm</td><td>least common multiple</td><td>lcm 6 10 == 30</td></tr>
-      <tr><td class="center">even</td><td>determines if a number is even</td><td>&nbsp;</td></tr>
-      <tr><td class="center">odd</td><td>determines if a number is odd</td><td>&nbsp;</td></tr>
-      <tr><td class="center">abs</td><td>returns the absolute value of a number</td><td>&nbsp;</td></tr>
-    </table>
-
-    <table class="operators">
-      <caption>Logic Functions</caption>
-      <tr>
-        <th>Name</th>
-        <th>Operation</th>
-      </tr>
-      <tr><td class="center">&&</td><td>and</td></tr>
-      <tr><td class="center">||</td><td>or</td></tr>
-      <tr><td class="center">not</td><td>not</td></tr>
-    </table>
-
-    <div>
-      These comparison functions required their operands
-      to be the same type.
-    </div>
-    <table class="operators">
-      <caption>Comparison Functions</caption>
-      <tr>
-        <th>Name</th>
-        <th>Operation</th>
-      </tr>
-      <tr><td class="center">==</td><td>equal</td></tr>
-      <tr><td class="center">/=</td><td>not equal</td></tr>
-      <tr><td class="center">&lt;</td><td>less than</td></tr>
-      <tr><td class="center">&lt;=</td><td>less than or equal</td></tr>
-      <tr><td class="center">&gt;</td><td>greater than</td></tr>
-      <tr><td class="center">&gt;=</td><td>greater than or equal</td></tr>
-    </table>
-
-    <h3><a name="PrimitiveTypes">Primitive Types</a></h3>
-    <div>
-      There are essential four categories of primitives in Haskell.
-      They are booleans, characters, strings, and numbers.
-    </div>
-    <div>
-      Booleans are represented by the type <code>Bool</code>.
-      The only valid values are <code>True</code> and <code>False</code>.
-    </div>
-    <div>
-      Single Unicode characters are represented by the type <code>Char</code>.
-      Literal values are surrounded by single quotes.
-    </div>
-    <div>
-      Strings are represented by the type <code>String</code>
-      which is a alias for the type <code>[Char]</code>.
-      Literal values are surrounded by double quotes.
-      Strings are actually <code>List</code>s of <code>Char</code> values,
-      so they can be passed to any function that accepts a list
-      where the element type is allowed to be <code>Char</code>.
-    </div>
-
-    <table>
-      <caption>List Functions</caption>
+    <table summary="Foldable functions">
+      <caption>Foldable Functions</caption>
       <tr>
         <th>Name</th>
         <th>Description</th>
         <th>Example</th>
       </tr>
       <tr>
-        <td>++</td>
-        <td>builds a new list that is the concatenation of two lists</td>
+        <td>and</td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>or</td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>any</td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>all</td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>concat</td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>concatMap</td>
+        <td></td>
         <td></td>
       </tr>
     </table>
 
-    <table>
-      <caption>Char Functions (<code>import Data.Char</code>)</caption>
-      <tr>
-        <th>Name</th>
-        <th>Description</th>
-        <th>Example</th>
-      </tr>
-      <tr>
-        <td>toUpper</td>
-        <td>returns the uppercase version of a Char</td>
-        <td>toUpper 'g' == 'G'</td>
-      </tr>
-      <tr>
-        <td>toLower</td>
-        <td>returns the lowercase version of a Char</td>
-        <td>toLower 'G' == 'g'</td>
-      </tr>
-      <tr>
-        <td>other?</td>
-        <td></td>
-        <td></td>
-      </tr>
-    </table>
-
-    <table>
-      <caption>String Functions</caption>
-      <tr>
-        <th>Name</th>
-        <th>Description</th>
-        <th>Example</th>
-      </tr>
-      <tr>
-        <td>++</td>
-        <td>concatenates (building a new list from two lists)</td>
-        <td>"foo" ++ "bar" == "foobar"</td>
-      </tr>
-      <tr>
-        <td>show</td>
-        <td>converts a value of any type that derives Show to a String</td>
-        <td>show 19 == "19"</td>
-      </tr>
-      <tr>
-        <td>map toUpper</td>
-        <td>returns the uppercase version of a String</td>
-        <td>map toUpper "abc" == "ABC"</td>
-      </tr>
-      <tr>
-        <td>map toLower</td>
-        <td>returns the lowercase version of a String</td>
-        <td>map toLower "ABC" == "abc"</td>
-      </tr>
-    </table>
-
-  * another way to change the case of a String
-    - import qualified Data.Text as T
-    - p = T.pack "foo"
-    - T.toUpper p
-    - Why is this every preferred?
-
+    <h4><a href="#Traversables">Traversables</a></h4>
     <div>
-      Numbers are represented by many types.<br>
-      The <code>Int</code> type represents integers in four bytes.<br>
-      The <code>Integer</code> type represents arbirtrary precision integers.<br>
-      The <code>Float</code> type represents floating point numbers in four byte.<br>
-      The <code>Double</code> type represents floating point numbers in eight bytes.<br>
-    </div>
-    <div>
-      Negative numbers must be surrounded by parentheses to
-      indicate that the dash is not the subtraction operator.
-      For example, <code>5 - (-2) == 7</code>.
-    </div>
-    <div>
-      The number types exist in a type hierarchy shown in the following diagram.
-    </div>
-    <img src="number-hierarchy.png" alt="number hierarchy">
-  * Num
-    * Fractional
-      * Floating
-        * Float
-        * Double
-      * RealFrac
-        * Float
-        * Double
-    * Real derives from Ord which adds ordering functions
-      * Integral derives from Enum
-        * Int
-        * Integer
-      * RealFrac
-        * Float
-        * Double
-  * RealFloat derives from RealFrac and Floating
-    * Float
-    * Double
-  * Complex
-
-    <div>
-      The syntax to set a variable to the value of an expression
-      and specify its type is:<br>
-      <code><i>name</i> = <i>expression</i> :: <i>type</i></code>
-    </div>
-    <div>
-      For example, <code>n = 3 :: Int</code>.
+      <code>Traversable</code> is a type
+      defined in the <code>Prelude</code> module.
+      It similar to <code>Foldable</code>,
+      but also allows values to be added.
     </div>
 
+    <h4><a href="#HigherKindedTypes">Higher Kinded Types</a></h4>
     <div>
-      Most functions that take two or more numbers
-      require them to be the same type.
-      For example,
     </div>
+
+    <h3><a name="Summary">Summary</a></h3>
+    <h3><a name="Acknowledgments">Acknowledgments</a></h3>
+
+    <!-- ################################################################## -->
     <pre>
-a = 3
-b = 2.1
-a + b -- okay, 5.1
-a = 3 :: Int
-b = 2.1 :: Float
-a + b -- error</pre>
-
-    <div>
-      To convert an <code>Integral</code> to a <code>Floating</code>,
-      <code>fromIntegral <i>integralValue</i></code>.
-    </div>
-    <div>
-      Say more about type conversions.
-    </div>
-
-    <h3><a name="Currying">Currying</a></h3>
-    <div>
-      Haskell functions automatically support currying.
-      If a function is called with fewer arguments than allowed,
-      a new function is returned that accepts the remaining arguments.
-      For example,
-    </div>
-    <pre>
-volume :: Num n => n -> n -> n -> n
-volume w h d = w * h * d
-
-v2 :: Num n => n -> n -> n
-v2 = volume 2
-
-v3 :: Num n => n -> n
-v3 = volume 2 3
-
-volume 2 3 4 == 24
-v2 4 == 24
-v3 3 4 == 24</pre>
-
-Types
-- ues Hindley-Milner type system
-- syntax is name :: type
-  * :: means "has type of"
-- variable examples
-  * firstName :: String
-  * names :: [String]
-    - an array of Strings
-- function examples
-  * add :: Int -> Int -> Int
-    - each parameter type is followed by ->
-      with the return type at the end
-    - takes two Ints and returns an Int
-    - also takes one Int and returns a
-      function that takes and Int and returns an Int
-  * type variables can be used to specify that
-    an argument type or the return type can be
-    any type or a type that derives from a specific type class
-    - ex. the swap function below takes any kind of list
-      and returns a new list where the first two items are swapped
-      swap :: [a] -> [a]
-      swap (first:second:rest) = second:first:rest
-      swap [1,2,3,4] == [2,1,3,4]
-  * to restrict a type variable to types that
-    derive from a given type class (not an actual type!)
-      swap :: Num n => [n] -> [n]
-      swap (first:second:rest) = second:first:rest
-      swap [1,2,3,4] == [2,1,3,4]
-  * add :: Num a => a -> a -> a -- syntax only works with type classes
-    - means all occurrences of a in the signature have type Num
-    - takes two Num arguments and returns a Num
-    - "a" here is called a "type alias"
-    - => and the part to its left is called a "class constraint"
-      * if more than one, surround with parens and separate with commas
-      * ex. (Num a, String b) =>
-    - can require a type variable to derive from more than one type class
-      * ex. (Eq a, Ord a) =>
-  * add x y = x + y
-    - implementation of the two function declarations
-  * currying example
-    plus5 = add 5
-    plus5 2 == 7
-  * ghci detail
-    - entering the type signature and definition on two lines doesn't work
-    - workarounds
-      * enter them on same line separated by a semicolon
-        - ex. let add :: Num a => a -> a -> a; add x y = x + y
-      * enter them in a block
-        :{
-        let add :: Num a => a -> a -> a
-            add x y = x + y -- indented 4 spaces
-        :}
-      * turn on multline mode which automatically infers use of :{ and :}
-        :set +m -- one tie
-        let add :: Num a => a -> a -> a
-            add x y = x + y -- indented 4 spaces
-        press return to exit block
-- another function example
-  * charAt :: String -> Int -> Char
-    charAt str index = str !! index
-- can see the type of a function in ghci with :t {function-name}
-
-Predefined Types
-- are all of these defined in the Prelude module?
-- Bool, Char, String
-- Int, Integer, Float, Double
-- [a] - polymorphic list
-- (...) - tuple
-- () - unit (What is this?)
-- function
-- Maybe is Nothing or Just a
-- Either a b is Left a or Right b
-- Ordering is LT, EQ, or GT
+      Prelude miscellaneous functions include:
+      * $
+      * $!
+      * . (function composition)
+      * asTypeOf
+      * const
+      * error
+      * errorWithoutStackTrace
+      * flip
+      * id
+      * seq
+      * undefined
+      * until
+    </pre>
 
 Predefined Type Classes
-- Bounded, Eq, Enum, Ord, Read, Show
-- Fractional, Num, ...
 - Data?
 - Bits?, FiniteBits?
 - Generic?
-- Ix?
 - Storable?
-
-Type Classes
-- not like classes in OO languages
-- define an interface (set of functions)
-- names start uppercase
-- types that are instances implement all the functions
-  and are said to "derive" from the type class
-- a type can derive from any number of type classes
-- builtin examples include
-  * Eq
-    - for types whose values can be compared for equality
-    - functions are = and /=
-    - all standard Haskell classes implement Eq
-  * Ord
-    - for types whose values can be ordered
-    - funcions are <, <=, >=, and >
-  * Show
-    - for types can be converted to a String representation
-    - only function is show
-      * a little like JavaScript's JSON.stringify
-    - ex. show 3.14
-    - ex. show [1, 2, 3]
-    - ex. show ("foo", 7, True)
-  * Read
-    - for types that can be created from a String
-    - opposite of Show
-      * a little like JavaScript's JSON.parse
-    - only function is read
-    - when desired type is not known from context, must specify
-      * ex. read "3.14" raises an exception
-      * ex. read "3.14" :: Float
-      * ex. read "[1, 2, 3]" :: [Int]
-      * ex. read "(\"foo\", 7, True)" :: (String, Int, Bool)
-  * Enum
-    - for types with values that can be enumerated
-      and used in ranges to create Lists
-    - functions are succ and pred
-    - examples of builtin types that implement this are
-      Int, Integer, Float, and Double
-  * Bounded
-    - for types that have bounds
-    - functions are minBound and maxBound
-    - called on the type, not a value of the type
-      * ex. maxBound :: Int
-    - examples of builtin types that implement this are
-      Char, Int, Float, and Double
-  * Num
-    - for types that can be used as numbers
-    - builtin types that implement this are
-      Int, Integer, Float, and Double
-    - when a function type signature says that
-      two or more parameters have a type of Num,
-      those must have the same actual type
-      * ex. add :: (Num a) => a -> a -> a
-        add a b = a + b
-        n = 3 :: Int
-        add n 7.2 -- error because n and 7.2 are not the same type
-  * Floating
-    - the Float and Double types implement this
-    - some math functions take arguments of this type (ex. sqrt and sin)
-    - ex.
-      n = 3 :: Int
-      sqrt n -- error because n is not Floating
-  * Integral
-    - the Int and Integer types implement this
-    - fromIntegral function takes an Integral and converts it to Num
-      * needed in order to call a function like + on an Integral and a Floating
-      * ex. length [1,2,3] + 2.1 raises an error because
-        length returns an Int and 2.1 is not an Int
 
 Type and Data Constructors
 - parameterized type definitions that can be passed many types (polymorphic)
 - pass types to a type constructor of a type class or a to create a new type
 - pass values to a data constructor to create an instance of a type
-
-Dates and Times
-- see https://two-wrongs.com/haskell-time-library-tutorial
-- import Data.Time
-- to create a Day instance, use fromGregorian[Valid] year month day
-  * year must Integer; month and year must be Int
-  * returns Day
-  * without Valid
-    - returns a Day where the month is 1 if given < 1
-      and the day is the last day in the month if given > last day
-  * with Valid
-    - returns a Maybe that is
-      a Maybe Day if it's a valid date
-      and Nothing if it isn't a valid date
-- to get a triple (year, month, day) from a Day,
-  ymd = toGregorian someDay
-- to get a String representation of a Day,
-  show someDay
-- to create a Day that is n days after someDay,
-  newDay = addDays n someDay
-  * n can be negative to subtract days
-- to create a Day that is n months after someDay,
-  newDay = addGregorianMonthsClip n someDay
-  * n can be negative to subtract months
-  * "Clip" means that it will adjust the day to be within the result month
-- to get the number of days between to Day instances,
-  diff = diffDays day1 day2
-- to get the current date and time,
-  now <- getCurrentTime -- type is IO UTCTime
-  * getCurrentTime is impure
-    (can return a different value each time it is called)
-  * to get the UTCTime value out of it, use <- instead of =
-- to create a new UTCTime that is n seconds after someTime,
-  newTime = addUTCTime n someTime
-- to get the number of seconds between two UTCTime instances,
-  diff = diffUTCTime time1 time2
 
 Type Variables
 - allow a parameter or return type to be more than one type
@@ -1079,39 +1975,6 @@ Type Variables
 - similar to generics in other languages such as Java and Flow/TypeScript
 - functions whose signatures use type variables
   are called "polymorphic functions"
-
-Enumerated Types
-- ex. creating a custom Color type
-  data Color = Red | Green | Blue deriving (Eq, Ord, Show, Read)
-  * Red, Green, and Blue are "value constructors"
-    - used to create an instance of Color
-    - they can take arguments as shown below
-    - they can be used in pattern matching
-  * deriving causes the compiler to implement the
-    functions in a type class for your type for you
-    - don't need if you're going to supply the implementation
-  * deriving from Eq allows Color values to be compared with == and /=
-  * deriving from Ord allows Color values to be compared with <, <=, >=, >
-  * deriving from Show allows Color values to be converted to Strings
-  * deriving from Read allows strings to be Color values
-    - ex. read "Red" :: Color
-- using the custom Color type
-  colorToTemp2 :: Color -> String
-  colorToTemp2 color = case color of
-    Red -> "hot"
-    Blue -> "cold"
-    _ -> "normal"
-
-Overriding a type class implementation
-- ex.
-  data Size = S | M | L -- cannot say "deriving Show" since overridden below
-  instance Show Size where
-    show S = "small"
-    show M = "medium"
-    show L = "large"
-  show S == "small"
-  size = M
-  show size == "medium"
 
 Custom Types
 -- Custom, struct-like data type.
@@ -1204,30 +2067,6 @@ instance ShapeCompare Shape where
 -- isLarger circle rectangle == False
 -- isWider circle rectangle == False
 -- isTaller circle rectangle == True
-
-$ precedence operator
-- means expression after it takes precedence over expression before it
-- ex. abs (x1 - x2) == abs $ x1 - x2
-- Most people don't like this at first.
-  You may think that it adds new syntax for no real gain.
-  You may think you'll always use parens instead.
-  You will probably cave in a use it later.
-- another example
-  putStrLn ("Hello, " ++ name)
-  is the same as
-  putStrLn $ "Hello, " ++ name
-
-. precedence operator
-- evaluates expression on right and passes it to function left
-- need a good example
-
-Names
-- variable identifiers start with a lowercase letter
-- constructor identifiers with an uppercase letter
-- both can contain underscores, single quotes, letters and digits
-- operators are formed from one or more of '!#$%&*+./<=>?@\^|-~'
-- constructors can be operator names, if they start with a ':'
-  - ex. :+ for Data.Complex
 
 Modules
 - typically define functions that are useful in other code
