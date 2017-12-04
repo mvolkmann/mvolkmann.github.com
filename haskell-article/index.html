@@ -153,20 +153,22 @@
       <li class="level2"><a href="#LambdaFunctions">Lambda Functions</a></li>
       <li class="level2"><a href="#HigherOrderFunctions">Higher Order Functions</a></li>
 
-      <li class="level1"><a href="#Lists">Lists</a></li>
-      <li class="level2"><a href="#ListBasics">Basics</a></li>
-      <li class="level2"><a href="#ListComprehension">List Comprehension</a></li>
-      <li class="level2"><a href="#Ranges">Ranges</a></li>
-      <li class="level2"><a href="#AssociationLists">Association Lists</a></li>
+      <li class="level1"><a href="#DataStructures">Data Structures</a></li>
+      <li class="level2"><a href="#Lists">Lists</a></li>
+      <li class="level3"><a href="#ListBasics">Basics</a></li>
+      <li class="level3"><a href="#ListComprehension">List Comprehension</a></li>
+      <li class="level3"><a href="#Ranges">Ranges</a></li>
+      <li class="level3"><a href="#AssociationLists">Association Lists</a></li>
 
-      <li class="level1"><a href="#Tuples">Tuples</a></li>
-      <li class="level2"><a href="#"></a></li>
+      <li class="level2"><a href="#Tuples">Tuples</a></li>
+      <li class="level3"><a href="#"></a></li>
 
-      <li class="level1"><a href="#Records">Records</a></li>
-      <li class="level2"><a href="#RecordBasics">Basics</a></li>
-      <li class="level2"><a href="#RecordUpdating">Updating</a></li>
+      <li class="level2"><a href="#Records">Records</a></li>
+      <li class="level3"><a href="#RecordBasics">Basics</a></li>
+      <li class="level3"><a href="#RecordUpdating">Updating</a></li>
 
-      <li class="level1"><a href="#Maps">Maps</a></li>
+      <li class="level2"><a href="#Arrays">Arrays</a></li>
+      <li class="level2"><a href="#Maps">Maps</a></li>
 
       <li class="level1"><a href="#Modules">Modules</a></li>
       <li class="level2"><a href="#Importing">Importing</a></li>
@@ -193,9 +195,10 @@
       <li class="level2"><a href="#Files">Files</a></li>
       <li class="level2"><a href="#Streams">Streams</a></li>
       <li class="level2"><a href="#Bytestrings">Bytestrings</a></li>
-      <li class="level2"><a href="#"></a></li>
 
-      <li class="level1"><a href="#GoingDeep">Going Deep</a></li>
+      <li class="level1"><a href="#ExceptionHandling">Exception Handling</a></li>
+
+      <li class="level1"><a href="#AdvancedTopics">Advanced Topics</a></li>
       <li class="level2"><a href="#Monoids">Monoids</a></li>
       <li class="level2"><a href="#Monads">Monads</a></li>
       <li class="level2"><a href="#Functors">Functors</a></li>
@@ -854,6 +857,11 @@ hello name = "Hello, " ++ name + "!"</pre>
   * charAt :: String -> Int -> Char
     charAt str index = str !! index
 - can see the type of a function in ghci with :t {function-name}
+Are these predefined type classes?
+- Data?
+- Bits?, FiniteBits?
+- Generic?
+- Storable?
     </pre>
 
     <h4><a href="#ClassConstraints">Class Constraints</a></h4>
@@ -981,6 +989,85 @@ hello name = "Hello, " ++ name + "!"</pre>
     <h4><a href="#TypeConstructors">Type Constructors</a></h4>
     <div>
     </div>
+    <pre>
+- parameterized type definitions that can be passed many types (polymorphic)
+- pass types to a type constructor of a type class or a to create a new type
+- pass values to a data constructor to create an instance of a type
+Type Variables
+- allow a parameter or return type to be more than one type
+  * ex. the head function works on lists of *any* type
+    - its signature is head :: [a] -> a
+      where a represents any type
+  * ex. myFn :: Num n => n -> n
+    - n can be any type that derives from Num
+    - the part after :: up to and including =>
+      is called a "type constraint"
+  * ex. myFn :: (Read r, Show s) => r -> s
+    - a contrived example; maybe there's a better one
+    - r can be any type that derives from Read and
+      s can be any type that derives from Show
+- all type classes and types start uppercase
+  and all type variables start lowercase
+  * typically type variable names are a single character
+- similar to generics in other languages such as Java and Flow/TypeScript
+- functions whose signatures use type variables
+  are called "polymorphic functions"
+    </pre>
+    <pre>
+ShapeCompare example:
+
+data Shape =
+  Circle {
+    centerX :: Float,
+    centerY :: Float,
+    radius :: Float
+  } |
+  Rectangle {
+    x1 :: Float,
+    y1 :: Float,
+    x2 :: Float,
+    y2 :: Float
+  }
+area :: Shape -> Float
+area (Circle _ _ radius) = pi * radius ^ 2
+area (Rectangle x1 y1 x2 y2) = (abs (x1 - x2)) * (abs (y1 - y2))
+circle = Circle 1 2 3
+rectangle = Rectangle 2 2 6 5
+area circle == 28.27
+area rectangle == 12.0
+
+-- function that computes the width of a shape
+width :: Shape -> Float
+-- Circle version
+width (Circle _ _ radius) = radius * 2
+-- Rectangle version
+width (Rectangle x1 _ x2 _) = abs (x1 - x2)
+
+-- function that computes the height of a circle
+height :: Shape -> Float
+-- Circle version
+height (Circle _ _ radius) = radius * 2
+-- Rectangle version
+height (Rectangle _ y1 _ y2) = abs (y1 - y2)
+
+-- custom type class
+class ShapeCompare kind where
+  isLarger :: kind -> kind -> Bool
+  isWider :: kind -> kind -> Bool
+  isTaller :: kind -> kind -> Bool
+
+-- implementation of ShapeCompare for Shape type
+-- Note that the name of the type class being implemented
+-- is followed by the name of the type for which it is being implemented.
+-- We could implement the same type class for many types.
+instance ShapeCompare Shape where
+  isLarger shape1 shape2 = area shape1 > area shape2
+  isWider shape1 shape2 = width shape1 > width shape2
+  isTaller shape1 shape2 = height shape1 > height shape2
+-- isLarger circle rectangle == False
+-- isWider circle rectangle == False
+-- isTaller circle rectangle == True
+    </pre>
 
     <h4><a href="#AlgebraicDataTypes">Algebraic Data Types</a></h4>
     <!-- Include constructors with arguments -->
@@ -989,8 +1076,12 @@ hello name = "Hello, " ++ name + "!"</pre>
 
     <h4><a href="#Deriving">Deriving</a></h4>
     <div>
-      The deriving keyword specifies that a type
-      derives from any of seven provided type classes.
+      The <code>deriving</code> keyword specifies that a
+      type derives from any of seven provided type classes.
+      A comma-separated list of type classes surrounded by
+      parentheses follows the <code>deriving</code> keyword.
+      The parentheses can be omitted when
+      only deriving from one type class.
       It automatically implements them for you.
       These type classes are described in the following table
       (duplicated in the Type Classes section):
@@ -1215,6 +1306,20 @@ $ precedence operator
       Examples of side effects include I/O, error handling,
       and modifying global state.
     </div>
+    <pre>
+      Other functions provided by Prelude include:
+      * $
+      * $!
+      * asTypeOf
+      * const
+      * error
+      * errorWithoutStackTrace
+      * flip
+      * id
+      * seq
+      * undefined
+      * until
+    </pre>
 
     <h4><a href="#Currying">Currying</a></h4>
     <div>
@@ -1419,6 +1524,14 @@ map (\x -> x * 2 + 1) [1,2,3] = [3,5,7]</pre>
   process fn n = fn (n + 1)
   -- process double 2 == 6 which is (2 + 1) * 2
     </pre>
+
+    <h3><a name="#DataStructures">Data Structures</a></h3>
+    <div>
+      Basic data structures are provided
+      by the <code>Prelude</code> module.
+      Additional data structures are provided
+      by the <code>Data</code> module.
+    </div>
 
     <h3><a name="#Lists">Lists</a></h3>
 
@@ -1892,9 +2005,53 @@ map (\x -> x * 2 + 1) [1,2,3] = [3,5,7]</pre>
     <h4><a href="#RecordBasics">Basics</a></h4>
     <div>
     </div>
+    <pre>
+-- Custom, struct-like data type.
+-- Why can't a field use the name "id"?
+-- It seems to conflict with Prelude.id.
+data Person = Person
+  { personId :: Int
+  , firstName :: String
+  , middleName :: String
+  , lastName :: String
+  --, birthday :: Date
+  } deriving (Show)
+
+Creating an instance in the following way
+requires a value for ALL fields!
+p1 = Person 19 "Richard" "Mark" "Volkmann" "April 16"
+
+Can only some of the fields be specified with this syntax?
+p2 =
+  Person
+  { firstName = "Richard"
+  , middleName = "Mark"
+  , lastName = "Volkmann"
+  }
+
+Can use field names as accessor functions with "{field-name} p".
+This is an issue if a field name is a Haskell keyword
+or if other records have a field with the same name!
+Will get an error if the field has no value.
+
+Can get a string representation with "show p".
+
+Here is a function that operates on a Person.
+initials :: Person -> String
+initials p = head (firstName p) : head (middleName p) : head (lastName p) : []
+
+The following creates a new Person that is
+ a modified version of an existing one.
+p3 = p2 {firstName = "Tamara", middleName = "Ann"}
+    </pre>
 
     <h4><a href="#RecordUpdating">Updating</a></h4>
     <div>
+    </div>
+
+    <h3><a name="#Arrays">Arrays</a></h3>
+    <div>
+      See Data.Array.
     </div>
 
     <h3><a name="#Maps">Maps</a></h3>
@@ -2377,6 +2534,8 @@ main = do
   let transformed = map toUpper contents
   writeFile "out.txt" transformed
 
+Are there any libraries that provide support for asynchronous I/O
+like in Node?
     </pre>
 
     <h4><a href="#DoBlocks">Do Blocks</a></h4>
@@ -2405,7 +2564,28 @@ main = do
     <div>
     </div>
 
-    <h3><a name="GoingDeep">Going Deep</a></h3>
+    <h3><a name="ExceptionHandling">Exception Handling</a></h3>
+    <pre>
+- there are several approaches
+  * use Either monad where
+    the Left value is an exception description and
+    the Right value is the success value
+  * use catch from Control.Exception in one of these ways
+    - use parens
+      catch
+        (do
+          ...
+        )
+        handler
+    - move handler to front
+      (`catch` handler) $ do
+        ...
+    - use a helper function
+      catch handler helper
+        where helper = do
+    </pre>
+
+    <h3><a name="AdvancedTopics">Advanced Topics</a></h3>
 
     <h4><a href="#Monoids">Monoids</a></h4>
     <div>
@@ -2707,167 +2887,5 @@ l >>= f = concatMap f l
       For more articles like these, visit
       <a href="https://objectcomputing.com/resources/publications/sett/" target="_blank">https://objectcomputing.com/resources/publications/sett/</a>.
     </div>
-
-    <!-- ################################################################## -->
-    <pre>
-      Prelude miscellaneous functions include:
-      * $
-      * $!
-      * . (function composition)
-      * asTypeOf
-      * const
-      * error
-      * errorWithoutStackTrace
-      * flip
-      * id
-      * seq
-      * undefined
-      * until
-    </pre>
-
-Predefined Type Classes
-- Data?
-- Bits?, FiniteBits?
-- Generic?
-- Storable?
-
-Type and Data Constructors
-- parameterized type definitions that can be passed many types (polymorphic)
-- pass types to a type constructor of a type class or a to create a new type
-- pass values to a data constructor to create an instance of a type
-
-Type Variables
-- allow a parameter or return type to be more than one type
-  * ex. the head function works on lists of *any* type
-    - its signature is head :: [a] -> a
-      where a represents any type
-  * ex. myFn :: Num n => n -> n
-    - n can be any type that derives from Num
-    - the part after :: up to and including =>
-      is called a "type constraint"
-  * ex. myFn :: (Read r, Show s) => r -> s
-    - a contrived example; maybe there's a better one
-    - r can be any type that derives from Read and
-      s can be any type that derives from Show
-- all type classes and types start uppercase
-  and all type variables start lowercase
-  * typically type variable names are a single character
-- similar to generics in other languages such as Java and Flow/TypeScript
-- functions whose signatures use type variables
-  are called "polymorphic functions"
-
-Custom Types
--- Custom, struct-like data type.
--- Parens around Show are only need when
--- deriving from more than one type class.
--- Why can't a field use the name "id"?
--- It seems to conflict with Prelude.id.
-data Person = Person
-  { personId :: Int
-  , firstName :: String
-  , lastName :: String
-  , middleName :: String
-  --, birthday :: Date
-  } deriving (Show)
-
--- Can get a string representation with "show p".
--- Can use field names as accessor functions with "{field-name} p".
--- Will get an error if the field has no value.
-p1 = Person 1 "Joe" "Boxer"
-
--- Creating an instance using record syntax,
--- but must provide a value for ALL fields!
-p2 =
-  Person
-  { personId = 2
-  , firstName = "Richard"
-  , middleName = "Mark"
-  , lastName = "Volkmann"
-  }
-
--- Function that operates on a Person.
-initials :: Person -> String
-initials p = head (firstName p) : head (middleName p) : head (lastName p) : []
-
--- Create a new Person that is a modified version of an existing one.
-p3 = p2 {firstName = "Tamara", middleName = "Ann"}
-
-- union types
-  data Shape =
-    Circle {
-      centerX :: Float,
-      centerY :: Float,
-      radius :: Float
-    } |
-    Rectangle {
-      x1 :: Float,
-      y1 :: Float,
-      x2 :: Float,
-      y2 :: Float
-    }
-  area :: Shape -> Float
-  area (Circle _ _ radius) = pi * radius ^ 2
-  area (Rectangle x1 y1 x2 y2) = (abs (x1 - x2)) * (abs (y1 - y2))
-  circle = Circle 1 2 3
-  rectangle = Rectangle 2 2 6 5
-  area circle == 28.27
-  area rectangle == 12.0
-
-Custom Type Classes
-- ex. ShapeCompare
-
--- function that computes the width of a shape
-width :: Shape -> Float
--- Circle version
-width (Circle _ _ radius) = radius * 2
--- Rectangle version
-width (Rectangle x1 _ x2 _) = abs (x1 - x2)
-
--- function that computes the height of a circle
-height :: Shape -> Float
--- Circle version
-height (Circle _ _ radius) = radius * 2
--- Rectangle version
-height (Rectangle _ y1 _ y2) = abs (y1 - y2)
-
--- custom type class
-class ShapeCompare kind where
-  isLarger :: kind -> kind -> Bool
-  isWider :: kind -> kind -> Bool
-  isTaller :: kind -> kind -> Bool
-
--- implementation of ShapeCompare for Shape type
--- Note that the name of the type class being implemented
--- is followed by the name of the type for which it is being implemented.
--- We could implement the same type class for many types.
-instance ShapeCompare Shape where
-  isLarger shape1 shape2 = area shape1 > area shape2
-  isWider shape1 shape2 = width shape1 > width shape2
-  isTaller shape1 shape2 = height shape1 > height shape2
--- isLarger circle rectangle == False
--- isWider circle rectangle == False
--- isTaller circle rectangle == True
-
-Exception Handling
-- there are several approaches
-  * use Either monad where
-    the Left value is an exception description and
-    the Right value is the success value
-  * use catch from Control.Exception in one of these ways
-    - use parens
-      catch
-        (do
-          ...
-        )
-        handler
-    - move handler to front
-      (`catch` handler) $ do
-        ...
-    - use a helper function
-      catch handler helper
-        where helper = do
-          ...
-
-Any support for async I/O?
   </body>
 </html>
