@@ -442,7 +442,7 @@
     <ul>
       <li><code>:browse <i>module-name</i></code> lists the exported functions</li>
       <li><code>:edit</code> edits the last module loaded with the default editor<br>
-        (automatically reloads file after editor exits)</li>
+        (automatically reloads file after editor exits; :wq in Vim)</li>
       <li><code>:edit <i>file-path</i></code> edits the specified file with the default editor</li>
       <li><code>:help</code> or <code>:?</code> outputs ghci help</li>
       <li><code>:info <i>fn-name</i></code> outputs information about
@@ -455,6 +455,7 @@
       <li><code>:type <i>name</i></code> outputs the type of a name</li>
       <li><code>:reload</code> reloads the last loaded file</li>
       <li><code>:set +t</code> turns on automatically outputting the type of all expressions entered</li>
+      <li><code>:set editor vim</code> sets the editor used by :edit to be Vim</li>
       <li><code>:unset +t</code> turns off automatically outputting types</li>
       <li><code>:show modules</code> lists all modules that have been imported</li>
       <li><code>:!<i>command</i></code> runs a shell command; For example, :!clear clears the screen.</li>
@@ -843,32 +844,130 @@
       below tests...<i>project-name</i>-test...dependencies.
     </div>
     <div>
-      Here is a simple example of an hspec test
-      in the file <code>test/Spec.hs</code>:
+      To demonstrate writing hspec tests,
+      we'll create two modules that export functions to be tested.
+      Here is the file <code>src/Lib.hs</code>.
+    </div>
+    <pre>
+module Lib (addWithIO, double) where
+
+double :: Num n => n -> n
+double n = n * 2
+
+-- Performs IO and returns an Int.
+addWithIO :: Int -> Int -> IO Int
+addWithIO x y = do
+  putStrLn $ "adding " ++ show x ++ " and " ++ show y
+  return (x + y)</pre>
+    <div>
+      Here is the file <code>src/Div.hs</code>.
+    </div>
+    <pre>
+module Div where -- exports all functions
+
+import Control.Exception
+
+divError :: Float -> Float -> Float
+divError x 0 = error "divide by zero"
+divError x y = x / y
+
+divMaybe :: Float -> Float -> Maybe Float
+divMaybe x 0 = Nothing
+divMaybe x y = Just (x / y)
+
+divEither :: Float -> Float -> Either String Float
+divEither x 0 = Left "divide by zero"
+divEither x y = Right (x / y)
+
+demoDivError =
+  catch (print $ divError 6 0) handler where
+    handler :: SomeException -> IO ()
+    handler err = putStrLn $ "caught " ++ show err
+
+demoDivError2 =
+    catch (print $ divError 6 0)
+    (\(ErrorCall err) -> putStrLn $ "caught " ++ show err)
+
+demoDivMaybe = case divMaybe 6 0 of
+  Nothing -> print "got nothing"
+  Just n -> print n
+
+demoDivEither = case divEither 6 0 of
+  Left msg -> print msg
+  Right result -> print result</pre>
+    <div>
+      Here is the file <code>test/Spec.hs</code> that implements the tests:
     </div>
     <pre>
 module Main where
 
-import Lib -- exports the function double
+import Control.Exception (evaluate)
+import Div (divEither, divError, divMaybe)
+import Lib (addWithIO, double)
 import Test.Hspec
 
+myBefore :: IO ()
+myBefore = do
+  putStrLn "in myBefore"
+  putStrLn "still in MyBefore"
+
+myAfter :: IO ()
+myAfter = putStrLn "in myAfter"
+
 main :: IO ()
-main = hspec $
+main = hspec $ before_ myBefore $ after_ myAfter $
+
   describe "my suite" $ do
-    it "can add" $ do
-      (0 + 0) `shouldBe` 0
-      (0 + 1) `shouldBe` 1
+
+    it "simple example" $ do
       (1 + 2) `shouldBe` 3
+      (1 + 2) `shouldNotBe` 4
 
-    it "can subtract" $ (3 - 1) `shouldBe` 2
+    it "function returning normal value" $ double 3 `shouldBe` 6
 
-    it "double" $ double 3 `shouldBe` 6</pre>
+    it "function returning error" $ do
+      divError 6 2 `shouldBe` 3
+      evaluate (divError 6 0) `shouldThrow` anyErrorCall
+      evaluate (divError 6 0) `shouldThrow` anyException
+      evaluate (divError 6 0) `shouldThrow` errorCall "divide by zero"
+
+    it "function returning Maybe monad" $ do
+      divMaybe 6 2 `shouldBe` Just 3
+      divMaybe 6 0 `shouldBe` Nothing
+
+    it "function returning Either monad" $ do
+      divEither 6 2 `shouldBe` Right 3
+      divEither 6 0 `shouldBe` Left "divide by zero"
+
+    it "predicate functions" $ do
+      0 `shouldSatisfy` even
+      1 `shouldNotSatisfy` even
+
+    it "list contents" $ do
+      "abcd" `shouldStartWith` "ab"
+      "abcd" `shouldEndWith` "cd"
+      "abcd" `shouldContain` "bc"
+      "abcd" `shouldNotContain` "foo"
+      "abcd" `shouldMatchList` "cadb" -- same elements in any order
+
+    it "monad contents" $ do
+      addWithIO 1 2 `shouldReturn` 3
+      addWithIO 3 4 `shouldNotReturn` 0</pre>
     <div>
       To run the tests, enter <code>stack test</code>.
       During development tests typically need to be run repeatedly.
       The best way to do this is to
       load them into ghci (ex. stack ghci test/Spec.hs)
       and use the :reload and :main commands to reload and rerun them.
+    </div>
+    <div>
+      Another way to run tests is to use the ghcid (d for daemon) tool.
+      "It opens ghci and runs :reload whenever your source code changes."
+      This can automatically rerun tests when test files
+      or the source files they import are modified.
+      To install ghcid, enter <code>stack install ghcid</code>.
+      To tell ghcid to run tests,
+      enter <code>ghcid -c="stack ghci test/Spec.hs" -T=main</code>.
     </div>
 
     <h4><a name="SourceFiles">SourceFiles</a></h3>
@@ -2474,7 +2573,7 @@ playerCount sport =
   let
     list = [("baseball", 0), ("basketball", 5), ("football", 11), ("hockey", 6)]
     result = lookup sport list
-  in fromMaybe 0 result
+  in fromMaybe 0 result -- returning zero if sport isn't found
 
 putStrLn $ playerCount "hockey" -- outputs 6</pre>
 
