@@ -141,6 +141,7 @@
       <li class="level2"><a href="#Sections">Sections</a></li>
 
       <li class="level1"><a href="#Variables">Variables</a></li>
+      <li class="level1"><a href="#Expressions">Expressions</a></li>
 
       <li class="level1"><a href="#Functions">Functions</a></li>
       <li class="level2"><a href="#FunctionBasics">Basics</a></li>
@@ -185,7 +186,7 @@
       <li class="level2"><a href="#Numbers">Numbers</a></li>
       <li class="level2"><a href="#DatesAndTimes">Dates and Times</a></li>
       <li class="level2"><a href="#Enumerations">Enumerations</a></li>
-      <!-- include deconstruction -->
+      <!-- include deconstruction? -->
       <li class="level2"><a href="#IfThenElse">If Then Else</a></li>
       <li class="level2"><a href="#Case">Case</a></li>
       <li class="level2"><a href="#Let">Let</a></li>
@@ -225,15 +226,19 @@
       <li>is purely functional, not supporting
         procedural or object-oriented programming</li>
       <li>supports first-class functions that can be
-        passed to and returned from other functions</li>
+        passed to and returned from other functions
+        (called "higher-order" functions)</li>
+      <li>generally results in more concise code than other languages</li>
       <li>only supports immutable data (cannot be modified)</li>
       <li>strictly separates impure functions (those with side effects)
         from pure functions</li>
-      <li>is statically typed with type inference</li>
+      <li>is statically typed with type inference which allows
+        many errors to be caught before code is executed</li>
       <li>is lazy meaning that expressions are not evaluated
         until their value is needed</li>
       <li>has no "for" or "while" loops;
-        instead iteration is performed with recursion and functions like
+        instead iteration is performed with recursion, list comprehension,
+        and functions like
         <code>map</code>, <code>filter</code>, and <code>foldl</code></li>
       <li>has a powerful type system</li>
       <li>uses persistent data structures to efficiently
@@ -242,11 +247,11 @@
         <a href="https://en.wikipedia.org/wiki/Concurrency_(computer_science)">Concurrency</a>
         and
         <a href="https://en.wikipedia.org/wiki/Parallel_computing">parallelism</a>
-        </li>
+      </li>
+      <li>expressions that allow a block of other expressions
+        require them to be on separate lines with the same indentation (preferred)
+        or grouped in curly braces separated by semicolons</li>
     </ul>
-    <div>
-      TODO: Get more from Wikipedia page!
-    </div>
     <div>
       This article is targeted at software developers that
       have not yet been exposed to the Haskell programming language
@@ -261,14 +266,15 @@
     </div>
     <ul>
       <li>It can be fun and challenging to learn a new programming language.</li>
-      <li>It's good learn about the functional style of programming
-        if you have only primarily used procedural or object-oriented programming.</li>
+      <li>It's good learn about the functional style of programming if you
+        have only primarily used procedural or object-oriented programming.</li>
       <li>Learning Haskell will give you a greater appreciation of types.</li>
       <li>Haskell inspired the design of the Elm programming language,
         so learning Haskell is a step toward learning Elm.</li>
       <li>PureScript can be used to compile most Haskell code to JavaScript,
         so it can be used to develop Node apps and web apps.</li>
-      <li>It may cause you to thinking about programming in other languages in a new, better way.</li>
+      <li>It may cause you to thinking about programming in other languages
+        in a new, better way.</li>
       <li>You may actually decide to write an appliation in Haskell.</li>
       <li>And finally, you may decide you do not like Haskell.
         That's fine, but you'll want to be able to explain why
@@ -328,13 +334,15 @@
       Simon Peyton Jones, Erik Meijer, and Philip Wadler.
       Haskell was first released in 1990.
       The language was standardized in 1999 as "Haskell 98",
-      and revised in 2003.
-      The current version of the standard, released in 2010,
-      is called "Haskell 2010".  Among other things this added
-      the LANGUAGE pragma and
+      and revised in 2003 in a document called the "Haskell Report".
+      The standard was updated in 2010, providing the current version
+      referred to as "Haskell 2010".
+      Among other things this added the LANGUAGE pragma and
       a foreign function interface (FFI) for calling C code
       A committee of about 20 members is working on the next version,
       "Haskell 2020".
+      The latest version of the Haskell Report is available at
+      <a href="https://www.haskell.org/onlinereport/haskell2010/">https://www.haskell.org/onlinereport/haskell2010/</a>.
     </div>
 
     <h3><a name="Compilers">Compilers</a></h3>
@@ -386,7 +394,7 @@
     <div>
       One complaint about GHC is that it has cryptic error messages.
       Another is that it produces executables that are larger
-      than those produces by compilers for other languages
+      than those produced by compilers for other languages
       for similar applications.
     </div>
     <div>
@@ -400,6 +408,9 @@
     <div>
       I highly recommend installing GHC now
       so you can try each code example in this article.
+    </div>
+    <div>
+      GHC issues warnings if code is indented with tabs instead of spaces.
     </div>
 
     <h4><a name="ghci">ghci</a></h4>
@@ -437,6 +448,7 @@
       Besides entering Haskell expressions,
       there are many commands that can be entered,
       all preceded by a colon.
+      Most can be abbreviated to their first letter.
       The most useful of these include:
     </div>
     <ul>
@@ -454,7 +466,8 @@
         rather than a module definition as is loaded with the <code>:load</code> command</li>
       <li><code>:type <i>name</i></code> outputs the type of a name</li>
       <li><code>:reload</code> reloads the last loaded file</li>
-      <li><code>:set +t</code> turns on automatically outputting the type of all expressions entered</li>
+      <li><code>:set +t</code> turns on automatically outputting
+        the type of all expressions entered</li>
       <li><code>:set editor vim</code> sets the editor used by :edit to be Vim</li>
       <li><code>:unset +t</code> turns off automatically outputting types</li>
       <li><code>:show modules</code> lists all modules that have been imported</li>
@@ -479,6 +492,11 @@
       enter the module name followed by a period and press tab for completion.
       For example, enter <code>import Data.Map</code>,
       enter <code>Data.Map.</code>, and press tab.
+    </div>
+    <div>
+      The standard file extension for Haskell source files is <code>.hs</code>.
+      To start ghci so that it loads a source file,
+      enter <code>ghci <i>filePath</i></code>.
     </div>
 
     <h4><a name="GhcExecutables">GHC Executables</a></h4>
@@ -508,6 +526,15 @@
 - example that uses a command-line argument
   * see fact.hs in your Haskell directory
     </pre>
+
+    <h4><a name="GhcRun">GHC Run</a></h4>
+    <div>
+      Haskell source files can be executed without first creating an executable
+      using the <code>runghc</code> command.
+      <code>runhaskell</code> is an alias that
+      typically refers to <code>runghc</code>,
+      but could be changed to refer to a different Haskell compiler.
+    </div>
 
     <h4><a name="Stack">Stack tool</a></h4>
     <div>
@@ -636,7 +663,7 @@
       It is much faster after that.
       For example, to find functions that have the word "sort" in their name,
       enter <code>stack hoogle sort</code>.
-      To find functions that take a list and return a boolean value,
+      To find functions that take a list of any type and return a boolean value,
       enter <code>stack hoogle "[a] -> Bool"</code>.
     </div>
     <div>
@@ -1023,19 +1050,27 @@ hello name = "Hello, " ++ name + "!"</pre>
     </pre>
 
     <h3><a name="Types">Types</a></h3>
+    <div>
+      In Haskell a type defines a set of related value.
+      A class defines a set of types that support specific functions.
+      For example, Int is a type that represents all integers that fit in four bytes
+      and Num is a class that represents a set of types that support the functions
+      <code>(+)</code>, <code>(-)</code>, <code>(*)</code>,
+      <code>abs</code>, <code>negate</code>, and <code>signum</code>.
+    </div>
 
     <h4><a name="PreludeTypes">Prelude Types</a></h4>
     <div>
       By default the standard module <code>Prelude</code>
       is imported into all Haskell modules.
       However, if a module contains any explicit imports
-      or the NoImplicitPrelude extension is enabled,
+      or the <code>NoImplicitPrelude</code> extension is enabled,
       <code>Prelude</code> is not automatically imported.
       For details on what the Prelude module defines, see
       <a href="https://hackage.haskell.org/package/base-4.10.0.0/docs/Prelude.html">https://hackage.haskell.org/package/base-4.10.0.0/docs/Prelude.html</a>.
     </div>
     <div>
-      There are essential four categories of primitives in Haskell.
+      There are essentially four categories of primitives in Haskell.
       They are booleans, characters, strings, and numbers.
       These are supported by the types <code>Bool</code>,
       <code>Char</code>, <code>String</code>, and
@@ -1068,39 +1103,7 @@ hello name = "Hello, " ++ name + "!"</pre>
     </div>
     <div>
       Many type classes describe the functions supported by numeric types.
-      These include:
-      Num
-      Real
-      Integral
-      Floating
-      RealFrac
-      RealFloat
-    </div>
-    <pre>
-  * Num
-    - for types that can be used as numbers
-    - builtin types that implement this are
-      Int, Integer, Float, and Double
-    - when a function type signature says that
-      two or more parameters have a type of Num,
-      those must have the same actual type
-      * ex. add :: (Num a) => a -> a -> a
-        add a b = a + b
-        n = 3 :: Int
-        add n 7.2 -- error because n and 7.2 are not the same type
-  * Floating
-    - the Float and Double types implement this
-    - some math functions take arguments of this type (ex. sqrt and sin)
-    - ex.
-      n = 3 :: Int
-      sqrt n -- error because n is not Floating
-  * Integral
-    - the Int and Integer types implement this
-    - fromIntegral function takes an Integral and converts it to Num
-      * needed in order to call a function like + on an Integral and a Floating
-      * ex. length [1,2,3] + 2.1 raises an error because
-        length returns an Int and 2.1 is not an Int
-    </pre>
+      These are described later in the "Type Classes" section.
     <pre>
     The functions defined in the Prelude module
     that operate on numbers include
@@ -1149,42 +1152,21 @@ hello name = "Hello, " ++ name + "!"</pre>
       Haskell type declarations use the Hindley-Milner type system.
       The syntax is <code><i>name</i> :: <i>type</i> </code>
       where <code>::</code> means "has type of".
+      For example,
     </div>
     <pre>
-- variable examples
-  * firstName :: String
-  * names :: [String]
-    - an array of Strings
-- function examples
-  * add :: Int -> Int -> Int
-    add x y = x + y
-    - each parameter type is followed by ->
-      with the return type at the end
-    - takes two Ints and returns an Int
-    - also takes one Int and returns a
-      function that takes and Int and returns an Int
-  * type variables can be used to specify that
-    an argument type or the return type can be
-    any type or a type that derives from a specific type class
-    - ex. the swap function below takes any kind of list
-      and returns a new list where the first two items are swapped
-      swap :: [a] -> [a]
-      swap (first:second:rest) = second:first:rest
-      swap [1,2,3,4] == [2,1,3,4]
-  * to restrict a type variable to types that
-    derive from a given type class (not an actual type!)
-      swap :: Num n => [n] -> [n]
-      swap (first:second:rest) = second:first:rest
-      swap [1,2,3,4] == [2,1,3,4]
-  * add :: Num a => a -> a -> a -- syntax only works with type classes
-    - means all occurrences of a in the signature have type Num
-    - takes two Num arguments and returns a Num
-    - "a" here is called a "type alias"
-    - => and the part to its left is called a "class constraint"
-      * if more than one, surround with parens and separate with commas
-      * ex. (Num a, String b) =>
-    - can require a type variable to derive from more than one type class
-      * ex. (Eq a, Ord a) =>
+firstName :: String
+names :: [String] -- a list of Strings</pre>
+    <div>
+      Function declarations specify parameter types and the return type
+      all separated by an arrow (<code>-></code>).  For example, the following
+      function takes two <code>Int</code>s and returns an <code>Int</code>.
+      Considering currying, you can also think of this as
+      a function that takes one <code>Int</code> and
+      returns a function that takes one <code>Int</code>
+      and returns an <code>Int</code>.
+    </div>
+    <pre>
   * add x y = x + y
     - implementation of the two function declarations
   * ghci detail
@@ -1206,6 +1188,39 @@ hello name = "Hello, " ++ name + "!"</pre>
   * charAt :: String -> Int -> Char
     charAt str index = str !! index
 - can see the type of a function in ghci with :t {function-name}
+    <div>
+      Class constraints can be used to specify that a
+      value, parameter, or return type
+      can be any type that derives from a given class.
+      A class constraint specifies a class name followed by a type variable
+      (a.k.a. type alias) and an fat arrow (<code>=></code>).
+      For example, the <code>swap</code> function below takes any kind of list
+      and returns a new list where the first two items are swapped.
+      The expression <code>swap [1,2,3,4]</code> evaluates to <code>[2,1,3,4]</code>.
+    </div>
+    <pre>
+      swap :: [a] -> [a] -- a is a type variables
+      swap (first:second:rest) = second:first:rest
+    <div>
+      The previous function type has no class constraint.
+      The following declaration adds a class constraint that
+      requires the lists to only contain numbers.
+      The type variable used is <code>n</code>.
+    </div>
+    <pre>
+      swap :: Num n => [n] -> [n]
+      swap (first:second:rest) = second:first:rest</pre>
+    </div>
+    <div>
+      If a function declaration requires more than one type variable,
+      surround them with parentheses and separate with commas.
+      For example, <code>(Num a, Eq e) =></code>.
+    </div>
+    <div>
+      A type variable can be required to derive from more than one type class.
+      For example, <code>(Eq a, Ord a) =></code>.
+    </div>
+    <pre>
 Are these predefined type classes?
 - Data?
 - Bits?, FiniteBits?
@@ -1225,27 +1240,41 @@ Are these predefined type classes?
     <div>
       Type classes define a set of functions that must be implemented
       for types that are instances of the type class.
+      This differs from classes in object-oriented languages
+      because they do not define constructors or data properties.
+    </div>
+    <div>
+      Type class names must start with an uppercase letter.
+    </div>
+    <div>
+      Here's an example of a type class that could be used
+      for many sports.
     </div>
     <pre>
-- not like classes in OO languages
-- define an interface (set of functions)
-- names start uppercase
-- types that are instances implement all the functions
-  and are said to "derive" from the type class
-- a type can derive from any number of type classes
-- builtin examples include
+      type RGB = (Int, Int, Int)
+      class HasColor a where
+        hex = a -> String
+        rgb = a -> RBG
+        
+        
     </pre>
-    <!-- Include default implementations -->
+    <div>
+      Types that are instances of a type class
+      must implement all the functions and
+      are said to "derive" from the type class.
+    </div>
+    <div>
+      A type can derive from any number of type classes.
+    </div>
     <div>
       The Prelude module defines the type classes
-      described in the table below
-      (duplicated in the Deriving section):
+      described in the table below.
     </div>
     <table summary="Prelude type classes">
       <caption>Prelude Type Classes</caption>
       <tr>
         <th>Type Class Name</th>
-        <th>Type Constructors</th>
+        <th>Functions and Type Constructors</th>
         <th>Description</th>
         <th>Example</th>
       </tr>
@@ -1263,32 +1292,6 @@ Are these predefined type classes?
         <td></td>
       </tr>
       <tr>
-        <td>Eq</td>
-        <td></td>
-        <td>
-    - for types whose values can be compared for equality
-    - functions are = and /=
-    - all standard Haskell classes implement this
-        </td>
-        <td></td>
-      </tr>
-      <tr>
-        <td>Ord/td>
-        <td></td>
-        <td>
-    - for types whose values can be ordered
-    - functions are <, <=, >=, and >
-        </td>
-        <td></td>
-      </tr>
-      <tr>
-        <td>Ordering</td>
-        <td>EQ, LT, and GT</td>
-        <td>used by the <code>compare</code> function
-          in the <code>Ord</code> type class</td>
-        <td>compare 1 2 == LT</td>
-      </tr>
-      <tr>
         <td>Enum</td>
         <td></td>
         <td>
@@ -1301,35 +1304,139 @@ Are these predefined type classes?
         <td></td>
       </tr>
       <tr>
+        <td>Eq</td>
+        <td>functions (==) and (/=)</td>
+        <td>for types whose values can be compared for equality</td>
+        <td><code>1 == 2 -- false<br>
+          1 /= 2 -- true</code></td>
+      </tr>
+      <tr>
+        <td>Ord</td>
+        <td>functions <code>(<), (<=)</code>, <code>(>=)</code>, <code>(>)</code>,
+          <code>max</code>, and <code>min</code></td>
+        <td>for types whose values can be compared for order</td>
+        <td><code>1 < 2 -- true</code></td>
+      </tr>
+      <tr>
+        <td>Ordering</td>
+        <td><code>EQ</code>, <code>LT</code>, and <code>GT</code></td>
+        <td>used by the <code>compare</code> function
+          in the <code>Ord</code> type class</td>
+        <td>compare 1 2 == LT</td>
+      </tr>
+      <tr>
         <td>Read</td>
-        <td></td>
+        <td>function <code>read</code></td>
         <td>
-          parses a string to create a value
-    - opposite of Show
-      * a little like JavaScript's JSON.parse
-    - only function is read
-    - when desired type is not known from context, must specify
-      * ex. read "3.14" raises an exception
-      * ex. read "3.14" :: Float
-      * ex. read "[1, 2, 3]" :: [Int]
-      * ex. read "(\"foo\", 7, True)" :: (String, Int, Bool)
+          parses a string to create a value;<br>
+          opposite of <code>Show</code>;<br>
+          When the desired type is not known from context, it must specified.
         </td>
-        <td></td>
+        <td><pre>
+read "3.14" :: Float
+read "[1, 2, 3]" :: [Int]
+read "(\"foo\", 7, True)" :: (String, Int, Bool)
+read "3.14" -- raises an error</pre>
+        </td>
       </tr>
       <tr>
         <td>Show</td>
-        <td></td>
-        <td>
-          creates a string representation of a value
-    - only function is show
-      * a little like JavaScript's JSON.stringify
-    - ex. show 3.14
-    - ex. show [1, 2, 3]
-    - ex. show ("foo", 7, True)
+        <td>function show</td>
+        <td>creates a string representation of a value;
+          opposite of <code>Read</code></td>
+        <td><pre>
+show 3.14
+show [1, 2, 3]
+show ("foo", 7, True)</pre>
         </td>
+      </tr>
+      <tr>
+        <td>Num</td>
+        <td>functions <code>(+)</code>, <code>(-)</code>, <code>(*)</code>,
+          <code>abs</code>, <code>negate</code>,
+          and <code>signum</code> (returns sign or zero)</td>
+        <td>derived by the <code>Int</code>, <code>Integer</code>,
+          <code>Float</code>, and <code>Double</code> types</td>
+        <td><pre>
+1 + 2 -- 3<br>
+abs -3 -- 3<br>
+negate 3 -- -3<br>
+signum -3 -- -1<br>
+abs -3 -- 3<br>
+</pre>
+     </td>
+      </tr>
+      <tr>
+        <td>Integral</td>
+        <td>functions are <code>div</code> and <code>mod</code></td>
+        <td>derived by the <code>Int</code> and <code>Integer</code> types</td>
+        <td><pre>
+6 `div` 2 -- 3
+8 `mod` 3 -- 2</pre>
+        </td>
+      </tr>
+      <tr>
+        <td>Floating</td>
+        <td>functions are <code>(/)</code> and <code>recip</code> (reciprocal)</td>
+        <td>derived by the <code>Float</code> and <code>Double</code> types</td>
+        <td><pre>
+7 / 2 -- 3.5
+recip 4 -- 0.25</pre>
+        </td>
+      </tr>
+      <tr>
+        <td>Real</td>
+        <td></td>
+        <td></td>
         <td></td>
       </tr>
+      <tr>
+        <td>RealFrac</td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>RealFloat</td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+    </div>
+    <pre>
+  * Num
+    - for types that can be used as numbers
+    - builtin types that implement this are
+      Int, Integer, Float, and Double
+    - when a function type signature says that
+      two or more parameters have a type of Num,
+      those must have the same actual type
+      * ex. add :: (Num a) => a -> a -> a
+        add a b = a + b
+        n = 3 :: Int
+        add n 7.2 -- error because n and 7.2 are not the same type
+  * Floating
+    - the Float and Double types implement this
+    - some math functions take arguments of this type (ex. sqrt and sin)
+    - ex.
+      n = 3 :: Int
+      sqrt n -- error because n is not Floating
+  * Integral
+    - the Int and Integer types implement this
+    - fromIntegral function takes an Integral and converts it to Num
+      * needed in order to call a function like + on an Integral and a Floating
+      * ex. length [1,2,3] + 2.1 raises an error because
+        length returns an Int and 2.1 is not an Int
+    </pre>
     </table>
+    <div>
+      The builtin types <code>Bool</code>, <code>Char</code>, <code>String</code>,
+      <code>Int</code>, <code>Integer</code>, <code>Float</code>, and <code>Double</code>
+      all derive from the type classes <code>Eq</code>, <code>Ord</code>,
+      <code>Read</code>, and <code>Show</code>.
+      Functions in these type classes can also be used on lists and tuples
+      if their element types implement them.
+    </div>
 
     <h4><a name="TypeAliases">Type Aliases</a></h4>
     <div>
@@ -1363,9 +1470,16 @@ Type Variables
   and all type variables start lowercase
   * typically type variable names are a single character
 - similar to generics in other languages such as Java and Flow/TypeScript
-- functions whose signatures use type variables
-  are called "polymorphic functions"
     </pre>
+    <div>
+      Functions whose signatures use type variables
+      are called "polymorphic functions".
+      This means the parameters can have many types.
+      The allowed types can be constrained to those that implement a given class
+      or be open to any type.
+      Many functions in the Prelude library are polymorphic.
+      
+    </div>
     <pre>
 ShapeCompare example:
 
@@ -1431,56 +1545,17 @@ instance ShapeCompare Shape where
     <div>
       The <code>deriving</code> keyword specifies that a
       type derives from any of seven provided type classes.
+      These include Eq, Ord, Read, and Show.
       A comma-separated list of type classes surrounded by
       parentheses follows the <code>deriving</code> keyword.
       The parentheses can be omitted when
       only deriving from one type class.
-      It automatically implements them for you.
-      These type classes are described in the following table
-      (duplicated in the Type Classes section):
+      Default implementations of the functions described by
+      these type classes are automatically implemented for you.
     </div>
-    <table>
-      <tr>
-        <th>Type Class Name</th>
-        <th>Functions</th>
-        <th>Description</th>
-      </tr>
-      <tr>
-        <td>Eq</td>
-        <td></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td>Ord</td>
-        <td></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td>Enum</td>
-        <td></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td>Read</td>
-        <td></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td>Show</td>
-        <td></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td>Bounded</td>
-        <td></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td>Ix</td>
-        <td></td>
-        <td></td>
-      </tr>
-    </table>
+    <div>
+      Are these builtin type classes?  Enum, Bounded, Ix.
+    </div>
     <div>
       It is possible to override the function definitions
       provided by Haskell.  For example:
@@ -1804,45 +1879,158 @@ $ precedence operator
       that always returns the same value?
     </div>
 
+    <h3><a name="Expressions">Expressions</a></h3>
+    <div>
+      All expressions in Haskell have a value that has a type.
+      The type is inferred, but can be specified after a double colon.
+      If the inferred type does not match the specified type,
+      an error is raised.  For example, running the following code
+      results in an error that says
+      "Couldn't match expected type 'Int' with actual type 'Char'".
+    </div>
+    <pre>
+foo :: Int
+foo = '1'</pre>
+
     <h3><a name="Functions">Functions</a></h3>
 
     <h4><a name="FunctionBasics">Basics</a></h4>
+    <div>
+      The syntax to call a function (function application) is to
+      provide the function name followed by arguments separated by spaces
+      and no paretheses or commas.
+      All functions return a value.
+      To use the result of a function as an argument
+      to another function in inline fashion,
+      surround the argument function call with parentheses.
+      For example,
+    </div>
     <pre>
-- syntax to call
-  * name arguments
-  * arguments are separated by spaces
-  * to use the result of another function as an argument
-    surround the call with parens
-    - ex. max (min 2 3) (min 5 4) == 4
-- syntax to define
-  * name parameters = expression
-  * parameters are separated by spaces
-  * if the name consists of letters, the function is prefix
-    - if the function has two parameters,
-      surround with backticks to use as infix
-    - ex. 8 `div` 3 == 2
-  * if the name consists of only symbols, the function is infix
-    - if the function has two parameters,
-      surround with parens to use as prefix
-    - ex. (*) 2 3 == 6
-    - to pass an infix function as an argument to another function
-      surround with parens
-      * can also use parens to create a curried version
-        to pass to another function
-        - ex. map (* 2) someList
-- defaults to prefix
-  - can you specify that a function is infix?
-- name cannot begin with an uppercase letter
-- most functions are prefix functions,
-  but some are infix functions
-- to call a prefix function,
-  start with the name followed by arguments
-  all separated by spaces (no parens)
-- all functions return a value
-- prefix functions are evaluated before infix functions,
-  so parens are needed in succ (2 * 3) which returns 7
-  * succ 2 * 3 returns 9
+max (min 2 3) (min 5 4) -- 4</pre>
+    <div>
+      Function application has higher precedence than any operator.
+      This means that <code>someFunc n1 * n2</code>
+      is evaluated as <code>(someFunc n1) * n2</code>.
+      Parentheses can be used to change this.
+      For example, <code>someFunc (n1 * n2)</code>.
+    </div>
+    <div>
+      To define a function, provide the name followed by parameters,
+      an equal sign, and a definition, all separated by spaces
+      Function names cannot begin with an uppercase letter.
+      Functions whose names contain letters are prefix functions.
+      Functions whose names only contain symbols are infix functions.
+      The remaining characters in a prefix function name can be
+      letters (lower or upper), digits, underscores, and single quotes.
+    </div>
+    <div>
+      Declaring the type of functions is required if
+      they are exported from a module, and optional otherwise.
+      However, declaring the type is recommended since it provides good documentation.
+      In either case type inference is used to determine the type.
+      If the type is declared and it differs from the inferred type
+      an error is raised.
+      Here is a declaration for a function that takes a Char and String
+      and returns an Int.
+    </div>
+    <pre>
+      myFunc :: Char -> String -> Int</pre>
+    <div>
+      This syntax emphasizes that Haskell functions support currying.
+      If this function is called with only a <code>Char</code>,
+      the result is a new function
+      with the type <code>String -> Int</code>.
+    </div>
+    <div>
+      Haskell keywords cannot be used as function or variable names.
+      These include
+      <code>case</code>,
+      <code>class</code>,
+      <code>data</code>,
+      <code>default</code>,
+      <code>deriving</code>,
+      <code>do</code>,
+      <code>else</code>,
+      <code>foreign</code>,
+      <code>if</code>,
+      <code>import</code>,
+      <code>in</code>,
+      <code>infix</code>,
+      <code>infixl</code>,
+      <code>infixr</code>,
+      <code>instance</code>,
+      <code>let</code>,
+      <code>module</code>,
+      <code>newtype</code>,
+      <code>of</code>,
+      <code>then</code>,
+      <code>type</code>, and
+      <code>where</code>.
+    </div>
+    <div>
+      Prefix functions that have two parameters can be used as infix
+      by surrounding the name with backticks.
+      For example,
+    </div>
+    <pre>
+8 `div` 3 -- 2</pre>
+    <div>
+      Infix functions which always have to parameters
+      can be used as prefix functions and passed to other functions
+      by surrounding the name with parentheses.
+      For example,
+    </div>
+    <pre>
+(*) 2 3 -- 6
+foldl (+) 0 [1,2,3] -- 6</pre>
+    <div>
+      Parentheses can also be used to create a curried version
+      of an infix function.  For example,
+    </div>
+    <pre>
+map (* 2) [1,2,3] -- [2,4,6]</pre>
+    <div>
+      Prefix functions are evaluated before infix functions,
+      so parens are needed in <code>succ (2 * 3)</code>
+      which returns 7.
+      The function call <code>succ 2 * 3</code> returns 9.
+    </div>
+    <div>
+      All functions have a type that is inferred from its defintion.
+      For example, the type of the following function is
+      <code>Num a => [a] -> a</code> which means that it
+      takes a list of values that are numbers
+      and returns the same type of number.
+      There are many types of numbers including Int and Float.
+      Others are described later.
+    </div>
+    <pre>
+      -- The sum of an empty list is zero.
+      sum [] = 0
+      -- The sum of a non-empty list is the first number
+      -- plus the sum of the remaining numbers.
+      sum (n:ns) = n + sum ns
     </pre>
+    <div>
+      Here's an example of a function definition that
+      demonstrates how concise Haskell code can be.
+      It is an implementation of the quicksort algorithm
+      that sorts a list of ordered elements that have
+      types that are members of the <code>Ord</code> type class.
+      This includes numbers, characters, strings, and
+      custom types that have been made instances of <code>Ord</code>.
+      The infix operator <code>++</code> concatenates lists.
+      List comprehension is used to get lists of elements
+      that are smaller and larger than a given value.
+    </div>
+    <pre>
+quicksort :: Ord a => [a] -> [a]
+quicksort [] = []
+quicksort (x:xs) = quicksort smaller ++ [x] ++ quicksort larger
+  where
+    smaller = [a | a <- xs, a <= x]
+    larger = [a | a <- xs, a > x]</pre>
+
     <div>
       Pure functions are ...
       Impure functions ...
@@ -1889,6 +2077,17 @@ v3 = volume 2 3
 volume 2 3 4 == 24
 v2 4 == 24
 v3 3 4 == 24</pre>
+    <div>
+      Arrows in function types associate to the right.
+      For example,
+      <code>someFunc :: a -> b -> c -> d</code> is the same as
+      <code>someFunc :: a -> (b -> (c -> d))</code>.
+      Function application (calling a function)
+      associates arguments to the left.
+      For example,
+      <code>someFunc a b c d</code> is the same as
+      <code>(((someFunc a) b) c) d</code>
+    </div>
 
     <h4><a name="Recursion">Recursion</a></h4>
     <div>
@@ -1940,33 +2139,45 @@ v3 3 4 == 24</pre>
     </div>
 
     <h4><a name="PatternMatching">Pattern Matching</a></h4>
+    <div>
+      Pattern matching creates overloaded versions of a function
+      based on specific argument values.
+      These are evaluated in order with the first matching version being evaluated.
+      For example,
+    </div>
     <pre>
-- creates overloaded versions of a function
-  based on specific argument values
-- evaluated in the order defined
-- ex.
-  place :: Int => String
-  place 0 = "not started"
-  place 1 = "first"
-  place 2 = "second"
-  place 3 = "third"
-  place n = show n ++ "th" -- catchall pattern
-  * TODO: Handle 11, 12, 13, 21, 22, 23, ...
-- ex.
-  quadrant :: (Num n, String s) => n -> n -> s
-  quadrant 0 y = "on y-axis"
-  quadrant x 0 = "on x-axis"
-  quadrant x y = -- preferable to use guards (see below)
-    if x > 0 && y > 0 then "first"
-    else if x < 0 && y > 0 then "second"
-    else if x < 0 && y < 0 then "third"
-    else if x > 0 && y < 0 then "fourth"
-    else "impossible"
-- non-exhaustive pattern matching
-  * will get exception "Non-exhaustive patterns in function greek" from greek 3
-  greek :: Int -> String
-  greek 1 = "alpha"
-  greek 2 = "beta"
+place :: Int => String
+place 0 = "not started"
+place 1 = "first"
+place 2 = "second"
+place 3 = "third"
+place n = show n ++ "th" -- catchall pattern</pre>
+    <div>
+      Here's another example.
+    </div>
+    <pre>
+quadrant :: Num n => n -> n -> String
+quadrant 0 y = "on y-axis"
+quadrant x 0 = "on x-axis"
+quadrant x y = -- preferable to use guards (see below)
+  if x > 0 && y > 0 then "first"
+  else if x < 0 && y > 0 then "second"
+  else if x < 0 && y < 0 then "third"
+  else if x > 0 && y < 0 then "fourth"
+  else "impossible"</pre>
+
+    <div>
+      When using pattern matching, if there is a possibility that
+      no pattern will match a set of valid inputs,
+      a "non-exhaustive patterns" error will be raised.
+      For example,
+    </div>
+    <pre>
+greek :: Int -> String
+greek 1 = "alpha"
+greek 2 = "beta"
+-- greek 3 will raise an error</pre>
+
 - with tuples
   - ex.
   tupleMult :: Int -> (Int, Int) -> (Int, Int)
@@ -1991,41 +2202,63 @@ v3 3 4 == 24</pre>
     </pre>
 
     <h4><a name="Guards">Guards</a></h4>
+    <div>
+      Guards are used to implement functions that return
+      the result of different expressions based on input values.
+      Each guard is described on a separate line starting in the same column.
+      They begin with a vertical bar, followed by a condition, and equal sign,
+      and an expression to be evaluated if the condition holds true.
+      For example,
+    </div>
     <pre>
-- can use both pattern matching and guards for same function,
-  but often it is best to use one or the other
-- improved vesion of quadrant
-  quadrant x y -- with guards
-    | x == 0 = "on y axis"
-    | y == 0 = "on x axis"
-    | x > 0 && y > 0 = "first"
-    | x < 0 && y > 0 = "second"
-    | x < 0 && y < 0 = "third"
-    | x > 0 && y < 0 = "fourth"
-    | otherwise = "impossible"
-- ex.
-  colorMeaning :: String -> String
-  colorMeaning color
-    | color == "red" = "fire"
-    | color == "green" = "land"
-    | color == "blue" = "water"
-    | otherwise = "no meaning"
-- a where clause computes values used in guards
-  * ex.
-    grade :: Int -> Int -> Char
-    grade points possible
-      | percent >= 90 = 'A'
-      | percent >= 80 = 'B'
-      | percent >= 70 = 'C'
-      | percent >= 60 = 'D'
-      | otherwise = 'F'
-      where percent = (fromIntegral points) / (fromIntegral possible) * 100
-- using both guards and pattern matching
-  runLengthEncode :: Eq a => [a] -> [a]
-  runLengthEncode (x1:x2:xs) -- for lists of length 2 or more
-    | x1 == x2 = runLengthEncode (x2 : xs)
-    | otherwise = x1 : runLengthEncode (x2 : xs)
-  runLengthEncode xs = xs -- for lists of length 1 or 0
+colorMeaning :: String -> String
+colorMeaning color
+  | color == "red" = "fire"
+  | color == "green" = "land"
+  | color == "blue" = "water"
+  | otherwise = "no meaning"</pre>
+
+    <div>
+      A <code>where</code> clause can be used to compute values used in guards.
+      For example,
+    </div>
+    <pre>
+grade :: Int -> Int -> Char
+grade points possible
+  | percent >= 90 = 'A'
+  | percent >= 80 = 'B'
+  | percent >= 70 = 'C'
+  | percent >= 60 = 'D'
+  | otherwise = 'F'
+  where percent = (fromIntegral points) / (fromIntegral possible) * 100</pre>
+
+    <div>
+      The quadrant function implemented earlier using patterns
+      can also be implemented with guards.
+    </div>
+    <pre>
+quadrant x y -- with guards
+  | x == 0 = "on y axis"
+  | y == 0 = "on x axis"
+  | x > 0 && y > 0 = "first"
+  | &lt;x < &lt;0 && &lt;y > &lt;0 = "&lt;second"
+  | &lt;x < &lt;0 && &lt;y < &lt;0 = "&lt;third"
+  | &lt;x > &lt;0 && &lt;y < &lt;0 = "&lt;fourth"
+  | otherwise = "impossible"</pre>
+
+    <div>
+      It is possible to use both pattern matching
+      and guards in the same function implementation,
+      but often it is best to use one or the other.
+      Here is an example that uses both.
+    </div>
+    <pre>
+removeDups :: Eq a => [a] -> [a]
+removeDups (x1:x2:xs) -- for lists of 2 or more
+  | x1 == x2 = removeDups (x2 : xs)
+  | otherwise = x1 : removeDups (x2 : xs)
+removeDups xs = xs -- for lists of length 1 or 0
+removeDups "aabbbcdddd" -- "abcd"
     </pre>
 
     <h4><a name="LambdaFunctions">Lambda Functions</a></h4>
@@ -2107,17 +2340,39 @@ map (\x -> x * 2 + 1) [1,2,3] = [3,5,7]</pre>
 
     <h4><a name="ListBasics">Basics</a></h4>
     <div>
-      Lists are collections of items that have the same type.
+      Lists are collections of elements that have the same type.
       Literal lists can be specified by enclosing a
-      comma-separated list of items in square brackets.
+      comma-separated list of elements in square brackets.
+      An empty list is represented by <code>[]</code>.
+    </div>
+    <div>
+      The type of a list is specified by describing the type of its elements
+      inside square brackets.  For example,
+      <code>[Int]</code> is the type for a list of 4-byte integers
+      and <code>[a]</code> is the type for a list of anything.
+      "a" is often used by convention to mean "anything",
+      but any non-type name can be used.
+    </div>
+    <div>
+      Lists can be nested.  Lists can also have infinite length
+      since Haskell uses lazy evaluation.
+      We'll see several examples of this later.
+    </div>
+    <div>
+      It is a convention that parameter and variable names
+      that refer to a list end in "s" (plural)
+      to indicate that they can contain multiple values.
+      Lists of numbers are often given the name <code>ns</code>.
+      Lists of other kinds of values are often given the name <code>xs</code>,
+      relying on context to know what kinds of values are in the list.
     </div>
     <div>
       When creating a new list that contains all the
-      items in an existing list plus a new item,
+      elements in an existing list plus a new element,
       it is more efficient to add it to the beginning than the end.
-      So <code>item : list</code> is
-      more efficient than <code>list ++ [item]</code>.
-      Of course sometimes the order of items in the new list
+      So <code>element : list</code> is
+      more efficient than <code>list ++ [element]</code>.
+      Of course sometimes the order of elements in the new list
       matters and adding to the front isn't an option.
     </div>
     <pre>
@@ -2125,57 +2380,25 @@ map (\x -> x * 2 + 1) [1,2,3] = [3,5,7]</pre>
   * same as 1 : 3 : 7 : []
   * : is called the "cons" operator
 - implemented as linked lists, so
-  accessing items other than the first is not efficient
-- to get number of items, length list
-- to test whether a list is empty, null list
-  * returns a boolean
-- slicing
-  * these raise an exception if called on an empty list
-  * to get first item, head list
-  * to get last item, last list
-  * to get all but first item, tail list
-  * to get all but last item, init list
-- to create a list that contains the first n items, take n list
-- to create a list that contains the last n items, drop n list
-- to create list that is result of prepending new item
-  * item : list
-- to create list that is result of appending new item
-  * list ++ [item]
-- to create list where first item is modified
+  accessing elements other than the first is not efficient
+- to get number of elements, length list
+- to create list that is result of prepending new element
+  * element : list
+- to create list where first element is modified
   * newItem : tail list
-- to create a new list by concatenating two lists
-  * list1 ++ list2
-  * both arguments must be a list
-- to get an item at a given index
-  * list !! index
-  * indexes start at 1
-  * also used to get a character from a string since those are lists
-  * slow for long lists since implemented with a linked list
-- to create a reversed copy of a list: reverse list
-- to get smallest number in a list: minimum list
-- to get largest number in a list: maximum list
-- to get sum of numbers in a list: sum list
-- to get product of numbers in a list: product list
-- to test whether an item is in a list: elem item list
+
 - lists can be nested
-- lists can be compared if corresponding items can be compared
+- lists can be compared if corresponding elements can be compared
   * ex. [1, 3, 5] < [2, 4, 6] gives True
   * ex. [1, 3, 5] < [1, 4, 6] gives True
   * ex. [1, 3, 5] < [1, 3, 6] gives True
   * ex. [1, 3, 5] < [1, 3, 5] gives False
 - other list functions
-  * notElem
   * concat takes a list of list and returns a flatten list
     - the lists cannot contain nested lists
-      * recall that all items in a list must be the same type,
+      * recall that all elements in a list must be the same type,
         so [1, [2, 3]] is not a valid list
     - ex. concat [[1,2], [3,4,5]] == [1,2,3,4,5]
-  * takeWhile creates a list of all initial items
-    in another list that meet a predicate
-    - ex. takeWhile even [2,4,6,7,8] == [2,4,6]
-  * dropWhile creates a list of all remaining items
-    in another list after the initial elements meet a predicat
-    - ex. dropWhile even [2,4,6,7,8] == [7,8]
   * words takes a string and returns a list of words delimited by spaces
     - ex. words "foo bar baz" == ["foo","bar","baz"]
   * unwords takes a list of works and returns a string of the words separated by spaces
@@ -2187,10 +2410,10 @@ map (\x -> x * 2 + 1) [1,2,3] = [3,5,7]</pre>
     - must import Data.List
     - ex. sort [9, 3, 6, 2] == [2, 3, 6, 9]
   * zipWith creates a list from multiple lists using the result
-    of a function called with items at corresponding positions
+    of a function called with elements at corresponding positions
     - ex. zipWith min [1, 9, 5, 4] [2, 7, 6] === [1, 7, 5, 4]
-    - note how the last item in the first list has no corresponding item
-      in the second, so it just used that item in the result
+    - note how the last element in the first list has no corresponding element
+      in the second, so it just used that element in the result
     </pre>
 
     <table summary="List functions">
@@ -2202,13 +2425,23 @@ map (\x -> x * 2 + 1) [1,2,3] = [3,5,7]</pre>
       </tr>
       <tr>
         <td>!!</td>
-        <td></td>
-        <td></td>
+        <td>
+          returns the element at the index that follows <code>!!</code>;
+          Indexes start at 1.
+          This can also used to get a character from a string
+          since those are lists.
+          This is slow for long lists since
+          they are implemented with a linked list.
+        </td>
+        <td>list !! index</td>
       </tr>
       <tr>
         <td>++</td>
         <td>builds a new list that is the concatenation of two lists</td>
-        <td></td>
+        <td>
+          <code>list1 ++ list2 -- both arguments must be lists</code><br>
+          <code>list ++ [element]</code> -- appends a single element
+        </td>
       </tr>
       <tr>
         <td>filter</td>
@@ -2217,22 +2450,22 @@ map (\x -> x * 2 + 1) [1,2,3] = [3,5,7]</pre>
       </tr>
       <tr>
         <td>head</td>
-        <td></td>
-        <td></td>
+        <td>returns the first element</td>
+        <td>raises an error if called on an empty list</td>
       </tr>
       <tr>
         <td>init</td>
-        <td></td>
+        <td>returns a list of all but the last element</td>
         <td></td>
       </tr>
       <tr>
         <td>last</td>
-        <td></td>
-        <td></td>
+        <td>returns the last element of a list</td>
+        <td>raises an error if called on an empty list</td>
       </tr>
       <tr>
         <td>length</td>
-        <td></td>
+        <td>returns the number of elements in a list</td>
         <td></td>
       </tr>
       <tr>
@@ -2242,17 +2475,35 @@ map (\x -> x * 2 + 1) [1,2,3] = [3,5,7]</pre>
       </tr>
       <tr>
         <td>null</td>
-        <td></td>
+        <td>returns a Bool indicating whether a list is empty</td>
         <td></td>
       </tr>
       <tr>
         <td>reverse</td>
-        <td></td>
-        <td></td>
+        <td>returns a list where the elements are in reverse order</td>
+        <td><code>reverse list</code></td>
       </tr>
       <tr>
         <td>tail</td>
+        <td>returns a list containing all but the first element</td>
+        <td>raises an error if called on an empty list</td>
+      </tr>
+    </table>
+    <table summary="list calculations">
+      <caption>Functions That Perform List Calculations</caption>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+        <th>Example</th>
+      </tr>
+      <tr>
+        <td>product</td>
+        <td>returns the product of the elements in a list</td>
         <td></td>
+      </tr>
+      <tr>
+        <td>sum</td>
+        <td>returns the sum of the elements in a list</td>
         <td></td>
       </tr>
     </table>
@@ -2321,23 +2572,27 @@ map (\x -> x * 2 + 1) [1,2,3] = [3,5,7]</pre>
       </tr>
       <tr>
         <td>take</td>
+        <td>returns a list of the first n elements</td>
         <td></td>
         <td></td>
       </tr>
       <tr>
         <td>takeWhile</td>
-        <td></td>
-        <td></td>
+  * takeWhile 
+        <td>returns a list of all initial elements
+          in a list that satisfy a predicate</td>
+        <td><code>takeWhile even [2,4,6,7,8] -- [2,4,6]</code></td>
       </tr>
       <tr>
         <td>drop</td>
-        <td></td>
+        <td>returns a list of the elements after the last n</td>
         <td></td>
       </tr>
       <tr>
         <td>dropWhile</td>
-        <td></td>
-        <td></td>
+        <td>returns a list of all elements after the initial elements
+          in a list that satisfy a predicate</td>
+        <td><code>dropWhile even [2,4,6,7,8] -- [7,8]</code></td>
       </tr>
       <tr>
         <td>splitAt</td>
@@ -2353,12 +2608,42 @@ map (\x -> x * 2 + 1) [1,2,3] = [3,5,7]</pre>
         <th>Example</th>
       </tr>
       <tr>
+        <td>elem</td>
+        <td>returns a Bool indicating whether a value is an element in a list</td>
+        <td><code><i>value</i> elem <i>list</i></code></td>
+      </tr>
+      <tr>
         <td>lookup</td>
         <td></td>
         <td></td>
       </tr>
       <tr>
         <td>notElem</td>
+        <td>returns a Bool indicating whether a value is not an element in a list</td>
+        <td><code><i>value</i> notelem <i>list</i></code></td>
+      </tr>
+      <tr>
+        <td>min</td>
+        <td>returns the smallest element in a list</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>max</td>
+        <td>returns the largest element in a list</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td></td>
         <td></td>
         <td></td>
       </tr>
@@ -2581,15 +2866,25 @@ putStrLn $ playerCount "hockey" -- outputs 6</pre>
     <div>
       A tuple is a fixed length set of values
       with specific types at each position.
-      Each position can hold a different type.
-      A tuple is called a "pair" if it holds two items.
+      Each position can hold a different type,
+      including lists and other tuples.
+      A tuple is called a "pair" if it holds two elements.
       This is the most common size.
-      A tuple is called a "triple" if it holds three items.
+      A tuple is called a "triple" if it holds three elements.
       The maximum length of a tuple is 62.
     </div>
     <div>
-      Items in a tuple are surrounded by parentheses
+      The length of a tuple is determined by its type defintion.
+      For example, the type <code>(Int, String)</code>
+      denotes a tuple with a length of two.
+    </div>
+    <div>
+      Elements in a tuple are surrounded by parentheses
       instead of square brackets like in lists.
+      Tuples with a single element are not allowed
+      because the syntax would conflict with
+      using parentheses to specify order of evaluation
+      in expressions.
     </div>
     <pre>
 - in functions that take a tuple as an argument, can destructure
@@ -2916,6 +3211,11 @@ T.toUpper p</pre>
     <h4><a name="Numbers">Numbers</a></h4>
     <div>
       This was already covered in the "Prelude Types" section.
+      Note that negative numbers must be surrounded by parentheses
+      to differentiate the negative sign from substraction.
+      For example, negative 5 must be written as <code>(-5)</code>.
+      Another more verbose option is to use the negate function
+      as in <code>negate 5</code> .
     </div>
     <table summary="Number functions">
       <caption>Number Functions</caption>
@@ -3077,7 +3377,8 @@ a + b -- error</pre>
     _ -> "normal"
     </pre>
 
-    <!-- include deconstruction -->
+    <!-- include deconstruction? -->
+
     <h4><a name="IfThenElse">IfThenElse</a></h4>
     <div>
       The <code>if</code> keyword begins an expression whose value
@@ -3094,7 +3395,17 @@ a + b -- error</pre>
     <pre>
 if <i>condition</i> then <i>expression</i> else <i>expression</i></pre>
     <div>
-      Give some examples!
+      For example,
+    </div>
+    <pre>
+quadrant :: (Num n, Ord n) => n -> n -> String
+quadrant x y =
+  if x >= 0
+  then (if y >= 0 then "first" else "fourth")
+  else (if y >= 0 then "second" else "third")
+    </pre>
+    <div>
+      Later we'll see another way to implement this using "guards".
     </div>
 
     <h4><a name="Case">Case</a></h4>
@@ -3235,6 +3546,9 @@ main = do
   contents <- readFile "in.txt"
   let transformed = map toUpper contents
   writeFile "out.txt" transformed
+
+See discussion about the seqn function
+ on Programming Haskell book page 12.
 
 Are there any libraries that provide support for asynchronous I/O
 like in Node?
