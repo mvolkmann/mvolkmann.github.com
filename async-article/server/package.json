@@ -1,0 +1,19 @@
+{
+  "name": "demo-server",
+  "version": "1.0.0",
+  "description": "This provides REST services for async demos.",
+  "author": "R. Mark Volkmann <r.mark.volkmann@gmail.com> (http://ociweb.com/mark)",
+  "license": "MIT",
+  "scripts": {
+    "format": "prettier-eslint --write src/**/*.js",
+    "lint": "eslint --quiet src --ext .js",
+    "start": "nodemon index.js",
+    "verify": "npm-run-all lint format"
+  },
+  "dependencies": {
+    "express": "^4.16.2",
+    "nodemon": "^1.12.1",
+    "npm-run-all": "^4.1.1"
+  },
+  "devDependencies": {}
+}

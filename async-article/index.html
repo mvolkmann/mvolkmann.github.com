@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Async JavaScript</title>
+    <style type="text/css">
+      blockquote {
+        border: solid lightgray 2px;
+        margin-left: 0;
+        padding: 10px;
+      }
+      body {
+        font-family: sans-serif;
+        margin: 20px 40px;
+      }
+      .center {
+        text-align: center;
+      }
+      code {
+        background-color: lightyellow;
+        font-weight: bold;
+        padding: 3px 2px;
+      }
+      div {
+        margin-bottom: 10px;
+      }
+      #vim-logo {
+        width: 300px;
+      }
+      h1, h3 {
+        color: blue;
+      }
+      h2 {
+        border-top: solid red 3px;
+        color: purple;
+        padding-top: 20px;
+        text-decoration: underline;
+      }
+      h4 {
+        color: purple;
+      }
+      img {
+        margin: 10px 0;
+        width: 800px;
+      }
+      .left {
+        text-align: left;
+      }
+      #lscolors {
+        width: 200px;
+      }
+      pre {
+        background-color: lightyellow;
+        font-weight: bold;
+        width: 800px;
+      }
+      table {
+        border-collapse: collapse;
+        margin-bottom: 15px;
+      }
+      table th, table td {
+        border: solid lightgray 1px;
+        padding: 5px;
+      }
+      td {
+        vertical-align: top;
+      }
+      .toc > .level1 {
+        font-weight: bold;
+        margin-left: 0;
+        margin-top: 10px;
+      }
+      .toc > .level2 {
+        margin-left: 16px;
+      }
+      .toc > .level3 {
+        font-size: 14px;
+        margin-left: 32px;
+      }
+
+      @media print {
+        margin: 1in;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Async JavaScript>
+    <div>
+      by Mark Volkmann<br>
+      mark@objectcomputing.com<br>
+      Object Computing, Inc.<br>
+      February 2018
+    </div>
+
+    <h3>Table of Contents</h3>
+    <ul class="toc">
+      <li class="level1"><a href="#Overview">Overview</a></li>
+
+      <li class="level1"><a href="#Installing">Installing</a></li>
+      <li class="level1"><a href="#Starting">Starting</a></li>
+      <li class="level1"><a href="#Modes">Modes</a></li>
+      <li class="level2"><a href="#CommandMode">Command Mode</a></li>
+      <li class="level2"><a href="#InsertMode">Insert Mode</a></li>
+      <li class="level2"><a href="#VisualMode">Visual Mode</a></li>
+      <li class="level2"><a href="#OtherModes">Other Modes</a></li>
+      <li class="level1"><a href="#Movement">Movement</a></li>
+      <li class="level1"><a href="#WritingAndQuitting">Starting and Quitting</a></li>
+      <li class="level1"><a href="#netrw">netrw</a></li>
+      <li class="level1"><a href="#Buffers">Buffers</a></li>
+      <li class="level1"><a href="#Splits">Splits</a></li>
+      <li class="level1"><a href="#Macros">Macros</a></li>
+      <li class="level1"><a href="#Summary">Summary</a></li>
+      <li class="level1"><a href="#Acknowledgements">Acknowledgments</a></li>
+    </ul>
+
+    <h3><a name="Overview">Overview</a></h3>
+    <div>
+      JavaScript utilizes many approaches for dealing with asychronous code.
+      This article explains, demonstrates, and compares these
+      past, present, and future approaches.
+    </div>
+
+    <h3>Callbacks</h3>
+    <div>
+      A callback is a function that is passed to an asynchronous function,
+      typically as the last argument.
+      The callback function is invoked only once.
+      This is true whether the function to which it is passed
+      completes successfully or has an error.
+    </div>
+    <div>
+      Node.js uses callback functions extensively and
+      has standardized ther parameters.
+      The first parameter is used to describe an error, if any.
+      When no error occurs, null is passed.
+      The second parameter is used to describe a result, if any.
+      For asynchronous functions that have no result,
+      this parameter can be omitted.
+    </div>
+    <div>
+      An example of a Node.js function that uses a callback is ...
+    </div>
+
+    <h3>Promises</h3>
+    <div>
+      A promise is an object that supports methods that can be called
+      to wait for an asynchronous action to complete.
+      When that happens, the promise is said to either resolve or reject.
+      A resolve function is called once if the promise resolves.
+      A reject function is called once if the promise rejects.
+      A promise will either resolve or reject, but not both.
+    </div>
+    <div>
+      Asynchronous functions that take a callback can be easily
+      converted to functions that return a promise.
+      This has been standardized in Node.js using util.promisify,
+      which only works for functions that take a Node-style callback function.
+    </div>
+    <div>
+      Here's an example of manually creating a new function that
+      returns a promise for an existing function that takes a callback.
+    </div>
+    <pre>
+    </pre>
+
+    <h3>Observables</h3>
+    <div>
+      RxJS
+    </div>
+
+    <h3>Async Iterators</h3>
+    <div>
+      Async iterators are a stage 3 ECMAScript proposal
+      championed by Dominick Denicola.
+      For details, see
+      <a href="https://github.com/tc39/proposal-async-iteration">https://github.com/tc39/proposal-async-iteration</a>.
+      They work very much like non-async iterators
+      which were added to JavaScript in ECMAScript 2015 (ES6).
+      They are currently implemented by the Babel plugin
+      babel-plugin-transform-async-generator-functions.
+    </div>
+    <div>
+      Async iterators can be used in a for-of loop
+      by adding used of the await keyword.
+      For example, if readLines is a async function
+      that returns lines read from a file one at a time:
+    </div>
+    <pre>
+for await (const line of readLines(filePath)) {
+  console.log(line);
+}
+    </pre>
+  </body>
+</html>
