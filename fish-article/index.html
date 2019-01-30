@@ -897,7 +897,7 @@ set announcement 'Today is '(date $dateFormat)'.'</pre>
 
     <h3><a name="Wildcards">Wildcards</a></h3>
     <div>
-      <code>?</code> matches a single character.<br>
+      <code>?</code> matches a single character (deprecated in Fish 3.0).<br>
       <code>*</code> matches any number of characters not including <code>/</code>.<br>
       <code>**</code> is like <code>*</code>, but also matches <code>/</code>.
       This enables recursing into subdirectories.
@@ -923,11 +923,13 @@ set announcement 'Today is '(date $dateFormat)'.'</pre>
     </div>
     <div>
       For commands that write to stderr, to write to a file instead
-      use <code>^</code> unlike other shells that use <code>2></code>.
-      For example, <code><i>someCommand</i> ^ <i>someFilePath</i></code>.
-      For compatibility with other shells, <code>2></code> can also be used.
+      use <code>2&gt;</code> like in other shells.
+      Earlier versions of the fish shell supported using <code>^</code>,
+      but this has been deprecated.
+
       To avoid overwriting an existing file, use <code>^?</code> instead of <code>^</code>.
       To append to an existing file, use <code>^^</code> instead of <code>^</code>.
+      TODO: Is there a way to do these things using <code>2&gt;</code>?
     </div>
     <div>
       To redirect stderr to stdout,
@@ -1830,12 +1832,11 @@ set newText (string replace -ar '.oo' 'bar' $text) # regex matching more than fo
 
     <h3><a name="Math">Math</a></h3>
     <div>
-      The <code>math</code> command is a wrapper around the
-      <code>bc</code> command which is an abbreviation
-      for "basic calculator".
-      It allows an expression to be specified as an argument instead of
-      reading from a file or piping in through stdin
-      as is required with <code>bc</code>.
+      The <code>math</code> builtin command
+      allows an expression to be specified as an argument
+      instead of reading from a file or piping in through stdin
+      as is required with the <code>bc</code> command
+      (abbreviation for "basic calculator").
       The result is written to stdout.
       It sets <code>status</code> to a non-zero number if expression is invalid.
     </div>
@@ -3368,6 +3369,13 @@ end</pre>
       fish will warn about this and not exit.
       If you attempt to exit again,
       fish will kill all the background jobs and exit.
+    </div>
+    <div>
+      To wait for a set of jobs complete,
+      enter <code>wait</code> followed by arguments
+      that are process ids and/or process names.
+      Include the <code>--any</code> or <code>-n</code> flag
+      to only wait until one of the jobs completes.
     </div>
 
     <h3><a name="RandomNumbersAndOptions">Random Numbers and Options</a></h3>
