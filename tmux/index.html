@@ -1184,50 +1184,6 @@ tmux attach -t mytmux
       Press it again to toggle out of fullscreen mode.
     </p>
 
-    <p>
-      tmux does not integrate with the Mac system clipboard by default.
-      This means <code>cmd-c</code> and <code>cmd-v</code> cannot
-      be used to copy and paste text from and to tmux panes.
-      However, there is a way to configure this functionality with other keys.
-      Here are the configuration steps:
-    </p>
-    <p>
-      <ol>
-        <li>
-          Install the reattach-to-user-namespace command by running<br>
-          <code>brew install reattach-to-user-namespace</code>
-        </li>
-        <li>
-          Add the following lines to <code>~/.tmux.conf</code>:<br>
-          <code>
-            set-option -g default-command "reattach-to-user-namespace -l $SHELL"<br>
-            bind C-c run "tmux show-buffer | reattach-to-user-namespace pbcopy"<br>
-            bind C-v run "reattach-to-user-namespace pbpaste | tmux load-buffer - && tmux paste-buffer"
-          </code>
-        </li>
-        <li>
-          Start a new tmux session or reload the configuration of the current session<br>
-          by entering command mode (prefix <code>:</code>)
-          and entering <code>source-file ~/.tmux.conf</code>
-        </li>
-      </ol>
-    <p>
-      To select text from a tmux pane, select it with the mouse
-      (if <code>mouse</code> option is set to <code>on</code>)<br>
-      or enter copy mode (prefix <code>[</code>), move to start,
-      press space bar, move to end, and press return.<br>
-      To copy the selected text to the Mac system clipboard, press prefix <code>C-c</code>.<br>
-      To paste text from the Mac system clipboard into a tmux pane, prefix <code>C-v</code>.<br>
-      Copying and pasting text from and to Mac applications is done in the normal way.
-    </p>
-    <p>
-      Follow the same steps above to select and copy text
-      from editors like Vim and emacs running in a tmux pane.
-      To paste text into editors running in a tmux pane,
-      <code>cmd-v</code> can be used.
-      For Vim, enter insert mode before pasting.
-    </p>
-
     <h2 class="new-page">Final Thoughts</h2>
     <p>
       tmux certainly has a learning curve.
