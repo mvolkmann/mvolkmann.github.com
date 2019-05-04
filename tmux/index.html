@@ -670,7 +670,7 @@
           by five cells: prefix M-{arrow-key} (repeats)<br>
           by any number of cells: <code>resize-pane -UDLR {cells}</code> or <code>resizep</code> ...<br>
           These resize the current pane in the specified direction.<br>
-          If the <code>mouse-resize-pane</code> option is on, pane borders can be dragged.
+          If the <code>mouse</code> option is on, pane borders can be dragged.
         </td>
       </tr>
       <tr>
@@ -973,7 +973,7 @@
       <tr>
         <th>session</th>
         <td>
-          base-index, bell-action, bell-on-alert, default-{command|path|shell|terminal}, destroy-unattached, detach-on-destroy, display-panes-{active-colour|colour|time}, display-time, history-limit, lock-after-time, lock-command, lock-server, message-{attr|bg|fg|limit}, message-command-{attr|bg|fg}, mouse-resize-pane, mouse-select-{pane|window}, mouse-utf8, pane-active-border-{bg|fg}, pane-border-{bg|fg}, prefix, prefix2, repeat-time, set-remain-on-exit, set-titles, set-titles-string, status, status-{attr|bg|fg|interval|justify|keys}, status-left, status-left-{attr|bg|fg|length}, status-right, status-right-{attr|bg|fg|length}, status-utf8, terminal-overrides, update-environment, visual-{activity|bell|content|silence}, and word-separators
+          base-index, bell-action, bell-on-alert, default-{command|path|shell|terminal}, destroy-unattached, detach-on-destroy, display-panes-{active-colour|colour|time}, display-time, history-limit, lock-after-time, lock-command, lock-server, message-{attr|bg|fg|limit}, message-command-{attr|bg|fg}, mouse, mouse-utf8, pane-active-border-{bg|fg}, pane-border-{bg|fg}, prefix, prefix2, repeat-time, set-remain-on-exit, set-titles, set-titles-string, status, status-{attr|bg|fg|interval|justify|keys}, status-left, status-left-{attr|bg|fg|length}, status-right, status-right-{attr|bg|fg|length}, status-utf8, terminal-overrides, update-environment, visual-{activity|bell|content|silence}, and word-separators
         </td>
       </tr>
       <tr>
@@ -989,6 +989,14 @@
       If it exists, tmux reads <code>/etc/tmux.conf</code> which is shared by all users.
       Then it reads <code>.tmux.conf</code> in the user's home directory (<code>~/.tmux.conf</code>)
       to supplement and override settings in the first file.
+    </p>
+    <p>
+      Sometimes changes to <code>.tmux.conf</code> are not honored
+      until the tmux server is killed and restarted.
+      To do this, exit tmux, enter <code>tmux kill-server</code>,
+      and enter tmux again.
+    </p>
+    <p>
       Here's an example configuration file that is well-commented to describe each piece.
       This barely scratches the surface of possible status bar customizations.
       All characters from a <code>#</code> to the end of a line are treated as a comment and ignored.
