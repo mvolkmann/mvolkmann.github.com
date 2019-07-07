@@ -311,6 +311,17 @@ The parentheses are escaped with a backslash so they are not interpreted as grou
 
 TODO: Need more examples?
 
+## Two `sed` Buffers
+
+Text read by `sed` is temporarily stored in two buffers
+referred to as "PatSpace" and "HoldSpace".
+
+In normal operation `sed` reads each input line into PatSpace
+one at a time and run one or more `sed` commands on this text.
+Most `sed` commands only operate on PatSpace.
+
+Usage of HoldSpace will be discussed later.
+
 ## Substitute Command
 
 Substitute (`s`) is the most commonly used `sed` command.
@@ -327,13 +338,20 @@ Here is an example that changes the word "red" to "blue"
 and the number 1 to the word "one" in each input line.
 
 ```script
-sed -e 's/red/blue/; s/1/one/' input.txt
+sed 's/red/blue/; s/1/one/' input.txt
 ```
 
-Note how multiple `sed` commands are separated by semicolons.
+Note how multiple `sed` commands (substitute in this case) are separated by semicolons.
 Semicolons can optionally be followed by a space for readability.
-Putting multiple commands in a single `-e` option
-is typically preferred over using multiple `-e` options.
+
+Another way to write this is to use the `-e` option multiple times.
+
+```script
+sed -e 's/red/blue/' -e 's/1/one/' input.txt
+```
+
+However, the former approach of placing all the `sed` commands
+in a single string and not using the `-e` option is typically preferred.
 
 Each substitute command uses three delimiters,
 one at the beginning, one at the end,
@@ -375,13 +393,13 @@ The substitution expression can contain the following metacharacters:
 The Unix utility `seq` outputs a sequence of numbers up to a given number.
 For example, `seq 3` outputs 1, 2, and 3 on separate lines.
 
-`seq 3 | sed -E -e 's/[0-9]+/score: &/'`
+`seq 3 | sed -E 's/[0-9]+/score: &/'`
 outputs the lines "score: 1", "score: 2", and "score: 3".
 
-`echo "mark volkmann" | sed -E -e 's/(\w+) (\w+)/\u\1 \U\2/'`
+`echo "mark volkmann" | sed -E 's/(\w+) (\w+)/\u\1 \U\2/'`
 outputs "Mark VOLKMANN".
 
-`echo "mARK vOLKMANN" | sed -E -e 's/(\w)(\w*) (\w)(\w*)/\u\1\L\2\E \u\3\L\4/'`
+`echo "mARK vOLKMANN" | sed -E 's/(\w)(\w*) (\w)(\w*)/\u\1\L\2\E \u\3\L\4/'`
 outputs "Mark Volkmann". In fact, it has the
 same output regardless of the case in the input text.
 
@@ -429,8 +447,8 @@ with the `sed` `-n` option which suppresses the default output.
 
 The `e` flag can be used to process input that contains file paths
 and form/execute shell commands that operate on those files.
-For example, `sed` can be used to move all the files referenced
-in the input to a different directory.
+There is an example like this later in the "Less Common Commands" section
+when the `e` command is discussed.
 
 ## sed Scripts
 
@@ -439,7 +457,7 @@ that specifies the edits to be performed.
 This is done with one or more strings and files,
 but typically only one is used.
 
-String scripts are provided using the `-e` option.
+Multiple string scripts are provided using the `-e` option.
 File scripts are provided using the `-f` option.
 Any number of each can be specified.
 Each of these options appends sed commands to the list of commands to be evaluated
@@ -486,11 +504,6 @@ is separated from the previous one by a semi-colon.
 
 `sed` commands have single-letter names.
 For example, `s` is the substitute command.
-
-Text read by `sed` is temporarily stored to two buffers
-referred to as "PatSpace" and "HoldSpace".
-Most uses of `sed` only use PatSpace.
-HoldSpace will be discussed later.
 
 The default mode for executing `sed` scripts does the following:
 
@@ -559,7 +572,8 @@ There are many kinds of supported addresses including:
 - a line number and a regular expression
   For example, `7,/April/` runs only on the lines from
   line 7 to the next line that contains "April".
-  If no line after line 7 matches the regular expression,
+  If line 7 contains "April" the command is only run on that line.
+  If no line starting with line 7 matches the regular expression,
   the command is run on all remaining lines.
 
 - a regular expression and a number preceded by "+"  
@@ -579,7 +593,7 @@ There are many kinds of supported addresses including:
 
 - `$`  
   This runs the command only on the last line.  
-  For example, `seq 3 | sed -E -e '$ s/[0-9]+/found/`
+  For example, `seq 3 | sed -E '$ s/[0-9]+/found/'`
   outputs the lines "1", "2", and "found".
 
 Adding an exclamation mark to the end of any address negates it.
@@ -638,9 +652,20 @@ and outputs the specified text.
 For example, `/foo/ c bar baz` changes every line that contains "foo"
 to the line "bar baz".
 
-Multiple lines of new text can provided by separating them with a newline character.
-For example, `/foo/ c bar\nbaz` changes every line that contains "foo"
-to the lines "bar" and "baz".
+Multiple lines of new text can provided in two ways.
+The first is by separating them with `\n`.
+The second is by separating them with a backslash and an actual newline character.
+
+The following two `sed` commands change every line that contains "alpha"
+to the lines "beta", "gamma", and "delta" and are equivalent:
+
+```script
+/alpha/ c beta\ngamma\ndelta
+
+/alpha/ c beta\
+gamma\
+delta`
+```
 
 To output multiple lines of text using the `a`, `c`, and `i` commands
 separate the lines with backslashes.
@@ -676,7 +701,7 @@ Recall the that subex metacharacter `&` outputs
 the entire match which in this case is a file path.
 
 ```shell
-sed -E -e 's/.*/wc -l &/; e' file-paths.txt
+sed -E 's/.*/wc -l &/; e' file-paths.txt
 ```
 
 This produces output like:
@@ -685,6 +710,13 @@ This produces output like:
        3 ./fruit.txt
        3 ./greek.txt
       25 ./story.txt
+```
+
+The same output can be produced by using the substitute command `e` flag
+instead of the `sed` `e` command.
+
+```shell
+sed -E 's/.*/wc -l &/e' file-paths.txt
 ```
 
 The `p` command outputs the current value of PatSpace.
@@ -717,7 +749,7 @@ To output all the lines in `fruit.txt` and
 also output the lines in `greek.txt` after "banana":
 
 ```shell
-sed -E -e '/banana/ r greek.txt' fruit.txt
+sed -E '/banana/ r greek.txt' fruit.txt
 ```
 
 This outputs:
@@ -737,7 +769,7 @@ For example, to interleave lines from `greek.txt`
 with lines from `fruit.txt`, use:
 
 ```shell
-sed -E -e 'R greek.txt' fruit.txt
+sed -E 'R greek.txt' fruit.txt
 ```
 
 This outputs:
@@ -789,7 +821,7 @@ For example, we can replace "A" characters with an apple emoji
 and all "B" characters with a banana emoji.
 
 ```shell
-echo "Apple Banana Cherry" | sed -E -e 'y/AB/🍎🍌/'
+echo "Apple Banana Cherry" | sed -E 'y/AB/🍎🍌/'
 ```
 
 This outputs:
@@ -844,7 +876,7 @@ and Tami and their children.
 To output only the table and the "Total" line we can use:
 
 ```shell
-sed -E -e '/^\+-/,/^Total/ p; d' report.txt
+sed -E '/^\+-/,/^Total/ p; d' report.txt
 ```
 
 This prints all line ranges where the first line starts with "+-"
