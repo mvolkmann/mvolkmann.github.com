@@ -667,10 +667,6 @@ gamma\
 delta`
 ```
 
-To output multiple lines of text using the `a`, `c`, and `i` commands
-separate the lines with backslashes.
-See the `package.json` example later.
-
 We explored the `s` command earlier.
 
 ### Less Common Commands
