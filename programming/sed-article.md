@@ -664,7 +664,7 @@ to the lines "beta", "gamma", and "delta" and are equivalent:
 
 /alpha/ c beta\
 gamma\
-delta`
+delta
 ```
 
 We explored the `s` command earlier.
