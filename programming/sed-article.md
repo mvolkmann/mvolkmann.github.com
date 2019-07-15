@@ -94,6 +94,13 @@ The following are equivalent ways to supply these files to `sed`:
 Text can also be provided from the output of another command.
 For example, `some-executable | sed -f my-script.sed`.
 
+Any number of input files can be listed at the end of a `sed` command.
+They are treated as one concatenated file by `sed`.
+As we will see later, `sed` can target
+the first and last lines in transformations.
+Only the first line of the first file is treated as line #1
+and only the last line of the last file is treated as the last line.
+
 ## Directing Output
 
 By default `sed` sends its output to stdout.
@@ -603,6 +610,14 @@ For example:
 - `/April/!` runs on every line that does not contain "April".
 - `$!` runs on every line except the last.
 
+When a regular expression is used as an address,
+subsequent commands that use a regular expression
+can omit it to default to the same regular expression.
+For example, `/^[A-Z][0-9]{3}/ s//hide/`
+matches all lines that start with an uppercase letter
+followed by three digits and replaces that
+part of the line with the word "hide".
+
 ## sed Command Summary
 
 ### Common Commands
@@ -622,6 +637,7 @@ _subex_ is short for "substitution expression".
 
 The `d` command causes an input line to not be output,
 deleting it.
+For example, `/~$/ d` deletes all blank lines.
 
 The `D` command is useful when multiple input lines
 have been read into PatSpace.
@@ -1237,3 +1253,14 @@ Assuming the `sed` command above is in the file
 ```script
 sed -E -i -f package-json.sed package.json
 ```
+
+## Conclusion
+
+`sed` is a powerful tool that is a great addition
+to any tool bag of any software developer.
+There are other ways to accomplish everything `sed` does,
+but they require writing much more code.
+
+Thanks to Charles Sharp for reviewing this article!
+
+Send feedback to mark@objectcomputing.com.
