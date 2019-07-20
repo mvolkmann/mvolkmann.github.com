@@ -1119,6 +1119,29 @@ Assuming the `sed` commands above are in the file
 sed -E -i -f name-change.sed my-input.txt
 ```
 
+Here is another way to do this that works
+as long as the entire input fits in memory.
+
+```script
+sed -E ':a; N; $! ba; s/John([ \n])Smith/Jane\1Doe/g' person-story.txt
+```
+
+This begins by creating the label "a".
+The `N` command appends the next input line onto PatSpace.
+The address `$!` matches every line except the last.
+For each of those lines, the `ba` command
+branches back to the "a" label.
+The result is that the entire file is read into PatSpace,
+including newlines.
+The substitute command at the end is not executed
+until the entire file is in PatSpace.
+It replaces all occurrences of "John",
+followed by a space or newline,
+followed by "Smith"
+with "Jane", followed by the
+same character matched (space or newline),
+followed by "Doe".
+
 ## JavaScript Function Example
 
 Let's see how `sed` can be used to change
