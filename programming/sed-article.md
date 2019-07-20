@@ -7,7 +7,16 @@ The name is short for "stream editor".
 Input comes from a stream of text and
 output is an edited version of that text.
 
-TODO: Motive this more!
+While most developers don't need a stream editor
+on a daily basis, `sed` is a great tool belt addition.
+It can almost always address the need
+in the smallest amount of code.
+
+Memorizing all the capabilities and syntax details
+of `sed` can be a daunting task.
+But after reading this article you will know enough
+to recognize when using `sed` is appropriate
+and can come back to it later for a refresher.
 
 `sed` is based on the `ed` editor
 which was created by Ken Thompson in 1969.
@@ -112,9 +121,13 @@ Alternatively the input file can be modified in place using the `-i` flag.
 For example, `sed -i -f my-script.sed my-input.txt`.
 This stores intermediate results in a temporary file and
 replaces the input file with this at the end of processing.
+
 It's a good idea to make a backup copy of files
 before modifying them in place so the changes
 can be reverted if they aren't what is expected.
+Another option is to run the command without `-i`
+first and examine the output sent to stdout
+before running the command with `-i`.
 
 ## Regular Expression Review
 
@@ -202,17 +215,22 @@ Note that parentheses outside the character class
 must escaped with a backslash,
 but parentheses inside a character class are not.
 
-TODO: You emailed Charles about this.
 The `?`, `*`, and `+` repetition characters are greedy.
-This means they match as many consecutive characters as possible.
-Suppose we want to match an underscore followed by
-any other characters and another underscore.
-THE NEXT PART IS WRONG!
-The regular expression `/_.*_/` will not work because `.*` will match
-the ending underscore and then there won't be another one to match.
-Instead of looking for any characters after the starting underscore,
-we need to look for any characters except an underscore
-using `/_[^_]*_/`.
+This means the entire regular expression will
+match as many characters as possible.
+
+Suppose we want to match an underscore, followed by
+any other characters, and another underscore.
+An example is "_apple_banana_cherry_".
+The regular expression `/_.+_/` will work.
+Note that the `.*` part will not match the final underscore.
+If it did then the regular expression would fail to match because
+the final underscore in the pattern wouldn't have anything to match.
+
+Another approach we could try is `/_[^_]+_/`.
+This looks for an underscore, followed by any characters
+that are not underscores, followed by an underscore.
+It matches "_apple_", but not "_apple_banana_cherry_".
 
 Predefined character sets have a more compact syntax.
 For example, `\w` is a "word character" and
@@ -368,7 +386,7 @@ There are two potential issues with the regular expressions above.
 
 The first issue is that they only replace the first match
 in each input line.
-To replace all matches we need to add the `g` (global) flag.
+To replace all matches, add the `g` (global) flag.
 
 The second issue is that they match any text that contains a match,
 but do not require matching complete words.
@@ -381,6 +399,13 @@ The end of a word is indicated with `\>` or `\b`.
 
 ```script
 sed -s '/\bred\b/blue/g; s/\b1\b/one/g' input.txt
+```
+
+Here's a command the removes all
+trailing spaces and tabs from a file.
+
+```script
+sed -E -i 's/[ \t]+$//' input.txt
 ```
 
 ### Substitution Metacharacters
@@ -846,24 +871,34 @@ This outputs:
 
 The following table summarizes commands that support logic in `sed` scripts.
 
-| Command   | Description                                                  |
-| --------- | ------------------------------------------------------------ |
-| :_label_  | defines label that can be targeted by `b` and `t` commands   |
-| b         | branches to end of script                                    |
-| b _label_ | branches to a label                                          |
-| l         | prints PatSpace in a special format for debugging            |
-| n         | reads next line into PatSpace                                |
-| N         | appends next line into PatSpace preceded by a newline        |
-| q         | prints PatSpace and quits without processing remaining lines |
-| Q         | quits without processing remaining lines                     |
-| t         | branches to end of script if substitution was performed      |
-| t _label_ | branches to a label if substitution was performed            |
-| T         | branches to end of script if substitution was NOT performed  |
-| T _label_ | branches to a label if substitution was NOT performed        |
-| z         | clears PatSpace                                              |
+| Command   | Description                                                     |
+| --------- | --------------------------------------------------------------- |
+| :_label_  | defines label that can be targeted by `b` and `t` commands      |
+| b         | branches to end of sed script                                   |
+| b _label_ | branches to a label                                             |
+| l         | prints PatSpace in a special format for debugging               |
+| n         | reads next line into PatSpace                                   |
+| N         | appends next line into PatSpace preceded by a newline           |
+| q         | prints PatSpace and quits without processing remaining lines    |
+| Q         | quits without processing remaining lines                        |
+| t         | branches to end of sed script if substitution was performed     |
+| t _label_ | branches to a label if substitution was performed               |
+| T         | branches to end of sed script if substitution was NOT performed |
+| T _label_ | branches to a label if substitution was NOT performed           |
+| z         | clears PatSpace                                                 |
 
 There are examples of branching to a label (`b`)
 and clearing PatSpace (`z`) in the next section.
+
+The `n` command prints the current contents of PatSpace
+before reading the next line,
+whereas the `N` command does not.
+This makes the `N` command useful for gathering
+multiple lines of input before processing them
+as a single string of text
+with newlines between each original line.
+There are examples of using the `N` command
+in the "Matches That Span Lines" section later.
 
 Suppose the input file `report.txt` contains the following:
 
@@ -871,14 +906,14 @@ Suppose the input file `report.txt` contains the following:
 This is a report
 about dogs.
 
-+--------+---------+
-| Name   | Breed   |
-+--------+---------+
-| Dasher | Whippet |
-| Maisey | TWCH    |
-| Ramsey | NAID    |
-| Oscar  | GSP     |
-+--------+---------+
++--------+----------------------------+
+| Name   | Breed                      |
++--------+----------------------------+
+| Dasher | Whippet                    |
+| Maisey | Treeing Walker Coonhound   |
+| Ramsey | Native American Indian Dog |
+| Oscar  | German Shorthaired Pointer |
++--------+----------------------------+
 Total Dogs: 4
 
 These dogs are owned by Mark
@@ -931,6 +966,8 @@ sed -E -n -f report.sed report.txt
 HoldSpace is not cleared when a new input line is read into PatSpace.
 This allows text to be accumulated across
 the processing of multiple input lines.
+
+### HoldSpace Commands
 
 The following table summarizes sed commands that work with HoldSpace.
 
@@ -1098,7 +1135,7 @@ For example, consider this input:
 John Smith is a fine name.
 But sometimes John
 Smith wishes to have a different name.
-I can be tiresome hearing people call out
+It can be tiresome hearing people call out
 John Smith, John Smith over and over.
 ```
 
@@ -1123,7 +1160,7 @@ Here is another way to do this that works
 as long as the entire input fits in memory.
 
 ```script
-sed -E ':a; N; $! ba; s/John([ \n])Smith/Jane\1Doe/g' person-story.txt
+sed -E -i ':a; N; $! ba; s/John([ \n])Smith/Jane\1Doe/g' person-story.txt
 ```
 
 This begins by creating the label "a".
@@ -1141,6 +1178,27 @@ followed by "Smith"
 with "Jane", followed by the
 same character matched (space or newline),
 followed by "Doe".
+
+A slight modification changes the previous command
+so it performs the substitution on one paragraph at a time.
+This assumes all paragraphs except the last
+are followed by a blank line.
+
+```script
+sed -E ':a; N; $ bb; /[^\n]$/ ba; :b; s/John([ \n])Smith/Jane\1Doe/g; =' person-story.txt
+```
+
+This uses two labels, "a" and "b".
+When the last line is reached (`$`) it branches to "b".
+This marks the end of the final paragraph.
+
+When PatSpace does not end with a newline,
+lines from the current paragraph are still being gathered,
+so it branches back to "a" to get another line.
+
+When PatSpace ends with a newline,
+this means a blank line was appended
+and the end of a paragraph has been reached.
 
 ## JavaScript Function Example
 
@@ -1279,8 +1337,8 @@ sed -E -i -f package-json.sed package.json
 
 ## Conclusion
 
-`sed` is a powerful tool that is a great addition
-to any tool bag of any software developer.
+`sed` is a powerful utility that is a great addition
+to the tool belt of any software developer.
 There are other ways to accomplish everything `sed` does,
 but they require writing much more code.
 
