@@ -1023,6 +1023,12 @@ if PatSpace ends with a newline character.
 This will be the case every time a blank line is read
 that follows another blank line.
 
+The Unix `cat` command can also be used to do this.
+`cat -s my-input` outputs the same result to stdout.
+However, using `>` to redirect the output to the
+same file does not work and results in an empty file.
+But the output can be directed to a new file.
+
 There are more examples of using the `N` command
 in the "Matches That Span Lines" section later.
 
