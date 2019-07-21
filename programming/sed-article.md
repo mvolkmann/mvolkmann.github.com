@@ -89,6 +89,29 @@ See the link "General Installation Instructions".
 Another option for Windows is to install "UnxUtils"
 from <http://sourceforge.net/projects/unxutils/>.
 
+## sed Command Line Options
+
+The following table summarizes the most commonly used
+`sed` command line options.
+
+| Option                        | Description                                                  |
+| ----------------------------- | ------------------------------------------------------------ |
+| -e or --expression {script}   | value is a `sed` script to run                               |
+| -f or --file {script-file}    | value is a path to file containing a `sed` script            |
+| -h or --help                  | summarizes command line options (enter `man sed` for more)   |
+| -i or --in-place              | edits input file rather than writing to stdout               |
+| -n or --quiet or --silent     | turns off AutoPrint (described later)                        |
+| -E or -r or --regexp-extended | allows fewer backslashes in regular expressions              |
+| -s or --separate              | treats multiple input files as separate streams              |
+| --version                     | outputs `sed` version, copyright, license, authors, and more |
+
+The `-f` option can be used multiple times
+to read from multiple `sed` script files.
+
+Other options rarely needed include `-b` or `--binary`,
+`--follow-symlinks`, `-l` or `--line-length`,
+`--posix`, and `-u` or `--unbuffered`.
+
 ## Getting Input
 
 The text to be transformed can be provided to `sed` in a file.
@@ -134,7 +157,7 @@ sed -i -f my-script.sed my-input.txt
 This stores intermediate results in a temporary file and
 replaces the input file with this at the end of processing.
 
-It's a good idea to make a backup copy of files
+It is a good idea to make a backup copy of files
 before modifying them in place so the changes
 can be reverted if they aren't what is expected.
 Another option is to run the command without `-i`
@@ -398,7 +421,7 @@ Text read by `sed` is temporarily stored in two buffers
 referred to as "PatSpace" and "HoldSpace".
 
 In normal operation `sed` reads each input line into PatSpace
-one at a time and run one or more `sed` commands on this text.
+one at a time and runs one or more `sed` commands on this text.
 Most `sed` commands only operate on PatSpace.
 
 Usage of HoldSpace will be discussed later.
@@ -411,7 +434,7 @@ and a substitution expression that specifies its replacement
 (called "SubEx" in some documentation).
 
 These expressions are typically delimited by slash characters ("/"),
-but other delimiter characters such as ":", "|", and "\_" can also be used.
+but other delimiter characters such as `:`, `|`, and `_` can also be used.
 If the delimiter occurs in a regular expression,
 it must escaped by preceding it with a backslash.
 
@@ -422,7 +445,11 @@ and the number 1 to the word "one" in each input line.
 sed 's/red/blue/; s/1/one/' input.txt
 ```
 
-Note how multiple `sed` commands (substitute in this case) are separated by semicolons.
+Each substitute command uses three delimiters,
+one at the beginning, one at the end,
+and one separating the two expressions.
+
+Note how multiple `sed` commands (`s` in this case) are separated by semicolons.
 Semicolons can optionally be followed by a space for readability.
 
 Another way to write this is to use the `-e` option multiple times.
@@ -431,18 +458,11 @@ Another way to write this is to use the `-e` option multiple times.
 sed -e 's/red/blue/' -e 's/1/one/' input.txt
 ```
 
-However, the former approach of placing all the `sed` commands
-in a single string and not using the `-e` option is typically preferred.
-
-Each substitute command uses three delimiters,
-one at the beginning, one at the end,
-and one separating the two expressions.
-
 There are two potential issues with the regular expressions above.
 
 The first issue is that they only replace the first match
 in each input line.
-To replace all matches, add the `g` (global) flag.
+To replace all matches, add the `g` (global) flag as shown below.
 
 The second issue is that they match any text that contains a match,
 but do not require matching complete words.
@@ -453,12 +473,15 @@ The beginning of a word is indicated with `\<` or `\b`.
 The end of a word is indicated with `\>` or `\b`.
 `\B` represents a position that is not a word boundary.
 
+The following `sed` command addresses both issues.
+
 ```script
-sed -s '/\bred\b/blue/g; s/\b1\b/one/g' input.txt
+sed -s -i '/\bred\b/blue/g; s/\b1\b/one/g' input.txt
 ```
 
-Here's a command the removes all
-trailing spaces and tabs from a file.
+Here is a `sed` command that
+removes all trailing spaces and tabs from a file.
+It does this by replacing them with nothing.
 
 ```script
 sed -E -i 's/[ \t]+$//' input.txt
@@ -480,26 +503,37 @@ The substitution expression can contain the following metacharacters:
 
 The Unix utility `seq` outputs a sequence of numbers up to a given number.
 For example, `seq 3` outputs 1, 2, and 3 on separate lines.
+This can be used to generate input for `sed`.
 
-`seq 3 | sed -E 's/[0-9]+/score: &/'`
-outputs the lines "score: 1", "score: 2", and "score: 3".
+The following script outputs the lines
+"score: 1", "score: 2", and "score: 3".
 
-`echo "mark volkmann" | sed -E 's/(\w+) (\w+)/\u\1 \U\2/'`
-outputs "Mark VOLKMANN".
+```script
+seq 3 | sed -E 's/[0-9]+/score: &/'
+```
 
-`echo "mARK vOLKMANN" | sed -E 's/(\w)(\w*) (\w)(\w*)/\u\1\L\2\E \u\3\L\4/'`
-outputs "Mark Volkmann". In fact, it has the
-same output regardless of the case in the input text.
+The following script outputs "Mark VOLKMANN".
+
+```script
+echo "mark volkmann" | sed -E 's/(\w+) (\w+)/\u\1 \U\2/'
+```
+
+The following script outputs "Mark Volkmann".
+It has the same output regardless of the case in the input text.
+
+```script
+echo "mARK vOLKMANN" | sed -E 's/(\w)(\w*) (\w)(\w*)/\u\1\L\2\E \u\3\L\4/'
+```
 
 ### Substitute Command Flags
 
-Here's a summary of the flags supported by the `s` command
+Here is a summary of the flags supported by the `s` command
 that follow the last delimiter.
 
 | `s` flag        | Description                                          |
 | --------------- | ---------------------------------------------------- |
 | a number        | changes a specific match (ex. 2 for only the second) |
-| `g`             | substitutes global                                   |
+| `g`             | substitutes globally (all occurrences)               |
 | `i`             | ignores case                                         |
 | `m`             | enables multiline mode                               |
 | `e`             | executes replacement as a shell command if matched   |
@@ -514,8 +548,6 @@ If a number is specified along with the g flag
 then matching starts at that occurrence number.
 For example, `s/foo/bar/3g` replaces all occurrences of
 "foo" with "bar" starting with the third occurrence.
-
-### Multiline Mode
 
 In multiline mode:
 
@@ -535,7 +567,8 @@ with the `sed` `-n` option which suppresses the default output.
 
 The `e` flag can be used to process input that contains file paths
 and form/execute shell commands that operate on those files.
-There is an example like this later in the "Less Common Commands" section
+There is an example like this later
+in the "Less Common Commands" section
 when the `e` command is discussed.
 
 ## sed Scripts
@@ -548,7 +581,8 @@ but typically only one is used.
 Multiple string scripts are provided using the `-e` option.
 File scripts are provided using the `-f` option.
 Any number of each can be specified.
-Each of these options appends sed commands to the list of commands to be evaluated
+Each of these options appends `sed` commands
+to the list of commands to be evaluated
 in the order in which they are specified.
 
 For example:
@@ -567,7 +601,7 @@ It is recommended to always enclose the script in
 single or double quotes to avoid confusion.
 
 We can also create a file like "my-changes.sed" containing the following.
-Note that each `sed` command is either on a separate line
+Each `sed` command must either be on a separate line
 or separated from the previous command by a semicolon.
 
 ```script
@@ -578,7 +612,7 @@ s/\b1\b/one/g
 Pound signs (`#`) in script files mark the beginning
 of a comment that extends to the end of the line.
 
-The script file can be used as follows:
+This script file can be used as follows:
 
 ```script
 sed -f my-changes.sed input.txt
@@ -586,25 +620,21 @@ sed -f my-changes.sed input.txt
 
 ## sed Commands
 
-`sed` scripts are composed of `sed` commands.
-When specified on the command-line each command
-is separated from the previous one by a semi-colon.
-
 `sed` commands have single-letter names.
 For example, `s` is the substitute command.
 
 The default mode for executing `sed` scripts does the following:
 
 ```text
-for each line of input ...
+for each line of input
   read the line into PatSpace, replacing previous contents
-  remove newline at end
-  for each `sed` script
-    for each command in the `sed` script
+  remove the newline at the end
+  for each sed script specified
+    for each command in the sed script
       if the command has no address or the address matches the line
-        process the command on PatSpace
-  add newline at end of PatSpace
-  AutoPrint contents of PatSpace
+        process the command
+  add a newline at the end of PatSpace
+  AutoPrint the contents of PatSpace
 ```
 
 By default the contents of PatSpace are written to stdout
@@ -628,7 +658,9 @@ and some commands do not require any.
 
 To run more than one command when the address is matched,
 surround them in curly braces and separate them with semicolons.
-We'll see an example like this in the "HoldSpace Commands" section later.
+This is referred to as "grouping".
+We'll see an example like this in the
+"HoldSpace Commands" section later.
 
 ## sed Addresses
 
@@ -636,15 +668,15 @@ A `sed` command can optionally be preceded by an "address"
 that describes the input lines for which the command should be run.
 When no address is specified, the command is run on all input lines.
 
-Addresses are frequently used to identify lines on which
-substitutions will be made or lines that will be deleted.
+Addresses are frequently used to identify the lines on which
+substitutions will be made or the lines that will be deleted.
 
 There are many kinds of supported addresses including:
 
 - a line number  
   For example, `7` runs only on line 7.
 
-- a range of line numbers (referred to as L,H for low to high)  
+- a range of line numbers (referred to as "L,H" for low to high)  
   For example, `8,12` runs only on lines 8 to 12 inclusive.
   The high line number can be `$` to make the range end at the last line.
 
@@ -657,12 +689,12 @@ There are many kinds of supported addresses including:
   that beginning with a line that contains "April"
   and end with a line that contains "July".
 
-- a line number and a regular expression
+- a line number and a regular expression  
   For example, `7,/April/` runs only on the lines from
   line 7 to the next line that contains "April".
   If line 7 contains "April" the command is only run on that line.
   If no line starting with line 7 matches the regular expression,
-  the command is run on all remaining lines.
+  the command is run on **all** remaining lines.
 
 - a regular expression and a number preceded by "+"  
   For example, `/April/,+3` runs on every range of lines
@@ -670,7 +702,7 @@ There are many kinds of supported addresses including:
   and continuing for three more lines
   for a total of four lines.
 
-- a regular expression and a number preceded by "~"
+- a regular expression and a number preceded by "~"  
   For example, `/April/,~4` runs every line that contains "April"
   plus every line that is a multiple of four after that line.
   This is rarely used.
@@ -694,8 +726,13 @@ For example:
 When a regular expression is used as an address,
 subsequent commands that use a regular expression
 can omit it to default to the same regular expression.
-For example, `/^[A-Z][0-9]{3}/ s//hide/`
-matches all lines that start with an uppercase letter
+For example:
+
+```script
+`/^[A-Z][0-9]{3}/ s//hide/`
+```
+
+This matches all lines that start with an uppercase letter
 followed by three digits and replaces that
 part of the line with the word "hide".
 
@@ -703,18 +740,19 @@ part of the line with the word "hide".
 
 ### Common Commands
 
-The following table summarizes the most commonly used sed commands.
+The following table summarizes the most commonly used
+`sed` commands in alphabetical order.
 
-| Command                   | Description                                  |
-| ------------------------- | -------------------------------------------- |
-| a _text_                  | appends _text_ after normal output           |
-| c _text_                  | changes normal output to _text_              |
-| d                         | deletes PatSpace (clears it)                 |
-| D                         | deletes the first line in PatSpace           |
-| i _text_                  | inserts _text_ before normal output          |
-| s/_regex_/_subex_/_flags_ | substitutes text in line with different text |
+| Command                   | Description                             |
+| ------------------------- | --------------------------------------- |
+| a _text_                  | appends _text_ after normal output      |
+| c _text_                  | changes normal output to _text_         |
+| d                         | deletes PatSpace (clears it)            |
+| D                         | deletes only the first line in PatSpace |
+| i _text_                  | inserts _text_ before normal output     |
+| s/_regex_/_subex_/_flags_ | substitutes text with different text    |
 
-_subex_ is short for "substitution expression".
+Recall that _subex_ is short for "substitution expression".
 
 The `d` command causes an input line to not be output,
 deleting it.
@@ -729,15 +767,18 @@ They all provided a way to output arbitrary text.
 It can be output before (`a`), after (`i`),
 or in place of (`c`) the normal output.
 
-The arbitrary text cannot be edited by subsequent `sed` commands.
+This arbitrary text is never placed in PatSpace,
+so it cannot be edited by subsequent `sed` commands.
 
 In the examples that follow for the `a`, `c`, and `i` commands
-a regular expression address (`/foo/`) is used.
+a regular expression address (`/foo/`) is used
+to target lines that contains "foo".
 
 The `a` command holds the specified text until the current script finishes
 or the `n` or `N` command is used to read the next line of input.
 For example, `/foo/ a bar baz` appends the line "bar baz"
 after every line that contains "foo".
+Note that the text to append is not surrounded by quotes.
 
 The `i` command immediately outputs the specified text
 and continues with the current script processing.
@@ -754,7 +795,8 @@ The first is by separating them with `\n`.
 The second is by separating them with a backslash and an actual newline character.
 
 The following two `sed` commands change every line that contains "alpha"
-to the lines "beta", "gamma", and "delta" and are equivalent:
+to the lines "beta", "gamma", and "delta".
+They are equivalent.
 
 ```script
 /alpha/ c beta\ngamma\ndelta
@@ -768,7 +810,8 @@ We explored the `s` command earlier.
 
 ### Less Common Commands
 
-The following table summarizes less commonly used sed commands.
+The following table summarizes less commonly used
+`sed` commands in alphabetical order.
 
 | Command  | Description                                                  |
 | -------- | ------------------------------------------------------------ |
@@ -783,9 +826,11 @@ The following table summarizes less commonly used sed commands.
 | y        | replaces given characters with others (transliterates)       |
 
 The `=` is mostly useful for debugging `sed` scripts.
+We will see an example of this later
+in the "Matches That Span Lines" section.
 
 The `e` command expects the contents of PatSpace to be a shell command
-and executes it. For example, suppose we have an
+and executes it. For example, suppose we have the
 input file `file-paths.txt` where each line is a file path.
 We can use `sed` to output the number of lines in each file,
 followed by the file path by forming a Unix `wc` command
@@ -818,7 +863,8 @@ which disables AutoPrint. This allows multi-command `sed` scripts
 to decide whether and how many times to output PatSpace.
 
 The `P` command is similar, but only outputs the first line of PatSpace.
-It is useful in `sed` scripts that read more than one input line.
+It is useful in `sed` scripts that
+read more than one input line into PatSpace.
 
 The `r` command causes all the lines in a given file
 to be output at the end of a `sed` script.
@@ -898,8 +944,9 @@ Airedale Terrier,medium
 Here is a `sed` command that writes
 small dog breed names to the file `small-dogs.txt` and
 medium dog breed names to the file `medium-dogs.txt`.
-It uses the `-n` flag to suppress AutoPrint since all output
-is to the files specified with the `w` command.
+It uses the `-n` option to suppress AutoPrint
+since all output is to the files
+specified with the `w` command.
 
 ```shell
 sed -E -n \
@@ -910,22 +957,28 @@ sed -E -n \
 
 The `y` command replaces characters in one string
 with the corresponding characters in another string.
-For example, we can replace "A" characters with an apple emoji
-and all "B" characters with a banana emoji.
+For example, we can replace
+all "A" characters with an apple emoji and
+all "B" characters with a banana emoji.
 
 ```shell
-echo "Apple Banana Cherry" | sed -E 'y/AB/🍎🍌/'
+echo "Apple Banana Berry" | sed -E 'y/AB/🍎🍌/'
 ```
 
 This outputs:
 
 ```text
-🍎pple 🍌anana Cherry
+🍎pple 🍌anana 🍌erry
 ```
+
+Note that replacement is done globally.
+The `y` command does not support the `g` flag like the `s` command does.
+It replaces globally by default.
 
 ### Logic-Related Commands
 
-The following table summarizes commands that support logic in `sed` scripts.
+The following table summarizes commands that support logic
+in `sed` scripts in alphabetical order.
 
 | Command   | Description                                                     |
 | --------- | --------------------------------------------------------------- |
@@ -936,7 +989,7 @@ The following table summarizes commands that support logic in `sed` scripts.
 | n         | reads next line into PatSpace                                   |
 | N         | appends next line into PatSpace preceded by a newline           |
 | q         | prints PatSpace and quits without processing remaining lines    |
-| Q         | quits without processing remaining lines                        |
+| Q         | quits without printing PatSpace or processing remaining lines   |
 | t         | branches to end of sed script if substitution was performed     |
 | t _label_ | branches to a label if substitution was performed               |
 | T         | branches to end of sed script if substitution was NOT performed |
@@ -944,7 +997,8 @@ The following table summarizes commands that support logic in `sed` scripts.
 | z         | clears PatSpace                                                 |
 
 There are examples of branching to a label (`b`)
-and clearing PatSpace (`z`) in the next section.
+and clearing PatSpace (`z`)
+in the "Hold Space" section later.
 
 The `n` command prints the current contents of PatSpace
 before reading the next line,
@@ -979,16 +1033,20 @@ and Tami and their children.
 To output only the table and the "Total" line we can use:
 
 ```shell
-sed -E '/^\+-/,/^Total/ p; d' report.txt
+sed -E -n '/^\+-/,/^Total/ p' report.txt
 ```
 
-This prints all line ranges where the first line starts with "+-"
+This prints all line ranges
+where the first line starts with "+-"
 and the last line starts with "Total".
-It deletes all other lines.
+The `-n` option makes it so
+no input lines are printed automatically.
 
-If there were a larger number of lines after the "Total" line,
-this would evaluate all of them. We can tell `sed` to stop
-processing after the "Total" line is found with the `q` command.
+If we only want the first table and
+there are a larger number of lines after the "Total" line,
+this will evaluate all of them.
+We can tell `sed` to stop processing
+after the "Total" line is found with the `q` command.
 
 The following script is in the file `report.sed`.
 
@@ -1007,7 +1065,7 @@ T
 p # prints PatSpace
 n # reads next line into PatSpace
 s/^Total/&/ # attempts to match "Total" line
-T print # branches to "print" label if not matched
+T print # branches to label "print" if not matched
 
 p # prints the "Total" line
 q # quits script so no more input lines are processed
@@ -1019,13 +1077,15 @@ To use this `sed` script enter:
 sed -E -n -f report.sed report.txt
 ```
 
-HoldSpace is not cleared when a new input line is read into PatSpace.
+### HoldSpace Commands
+
+HoldSpace is not cleared when a new input line
+is read into PatSpace.
 This allows text to be accumulated across
 the processing of multiple input lines.
 
-### HoldSpace Commands
-
-The following table summarizes sed commands that work with HoldSpace.
+The following table summarizes the `sed` commands
+that work with HoldSpace.
 
 | Command | Description                      |
 | ------- | -------------------------------- |
@@ -1035,9 +1095,9 @@ The following table summarizes sed commands that work with HoldSpace.
 | G       | appends HoldSpace to PatSpace    |
 | x       | exchanges PatSpace and HoldSpace |
 
-Here is an example `sed` script that combines lines that
-end with the continuation character backslash (`\`).
-It reads lines like these:
+Suppose we have input like the following
+where some lines end with `\`
+which represents a continuation character.
 
 ```text
 This is \
@@ -1048,12 +1108,15 @@ over even \
 more lines.
 ```
 
-and produces output like this:
+We want to combine all continued lines
+and produce output like the following:
 
 ```text
 This is a sentence.
 This one is spread over even more lines.
 ```
+
+Here is a `sed` script that does this.
 
 ```shell
 # Replace zero or more spaces followed by a backslash
@@ -1088,14 +1151,25 @@ z
 x
 ```
 
-Here is another example `sed` script.
-It reads a file containing paragraphs that are separated by lines
-that are either empty or only contain spaces and tabs.
-It outlines the line number where each paragraph begins,
+If this `sed` script is in the file `combine.sed`,
+we can run it on the file `sentences.txt` with:
+
+```shell
+sed -E -n -f combine.sed sentences.txt
+```
+
+The `-n` flag is needed to disable AutoPrint
+since the `sed` script decides when to output PatSpace.
+
+Suppose we have files containing paragraphs
+that are separated by lines that are
+either empty or only contain spaces and tabs.
+We want to output the line number where each paragraph begins,
 followed by the text of the paragraph with newlines removed
 so each paragraph is on a single line.
 
-This demonstrates the power of `sed`,
+The following `sed` script does this.
+It demonstrates the power of `sed`,
 but is also crazy complicated!
 
 ```script
@@ -1127,15 +1201,12 @@ but is also crazy complicated!
 /^[ \t]*$/ {x; s/\n/ /g; p; z; x}
 ```
 
-If this `sed` script is in the file `paragraphs.txt`,
+If this `sed` script is in the file `paragraphs.sed`,
 we can run it on the file `story.txt` with:
 
 ```shell
 sed -E -n -f paragraphs.sed story.txt
 ```
-
-The `-n` flag is needed to disable AutoPrint
-since the `sed` script decides when to output PatSpace.
 
 Here is example output:
 
@@ -1158,31 +1229,12 @@ Hillybilly that is. Set a spell, Take your shoes off.
 Y'all come back now, y'hear?.
 ```
 
-## sed Command Line Options Summary
-
-| Option                        | Description                                                  |
-| ----------------------------- | ------------------------------------------------------------ |
-| -e or --expression {script}   | value is `sed` script to run                                 |
-| -f or --file {script-file}    | path to file containing `sed` script                         |
-| -h or --help                  | summarizes command line options (enter `man sed` for more)   |
-| -i or --in-place              | edit file from `-f` inline                                   |
-| -i or --in-place {suffix}     | specifies backup file suffix                                 |
-| -n or --quiet or --silent     | turns off AutoPrint                                          |
-| -E or -r or --regexp-extended | allows fewer backslashes in regular expressions              |
-| -s or --separate              | treats multiple input files as separate streams              |
-| --version                     | outputs `sed` version, copyright, license, authors, and more |
-
-The -f option can be used multiple times to read from multiple files.
-
-Other options rarely needed include `-b` or `--binary`,
-`--follow-symlinks`, `-l` or `--line-length`,
-`--posix`, and `-u` or `--unbuffered`.
-
 ## Matches That Span Lines
 
-Suppose we want to replace all occurrences of "John Smith" with "Jane Doe".
+Suppose we want to replace all occurrences
+of "John Smith" with "Jane Doe".
 This is easy if the words are always on the same line.
-It's more tricky if "John" can be at the end of a line
+It is tricky if "John" can be at the end of a line
 and "Smith" can be at the beginning of the next line.
 
 For example, consider this input:
@@ -1193,6 +1245,10 @@ But sometimes John
 Smith wishes to have a different name.
 It can be tiresome hearing people call out
 John Smith, John Smith over and over.
+
+There is more I could say
+about John Smith,
+but I think that's enough.
 ```
 
 Here is one way to perform the substitutions:
@@ -1223,7 +1279,7 @@ This begins by creating the label "a".
 The `N` command appends the next input line onto PatSpace.
 The address `$!` matches every line except the last.
 For each of those lines, the `ba` command
-branches back to the "a" label.
+branches back to the label "a".
 The result is that the entire file is read into PatSpace,
 including newlines.
 The substitute command at the end is not executed
@@ -1235,17 +1291,19 @@ with "Jane", followed by the
 same character matched (space or newline),
 followed by "Doe".
 
-A slight modification changes the previous command
+A slight modification changes the previous `sed` script
 so it performs the substitution on one paragraph at a time.
 This assumes all paragraphs except the last
 are followed by a blank line.
 
 ```script
-sed -E ':a; N; $ bb; /[^\n]$/ ba; :b; s/John([ \n])Smith/Jane\1Doe/g' person-story.txt
+sed -E \
+  ':a; N; $ bb; /[^\n]$/ ba; :b; s/John([ \n])Smith/Jane\1Doe/g' \
+  person-story.txt
 ```
 
 This uses two labels, "a" and "b".
-When the last line is reached (`$`) it branches to "b".
+When the last line is reached (`$`) it branches to label "b".
 This marks the end of the final paragraph.
 
 When PatSpace does not end with a newline,
@@ -1253,12 +1311,12 @@ lines from the current paragraph are still being gathered,
 so it branches back to "a" to get another line.
 
 When PatSpace ends with a newline,
-this means a blank line was appended
+this means a blank line was appended to PatSpace
 and the end of a paragraph has been reached.
 
 How do we know this is really processing one paragraph at a time?
-This is perfect use for the `=` command which prints
-the line number of the input line that is being processed.
+This is a perfect use for the `=` command which prints
+the line number of the input line that was last read.
 Temporarily add this as the last command
 by appending `; =` to the `sed` script.
 It will output `6` and `9`.
@@ -1307,8 +1365,8 @@ The following is a `sed` script that does this.
 Each regular expression begins by matching the following:
 
 - any amount of spaces and tabs anchored to the beginning of the line
-- keyword "function" followed by a space
-- the name of the function, captured in the group
+- the keyword "function" followed by a space
+- the name of the function, captured in a group
 
 After this the regular expressions differ
 based on the number of parameters they match.
@@ -1337,8 +1395,9 @@ For more than one parameter a left paren, the parameter list, and a right paren 
 
 Finally, a space, the arrow token "=>", a space, and a left curly brace are output.
 
-Whew! That's a lot of detail! Examine the substitute commands below
-and try to match their parts to the descriptions above.
+Whew, that is a lot of detail!
+Examine the substitute commands below and
+try to match their parts to the descriptions above.
 
 ```script
 # For functions with no parameters ...
@@ -1363,7 +1422,7 @@ sed -E -i -f js-fn-to-arrow.sed demo.js
 Let's see how `sed` can be used to add
 npm scripts to a `package.json` file.
 
-Here's an example `package.json` file:
+Here is an example `package.json` file:
 
 ```json
 {
@@ -1385,6 +1444,7 @@ Here's an example `package.json` file:
 
 Here is a `sed` script that adds three npm scripts
 to the "scripts" section of a `package.json` file.
+It uses the `sed` append (`a`) command.
 
 ```script
 /"scripts": \{/ a \
