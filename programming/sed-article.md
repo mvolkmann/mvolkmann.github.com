@@ -9,8 +9,6 @@ output is an edited version of that text.
 
 While most developers don't need a stream editor
 on a daily basis, `sed` is a great tool belt addition.
-It can almost always address the need
-in the smallest amount of code.
 
 Memorizing all the capabilities and syntax details
 of `sed` can be a daunting task.
@@ -25,7 +23,7 @@ Currently the most popular version is GNU sed.
 This is available on all major operating systems
 including Linux, macOS, and Windows.
 
-Alternatives to sed include the Unix utility `awk`
+Alternatives to `sed` include the Unix utility `awk`
 and nearly any general purpose programming language.
 
 Awk excels at processing record-based text
@@ -35,14 +33,14 @@ perhaps separated by spaces or tabs.
 
 General purpose programming languages have the advantage
 that they can perform any kind of text transformation.
-But the code required is longer than when using sed.
+But the code required is longer than when using `sed`.
 
 `sed` can perform text transformations in very
 compact way, but the code is harder to read.
 Also, there are some kinds of text transformations
-that are not possible in sed.
+that are not possible in `sed`.
 
-Still, it is worthwhile learning sed
+Still, it is worthwhile learning `sed`
 for the cases that it handles well.
 
 `sed` can be used on its own, but often it is used
@@ -56,7 +54,7 @@ Having an understanding of those is essential for effectively using `sed`.
 
 Typically `sed` is used to operate on text files
 where lines are terminated by a newline character.
-While `sed` can operate on binary files, doing this is not typical.
+While `sed` can operate on binary files, doing this is not common.
 
 A common use for `sed` is automating the application of the
 same kinds of modifications to a large number of input files.
@@ -66,14 +64,14 @@ created over time and need to modified after each is created.
 Another use is making many modifications to a single large file.
 
 `sed` is less helpful when a small number of changes
-are needed in a single, small file.
+are needed in a single small file.
 In this case using a text editor is usually sufficient.
 This is especially true for editors like Vim
 that support macros.
 
 ## Installing sed
 
-Most versions of Unix ship with GNU sed.
+Most versions of Unix ship with GNU `sed`.
 
 macOS includes a version of `sed`, but it is not
 GNU `sed` and differs from that in some ways.
@@ -82,6 +80,7 @@ and then enter `brew install gnu-sed`.
 To use this version, use the command `gsed` instead of `sed`.
 All the examples in this article show using the `sed` command,
 but change this to `gsed` if you are using macOS!
+Consider aliasing `sed` to `gsed` so GNU `sed` is always used.
 
 Windows does not include a version of `sed`.
 A good source for installing it is
@@ -101,12 +100,16 @@ The following are equivalent ways to supply these files to `sed`:
 - `sed -f my-script.sed < my-input.txt`.
 
 Text can also be provided from the output of another command.
-For example, `some-executable | sed -f my-script.sed`.
+For example:
+
+```script
+some-executable | sed -f my-script.sed
+```
 
 Any number of input files can be listed at the end of a `sed` command.
-They are treated as one concatenated file by `sed`.
+They are treated as one concatenated input file.
 As we will see later, `sed` can target
-the first and last lines in transformations.
+the first and last input lines in transformations.
 Only the first line of the first file is treated as line #1
 and only the last line of the last file is treated as the last line.
 
@@ -115,10 +118,19 @@ and only the last line of the last file is treated as the last line.
 By default `sed` sends its output to stdout.
 
 The output can also be redirected to a file.
-For example, `sed -f my-script.sed my-input.txt > my-output.txt`.
+For example:
+
+```script
+sed -f my-script.sed my-input.txt > my-output.txt
+```
 
 Alternatively the input file can be modified in place using the `-i` flag.
-For example, `sed -i -f my-script.sed my-input.txt`.
+For example:
+
+```script
+sed -i -f my-script.sed my-input.txt
+```
+
 This stores intermediate results in a temporary file and
 replaces the input file with this at the end of processing.
 
@@ -132,7 +144,7 @@ before running the command with `-i`.
 ## Regular Expression Review
 
 Readers that are already familiar with regular expressions
-should skip to the "Substitute Command" section.
+should skip to the "Two sed Buffers" section.
 
 Regular expressions specify a pattern used to match text.
 They are typically written with the syntax `/{pattern}/{flags}`.
@@ -154,14 +166,14 @@ Remembering which characters need to be escaped is difficult
 and escaping them makes regular expressions even more complicated.
 This can be avoided by using the `sed` flag `-E` (or `-r`).
 It is recommended to always include this flag.
+With this flag the special characters have their special meaning
+without being escaped.
 
 ### Wildcards
 
-A dot (".") matches any character.
+A dot (`.`) matches any character.
 For example, `/a.c/` matches any text that contains
 "a", followed by any character, followed by "c".
-See the "Repetition" section ahead for matching
-more than one occurrence of any character.
 
 To include a literal period in a regular expression,
 escape it with a backslash (`\.`).
@@ -170,7 +182,7 @@ escape it with a backslash (`\.`).
 
 The number of times a character, wildcard, or group
 is expected to appear in the text defaults to one.
-These can be followed by a special character for other options.
+These can be followed by a special syntax for other options.
 
 - `{n}` means n times.
 - `{n,}` means at least n times.
@@ -181,12 +193,12 @@ These can be followed by a special character for other options.
 
 For example:
 
-- `x?` matches "" or "x"
-- `x*` matches "", "x", "xx", "xxx", and so on
+- `x?` matches an empty string or "x"
+- `x*` matches an empty string, "x", "xx", "xxx", and so on
 - `x+` matches "x", "xx", "xxx", and so on, but not an empty string
 
 To include a literal question mark, asterisk, or plus in a regular expression,
-escape it with a backslash (`\?`, `\*`, and `\+').
+escape it with a backslash (`\?`, `\*`, and `\+`).
 
 ### Character Classes
 
@@ -224,19 +236,19 @@ any other characters, and another underscore.
 An example is "_apple_banana_cherry_".
 The regular expression `/_.+_/` will work.
 Note that the `.*` part will not match the final underscore.
-If it did then the regular expression would fail to match because
-the final underscore in the pattern wouldn't have anything to match.
+If it did then the match would fail to match because the
+final underscore in the pattern wouldn't have anything to match.
 
 Another approach we could try is `/_[^_]+_/`.
 This looks for an underscore, followed by any characters
 that are not underscores, followed by an underscore.
-It matches "_apple_", but not "_apple_banana_cherry_".
+It matches "\_apple\_", but not "\_apple_banana_cherry\_".
 
 Predefined character sets have a more compact syntax.
 For example, `\w` is a "word character" and
 has the same meaning as `[A-Za-z0-9_]`.
 `\W` means not a word character.
-Note that a hyphen or dash ("-") is not a word character.
+Note that a hyphen or dash ("-") is not considered a word character.
 
 Other tools that support regular expressions often recognize
 additional predefined character sets such as `\d` for digits,
@@ -263,7 +275,7 @@ escape them with a backslash (`\[` and `\]`).
 ### Grouping and Back References
 
 Parts of a pattern enclosed in parentheses form a group.
-Matching text is captured and can be used later via back references
+Matching text is captured and can be used later via "back references"
 in the pattern or in a replacement value.
 A back reference is a backslash followed by a single digit.
 
@@ -276,7 +288,7 @@ In place of outputting all of this it outputs "found".
 echo "123mark123" | sed -E 's/([0-9]{3}).+\1/found/'
 ```
 
-The "back reference" `\1` refers to the first group in the
+The back reference `\1` refers to the first group in the
 regular expression, `\2` refers to the second, and so on.
 
 The repetition characters `?`, `*`, and `+` can be applied to groups.
@@ -286,7 +298,7 @@ escape them with a backslash (`\(` and `\)`).
 
 ### Anchors
 
-By default regular expressions match any text that contains matching text.
+By default regular expressions match any text that contains a match.
 For example, `/two/` matches "two", "one two", "two three", and "one two three".
 
 To require the match to appear at the beginning of the text,
@@ -301,8 +313,8 @@ use both `^` and `$`. For example, `/^two$/`.
 To include a literal caret as the first character or
 a literal dollar sign as the last character in a regular expression,
 escape them with a backslash (`\^` and `\$`).
-When`^`is not the first character in a regular expression
-or `\$` is not the last character, they are interpreted literally
+When `^` is not the first character in a regular expression
+or `\$` is not the last, they are interpreted literally
 and do not need to be escaped.
 
 These can be combined to find blank lines
@@ -319,22 +331,66 @@ of regular expression pattern, not just literal text.
 
 ### Regular Expression Flags
 
-Commonly used flags include the following:
+Commonly used flags include:
 
 - `g` for global matching, not just first match
 - `i` for case-insensitive (ignore case) matching
 
 ### Regular Expression Examples
 
-This regular expression matches text that contains a phone number in the format `(999)999-9999`.
+This regular expression matches text that contains a U.S. zip code.
+
+```script
+/[0-9]{5}/
+```
+
+This regular expression matches text that contains
+a phone number in the format `(999)999-9999`.
+The parentheses are escaped with a backslash
+so they are not interpreted as grouping.
 
 ```script
 /\(\d{3}\)\d{3}-\d{4}/
 ```
 
-The parentheses are escaped with a backslash so they are not interpreted as grouping.
+This regular expression matches text that contains the
+full name of a person where the middle name is optional.
+It assumes that any part of the name
+must start with an uppercase letter,
+followed by zero or more lowercase letters,
+and apostrophes.
 
-TODO: Need more examples?
+```script
+/[A-Z]['a-z]* ([A-Z]['a-z]*)? [A-Z]['a-z]*/
+```
+
+This regular expression matches the first line of a
+JavaScript function definition with common formatting.
+For example, "`function area(width, height) {`".
+It does not match "arrow functions".
+The following parts must be matched in order:
+
+- beginning of the line
+- zero or more spaces and tabs
+- the "function" keyword
+- a space
+- the name of the function (word characters)
+- a left paren (escaped)
+- an optional parameter list
+  where parameter names are separated
+  by a comma and a space
+- a right paren (escaped)
+- a space
+- an open curly brace
+- end of the line
+
+The parameter list is made optionally by
+enclosing it in parentheses to create a group
+and placing a `?` after the group.
+
+```script
+/^[ \t]*function \w+\((\w+(, \w+)+)?\) \{$/
+```
 
 ## Two `sed` Buffers
 
