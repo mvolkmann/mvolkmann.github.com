@@ -1007,7 +1007,23 @@ This makes the `N` command useful for gathering
 multiple lines of input before processing them
 as a single string of text
 with newlines between each original line.
-There are examples of using the `N` command
+
+The following command replaces all occurrences of consecutive blank lines
+in the file `my-input.txt` with a single blank line.
+All non-blank lines are printed by AutoPrint.
+
+```script
+sed -E -i '/^$/ N; /\n$/ D' my-input.txt
+```
+
+The first part, `/^$/ N`, appends blank lines to PatSpace.
+Note that PatSpace will be empty after each non-blank line is processed.
+The second part, `/\n$/ D`, deletes the first line in PatSpace
+if PatSpace ends with a newline character.
+This will be the case every time a blank line is read
+that follows another blank line.
+
+There are more examples of using the `N` command
 in the "Matches That Span Lines" section later.
 
 Suppose the input file `report.txt` contains the following:
