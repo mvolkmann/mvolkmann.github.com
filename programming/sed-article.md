@@ -1185,7 +1185,7 @@ This assumes all paragraphs except the last
 are followed by a blank line.
 
 ```script
-sed -E ':a; N; $ bb; /[^\n]$/ ba; :b; s/John([ \n])Smith/Jane\1Doe/g; =' person-story.txt
+sed -E ':a; N; $ bb; /[^\n]$/ ba; :b; s/John([ \n])Smith/Jane\1Doe/g' person-story.txt
 ```
 
 This uses two labels, "a" and "b".
@@ -1199,6 +1199,15 @@ so it branches back to "a" to get another line.
 When PatSpace ends with a newline,
 this means a blank line was appended
 and the end of a paragraph has been reached.
+
+How do we know this is really processing one paragraph at a time?
+This is perfect use for the `=` command which prints
+the line number of the input line that is being processed.
+Temporarily add this as the last command
+by appending `; =` to the `sed` script.
+It will output `6` and `9`.
+`6` is the line number of the blank line after the first paragraph.
+`9` is the line number of the last line of the final paragraph.
 
 ## JavaScript Function Example
 
