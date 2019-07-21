@@ -1467,6 +1467,6 @@ to the tool belt of any software developer.
 There are other ways to accomplish everything `sed` does,
 but they require writing much more code.
 
-Thanks to Charles Sharp for reviewing this article!
+Thanks to Charles Sharp and Justin Wilson for reviewing this article!
 
 Send feedback to mark@objectcomputing.com.
