@@ -164,6 +164,13 @@ Another option is to run the command without `-i`
 first and examine the output sent to stdout
 before running the command with `-i`.
 
+Another option is to provide a value with the `-i` flag
+that specifies an extension for a backup file.
+When this is done the input file is still edited in place,
+but a backup of the file is created first with the specified extension.
+For example `sed -i.bak my-script.sed my-input.txt`
+creates the file `my-input.txt.bak`.
+
 ## Regular Expression Review
 
 Readers that are already familiar with regular expressions
@@ -187,10 +194,11 @@ they are treated as literal characters.
 In order to have their special meaning they must be escaped with a backslash.
 Remembering which characters need to be escaped is difficult
 and escaping them makes regular expressions even more complicated.
+
 This can be avoided by using the `sed` flag `-E` (or `-r`).
-It is recommended to always include this flag.
-With this flag the special characters have their special meaning
-without being escaped.
+With this flag `sed` used "Extended Regular Expressions"
+in which the special characters have their special meaning
+without being escaped. I recommend always including this flag.
 
 ### Wildcards
 
@@ -219,9 +227,17 @@ For example:
 - `x?` matches an empty string or "x"
 - `x*` matches an empty string, "x", "xx", "xxx", and so on
 - `x+` matches "x", "xx", "xxx", and so on, but not an empty string
+- `x{3}` matches "xxx", exactly three consecutive "x" characters
+- `x{3, }` matches three or more consecutive "x" characters
+- `x{, 3}` matches zero to three consecutive "x" characters
+- `x{3, 5}` matches three to five consecutive "x" characters
 
 To include a literal question mark, asterisk, or plus in a regular expression,
 escape it with a backslash (`\?`, `\*`, and `\+`).
+
+The `?`, `*`, and `+` repetition characters are greedy.
+This means the entire regular expression will
+match as many characters as possible.
 
 ### Character Classes
 
@@ -236,6 +252,9 @@ Multiple ranges can be specified in a single character class.
 For example, `[0-9a-f]` matches any digit
 or the lowercase letters "a" through "f".
 
+To include a dash as an allowed character in a character class
+it must be the first character listed.
+
 Character classes can be negated by starting with a caret.
 For example, `[^aeiou]` means not a vowel.
 and `[^a-f]` means not a lowercase letter from "a" to "f".
@@ -249,10 +268,6 @@ use `\([^)]*\)`.
 Note that parentheses outside the character class
 must escaped with a backslash,
 but parentheses inside a character class are not.
-
-The `?`, `*`, and `+` repetition characters are greedy.
-This means the entire regular expression will
-match as many characters as possible.
 
 Suppose we want to match an underscore, followed by
 any other characters, and another underscore.
@@ -351,6 +366,10 @@ For example, `/abc|def|ghi/` matches text containing
 "abc", "def", or "ghi".
 The patterns before and after the `|` can be any kind
 of regular expression pattern, not just literal text.
+
+To include alternatives in the middle of a larger regular expression
+they must be enclosed in parentheses.
+For example, `/(home|work) address/`.
 
 ### Regular Expression Flags
 
@@ -1489,6 +1508,7 @@ to the tool belt of any software developer.
 There are other ways to accomplish everything `sed` does,
 but they require writing much more code.
 
-Thanks to Charles Sharp and Justin Wilson for reviewing this article!
+Thanks to Charles Sharp, Stephen Veit, and Justin Wilson
+for reviewing this article!
 
 Send feedback to mark@objectcomputing.com.
