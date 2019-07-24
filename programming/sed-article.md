@@ -352,7 +352,7 @@ To include a literal caret as the first character or
 a literal dollar sign as the last character in a regular expression,
 escape them with a backslash (`\^` and `\$`).
 When `^` is not the first character in a regular expression
-or `\$` is not the last, they are interpreted literally
+or `$` is not the last, they are interpreted literally
 and do not need to be escaped.
 
 These can be combined to find blank lines
@@ -362,8 +362,8 @@ by matching `/^$/`.
 
 The `|` character allows specifying more than one pattern to match.
 
-For example, `/abc|def|ghi/` matches text containing
-"abc", "def", or "ghi".
+For example, `/red|green|blue/` matches text containing
+"red", "green", or "blue".
 The patterns before and after the `|` can be any kind
 of regular expression pattern, not just literal text.
 
