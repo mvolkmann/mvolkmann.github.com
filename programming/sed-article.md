@@ -455,14 +455,13 @@ and placing a `?` after the group.
 ## Two `sed` Buffers
 
 Text read by `sed` is temporarily stored in two buffers
-referred to as the _pattern space_ (a.k.a. PatSpace)
-and the _hold space_ (a.k.a HoldSpace).
+referred to as the _pattern space_ and the _hold space_.
 
-In normal operation `sed` reads each input line into PatSpace
+In normal operation `sed` reads each input line into the pattern space
 one at a time and runs one or more `sed` commands on this text.
-Most `sed` commands only operate on PatSpace.
+Most `sed` commands only operate on the pattern space.
 
-Usage of HoldSpace will be discussed later.
+Usage of the hold space will be discussed later.
 
 ## Substitute Command
 
@@ -595,7 +594,7 @@ In multiline mode:
 - `'` matches the end of the last line.
 
 This is useful in combination with the `N` command
-which appends a newline and the next input line to PatSpace.
+which appends a newline and the next input line to the pattern space.
 
 When not in multiline mode, `` ` `` is the same as `^`
 and `'` is the same as `$`, but `^` and `$` are preferred.
@@ -665,25 +664,25 @@ The default mode for executing `sed` scripts does the following:
 
 ```text
 for each line of input
-  read the line into PatSpace, replacing previous contents
+  read the line into the pattern space, replacing previous contents
   remove the newline at the end
   for each sed script specified
     for each command in the sed script
       if the command has no address or the address matches the line
         process the command
-  add a newline at the end of PatSpace
-  AutoPrint the contents of PatSpace
+  add a newline at the end of the pattern space
+  AutoPrint the contents of the pattern space
 ```
 
-By default the contents of PatSpace are written to stdout
+By default the contents of the pattern space are written to stdout
 after each line of input is processed.
 This is referred to as "AutoPrint".
 The `sed` option `-n` disables this.
 
-`sed` commands operate on PatSpace or HoldSpace
+`sed` commands operate on the pattern space or the hold space
 which are populated from the input stream.
 They do not operate directly on the input stream.
-This is good because PatSpace and HoldSpace can be modified
+This is good because the pattern space and the hold space can be modified
 by `sed` commands before subsequent commands are executed.
 This allows a kind of compound processing of input.
 
@@ -698,7 +697,7 @@ To run more than one command when the address is matched,
 surround them in curly braces and separate them with semicolons.
 This is referred to as "grouping".
 We'll see an example like this in the
-"HoldSpace Commands" section later.
+"the hold space Commands" section later.
 
 ## sed Addresses
 
@@ -781,14 +780,14 @@ part of the line with the word "hide".
 The following table summarizes the most commonly used
 `sed` commands in alphabetical order.
 
-| Command                   | Description                             |
-| ------------------------- | --------------------------------------- |
-| a _text_                  | appends _text_ after normal output      |
-| c _text_                  | changes normal output to _text_         |
-| d                         | deletes PatSpace (clears it)            |
-| D                         | deletes only the first line in PatSpace |
-| i _text_                  | inserts _text_ before normal output     |
-| s/_regex_/_subex_/_flags_ | substitutes text with different text    |
+| Command                   | Description                                      |
+| ------------------------- | ------------------------------------------------ |
+| a _text_                  | appends _text_ after normal output               |
+| c _text_                  | changes normal output to _text_                  |
+| d                         | deletes the pattern space (clears it)            |
+| D                         | deletes only the first line in the pattern space |
+| i _text_                  | inserts _text_ before normal output              |
+| s/_regex_/_subex_/_flags_ | substitutes text with different text             |
 
 Recall that _subex_ is short for "substitution expression".
 
@@ -797,7 +796,7 @@ deleting it.
 For example, `/~$/ d` deletes all blank lines.
 
 The `D` command is useful when multiple input lines
-have been read into PatSpace.
+have been read into the pattern space.
 One way to do this is with the `N` command described later.
 
 The commands `a`, `c`, and `i` are related.
@@ -805,7 +804,7 @@ They all provided a way to output arbitrary text.
 It can be output before (`a`), after (`i`),
 or in place of (`c`) the normal output.
 
-This arbitrary text is never placed in PatSpace,
+This arbitrary text is never placed in the pattern space,
 so it cannot be edited by subsequent `sed` commands.
 
 In the examples that follow for the `a`, `c`, and `i` commands
@@ -823,7 +822,7 @@ and continues with the current script processing.
 For example, `/foo/ i bar baz` inserts the line "bar baz"
 before every line that contains "foo".
 
-The `c` command deletes PatSpace, skips the remainder of the current script,
+The `c` command deletes the pattern space, skips the remainder of the current script,
 and outputs the specified text.
 For example, `/foo/ c bar baz` changes every line that contains "foo"
 to the line "bar baz".
@@ -851,23 +850,23 @@ We explored the `s` command earlier.
 The following table summarizes less commonly used
 `sed` commands in alphabetical order.
 
-| Command  | Description                                                  |
-| -------- | ------------------------------------------------------------ |
-| =        | prints current line number followed by a newline             |
-| e        | executes PatSpace as a shell command                         |
-| p        | prints PatSpace (useful when AutoPrint is off)               |
-| P        | prints only the first line (up to newline) in PatSpace       |
-| r {file} | reads content of a file and prints it                        |
-| R {file} | reads and prints the next line of a file                     |
-| w {file} | appends PatSpace to given file                               |
-| W {file} | appends first line (up to newline) of PatSpace to given file |
-| y        | replaces given characters with others (transliterates)       |
+| Command  | Description                                                           |
+| -------- | --------------------------------------------------------------------- |
+| =        | prints current line number followed by a newline                      |
+| e        | executes the pattern space as a shell command                         |
+| p        | prints the pattern space (useful when AutoPrint is off)               |
+| P        | prints only the first line (up to newline) in the pattern space       |
+| r {file} | reads content of a file and prints it                                 |
+| R {file} | reads and prints the next line of a file                              |
+| w {file} | appends the pattern space to given file                               |
+| W {file} | appends first line (up to newline) of the pattern space to given file |
+| y        | replaces given characters with others (transliterates)                |
 
 The `=` is mostly useful for debugging `sed` scripts.
 We will see an example of this later
 in the "Matches That Span Lines" section.
 
-The `e` command expects the contents of PatSpace to be a shell command
+The `e` command expects the contents of the pattern space to be a shell command
 and executes it. For example, suppose we have the
 input file `file-paths.txt` where each line is a file path.
 We can use `sed` to output the number of lines in each file,
@@ -895,14 +894,14 @@ instead of the `sed` `e` command.
 sed -E 's/.*/wc -l &/e' file-paths.txt
 ```
 
-The `p` command outputs the current value of PatSpace.
+The `p` command outputs the current value of the pattern space.
 It is especially useful in conjunction with the `-n` option
 which disables AutoPrint. This allows multi-command `sed` scripts
-to decide whether and how many times to output PatSpace.
+to decide whether and how many times to output the pattern space.
 
-The `P` command is similar, but only outputs the first line of PatSpace.
+The `P` command is similar, but only outputs the first line of the pattern space.
 It is useful in `sed` scripts that
-read more than one input line into PatSpace.
+read more than one input line into the pattern space.
 
 The `r` command causes all the lines in a given file
 to be output at the end of a `sed` script.
@@ -961,7 +960,7 @@ gamma
 ```
 
 The `w` and `W` commands write the current
-contents of PatSpace to a given file.
+contents of the pattern space to a given file.
 They are useful in `sed` scripts that
 need to produce multiple output files
 as opposed to streaming all output to stdout.
@@ -1017,27 +1016,27 @@ It replaces globally by default.
 
 The following table summarizes the `sed` control flow commands in alphabetical order.
 
-| Command   | Description                                                     |
-| --------- | --------------------------------------------------------------- |
-| :_label_  | defines label that can be targeted by `b` and `t` commands      |
-| b         | branches to end of `sed` script                                 |
-| b _label_ | branches to a label                                             |
-| l         | prints PatSpace in a special format for debugging               |
-| n         | reads next line into PatSpace                                   |
-| N         | appends next line into PatSpace preceded by a newline           |
-| q         | prints PatSpace and quits without processing remaining lines    |
-| Q         | quits without printing PatSpace or processing remaining lines   |
-| t         | branches to end of sed script if substitution was performed     |
-| t _label_ | branches to a label if substitution was performed               |
-| T         | branches to end of sed script if substitution was NOT performed |
-| T _label_ | branches to a label if substitution was NOT performed           |
-| z         | clears PatSpace                                                 |
+| Command   | Description                                                            |
+| --------- | ---------------------------------------------------------------------- |
+| :_label_  | defines label that can be targeted by `b` and `t` commands             |
+| b         | branches to end of `sed` script                                        |
+| b _label_ | branches to a label                                                    |
+| l         | prints the pattern space in a special format for debugging             |
+| n         | reads next line into the pattern space                                 |
+| N         | appends next line into the pattern space preceded by a newline         |
+| q         | prints the pattern space and quits without processing remaining lines  |
+| Q         | quits without printing the pattern space or processing remaining lines |
+| t         | branches to end of sed script if substitution was performed            |
+| t _label_ | branches to a label if substitution was performed                      |
+| T         | branches to end of sed script if substitution was NOT performed        |
+| T _label_ | branches to a label if substitution was NOT performed                  |
+| z         | clears the pattern space                                               |
 
 There are examples of branching to a label (`b`)
-and clearing PatSpace (`z`)
-in the "Hold Space" section below.
+and clearing the pattern space (`z`)
+in the "Hold Space Commands" section below.
 
-The `n` command prints the current contents of PatSpace
+The `n` command prints the current contents of the pattern space
 before reading the next line,
 whereas the `N` command does not.
 This makes the `N` command useful for gathering
@@ -1053,10 +1052,10 @@ All non-blank lines are printed by AutoPrint.
 sed -E -i '/^$/ N; /\n$/ D' my-input.txt
 ```
 
-The first part, `/^$/ N`, appends blank lines to PatSpace.
-Note that PatSpace will be empty after each non-blank line is processed.
-The second part, `/\n$/ D`, deletes the first line in PatSpace
-if PatSpace ends with a newline character.
+The first part, `/^$/ N`, appends blank lines to the pattern space.
+Note that the pattern space will be empty after each non-blank line is processed.
+The second part, `/\n$/ D`, deletes the first line in the pattern space
+if the pattern space ends with a newline character.
 This will be the case every time a blank line is read
 that follows another blank line.
 
@@ -1121,8 +1120,8 @@ T
 
 # Print all lines until the "Total" line is reached.
 :print
-p # prints PatSpace
-n # reads next line into PatSpace
+p # prints the pattern space
+n # reads next line into the pattern space
 s/^Total/&/ # attempts to match "Total" line
 T print # branches to label "print" if not matched
 
@@ -1136,23 +1135,23 @@ To use this `sed` script enter:
 sed -E -n -f report.sed report.txt
 ```
 
-### HoldSpace Commands
+### Hold Space Commands
 
-HoldSpace is not cleared when a new input line
-is read into PatSpace.
+the hold space is not cleared when a new input line
+is read into the pattern space.
 This allows text to be accumulated across
 the processing of multiple input lines.
 
 The following table summarizes the `sed` commands
-that work with HoldSpace.
+that work with the hold space.
 
-| Command | Description                      |
-| ------- | -------------------------------- |
-| h       | copies PatSpace to HoldSpace     |
-| H       | appends PatSpace to HoldSpace    |
-| g       | copies HoldSpace to PatSpace     |
-| G       | appends HoldSpace to PatSpace    |
-| x       | exchanges PatSpace and HoldSpace |
+| Command | Description                                    |
+| ------- | ---------------------------------------------- |
+| h       | copies the pattern space to the hold space     |
+| H       | appends the pattern space to the hold space    |
+| g       | copies the hold space to the pattern space     |
+| G       | appends the hold space to the pattern space    |
+| x       | exchanges the pattern space and the hold space |
 
 Suppose we have input like the following
 where some lines end with `\`
@@ -1182,7 +1181,7 @@ Here is a `sed` script that does this.
 # at the end of the line with a single space.
 s/ *\\$/ /
 
-# Append the line to HoldSpace.
+# Append the line to the hold space.
 H
 
 # If the previous substitute command did replace
@@ -1192,21 +1191,21 @@ t
 # If we made it to here, we have found
 # the end of a group of continued lines.
 
-# Exchange PatSpace and HoldSpace so the
-# concatenated group of lines is in PatSpace.
+# Exchange the pattern space and the hold space so the
+# concatenated group of lines is in the pattern space.
 x
 
 # Remove all newlines.
 s/\n//g
 
-# Print PatSpace.
+# Print the pattern space.
 p
 
-# Clear (zap) PatSpace.
+# Clear (zap) the pattern space.
 z
 
-# Exchange PatSpace and HoldSpace
-# so HoldSpace becomes empty.
+# Exchange the pattern space and the hold space
+# so the hold space becomes empty.
 x
 ```
 
@@ -1218,7 +1217,7 @@ sed -E -n -f combine.sed sentences.txt
 ```
 
 The `-n` flag is needed to disable AutoPrint
-since the `sed` script decides when to output PatSpace.
+since the `sed` script decides when to output the pattern space.
 
 Suppose we have files containing paragraphs
 that are separated by lines that are
@@ -1233,29 +1232,29 @@ but is also crazy complicated!
 
 ```script
 # For lines that contain at least one word character
-# - Exchange PatSpace and HoldSpace so we
-#   can test whether HoldSpace was empty.
-# - If PatSpace is empty
+# - Exchange the pattern space and the hold space so we
+#   can test whether the hold space was empty.
+# - If the pattern space is empty
 #   - Print the current line number.
-#   - Exchange PatSpace and HoldSpace (swaps them back).
-#   - Copy the non-empty input line to HoldSpace.
+#   - Exchange the pattern space and the hold space (swaps them back).
+#   - Copy the non-empty input line to the hold space.
 #     This is the first line of a new paragraph.
 #   - Branch to the label "k" at the end
 #     to skip the remaining commands.
 # - Otherwise
-#   - Exchange PatSpace and HoldSpace (swaps them back).
-#   - Append the non-empty input line to HoldSpace.
+#   - Exchange the pattern space and the hold space (swaps them back).
+#   - Append the non-empty input line to the hold space.
 #     This is not the first line of the current paragraph.
 /\w/ {x; /^$/ {=; x; h; b k}; x; H; :k}
 
 # For lines that are empty or only contain spaces and tabs
-# - Exchange PatSpace and HoldSpace to
-#   get the previous paragraph into PatSpace.
+# - Exchange the pattern space and the hold space to
+#   get the previous paragraph into the pattern space.
 # - Replace all newline characters with a space
 #   so the paragraph is on a single line.
 # - Print the paragraph.
-# - Clear (zap) PatSpace.
-# - Exchange PatSpace and HoldSpace so HoldSpace becomes empty
+# - Clear (zap) the pattern space.
+# - Exchange the pattern space and the hold space so the hold space becomes empty
 #   and is ready to gather lines in the next paragraph.
 /^[ \t]*$/ {x; s/\n/ /g; p; z; x}
 ```
@@ -1335,14 +1334,14 @@ sed -E -i ':a; N; $! ba; s/John([ \n])Smith/Jane\1Doe/g' person-story.txt
 ```
 
 This begins by creating the label "a".
-The `N` command appends the next input line onto PatSpace.
+The `N` command appends the next input line onto the pattern space.
 The address `$!` matches every line except the last.
 For each of those lines, the `ba` command
 branches back to the label "a".
-The result is that the entire file is read into PatSpace,
+The result is that the entire file is read into the pattern space,
 including newlines.
 The substitute command at the end is not executed
-until the entire file is in PatSpace.
+until the entire file is in the pattern space.
 It replaces all occurrences of "John",
 followed by a space or newline,
 followed by "Smith"
@@ -1365,12 +1364,12 @@ This uses two labels, "a" and "b".
 When the last line is reached (`$`) it branches to label "b".
 This marks the end of the final paragraph.
 
-When PatSpace does not end with a newline,
+When the pattern space does not end with a newline,
 lines from the current paragraph are still being gathered,
 so it branches back to "a" to get another line.
 
-When PatSpace ends with a newline,
-this means a blank line was appended to PatSpace
+When the pattern space ends with a newline,
+this means a blank line was appended to the pattern space
 and the end of a paragraph has been reached.
 
 How do we know this is really processing one paragraph at a time?
