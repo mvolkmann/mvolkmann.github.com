@@ -2,19 +2,24 @@
 
 ## Overview
 
-`sed` is a Unix utility that transforms text.
+`sed` is a Unix text processing utility.
 The name is short for "stream editor".
-Input comes from a stream of text and
-output is an edited version of that text.
+Like other filters in the Unix paradigm,
+the input to `sed` is a stream of text and
+the output is an edited version of that text.
 
-While most developers don't need a stream editor
-on a daily basis, `sed` is a great tool belt addition.
+`sed` has been branded a "power tool" and "Swiss Army Knife".
+While most developers don't need a stream editor on a daily basis,
+`sed` is a great tool for your automated text manipulation toolbox.
 
 Memorizing all the capabilities and syntax details
 of `sed` can be a daunting task.
 But after reading this article you will know enough
 to recognize when using `sed` is appropriate
-and can come back to it later for a refresher.
+and will be familiar with the features of `sed`
+that are used most often in practice.
+When necessary, you can return to this article for
+a refresher on the more advanced features of `sed`.
 
 `sed` is based on the `ed` editor
 which was created by Ken Thompson in 1969.
@@ -26,7 +31,7 @@ including Linux, macOS, and Windows.
 Alternatives to `sed` include the Unix utility `awk`
 and nearly any general purpose programming language.
 
-Awk excels at processing record-based text
+`awk` excels at processing record-based text
 where each line is thought of as a record
 composed of columns with similar formatting,
 perhaps separated by spaces or tabs.
@@ -39,22 +44,21 @@ But the code required is longer than when using `sed`.
 compact way, but the code is harder to read.
 Also, there are some kinds of text transformations
 that are not possible in `sed`.
+However, it is worthwhile learning `sed` for the cases
+that it handles well because those cases occur quite often.
 
-Still, it is worthwhile learning `sed`
-for the cases that it handles well.
-
-`sed` can be used on its own, but often it is used
+`sed` can be used on its own, but it is often used
 in combination with other Unix utilities such as
-`expr`, `head`, `seq`, `tail`, `tr`, and `uniq`.
+`cat`, `expr`, `head`, `seq`, `sort`, `tail`, `tr`, and `uniq`.
 
 `sed` makes heavy use of regular expressions.
-Having an understanding of those is essential for effectively using `sed`.
+Having an understanding of them is essential for using `sed` effectively.
 
 ## sed Use Cases
 
 Typically `sed` is used to operate on text files
 where lines are terminated by a newline character.
-While `sed` can operate on binary files, doing this is not common.
+`sed` can also operate on binary files, but doing so is not common.
 
 A common use for `sed` is automating the application of the
 same kinds of modifications to a large number of input files.
@@ -66,7 +70,7 @@ Another use is making many modifications to a single large file.
 `sed` is less helpful when a small number of changes
 are needed in a single small file.
 In this case using a text editor is usually sufficient.
-This is especially true for editors like Vim
+This is especially true for editors like Vim and Emacs
 that support macros.
 
 ## Installing sed
@@ -74,16 +78,18 @@ that support macros.
 Most versions of Unix ship with GNU `sed`.
 
 macOS includes a version of `sed`, but it is not
-GNU `sed` and differs from that in some ways.
+GNU `sed` and differs from it in some ways.
+
 To install GNU `sed`, first install Homebrew
 and then enter `brew install gnu-sed`.
-To use this version, use the command `gsed` instead of `sed`.
-All the examples in this article show using the `sed` command,
-but change this to `gsed` if you are using macOS!
-Consider aliasing `sed` to `gsed` so GNU `sed` is always used.
+
+Use the command `gsed` to invoke GNU `sed` instead of the default `sed`.
+All the examples in this article show use the `sed` command.
+change this to `gsed` if you are using macOS!
+Better yet, consider aliasing `sed` to `gsed` so GNU `sed` is always used.
 
 Windows does not include a version of `sed`.
-A good source for installing it is
+A good option for installing it is
 <http://gnuwin32.sourceforge.net/packages/sed.htm>.
 See the link "General Installation Instructions".
 Another option for Windows is to install "UnxUtils"
@@ -94,21 +100,21 @@ from <http://sourceforge.net/projects/unxutils/>.
 The following table summarizes the most commonly used
 `sed` command line options.
 
-| Option                        | Description                                                  |
-| ----------------------------- | ------------------------------------------------------------ |
-| -e or --expression {script}   | value is a `sed` script to run                               |
-| -f or --file {script-file}    | value is a path to file containing a `sed` script            |
-| -h or --help                  | summarizes command line options (enter `man sed` for more)   |
-| -i or --in-place              | edits input file rather than writing to stdout               |
-| -n or --quiet or --silent     | turns off AutoPrint (described later)                        |
-| -E or -r or --regexp-extended | allows fewer backslashes in regular expressions              |
-| -s or --separate              | treats multiple input files as separate streams              |
-| --version                     | outputs `sed` version, copyright, license, authors, and more |
+| Option                        | Description                                                                                        |
+| ----------------------------- | -------------------------------------------------------------------------------------------------- |
+| -e or --expression {script}   | value is a `sed` script to run                                                                     |
+| -f or --file {script-file}    | value is a path to file containing a `sed` script                                                  |
+| -h or --help                  | summarizes command line options (enter `man sed` for more)                                         |
+| -i or --in-place              | edits input file rather than writing to stdout and can create a backup file with a given extension |
+| -n or --quiet or --silent     | turns off AutoPrint (described later)                                                              |
+| -E or -r or --regexp-extended | enables extended regular expressions (fewer backslashes)                                           |
+| -s or --separate              | treats multiple input files as separate streams                                                    |
+| --version                     | outputs `sed` version, copyright, license, authors, and more                                       |
 
 The `-f` option can be used multiple times
 to read from multiple `sed` script files.
 
-Other options rarely needed include `-b` or `--binary`,
+Less frequently used options include `-b` or `--binary`,
 `--follow-symlinks`, `-l` or `--line-length`,
 `--posix`, and `-u` or `--unbuffered`.
 
@@ -116,7 +122,8 @@ Other options rarely needed include `-b` or `--binary`,
 
 The text to be transformed can be provided to `sed` in a file.
 A "script" of `sed` commands can also be provided in a file.
-The following are equivalent ways to supply these files to `sed`:
+Assuming a suitable shell, the following are
+equivalent ways to supply these files to `sed`:
 
 - `sed -f my-script.sed my-input.txt`.
 - `cat my-input.txt | sed -f my-script.sed`.
@@ -126,21 +133,28 @@ Text can also be provided from the output of another command.
 For example:
 
 ```script
-some-executable | sed -f my-script.sed
+cmd1 | sed -f my-script.sed
+```
+
+The output of `sed` can be used as the input to another command.
+For example:
+
+```script
+cmd1 | sed -f my-script.sed | cmd2
 ```
 
 Any number of input files can be listed at the end of a `sed` command.
 They are treated as one concatenated input file.
 As we will see later, `sed` can target
 the first and last input lines in transformations.
-Only the first line of the first file is treated as line #1
+By default, only the first line of the first file is treated as line #1
 and only the last line of the last file is treated as the last line.
 
 ## Directing Output
 
-By default `sed` sends its output to stdout.
+By default `sed` sends its output to standard output (stdout).
 
-The output can also be redirected to a file.
+The output can be redirected to a file.
 For example:
 
 ```script
@@ -160,16 +174,14 @@ replaces the input file with this at the end of processing.
 It is a good idea to make a backup copy of files
 before modifying them in place so the changes
 can be reverted if they aren't what is expected.
-Another option is to run the command without `-i`
-first and examine the output sent to stdout
-before running the command with `-i`.
-
-Another option is to provide a value with the `-i` flag
-that specifies an extension for a backup file.
-When this is done the input file is still edited in place,
-but a backup of the file is created first with the specified extension.
+This can be done by specifying a backup file extension
+as an argument to the `-i` option.
 For example `sed -i.bak my-script.sed my-input.txt`
 creates the file `my-input.txt.bak`.
+
+Another good practice is to run the command without `-i` first
+and examine the output sent to stdout
+before running the command with `-i`.
 
 ## Regular Expression Review
 
@@ -195,16 +207,21 @@ In order to have their special meaning they must be escaped with a backslash.
 Remembering which characters need to be escaped is difficult
 and escaping them makes regular expressions even more complicated.
 
-This can be avoided by using the `sed` flag `-E` (or `-r`).
+This can be avoided by using the `sed` flag `-E` (or `-r`)
+for extended regular expressions.
 With this flag `sed` used "Extended Regular Expressions"
 in which the special characters have their special meaning
-without being escaped. I recommend always including this flag.
+without being escaped and
+behave as literal characters when escaped.
+I recommend always including this flag.
+
+The following examples use extended regular expressions.
 
 ### Wildcards
 
 A dot (`.`) matches any character.
 For example, `/a.c/` matches any text that contains
-"a", followed by any character, followed by "c".
+an "a", followed by any character, followed by a "c".
 
 To include a literal period in a regular expression,
 escape it with a backslash (`\.`).
@@ -246,7 +263,7 @@ that are allowed at a given position in a pattern.
 They are specified inside square brackets.
 For example, `[pie]` means that one of "p", "i", or "e" is allowed.
 
-Ranges of characters can described using a dash.
+Ranges of characters can be described using a dash.
 For example, `[a-d]` matches the characters "a", "b", "c", and "d".
 Multiple ranges can be specified in a single character class.
 For example, `[0-9a-f]` matches any digit
@@ -255,7 +272,7 @@ or the lowercase letters "a" through "f".
 To include a dash as an allowed character in a character class
 it must be the first character listed.
 
-Character classes can be negated by starting with a caret.
+Character classes are negated if the first character is a caret.
 For example, `[^aeiou]` means not a vowel.
 and `[^a-f]` means not a lowercase letter from "a" to "f".
 
@@ -265,9 +282,9 @@ followed by characters that are not the ending delimiter,
 followed by the ending delimiter.
 For example, to match zero or more characters surrounded by parentheses,
 use `\([^)]*\)`.
-Note that parentheses outside the character class
-must escaped with a backslash,
-but parentheses inside a character class are not.
+Note that the parentheses outside the character class
+are escaped with a backslash, while
+the one inside the character class is not escaped.
 
 Suppose we want to match an underscore, followed by
 any other characters, and another underscore.
@@ -289,8 +306,8 @@ has the same meaning as `[A-Za-z0-9_]`.
 Note that a hyphen or dash ("-") is not considered a word character.
 
 Other tools that support regular expressions often recognize
-additional predefined character sets such as `\d` for digits,
-but `sed` only supports `\w` and `\W`.
+additional predefined character sets such as `\d` for digits.
+`sed` only supports `\w` and `\W`.
 
 `sed` also supports "Posix character classes"
 that have the format `[[:`_`name`_`:]]`.
@@ -305,7 +322,6 @@ The most useful of these are:
 
 As you can see, using Posix character classes requires
 typing more characters than typing equivalent character ranges.
-Those can be used instead.
 
 To include literal square brackets in a regular expression,
 escape them with a backslash (`\[` and `\]`).
@@ -317,14 +333,10 @@ Matching text is captured and can be used later via "back references"
 in the pattern or in a replacement value.
 A back reference is a backslash followed by a single digit.
 
-The example below looks for three digits,
+The expression `/([0-9]{3}).+\1/` matches three digits,
 followed by one or more other characters,
 followed by the same three digits.
-In place of outputting all of this it outputs "found".
-
-```script
-echo "123mark123" | sed -E 's/([0-9]{3}).+\1/found/'
-```
+It would match "123mark123", but not "123mark456".
 
 The back reference `\1` refers to the first group in the
 regular expression, `\2` refers to the second, and so on.
@@ -367,6 +379,9 @@ For example, `/red|green|blue/` matches text containing
 The patterns before and after the `|` can be any kind
 of regular expression pattern, not just literal text.
 
+The order of precedence in regular expressions is
+grouping, concatenation, and alternation.
+
 To include alternatives in the middle of a larger regular expression
 they must be enclosed in parentheses.
 For example, `/(home|work) address/`.
@@ -380,13 +395,13 @@ Commonly used flags include:
 
 ### Regular Expression Examples
 
-This regular expression matches text that contains a U.S. zip code.
+The following regular expression matches text that contains a U.S. zip code.
 
 ```script
 /[0-9]{5}/
 ```
 
-This regular expression matches text that contains
+The following following regular expression matches text that contains
 a phone number in the format `(999)999-9999`.
 The parentheses are escaped with a backslash
 so they are not interpreted as grouping.
@@ -395,10 +410,13 @@ so they are not interpreted as grouping.
 /\(\d{3}\)\d{3}-\d{4}/
 ```
 
-This regular expression matches text that contains the
+Recall that `sed` does not support `\d`,
+so `[0-9]` must be used in its place.
+
+The following regular expression matches text that contains the
 full name of a person where the middle name is optional.
 It assumes that any part of the name
-must start with an uppercase letter,
+starts with an uppercase letter,
 followed by zero or more lowercase letters,
 and apostrophes.
 
@@ -406,7 +424,7 @@ and apostrophes.
 /[A-Z]['a-z]* ([A-Z]['a-z]*)? [A-Z]['a-z]*/
 ```
 
-This regular expression matches the first line of a
+The following regular expression matches the first line of a
 JavaScript function definition with common formatting.
 For example, "`function area(width, height) {`".
 It does not match "arrow functions".
@@ -437,7 +455,8 @@ and placing a `?` after the group.
 ## Two `sed` Buffers
 
 Text read by `sed` is temporarily stored in two buffers
-referred to as "PatSpace" and "HoldSpace".
+referred to as the _pattern space_ (a.k.a. PatSpace)
+and the _hold space_ (a.k.a HoldSpace).
 
 In normal operation `sed` reads each input line into PatSpace
 one at a time and runs one or more `sed` commands on this text.
@@ -455,18 +474,18 @@ and a substitution expression that specifies its replacement
 These expressions are typically delimited by slash characters ("/"),
 but other delimiter characters such as `:`, `|`, and `_` can also be used.
 If the delimiter occurs in a regular expression,
-it must escaped by preceding it with a backslash.
+it must be escaped by preceding it with a backslash.
 
-Here is an example that changes the word "red" to "blue"
-and the number 1 to the word "one" in each input line.
+Here is an example that changes the first occurrence of "red" to "blue"
+and the first number 1 to the word "one" in each input line.
 
 ```script
 sed 's/red/blue/; s/1/one/' input.txt
 ```
 
-Each substitute command uses three delimiters,
+Each substitute command uses three delimiters:
 one at the beginning, one at the end,
-and one separating the two expressions.
+and one separating the pattern from the replacement.
 
 Note how multiple `sed` commands (`s` in this case) are separated by semicolons.
 Semicolons can optionally be followed by a space for readability.
@@ -563,7 +582,7 @@ Any number of these flags can be combined.
 If the `w` flag is used, it must come last
 because it is followed by a file path.
 
-If a number is specified along with the g flag
+If a number is specified along with the `g` flag
 then matching starts at that occurrence number.
 For example, `s/foo/bar/3g` replaces all occurrences of
 "foo" with "bar" starting with the third occurrence.
@@ -657,7 +676,7 @@ for each line of input
 ```
 
 By default the contents of PatSpace are written to stdout
-at the end of each `sed` script.
+after each line of input is processed.
 This is referred to as "AutoPrint".
 The `sed` option `-n` disables this.
 
@@ -712,8 +731,8 @@ There are many kinds of supported addresses including:
   For example, `7,/April/` runs only on the lines from
   line 7 to the next line that contains "April".
   If line 7 contains "April" the command is only run on that line.
-  If no line starting with line 7 matches the regular expression,
-  the command is run on **all** remaining lines.
+  If no line starting with line 7 matches the `/April/`
+  then the command is run on **all** remaining lines.
 
 - a regular expression and a number preceded by "+"  
   For example, `/April/,+3` runs on every range of lines
@@ -944,9 +963,9 @@ gamma
 The `w` and `W` commands write the current
 contents of PatSpace to a given file.
 They are useful in `sed` scripts that
-need to produce multiple output files,
-not just direct stdout to a single file.
-If the file already exists, its content is deleted.
+need to produce multiple output files
+as opposed to streaming all output to stdout.
+If the file already exists, it is truncated.
 Otherwise the file is created.
 
 For example, suppose we have the file `dogs.txt`
@@ -994,15 +1013,14 @@ Note that replacement is done globally.
 The `y` command does not support the `g` flag like the `s` command does.
 It replaces globally by default.
 
-### Logic-Related Commands
+### Control Flow Commands
 
-The following table summarizes commands that support logic
-in `sed` scripts in alphabetical order.
+The following table summarizes the `sed` control flow commands in alphabetical order.
 
 | Command   | Description                                                     |
 | --------- | --------------------------------------------------------------- |
 | :_label_  | defines label that can be targeted by `b` and `t` commands      |
-| b         | branches to end of sed script                                   |
+| b         | branches to end of `sed` script                                 |
 | b _label_ | branches to a label                                             |
 | l         | prints PatSpace in a special format for debugging               |
 | n         | reads next line into PatSpace                                   |
@@ -1017,7 +1035,7 @@ in `sed` scripts in alphabetical order.
 
 There are examples of branching to a label (`b`)
 and clearing PatSpace (`z`)
-in the "Hold Space" section later.
+in the "Hold Space" section below.
 
 The `n` command prints the current contents of PatSpace
 before reading the next line,
@@ -1207,7 +1225,7 @@ that are separated by lines that are
 either empty or only contain spaces and tabs.
 We want to output the line number where each paragraph begins,
 followed by the text of the paragraph with newlines removed
-so each paragraph is on a single line.
+so that each paragraph is on a single line.
 
 The following `sed` script does this.
 It demonstrates the power of `sed`,
@@ -1506,7 +1524,7 @@ sed -E -i -f package-json.sed package.json
 `sed` is a powerful utility that is a great addition
 to the tool belt of any software developer.
 There are other ways to accomplish everything `sed` does,
-but they require writing much more code.
+but they may require writing much more code.
 
 Thanks to Charles Sharp, Stephen Veit, and Justin Wilson
 for reviewing this article!
