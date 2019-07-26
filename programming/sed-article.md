@@ -28,7 +28,7 @@ Currently the most popular version is GNU sed.
 This is available on all major operating systems
 including Linux, macOS, and Windows.
 
-Alternatives to `sed` include the Unix utility `awk`
+Alternatives to `sed` include the Unix utility `awk`, `perl`,
 and nearly any general purpose programming language.
 
 `awk` excels at processing record-based text
@@ -38,7 +38,8 @@ perhaps separated by spaces or tabs.
 
 General purpose programming languages have the advantage
 that they can perform any kind of text transformation.
-But the code required is longer than when using `sed`.
+However, much of the code in a general purpose language
+will re-implement things that sed already does.
 
 `sed` can perform text transformations in very
 compact way, but the code is harder to read.
@@ -288,9 +289,8 @@ the one inside the character class is not escaped.
 
 Suppose we want to match an underscore, followed by
 any other characters, and another underscore.
-An example is "_apple_banana_cherry_".
-The regular expression `/_.+_/` will work.
-Note that the `.*` part will not match the final underscore.
+An example is "\_apple_banana_cherry\_".
+The regular expression `/*.+\_/`will work. Note that the`.\*` part will not match the final underscore.
 If it did then the match would fail to match because the
 final underscore in the pattern wouldn't have anything to match.
 
@@ -380,7 +380,8 @@ The patterns before and after the `|` can be any kind
 of regular expression pattern, not just literal text.
 
 The order of precedence in regular expressions is
-grouping, concatenation, and alternation.
+grouping, concatenation (characters that must follow others),
+and alternatives.
 
 To include alternatives in the middle of a larger regular expression
 they must be enclosed in parentheses.
