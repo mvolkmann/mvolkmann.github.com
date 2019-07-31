@@ -41,11 +41,11 @@ that they can perform any kind of text transformation.
 However, much of the code in a general purpose language
 will re-implement things that sed already does.
 
-`sed` can perform text transformations in very
-compact way, but the code is harder to read.
+`sed` can perform text transformations in a very
+compact way but the code is harder to read.
 Also, there are some kinds of text transformations
 that are not possible in `sed`.
-However, it is worthwhile learning `sed` for the cases
+Nonetheless, it is worthwhile learning `sed` for the cases
 that it handles well because those cases occur quite often.
 
 `sed` can be used on its own, but it is often used
@@ -1526,7 +1526,7 @@ to the tool belt of any software developer.
 There are other ways to accomplish everything `sed` does,
 but they may require writing much more code.
 
-Thanks to Charles Sharp, Stephen Veit, and Justin Wilson
+Thanks to Justin Wilson, Stephen Veit, and Charles Sharp
 for reviewing this article!
 
 Send feedback to mark@objectcomputing.com.
