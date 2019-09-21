@@ -706,6 +706,8 @@ We will see many examples of this later.
 ## `Readonly` Utility Type
 
 `Readonly` is one of the provided utility types.
+More are described later.
+
 It creates a new type from an existing one
 where all object properties are readonly.
 For example:
@@ -1052,25 +1054,30 @@ interface Vehicle {
 
 Unlike abstract classes, interfaces cannot
 
-- specify access modifiers (all members are public)
+- specify access modifiers (all members are `public`)
 - define constructor signatures
 - define default method implementations
 
 Interfaces are similar to type aliases that describe object shapes.
-Both can describe properties and method signatures.
-But there are three differences:
+Both can describe properties and method signatures,
+but there are three differences:
 
-1. Interfaces can extend another interface, a type alias, or a class (weird). Type aliases cannot.
-2. Interfaces can be defined multiple times in the same scope and their definitions are merged. Type aliases cannot.
+1. Interfaces can extend another interface, a type alias, or a class (weird).
+   Type aliases cannot.
+2. Interfaces can be defined multiple times in the same scope
+   and their definitions will be merged. Type aliases cannot.
 3. The right side of a type alias can be another type (truly an alias).
 
-The bottom line is that there is no strong reason to prefer one over the other.
+The bottom line is that there is no strong reason to
+prefer one over the other for defining an object shape.
 But it seems the community prefers using interfaces when either will do.
 
 ## `Record` Utility Type
 
-`Record` is one of the provided utility types.
-It is used to defines a type that is a mapping from a set of keys to values.
+Like `Readonly` described earlier, `Record` is one of the provided utility types.
+More are described in the next section.
+
+It is used to define a type that is a mapping from a set of keys to values.
 The keys must be strings, numbers, or symbols.
 The values can be any type.
 For example:
@@ -1097,28 +1104,27 @@ This ensures that there is a mapping for all possible keys.
 
 The "utility types" provided by TypeScript
 create a new type based on existing types.
-Here is a summary of most of them.
+We have already seen `Readonly` and `Record`.
+A summary of the rest of them follows.
+Note that none of these are used frequently.
 
 - `Partial<T>`  
   This creates a type that is the same as `T`
   except all the properties are optional.
-
 - `Required<T>`  
   This creates a type that is the same as `T`
   except all the properties are required.
 
 - `Pick<T, K>`  
-  This creates a type contains the members of `T`
-  that are listed by name in the union type `K`.
-
+  This creates a type that contains the members of `T`
+  that are listed by name in the union type of string literals `K`.
 - `Omit<T, K>`  
-  This creates a type contains the members of `T`
-  that are not listed by name in the union type `K`.
+  This creates a type that contains the members of `T`
+  that are not listed by name in the union type of string literals `K`.
 
 - `Extract<T, U>`  
   This creates a type that contains the members of `T`
   that can be assigned to the type `U`.
-
 - `Exclude<T, U>`  
   This creates a type that contains the members of `T`
   that cannot be assigned to the type `U`.
@@ -1128,36 +1134,42 @@ Here is a summary of most of them.
   except no properties allow the values `undefined` and `null`.
   This considers the type of `T`, but not
   its members like the previous utility types.
+  It is used to create a more restrictive
+  union type from an existing union type.
+
+The remaining utility types, `ReturnType`, `InstanceType`, and `ThisType`,
+seem less useful.
 
 ## Function Parameter and Return Types
 
 Function parameter types and return types can be specified
 regardless of how the function is defined.
-This includes named functions, function expressions, and arrow functions.
+This includes named functions, arrow functions, and function expressions.
 For example:
 
 ```ts
 // Named function
-// Same as String repeat method.
+// Same as the JavaScript String repeat method.
 function stringRepeat(text: string, repeat: number): string {
   let result = '';
   for (let i = 0; i < repeat; i++) {
     result += text;
   }
   return result;
-};
+}
 
 // Example call
 const santaSays = stringRepeat('Ho ', 3); // 'Ho Ho Ho '
 
-// Function expression
-const stringRepeat = function (text: string, repeat: number): string {
-  ...
-};
-
 // Arrow function
 const stringRepeat = (text: string, repeat: number): string => {
-  ...
+  // same code as above
+};
+
+// Function expression
+// Typically the other forms are preferred over this.
+const stringRepeat = function(text: string, repeat: number): string {
+  // same code as above
 };
 ```
 
@@ -1167,7 +1179,7 @@ Function signature types define the parameter types and return types
 of functions that are defined elsewhere.
 For example:
 
-```js
+```ts
 type StrNumFn = (s: string, n: number) => string;
 ```
 
@@ -1177,21 +1189,25 @@ Implementations can use other names.
 Parameter default values cannot be specified,
 but they can be in implementations.
 
-A return type must be specified, unlike in function definitions.
+A return type must be specified, unlike in function definitions
+where it can be inferred.
 
-Function signature types can be uses as the type of functions
-when they are defined and
-when they are passed as argument to other function.
+Function signature types can be used as
+the type of functions when they are defined.
+They can also be used as parameter types when
+functions can be passed as argument to other functions.
 
 Parameter types are not inferred unless the function itself
 is typed using a function signature type.
-The return type can be inferred by return statements
+However, in functions that are not typed using a function signature type,
+the return type can be inferred by return statements in the body
 if the type of each return statement can be inferred.
 
 For example:
 
 ```ts
-// The text parameter type is inferred to be string.
+// Based on the use of the StrNumFn type,
+// the text parameter type is inferred to be string.
 // The repeat parameter type is inferred to be number.
 // We could specify parameter default values.
 // The return type is inferred to be string.
@@ -1204,7 +1220,8 @@ const stringRepeat: StrNumFn = (text, repeat) => {
 };
 ```
 
-Function signature types are useful in functions that take callbacks.
+Function signature types are useful in functions
+that take other functions as arguments.
 For example:
 
 ```ts
@@ -1234,7 +1251,7 @@ function stringRepeat(text: string, repeat = 1): string { ... };
 
 Variadic functions, which are functions that
 take variable number of arguments,
-are defined using a "rest parameter" at the end,
+are defined using a "rest parameter" at the end
 just like in JavaScript.
 For example:
 
@@ -1247,8 +1264,8 @@ console.log(labeledSum('total', 1, 2, 3)); // total: 6
 
 ## Functions That Use `this`
 
-In functions that use `this`,
-its type can be declared as if it is the first parameter
+In functions that use `this`, the type of `this`
+can be declared as if it is the first parameter
 even though it is not passed that way.
 This is a rarely used feature.
 It is better to define the function as a method in a class.
@@ -1272,10 +1289,24 @@ greetTeen.call(p1, 'Yo'); // no output
 greetTeen.call(p2, 'Yo'); // Yo Paige
 ```
 
-## Other Kinds of Functions
+## Overloaded Functions
 
-TypeScript also supports overloaded functions and generator functions.
-SHOULD THESE BE DESCRIBED IN THIS ARTICLE?
+TypeScript supports overloaded functions.
+
+In other languages that support overloaded functions (not JavaScript),
+multiple function definitions with the same name can be written.
+When called, the implementation to invoke is determined
+based on the argument types.
+
+It TypeScript overloaded functions are described by a
+type aliases that defines all the acceptable function signatures.
+But they are all implemented by a single function
+whose type is this type alias.
+The function must check the types of its arguments
+and do the right thing based on those.
+
+If this sounds complicated, it's because it is.
+For this reason overloaded functions are rarely used in TypeScript.
 
 ## Generic Functions
 
