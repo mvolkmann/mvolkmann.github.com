@@ -4,6 +4,9 @@ In the book "JavaScript: The Good Parts" by Douglas Crockford
 he said "In JavaScript, there is a beautiful, elegant, highly expressive
 language that is buried under a steaming pile of good intentions and blunders."
 
+The combination of features added to JavaScript in ES2015 (ES6) and beyond
+plus the use of ESLint make JavaScript a quite nice language.
+
 TypeScript is a superset of the JavaScript language.
 Therefore it contains the same beautiful features and blunders
 that are present in JavaScript.
@@ -11,7 +14,7 @@ But it also adds many features,
 some of which are beautiful and some not so much.
 
 This article presents the most valuable parts of the TypeScript language.
-At the end it lists the features that most developers should avoid.
+At the end it lists features that most developers should avoid.
 
 ## Overview
 
@@ -471,21 +474,20 @@ console.log(c); // x
 
 ## Enums
 
-Enums define a list of allowed number or string values.
+Enum types define a list of allowed `number` or `string` values.
 They are like objects where keys are strings
 and values are numbers or strings.
 
 By default values are integers starting from zero.
-Specify number or string values can be assigned.
-
-It is even possible to mix number and string values,
-but doing this is not typical.
+Specific `number` or `string` values can be assigned.
+It is even possible to mix `number` and `string` values
+in the same `enum`, but doing this is not typical.
 
 When the values are numbers,
 their keys can be retrieved by value.
 This cannot be done when the values are strings.
 
-Here are some examples.
+Here are some examples:
 
 ```ts
 // number enum
@@ -512,16 +514,16 @@ enum HexColor {
 }
 let hc: HexColor = HexColor.Blue;
 console.log(hc); // 00F
-//hc = 1; // cannot set numeric value
+//hc = 1; // error, not assignable
 hc = HexColor.Red;
-console.log(hc); // F00
-//hc = HexColor['0F0']; // error
+console.log('hc =', hc); // F00
+//hc = HexColor['0F0']; // error, property does not exist
 ```
 
-When an enum type is declare as `const`,
-values can still be accessed by key,
+When an `enum` type is declare as `const`,
+values can be accessed by key,
 but keys cannot be accessed by value.
-A benefit of using const enums is that the
+A benefit of using `const` enums is that the
 TypeScript compiler can inline member references.
 
 ```ts
@@ -538,7 +540,7 @@ console.log(ConstColor.Green); // 1
 console.log(ConstColor['Green']); // 1
 ```
 
-Many developers prefer to use union types instead of enums.
+Many developers prefer using union types instead of enums.
 For example:
 
 ```ts
@@ -556,7 +558,7 @@ let c: Color = 'red';
 c = 'pink'; // "pink" is not assignable
 ```
 
-One reason is that enums with number values
+One reason for this is that enums with number values
 allow any number to be assigned.
 For example:
 
@@ -603,7 +605,7 @@ things.push(new Date()); // error: not a string or number
 ## Tuples
 
 Tuples are a subtype of arrays.
-They have a fixed length.
+They have a fixed length and a specific type at each index.
 For example:
 
 ```ts
@@ -632,11 +634,12 @@ so that each piece of data has a name.
 For example:
 
 ```ts
+// Using a tuple
 type PlayerScore = [string, number];
 const ps: PlayerScore = ['Mark', 19];
 console.log('ps =', ps);
 
-// Usually this approach is better.
+// Using an interface is usually better.
 interface Player {
   name: string;
   score: number;
@@ -647,14 +650,15 @@ console.log('p =', p);
 
 ## `readonly` Modifier
 
-The `readonly` modifier can be applied to arrays, tuples, and object properties.
+The `readonly` modifier can be applied to array types, tuple types, and object properties inside interfaces or type aliases.
+This prevents their values from being modified, making them "immutable".
 For example:
 
 ```ts
 type Numbers = readonly number[]; // primitive array
 const n: Numbers = [1, 2, 3];
 //n[1] = 7; // only permits reading
-//n.push(4); // property "push" does not exist on readonly
+//n.push(4); // property "push" does not exist on readonly arrays
 
 type Dates = readonly Date[]; // object array
 const d: Dates = [new Date()];
@@ -662,11 +666,11 @@ const d: Dates = [new Date()];
 
 type PlayerScore = readonly [string, number, Date]; // tuple
 const ps: PlayerScore = ['Mark', 19, new Date()];
-//ps[1] = 20; // cannot assign read-only property
+//ps[1] = 20; // cannot assign to read-only element
 
 type Lines = string[];
 // Can't apply readonly to a type alias,
-// only on array and tuple literal types.
+// only to array and tuple literal types.
 //const lines: readonly Lines = ['one', 'two'];
 
 // Can apply to individual properties of object types.
@@ -725,7 +729,7 @@ For example:
 
 ```ts
 let score = 0; // infers number
-const teams = 2; // infers 2 because it’s immutable
+const teams = 2; // infers 2, not number, because it’s immutable
 ```
 
 Variable types can also be specified explicitly.
@@ -733,7 +737,7 @@ For example:
 
 ```ts
 let score: number; // defaults to 0
-const teams: number = 2; // silly to specify type here
+const teams: number = 2; // no need to specify type here
 ```
 
 ## Type Aliases
@@ -783,14 +787,14 @@ Type aliases are block-scoped like `const` and `let`.
 
 ## More on Shapes
 
-Object properties described by type aliases and interfaces are required by default.
+Object properties described by interfaces and type aliases are required by default.
 Also by default, additional properties cannot be added to objects of these types.
 
 To make a property optional, add `?` after its name.
 
 To make a property read-only, add `readonly` before its name.
 
-To allow arbitrary additional properties add an "index signature".
+To allow arbitrary additional properties, add an "index signature".
 For example:
 
 ```ts
@@ -800,7 +804,6 @@ For example:
 `key` can have a different name, but using `key` is common.
 `keyType` must be `string` or `number`.
 `valueType` can be any type including `any`.
-
 For example:
 
 ```ts
@@ -826,7 +829,7 @@ type Range<T> = {
 
 const numberRange: Range<number> = {min: 1, max: 10};
 const letterRange: Range<string> = {min: 'a', max: 'f'};
-const letterRange: Range<Team> = {
+const teamRange: Range<Team> = {
   min: new Team('Cubs'),
   max: new Team('Cardinals')
 };
@@ -888,7 +891,7 @@ const d1 = new Demo;
 ```
 
 Unlike in JavaScript, classes in TypeScript must declare all properties.
-For example, this class in JavaScript
+For example, this class in JavaScript:
 
 ```js
 class Person {
@@ -898,7 +901,7 @@ class Person {
 }
 ```
 
-can be written like this in TypeScript.
+can be written like this in TypeScript:
 
 ```ts
 class Person {
@@ -910,9 +913,18 @@ class Person {
 }
 ```
 
+or like this:
+
+```ts
+class Person {
+  constructor(public name: string) {}
+}
+```
+
 Properties and methods declared with the `static` keyword
 are not associated with any instance
 and are accessed with the class name.
+See the example below.
 
 Instance properties declared with the `readonly` keyword
 must set in the constructor and cannot be changed.
@@ -943,7 +955,7 @@ console.log(Widget.getCount()); // 2
 ```
 
 Classes can extend one other class to inherit from it.
-Then can override any of the inherited methods.
+They can override any of the inherited methods.
 For example:
 
 ```ts
@@ -969,15 +981,12 @@ For example:
 abstract class Vehicle { ... }
 ```
 
-be marked as abstract when only intended to be used as a superclass
-can’t instantiate with new
-extending classes must implement methods marked as abstract or also be abstract
-
 Subclasses must call their superclass constructor
 from their constructor with `super(args)`
 even if the superclass has no constructor
 or has one that doesn’t take arguments.
 `super` must be called before using the `this` keyword.
+in the constructor.
 Subclass methods can call superclass methods with
 `super.methodName(args)`.
 For example:
@@ -999,7 +1008,7 @@ class Car extends Vehicle {
 ## Generic Classes
 
 Generic classes support defining classes whose members have specific types
-that are specified by using code.
+that are specified by code that creates instances of the class.
 For example:
 
 ```ts
@@ -1007,13 +1016,14 @@ class Pair<T> {
   constructor(public first: T, public second: T) {}
 }
 
-const p1 = new Pair<number>(3, 19);
-const p2 = new Pair<string>('foo', 'bar');
+const p1 = new Pair<number>(3, 19); // generic type can be inferred
 console.log(p1); // Pair { first: 3, second: 19 }
-console.log('p2 =', p2); // Pair { first 'foo', second: 'bar' }
+const p2 = new Pair('foo', 'bar'); // inferred generic type is string
+console.log(p2); // Pair { first 'foo', second: 'bar' }
+//const p3 = new Pair('foo', 1); // error, 1 not assignable to string
 ```
 
-One example of such a class is the JavaScript `Promise` class.
+One example of a builtin generic class is `Promise`.
 For example;
 
 ```ts
