@@ -1298,7 +1298,7 @@ multiple function definitions with the same name can be written.
 When called, the implementation to invoke is determined
 based on the argument types.
 
-It TypeScript overloaded functions are described by a
+In TypeScript overloaded functions are described by a
 type aliases that defines all the acceptable function signatures.
 But they are all implemented by a single function
 whose type is this type alias.
@@ -1310,11 +1310,17 @@ For this reason overloaded functions are rarely used in TypeScript.
 
 ## Generic Functions
 
-Generic functions use type parameters to specify types they should use.
-For example, if the `Array` `map` method was written as a function,
+Generic functions use type parameters to specify the types they should use.
+For example, if the builtin `Array` `map` method was written as a function,
 it might look like this:
 
 ```ts
+// The parameter "array" is an array of type T.
+// The parameter "fn" is a function that takes an
+// argument of type T and returns a value of type U.
+// This function calls "fn" on each element of "array"
+// and returns an array of the results of these calls.
+// The return type is an array of type U.
 function map<T, U>(array: T[], fn: (item: T) => U): U[] {
   const result: U[] = [];
   for (const item of array) {
@@ -1324,10 +1330,13 @@ function map<T, U>(array: T[], fn: (item: T) => U): U[] {
 }
 
 const numbers = [1, 2, 3]; // type inferred as number[]
-//const doubled = map(numbers, n => n * 2);
+
+const d1 = map(numbers, n => n * 2);
+console.log(d1); // [2, 4, 6]
+
 const double = (n: number): number => n * 2;
-const doubled = map<number, number>(numbers, double);
-console.log(doubled); // [2, 4, 6]
+const d2 = map<number, number>(numbers, double);
+console.log(d2); // [2, 4, 6]
 
 const words = ['apple', 'banana', 'cherry'];
 const lengths = map<string, number>(words, s => s.length);
@@ -1339,8 +1348,9 @@ are not needed because they can be inferred from the arguments.
 
 ## Bounded Polymorphism
 
-Bounded polymorphism says that a type parameter cannot be just any type,
-but must be a type that implements a given interface or extends a given class.
+Bounded polymorphism requires a type parameter to be
+a type that implements a given interface or extends a given class,
+rather than just any type.
 Consider these differences between these function and class definitions:
 
 ```ts
@@ -1359,18 +1369,27 @@ class Foo<T extends Bar> {
 }
 ```
 
-In all cases `bar` is an object has a type of `Bar`.
-In the cases that use `extends`,
+In all the cases above, `bar` is an object
+that is assignable to the type `Bar`.
+In the cases that use `extends` (bounded polymorphism),
 the type of `T` is the actual subclass of `Bar` being used.
+
+One example of when this distinction is useful
+is when a function must have a return type
+which matches that of one of its type parameters.
+
 If this seems confusing it is because it is!
 It is hard to come up with a good example where bounded polymorphism is needed.
 Typically the difference is not important and the non-generic form is used.
+TODO: You emailed Kyle and Paul about this.
 
 ## Structural Typing
 
 When determining object compatibility,
-TypeScript uses structuring typing, not nominal typing (by name).
-This means compatibility is based on their properties, not the classes.
+TypeScript uses structuring typing,
+not nominal typing (by name).
+This means compatibility is based on
+the properties in an object, not its class.
 
 In the example below, note that the `Cat` and `Dog` classes
 have the same properties.
@@ -1385,15 +1404,20 @@ class Dog {
 }
 
 const cat = new Cat('Whiskers');
-const neither = {foo: 'bar'};
+dog = cat; // allowed because it has all properties of Dog
 
-let dog: Dog;
-dog = cat; // allowed because it has all Dog properties
-dog = neither; // not allowed because it doesn't have all Dog properties
+const extra = {name: 'Jerry', species: 'mouse'};
+dog = extra; // allowed because it has all properties of Dog
+
+const neither = {foo: 'bar'};
+//dog = neither; // error: doesn't have all properties of Dog
 ```
 
 Flow, an alternative JavaScript type checker,
 uses nominal typing instead of structural typing.
+This means it only allows assignments of `Dog` objects
+and objects from `Dog` subclasses
+to variables of type `Dog`.
 
 ## Script vs. Module Mode
 
@@ -1403,15 +1427,15 @@ Here are some ways in which modules differ from scripts:
 - Modules are always executed in strict mode.
 - Modules can use `import` and `export` statements.
 - Modules are loaded once regardless of how many times they are imported.
-- Top-level definitions in modules have file scope
-  and are only accessible outside the file if they are exported.
+- Top-level definitions in modules have file scope, not global scope.
+  They are only accessible outside the file if they are exported.
 - The top-level value of `this` in modules is `undefined`, not `window`.
 
 Source files are processed in module mode
 if they contain at least one `import` or `export` statement.
 When neither kind of statement is needed, module mode can be forced
 by including `export {}`, typically at the top of the source file.
-This is desirable to avoid conflicts between declarations
+This is desirable to avoid conflicts between top-level declarations
 of the same names across multiple source files.
 
 ## DefinitelyTyped
@@ -1419,12 +1443,12 @@ of the same names across multiple source files.
 Many open source libraries include TypeScript type definitions
 when they are installed from npm.
 When they don’t, often these are available from DefinitelyTyped
-which is "The repository for high quality TypeScript type definitions".
+which is the "repository for high quality TypeScript type definitions".
 See <http://definitelytyped.org/>.
 
-Types are published in npm under the `@types` scope.
+Types from DefinitelyTyped are published in npm under the `@types` scope.
 To install type definitions for a library, enter
-`npm install --save-dev @types/library-name`.
+`npm install -D @types/library-name`.
 These type definitions are automatically included by the TypeScript compiler.
 
 To add or correct type definitions in DefinitelyTyped,
