@@ -1,5 +1,13 @@
 # Code Formatting Guidelines
 
+The goal of this article is to encourage source code formatting
+that improves code readability and
+speed of finding particular items in code.
+
+It is understood that this is an unrealistic goal
+given that most developers will disagree
+with many of the guidelines proposed here.
+
 ## Rationale is required
 
 If no rationale for a guideline can be described,
@@ -183,5 +191,11 @@ viewing multiple source files side-by-side.
 With line lengths are longer than 80 characters,
 doing this will cause many lines to wrap
 which makes them even harder to read.
+
+One more reason to avoid long lines is that
+default printer settings do not accommodate them.
+Printing source files with long lines results in lots of line wrapping.
+This is especially true when indentation uses tab characters
+since most printers treat tabs as eight spaces.
 
 Let your code formatter enforce a maximum line length of 80.

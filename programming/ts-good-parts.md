@@ -81,7 +81,9 @@ Here are the steps.
 - Modify `tsconfig.json` to match the starting point described in the next section.
 - Create a `src` directory at the top of your project directory.
 - Create your `.ts` files in and under the `src` directory.
-- Compile all your `.ts` files to `.js` files by running `npx tsc`.  
+- Add the following npm script in `package.json`:  
+  `"compile": "tsc",`
+- Compile all your `.ts` files to `.js` files by running `npm run compile`.  
   This compiles all the `.ts` files under the `src` directory
   to `.js` files under the `dist` directory.
 - Run the main `.js` file by entering `node dist/index.js`.  
@@ -1457,19 +1459,23 @@ submit pull requests.
 ## Libraries With No Type Definitions
 
 To get type checking for a library that doesn’t provide its own type definitions
-and has none in DefinitelyTyped, there are three options.
+and has none in DefinitelyTyped,
+you can write the type definitions yourself.
+
+When finished there are three options.
 
 1. Contribute type definitions to the library.
 2. Contribute type definitions to DefinitelyTyped.
-3. Define type definitions in your own project,
-   perhaps in the file `src/types.ts` and import them where needed.
+3. Keep the type definitions in your own project,
+   perhaps in the file `src/types.ts`,
+   and import them where needed.
 
 ## Type Declaration Files
 
 The TypeScript compiler and editors like VS Code
 use type declaration files for type checking.
 
-They can be generated from TypeScript source files
+These can be generated from TypeScript source files
 using the command `tsc -d name.ts`.
 
 They can also be create manually.
@@ -1477,10 +1483,10 @@ This is typically only done for JavaScript libraries that do not supply them.
 Declare all types that should be visible to using code,
 omitting privately used types.
 
-Type declaration files Contain “ambient declarations”.
+Type declaration files contain "ambient declarations".
 The term "ambient" distinguishes them from normal declarations.
 
-The `declare` keyword is used for all kinds of declarations except interfaces.
+The `declare` keyword is used for every kind of type declaration except interfaces.
 
 The file extension for type declaration files
 is `.d.ts` when there is a corresponding `.js` file,
@@ -1488,7 +1494,9 @@ and can be `.ts` or `.d.ts` otherwise.
 
 ## Ambient Declaration Examples
 
-Here is a sample TypeScript source file:
+Here is a sample TypeScript source file
+that includes a variety of kinds of things
+that have types:
 
 ```ts
 export const MONTH = 'April';
@@ -1536,32 +1544,181 @@ export declare class Person {
 }
 ```
 
+You can manually create type declarations like these
+when no TypeScript source is available.
+
 ## Shipping TypeScript Libraries
 
 The steps to ship a TypeScript library
 that others can use are as follows:
 
-1. Generate type declarations.
-2. Add types key in `package.json`.  
+1. Generate type declarations from TypeScript source files.
+2. Add a `types` key in `package.json`.  
    This indicates that type declarations are included.
    Its value is the path to a `.d.ts` file.
 3. Add an npm script in `package.json`.  
    This should generate new type declarations every time changes are published.
 4. Include source maps
-5. Choose the target module format appropriate for using code.  
+5. Choose the target module format appropriate
+   for code that will use the library.  
    For code targeted at web browsers this is typically "ES5".
-6. Omit `.ts` files and only include generated `.js` and `.d.ts` files.  
-   In `.npmignore`, add the `src` directory.  
-   In `.gitignore`, add the `dist` directory.  
-   Including `.ts` files increases the size of the download for little value.  
+6. Omit `.ts` files from the deployed library
+   and only include generated `.js` and `.d.ts` files.  
+   Including `.ts` files increases the size of the download for little value.
    If `.ts` files are included and generated `.js` files are not,
    users will have to compile them.
+   The `.ts` will still be in a repository such as Git.  
+   In `.npmignore`, add the `src` directory.  
+   In `.gitignore`, add the `dist` directory.
+
+## Migrating JavaScript Projects to TypeScript
+
+There are five steps to migrate a JavaScript project to TypeScript.
+After each step, run `npm run compile` and fix any reported errors.
+
+1. Add the use of tsc.
+
+   - In the top project directory, enter `npm install -D typescript`.
+
+   - Add the following to the `compilerOptions` in `tsconfig.json`:  
+     `"allowJs": true,`  
+     `"outDir": "dist"`,  
+     `"target": "ES5"`  
+     Generated files will be written to the `dist` directory.
+
+   - Add the following `include` option in `tsconfig.json`:  
+     `"include": ["src"]`
+
+   - Add the following npm script in `package.json`:  
+     `"compile": "tsc"`
+
+2. Enable type checking of `.js` files.
+
+   - Add the following to the `compilerOptions` in `tsconfig.json`:  
+     `"checkJs": true`
+
+   - Optionally add `// @ts-nocheck` at the top of `.js` files
+     with too many errors to fix now.
+
+   - Optionally temporarily add `"noImplicitAny": false`
+     to the `compilerOptions` in `tsconfig.json`
+     because `any` will be a commonly inferred type.
+
+     TypeScript type checking is more lenient on `.js` files.
+     Function parameters are optional.
+     Class property types are inferred based on usage.
+     Extra properties can be assigned to objects.
+
+3. Optionally add JSDoc comments  
+   These appear before functions to provided parameter and return types.
+   Supported JSDoc annotations are listed at
+   <https://www.typescriptlang.org/docs/handbook/type-checking-javascript-files.html#supported-jsdoc>.
+   For example:
+
+   ```js
+   /**
+    * description
+    * @param name {type} description
+    * @return {type} description
+    */
+   ```
+
+4. Rename `.js` files to `.ts`  
+   Consider doing this one file at a time, renaming, compiling, and fixing errors.
+
+5. Stop processing `.js` files and make type checking strict  
+   Add/change the following `compilerOptions` in `tsconfig.json`:  
+   `"allowJs": false,`  
+   `"checkJs": false,`  
+   `"strict": true`
+
+## Processing Details
+
+When a `.ts` file imports a `.js` file,
+it looks for a corresponding `.d.ts` file
+in the same directory as the `.js` file.
+If no such file is found and `allowJs` and `checkJs` are true, types are inferred.
+If no such file is found and `allowJs` and `checkJs` are false, types are treated as `any`.
+
+When a `.ts` file imports from an npm package
+(stored locally under `node_modules`)
+it looks for type definitions in `src/types.ts`.
+You can manually create type definitions here.
+
+If `src/types.js` is not found, it looks for the
+`types` or `typings` key in `package.json`
+of the npm package that points to a `.d.ts` file.
+
+If this is not found, it looks for a `.d.ts` file
+in `node_modules/@types/package-name`
+working upward to the top `node_modules` directory of the app.
+This supports nested dependencies.
+
+If this is not found, it uses the lookup process
+for local (non-npm) imports.
+
+You can override where TypeScript looks for type declarations
+by setting the `typeRoots` option
+in the `compilerOptions` in `tsconfig.json`,
+but doing this is not common.
+
+## Whitelisting
+
+When an npm package doesn’t include type definitions
+and they aren’t available in DefinitelyTyped,
+there are three options;
+
+1. Define the types yourself, perhaps in `src/types.ts`.  
+   Consider contributing your type definitions to the package or DefinitelyTyped.
+2. Whitelist specific imports by preceding them with `// @ts-ignore`.
+3. Whitelist all usages of the package by adding a line in `src/types.ts`.
+   For example, `declare module 'package-name';`
+
+## Polyfills
+
+`tsc` transpiles to many target environments,
+but it doesn’t provide any polyfills
+for functionality not present in the target environment.
+
+Popular polyfill libraries include
+`core-js`, `@babel/polyfill`, and `polyfill.io`.
+
+Babel can be used to get support for language features
+that TypeScript doesn’t yet support.
+
+Set the `lib` option in the `compilerOptions` in `tsconfig.json`
+to indicate which features have been polyfilled.
+
+## TypeScript With Node.js
+
+When using TypeScript with Node.js, the following
+`tsconfig.json` is recommended as a starting point:
+
+```json
+{
+  "compilerOptions": {
+    "esModuleInterop": true,
+    "module": "commonjs",
+    "noImplicitReturns": true,
+    "outDir": "dist",
+    "sourceMap": true,
+    "strict": true,
+    "target": "es2015",
+ }
+  "include": ["src"]
+}
+```
+
+Setting `module` to `commonjs`
+compiles `import` statements to `require` calls and
+`export` statements to `module.exports` assignments.
 
 ## TypeScript With React
 
 To use TypeScript in React projects,
-configure use of `tsc` as an npm script in `package.json`.
-This is done for you if create-react-app is used as follows:
+configure the use of `tsc` as an npm script in `package.json`.
+This is done for you if create-react-app is used as follows
+to create the React project:
 
 ```bash
 create-react-app my-app --typescript
@@ -1586,7 +1743,8 @@ function ComponentName(props: Props) {
 export default ComponentName;
 ```
 
-Here is an example of a class component that uses both props and state:
+Here is an example of a class component
+that uses takes props and uses state:
 
 ```ts
 import React, {Component} from 'react';
@@ -1623,148 +1781,16 @@ They include `ChangeEvent`, `FocusEvent`, `KeyboardEvent`,
 `MouseEvent`, `TouchEvent`, `WheelEvent`, and more.
 
 When using the `useState` hook,
-if TypeScript can’t infer type from initial value, specify it like this:
+if TypeScript can’t infer the type from the initial value,
+specify it like this:
 
 ```ts
 const [name, setName] = useState<type>(initialValue);
 ```
 
-## Migrating JavaScript Projects to TypeScript
-
-There are five steps to migrate a JavaScript project to TypeScript.
-After each step, run `npm run compile` and fix any reported errors.
-
-1. Add the use of tsc.
-
-   - In the top project directory, enter `npm install -D typescript`.
-   - Add the following to the `compilerOptions` in `tsconfig.json`:  
-     `"allowJs": true,`  
-     `"outDir": "dist"`,  
-     `"target": "ES5"`
-     Generated files will be written to the `dist` directory.
-   - Add the following `include` option in `tsconfig.json`:  
-     "include": ["src"]
-   - Add the following npm script in `package.json`:  
-     `"compile": "tsc"`
-
-2. Enable type checking of `.js` files.
-
-   - Add the following to the `compilerOptions` in `tsconfig.json`:  
-     `"checkJs": true`
-   - Optionally add `// @ts-nocheck` at the top of `.js` files
-     with too many errors to fix now.
-   - Optionally temporarily add `"noImplicitAny": false` to `compilerOptions`
-     because `any` will be a commonly inferred type.
-
-     TypeScript type checking is more lenient on `.js` files.
-     Function parameters are optional.
-     Class property types are inferred based on usage.
-     Extra properties can be assigned to objects.
-
-3. Optionally add JSDoc comments  
-   These appear before functions to provided parameter and return types.
-   Supported JSDoc annotations are listed at
-   <https://www.typescriptlang.org/docs/handbook/type-checking-javascript-files.html#supported-jsdoc>.
-   For example:
-
-   ```js
-   /**
-    * description
-    * @param name {type} description
-    * @return {type} description
-    */
-   ```
-
-4. Rename `.js` files to `.ts`  
-   Consider doing this one file at a time, renaming, compiling, and fixing errors.
-
-5. Stop processing `.js` files and make type checking strict  
-   Add/change the following `compilerOptions` in `tsconfig.json`:  
-   `"allowJs": false,`
-   `"checkJs": false,`
-   `"strict": true`
-
-## Processing Details
-
-When a `.ts` file imports a `.js` file
-it looks for a corresponding `.d.ts` file
-in the same directory as the `.js` file.
-If no such file is found and `allowJs` and `checkJs` are true, types are inferred.
-If no such file is found and `allowJs` and `checkJs` are false, types are treated as `any`.
-
-When a `.ts` file imports from `node_modules`
-it looks for type definitions in `src/types.ts`.
-You can manually create type definitions here.
-
-If `src/types.js` is not found, it looks for the
-`types` or `typings` key in `package.json`
-of the npm package that points to a `.d.ts` file.
-
-If this is not found, it looks for `.d.ts` file
-in `node_modules/@types/package-name`
-working upward to the top `node_modules` directory of the app.
-This supports nested dependencies.
-
-If this is not found, it uses the lookup process
-for imports not under `node_modules`.
-
-You can override where TypeScript looks for type declarations
-by setting the `typeRoots` option in the `tsconfig.json` `compilerOptions`,
-but doing this is not common.
-
-## Whitelisting
-
-When an npm package doesn’t include type definitions
-and they aren’t available in DefinitelyTyped,
-there are three options;
-
-1. Define yourself, perhaps in `src/types.ts`.  
-   Consider contributing your type definitions to the package or DefinitelyTyped.
-2. Whitelist specific imports by preceding them with `// @ts-ignore`.
-3. Whitelist all usages of the package by adding a line to `src/types.ts`.
-   For example, `declare module 'package-name';`
-
-## Polyfills
-
-`tsc` transpiles to many target environments,
-but it doesn’t provide any polyfills.
-
-Popular polyfill options include
-`core-js`, `@babel/polyfill`, and `polyfill.io`.
-
-Babel can be used to get support for language features
-that TypeScript doesn’t yet support.
-
-Set the `lib` option in `compilerOptions` to indicate
-which features have been polyfilled.
-
-## TypeScript With Node.js
-
-When using TypeScript with Node.js,
-the following `tsconfig.json` is recommended:
-
-```json
-{
-  "compilerOptions": {
-    "esModuleInterop": true,
-    "module": "commonjs",
-    "noImplicitReturns": true,
-    "outDir": "dist",
-    "sourceMap": true,
-    "strict": true,
-    "target": "es2015",
- }
-  "include": ["src"]
-}
-```
-
-Setting module to commonjs
-compiles `import` statements to `require` calls and
-`export` statements to `module.exports` assignments.
-
 ## Features Coming in TypeScript 3.7
 
-There are many features coming in TypeScript 3.7.
+There are many new features coming in TypeScript 3.7.
 These include optional chaining, null coalescing, and top-level `await`.
 
 Here is an example of optional chaining:
@@ -1781,7 +1807,7 @@ Here is an example of null coalescing:
 
 ```ts
 // Old way - chooses option2 if option1 is any falsy value
-// including false, zero, or empty string
+// including undefined, null, false, zero, or empty string
 const option = option1 || option2;
 
 // New way - chooses option2 only if option1 is undefined or null
@@ -1790,11 +1816,16 @@ const option = option1 ?? option2;
 
 Top-level await allows the use of the `await` keyword to
 wait for a `Promise` to resolve at the top level of code,
-not just in async functions.
+not just inside `async` functions.
 
 ## `private` vs. `#` Prefix Fields
 
-TypeScript does not yet support ES private fields (`#`), but work is underway.
+"Public and private instance fields" is a TC39 proposal
+that is currently at stage 3.
+This defines a way to mark instance properties of a class
+as private by prefixing their name with a `#` character.
+
+TypeScript does not yet support this, but work to do so is underway.
 See <https://github.com/microsoft/TypeScript/pull/30829>.
 
 There are some differences between the meaning of
@@ -1814,36 +1845,44 @@ the `private` keyword and the `#` field name prefix.
 
 The page at <https://www.typescriptlang.org/docs/handbook/declaration-files/do-s-and-don-ts.html>
 provides recommendations on things you should and should not do in TypeScript.
-It recommends never using the wrapper types
+
+One of the recommendations is to never use the wrapper types
 `Boolean`, `Number`, `String`, `Symbol`, and `Object`.
+
+See this site for additional recommendations.
 
 ## Things to Avoid
 
 TypeScript has a large number of features.
 While all of them have some justification, many are rarely used.
-This increases the likelihood that many developers will not be familiar with them.
-To reduce the learning curve of TypeScript and improve code readability,
-I recommend avoiding the use of the following language features.
+This increases the likelihood that many developers
+will not be familiar with them.
+To reduce the learning curve of TypeScript for your team
+and improve code readability,
+I recommend avoiding the use of the following TypeScript features.
 
-- Tuples with a minimum length using spread  
+- Tuples with a minimum length and no maxium using the spread operator  
   For example:  
   `type badIdea = [number, number, ...number[]] // contains 2 or more numbers`
-- Writing functions that use `this`  
+- Implementing functions that use `this`  
   ... and declaring the type of this as the first parameter
+  rather than implementing it as a method of a class
 - Overloaded functions
 - Bounded polymorphism with multiple constraints
 - Generic type defaults
 - Using `this` as a return type of a method in a superclass
 - Intersection types  
   These match only what multiple types have in common.
-  I can’t think of a good example of when this is helpful.
+  It's hard to think of a good example of when this would be useful.
 - Interfaces extending a type alias or class
 - Comparing classes
-- Defining a constructor signature in an interface with new
-- Decorators
+- Defining a constructor signature in an `interface` with `new`
+- Decorators  
+  These are currently an experimental feature.
 - `private` constructors to simulate final classes  
-  can’t be extended or directly instantiated (must use static factory methods)
-- `as const`
+  Such classes cannot be extended or directly instantiated
+  (must use static factory methods).
+- `as const` assertions
 - Type assertions
 - Tagged Unions
 - Keying-in operation  
@@ -1853,13 +1892,13 @@ I recommend avoiding the use of the following language features.
 - Mapped types, including built-in ones
 - Companion object pattern
 - Creating tuples with a function  
-  ... instead of using the `[]` syntax
+  ... instead of using the `[]` syntax.
 - User-defined type guards
 - Conditional types, including built-in ones
 - Distributive conditionals
 - `infer` keyword
 - Non-null assertions  
-  These just define non-nullable types.
+  These just assert that a value is not null.
 - Definite assignment assertions
 - Type branding
 - Extending prototypes
