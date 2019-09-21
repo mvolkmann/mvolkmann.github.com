@@ -1,17 +1,28 @@
 # TypeScript: The Good Parts
 
-This article presents the most valuable parts of the TypeScript language
-and lists those that most developers can ignore.
+In the book "JavaScript: The Good Parts" by Douglas Crockford
+he said "In JavaScript, there is a beautiful, elegant, highly expressive
+language that is buried under a steaming pile of good intentions and blunders."
+
+TypeScript is a superset of the JavaScript language.
+Therefore it contains the same beautiful features and blunders
+that are present in JavaScript.
+But it also adds many features,
+some of which are beautiful and some not so much.
+
+This article presents the most valuable parts of the TypeScript language.
+At the end it lists the features that most developers should avoid.
 
 ## Overview
 
-TypeScript is a superset of the JavaScript language.
-It adds types and more.
+TypeScript adds types and more to JavaScript.
 Types can be added gradually.
 Specifying more types allows TypeScript to find more errors.
 
-TypeScript source files have a file extension of `.ts`.
-These are compiled to `.js` files.
+TypeScript source files have a file extension of `.ts`
+(or `.tsx` if they contain JSX).
+These files are compiled to `.js` files.
+
 The TypeScript compiler requires Node.js to be installed in order to run.
 
 TypeScript was developed and maintained by Microsoft.
@@ -23,9 +34,9 @@ This article assumes knowledge of JavaScript.
 It focuses on features that TypeScript adds.
 
 Experience with a language that has classes and interfaces
-like C# or Java will be helpful.
+like C# or Java is helpful.
 
-Examples use the most strict settings possible.
+Example code here assumes use the most strict TypeScript settings possible.
 Otherwise some errors described will here will not be reported.
 
 ## Benefits
@@ -58,34 +69,35 @@ Here are the steps.
 - Install Node.js from <https://nodejs.org>.
 - Create a directory for the project and `cd` to it.
 - Create a `package.json` file by running `npm init`.
-- Locally install the TypeScript compiler and type definitions for Node
-  by running `npm install -D typescript @types/node`.
-- Create a `tsconfig.json` file by running `npx tsc --init`.
-  This will contain many commented-out options.
-  `npx` searches in `./node_modules/.bin` for executables installed by `npm`.
+- Locally install the TypeScript compiler and optionally the type definitions
+  for Node by running `npm install -D typescript @types/node`.
+- Create a `tsconfig.json` file by running `npx tsc --init`.  
+  This will contain many commented-out options.  
+  `npx` searches in `./node_modules/.bin` for executables installed by `npm`.  
   `tsc` is an abbreviation for "TypeScript Compiler".
-- Modify `tsconfig.json` to match the starting point below.
+- Modify `tsconfig.json` to match the starting point described in the next section.
 - Create a `src` directory at the top of your project directory.
 - Create your `.ts` files in and under the `src` directory.
-- Compile all your `.ts` files to `.js` files by running `npx tsc`.
+- Compile all your `.ts` files to `.js` files by running `npx tsc`.  
   This compiles all the `.ts` files under the `src` directory
   to `.js` files under the `dist` directory.
-- Run the main `.js` file by entering `node dist/index.js`
-  which assumes the main `.ts` file is in `src/index.ts`.
+- Run the main `.js` file by entering `node dist/index.js`.  
+  This assumes the main `.ts` file is `src/index.ts`.
 
 To see the version of TypeScript that is installed,
-enter `tsc -v`.
+enter `npx tsc -v`.
 
-## `tsconfig.json`
+## TypeScript Configuration
 
 The file `tsconfig.json` configures options for the TypeScript compiler.
-It is only used when `tsc` is run with no specified input files.
+It is only used when `tsc` is run with no specified input files,
+which compiles all TypeScript files in a project.
 
 Some top-level properties are `compilerOptions` and `include`.
 Others include `compileOnSave`, `exclude`, `extends`, and `files`.
 A good starting point for this file is:
 
-```tson
+```json
 {
   "compilerOptions": {
     "esModuleInterop": true,
@@ -99,27 +111,29 @@ A good starting point for this file is:
 }
 ```
 
-`compilerOptions` is object with many properties including:
+The option `compilerOptions` is an object with many properties including:
 
 - `esModuleInterop`  
-  This allows use of ES5 default exports and imports.
-- `tsx`  
-  Value values are `"preserve"`, `"react"`, and `"react-native"`.
+  This allows the use of ES5 default exports and imports.
+- `jsx`  
+  Ignore this option when not using JSX.
+  Valid values are `"preserve"`, `"react"`, and `"react-native"`.
 - `lib`  
   This is an array of APIs assumed to exist.  
   For example: `["dom", "es2015"]`
 - `module`  
   This specifies the module system to use.  
-  For example: `"es2015"` for modern browsers
+  For example, use `"es2015"` for modern browsers
   or `"commonjs"` for Node.js.
 - `noImplicitReturns`  
-  This requires functions that return a value
-  to do so from ALL code paths.
+  Set this to `true` to require functions that
+  return a value to do so from ALL code paths.
 - `outdir`  
   This is the directory where `.js` files should be written.
-  For example: `"dist"`
+  For example, `"dist"`.
 - `sourceMap`  
   Set this to `true` to generate source map files.
+  Generating sourcemaps requires installing the npm package `source-map-support`.
 - `strict`  
   Set this to `true` to require all code to be typed.
 - `target`  
@@ -127,20 +141,20 @@ A good starting point for this file is:
   For example, `"es5"` for older browsers
   or `"es2015"` for modern browsers and Node.js.
 
-`include` is an array of directories where `.ts` files are found.
-For example: `"include": ["src"]`.
+The option `include` is an array of directories where `.ts` files are found.
+For example, `"include": ["src"]`.
 
 ## Strict Mode
 
 Setting the `compilerOption` `strict` to `true`
-implies many other options.
+implies many other options listed below.
 
 - `alwaysStrict`  
   This parses in strict mode and
-  emits `"use strict"` for each source file.
+  emits `"use strict"` at the top of each generated `.js` file.
 - `noImplicitAny`  
   This raises an error on declarations and expressions
-  with implied any type.
+  with an inferred type of `any`.
 - `noImplicitThis`  
   This raises an error on `this` expressions
   with an implied type of `any`.
@@ -150,26 +164,28 @@ implies many other options.
   This checks function type parameters covariantly
   instead of bivariantly.
   Suffice it to say you want this.
-  The curious can learn more about these terms at
+  The curious can learn more about these terms from
+  Ben Weissmann's Strange Loop talk at
+  <https://www.youtube.com/watch?v=uJHD2xyv7xo> and
   <https://codewithstyle.info/Strict-function-types-in-TypeScript-covariance-contravariance-and-bivariance/>.
-- `strictNullChecks`
+- `strictNullChecks`  
   This makes `null` and `undefined` values
   disallowed for every type by default.
   With this option, `null` and `undefined` are
   only assignable to themselves and the `any` type
-  (except `undefined` is assignable to the `void` type)
-- `strictPropertyInitialization`
-  This ensures that class properties with a type other than
-  `undefined` are initialized in the constructor.
+  (except `undefined` is assignable to the `void` type).
+- `strictPropertyInitialization`  
+  This ensures that class properties with a type that does not
+  allow `undefined` are initialized in the constructor.
   It also requires the `strictNullChecks` option.
 
-## The Flow
+## TypeScript Flow
 
 At compile-time `tsc`
 
 - reads `.ts` files
 - creates an abstract syntax tree (AST)
-- performs type checking against AST
+- performs type checking against the AST
 - generates one `.js` file for each `.ts` file
 
 At run-time a JavaScript Engine
@@ -177,7 +193,7 @@ At run-time a JavaScript Engine
 - reads `.js` files
 - generates a different AST
 - generates bytecode from AST
-- evaluates bytecode
+- evaluates the bytecode
 
 Since the JavaScript engine steps are not visible,
 it feels like JavaScript is an interpreted language.
@@ -186,11 +202,11 @@ it feels like JavaScript is an interpreted language.
 
 Another way to compile and run TypeScript code
 in a Node environment is to use `ts-node`
-at <`https://github.com/TypeStrong/ts-node>.
+at <https://github.com/TypeStrong/ts-node>.
 
-To install this enter `npm i -g typescript ts-node`.
+To install this, enter `npm i -g typescript ts-node`.
 
-To compile and run a TypeScript source file
+To compile and run a TypeScript source file,
 enter `ts-node name.ts`.
 
 ## Editor Support
@@ -200,7 +216,7 @@ To enable it, open Settings and check "Typescript > Validate".
 Once this is enabled, errors will be detected as you type.
 Hover over a variable to see its type.
 
-Note that VS Code doesn't currently honor the
+VS Code doesn't currently honor the
 `compileOnSave` setting in `tsconfig.json`.
 See <https://github.com/microsoft/vscode/issues/973>.
 
@@ -233,7 +249,12 @@ enter `npx tslint --project .`.
 
 To run TSLint using an npm script,
 add the following line to the `scripts` section
-of `package.json`: `"lint": "tslint --project ."`.
+of `package.json`:
+
+```json
+  "lint": "tslint --project ."
+```
+
 With this in place, TSLint can be run by entering
 `npm run lint`.
 
@@ -245,9 +266,9 @@ where `*` is the following:
 - `eslint`
 - `@typescript-eslint/parser`
 - `@typescript-eslint/eslint-plugin`
-- `eslint-plugin-react`
 - `eslint-config-prettier`
 - `eslint-plugin-prettier`
+- `eslint-plugin-react` (only when using React)
 
 Configure ESLint by creating the file `.eslintrc.json`.
 A good starting configuration is the following.
@@ -284,7 +305,11 @@ rules from the "extends" rule sets.
 
 To run ESLint using an npm script, add the following
 line to the `scripts` section of `package.json`:
-`"lint": "eslint --cache --fix src/\*_/_.ts"`.
+
+```json
+  "lint": "eslint --cache --fix src/\*_/_.ts"
+```
+
 With this in place, ESLint can be run by entering
 `npm run lint`.
 
@@ -297,14 +322,18 @@ To install Prettier, enter `npm install -D prettier`.
 
 To run Prettier using an npm script, add the following
 line to the `scripts` section of `package.json`:
-`"format": "prettier --write src/\*_/_.ts"`.
+
+```json
+  "format": "prettier --write src/\*_/_.ts"
+```
+
 With this in place, Prettier can be run by entering
 `npm run format`.
 
 ## Types
 
 Types define allowed values and
-operations that can be performed on the values.
+operations that can be performed on values.
 For example, the number type only allows
 integer and floating point values.
 One operation that can be performed on numbers is multiplication.
@@ -1654,8 +1683,6 @@ the following `tsconfig.json` is recommended:
 Setting module to commonjs
 compiles `import` statements to `require` calls and
 `export` statements to `module.exports` assignments.
-
-Generate sourcemaps requires installing the npm package `source-map-support`.
 
 ## Features Coming in TypeScript 3.7
 
