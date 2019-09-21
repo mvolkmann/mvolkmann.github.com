@@ -83,7 +83,7 @@ on the same line as the code that precedes it. For example:
 
 ```js
 if (temperature > 80) {
-    ...
+  ...
 }
 ```
 
@@ -119,10 +119,17 @@ if (temperature < 30) {
 
 This is terse conditional logic:
 
-```js
+```text
 const assessment =
-  temperature < 30 ? 'cold' : temperature > 80 ? 'hot' : 'just right';
+  temperature < 30 ? 'cold' :
+  temperature > 80 ? 'hot' :
+  'just right';
 ```
+
+Some people feel there is a readability issue with nested ternaries.
+They will say things like "I understand it, but I'm concerned that others won't."
+But everybody that doesn't like it says that.
+That means everybody understands it.
 
 Arrow functions are all the rage in JavaScript
 and they are a wonderful thing.
