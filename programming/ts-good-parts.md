@@ -839,6 +839,212 @@ const teamRange: Range<Team> = {
 };
 ```
 
+## Function Parameter and Return Types
+
+Function parameter types and return types can be specified
+regardless of how the function is defined.
+This includes named functions, arrow functions, and function expressions.
+For example:
+
+```ts
+// Named function
+// Same as the JavaScript String repeat method.
+function stringRepeat(text: string, repeat: number): string {
+  let result = '';
+  for (let i = 0; i < repeat; i++) {
+    result += text;
+  }
+  return result;
+}
+
+// Example call
+const santaSays = stringRepeat('Ho ', 3); // 'Ho Ho Ho '
+
+// Arrow function
+const stringRepeat = (text: string, repeat: number): string => {
+  // same code as above
+};
+
+// Function expression
+// Typically the other forms are preferred over this.
+const stringRepeat = function(text: string, repeat: number): string {
+  // same code as above
+};
+```
+
+## Function Signature Types
+
+Function signature types define the parameter types and return types
+of functions that are defined elsewhere.
+For example:
+
+```ts
+type StrNumFn = (s: string, n: number) => string;
+```
+
+Parameter names are just for documentation.
+Implementations can use other names.
+
+Parameter default values cannot be specified,
+but they can be in implementations.
+
+A return type must be specified, unlike in function definitions
+where it can be inferred.
+
+Function signature types can be used as
+the type of functions when they are defined.
+They can also be used as parameter types when
+functions can be passed as argument to other functions.
+
+Parameter types are not inferred unless the function itself
+is typed using a function signature type.
+However, in functions that are not typed using a function signature type,
+the return type can be inferred by return statements in the body
+if the type of each return statement can be inferred.
+
+For example:
+
+```ts
+// Based on the use of the StrNumFn type,
+// the text parameter type is inferred to be string.
+// The repeat parameter type is inferred to be number.
+// We could specify parameter default values.
+// The return type is inferred to be string.
+const stringRepeat: StrNumFn = (text, repeat) => {
+  let result = '';
+  for (let i = 0; i < repeat; i++) {
+    result += text;
+  }
+  return result;
+};
+```
+
+Function signature types are useful in functions
+that take other functions as arguments.
+For example:
+
+```ts
+function processStr3(text: string, fn: StrNumFn): string {
+  return text.length > 0 ? fn(text, 3) : 'empty';
+}
+```
+
+## Optional, Default, and Variadic Parameters
+
+To make a parameter optional, add `?` after its name.
+This is only allowed for ending parameters.
+For example:
+
+```ts
+function stringRepeat(text: string, repeat?: number): string { ... };
+```
+
+To give parameter a default value, add `= value`.
+The parameter type can be inferred from the default value.
+Specifying a default value for a parameter is more common than making it optional.
+For example:
+
+```ts
+function stringRepeat(text: string, repeat = 1): string { ... };
+```
+
+Variadic functions, which are functions that
+take variable number of arguments,
+are defined using a "rest parameter" at the end
+just like in JavaScript.
+For example:
+
+```ts
+function labeledSum(label: string, ...values: number[]): string {
+  return label + ': ' + values.reduce((acc, v) => acc + v);
+}
+console.log(labeledSum('total', 1, 2, 3)); // total: 6
+```
+
+## Functions That Use `this`
+
+In functions that use `this`, the type of `this`
+can be declared as if it is the first parameter
+even though it is not passed that way.
+This is a rarely used feature.
+It is better to define the function as a method in a class.
+For example:
+
+```ts
+type Person = {
+  name: string;
+  age: number;
+};
+
+function greetTeen(this: Person, greeting: string) {
+  if (13 <= this.age && this.age <= 19) {
+    console.log(greeting, this.name);
+  }
+}
+
+const p1: Person = {name: 'Dylan', age: 21};
+const p2: Person = {name: 'Paige', age: 16};
+greetTeen.call(p1, 'Yo'); // no output
+greetTeen.call(p2, 'Yo'); // Yo Paige
+```
+
+## Overloaded Functions
+
+TypeScript supports overloaded functions.
+
+In other languages that support overloaded functions (not JavaScript),
+multiple function definitions with the same name can be written.
+When called, the implementation to invoke is determined
+based on the argument types.
+
+In TypeScript overloaded functions are described by a
+type aliases that defines all the acceptable function signatures.
+But they are all implemented by a single function
+whose type is this type alias.
+The function must check the types of its arguments
+and do the right thing based on those.
+
+If this sounds complicated, it's because it is.
+For this reason overloaded functions are rarely used in TypeScript.
+
+## Generic Functions
+
+Generic functions use type parameters to specify the types they should use.
+For example, if the builtin `Array` `map` method was written as a function,
+it might look like this:
+
+```ts
+// The parameter "array" is an array of type T.
+// The parameter "fn" is a function that takes an
+// argument of type T and returns a value of type U.
+// This function calls "fn" on each element of "array"
+// and returns an array of the results of these calls.
+// The return type is an array of type U.
+function map<T, U>(array: T[], fn: (item: T) => U): U[] {
+  const result: U[] = [];
+  for (const item of array) {
+    result.push(fn(item));
+  }
+  return result;
+}
+
+const numbers = [1, 2, 3]; // type inferred as number[]
+
+const d1 = map(numbers, n => n * 2);
+console.log(d1); // [2, 4, 6]
+
+const double = (n: number): number => n * 2;
+const d2 = map<number, number>(numbers, double);
+console.log(d2); // [2, 4, 6]
+
+const words = ['apple', 'banana', 'cherry'];
+const lengths = map<string, number>(words, s => s.length);
+console.log(lengths); // [5, 6, 6]
+```
+
+The type parameters specified in the calls to the `map` function above
+are not needed because they can be inferred from the arguments.
+
 ## Classes
 
 Classes provide a template for creating instances using `new` keyword.
@@ -1141,212 +1347,6 @@ Note that none of these are used frequently.
 
 The remaining utility types, `ReturnType`, `InstanceType`, and `ThisType`,
 seem less useful.
-
-## Function Parameter and Return Types
-
-Function parameter types and return types can be specified
-regardless of how the function is defined.
-This includes named functions, arrow functions, and function expressions.
-For example:
-
-```ts
-// Named function
-// Same as the JavaScript String repeat method.
-function stringRepeat(text: string, repeat: number): string {
-  let result = '';
-  for (let i = 0; i < repeat; i++) {
-    result += text;
-  }
-  return result;
-}
-
-// Example call
-const santaSays = stringRepeat('Ho ', 3); // 'Ho Ho Ho '
-
-// Arrow function
-const stringRepeat = (text: string, repeat: number): string => {
-  // same code as above
-};
-
-// Function expression
-// Typically the other forms are preferred over this.
-const stringRepeat = function(text: string, repeat: number): string {
-  // same code as above
-};
-```
-
-## Function Signature Types
-
-Function signature types define the parameter types and return types
-of functions that are defined elsewhere.
-For example:
-
-```ts
-type StrNumFn = (s: string, n: number) => string;
-```
-
-Parameter names are just for documentation.
-Implementations can use other names.
-
-Parameter default values cannot be specified,
-but they can be in implementations.
-
-A return type must be specified, unlike in function definitions
-where it can be inferred.
-
-Function signature types can be used as
-the type of functions when they are defined.
-They can also be used as parameter types when
-functions can be passed as argument to other functions.
-
-Parameter types are not inferred unless the function itself
-is typed using a function signature type.
-However, in functions that are not typed using a function signature type,
-the return type can be inferred by return statements in the body
-if the type of each return statement can be inferred.
-
-For example:
-
-```ts
-// Based on the use of the StrNumFn type,
-// the text parameter type is inferred to be string.
-// The repeat parameter type is inferred to be number.
-// We could specify parameter default values.
-// The return type is inferred to be string.
-const stringRepeat: StrNumFn = (text, repeat) => {
-  let result = '';
-  for (let i = 0; i < repeat; i++) {
-    result += text;
-  }
-  return result;
-};
-```
-
-Function signature types are useful in functions
-that take other functions as arguments.
-For example:
-
-```ts
-function processStr3(text: string, fn: StrNumFn): string {
-  return text.length > 0 ? fn(text, 3) : 'empty';
-}
-```
-
-## Optional, Default, and Variadic Parameters
-
-To make a parameter optional, add `?` after its name.
-This is only allowed for ending parameters.
-For example:
-
-```ts
-function stringRepeat(text: string, repeat?: number): string { ... };
-```
-
-To give parameter a default value, add `= value`.
-The parameter type can be inferred from the default value.
-Specifying a default value for a parameter is more common than making it optional.
-For example:
-
-```ts
-function stringRepeat(text: string, repeat = 1): string { ... };
-```
-
-Variadic functions, which are functions that
-take variable number of arguments,
-are defined using a "rest parameter" at the end
-just like in JavaScript.
-For example:
-
-```ts
-function labeledSum(label: string, ...values: number[]): string {
-  return label + ': ' + values.reduce((acc, v) => acc + v);
-}
-console.log(labeledSum('total', 1, 2, 3)); // total: 6
-```
-
-## Functions That Use `this`
-
-In functions that use `this`, the type of `this`
-can be declared as if it is the first parameter
-even though it is not passed that way.
-This is a rarely used feature.
-It is better to define the function as a method in a class.
-For example:
-
-```ts
-type Person = {
-  name: string;
-  age: number;
-};
-
-function greetTeen(this: Person, greeting: string) {
-  if (13 <= this.age && this.age <= 19) {
-    console.log(greeting, this.name);
-  }
-}
-
-const p1: Person = {name: 'Dylan', age: 21};
-const p2: Person = {name: 'Paige', age: 16};
-greetTeen.call(p1, 'Yo'); // no output
-greetTeen.call(p2, 'Yo'); // Yo Paige
-```
-
-## Overloaded Functions
-
-TypeScript supports overloaded functions.
-
-In other languages that support overloaded functions (not JavaScript),
-multiple function definitions with the same name can be written.
-When called, the implementation to invoke is determined
-based on the argument types.
-
-In TypeScript overloaded functions are described by a
-type aliases that defines all the acceptable function signatures.
-But they are all implemented by a single function
-whose type is this type alias.
-The function must check the types of its arguments
-and do the right thing based on those.
-
-If this sounds complicated, it's because it is.
-For this reason overloaded functions are rarely used in TypeScript.
-
-## Generic Functions
-
-Generic functions use type parameters to specify the types they should use.
-For example, if the builtin `Array` `map` method was written as a function,
-it might look like this:
-
-```ts
-// The parameter "array" is an array of type T.
-// The parameter "fn" is a function that takes an
-// argument of type T and returns a value of type U.
-// This function calls "fn" on each element of "array"
-// and returns an array of the results of these calls.
-// The return type is an array of type U.
-function map<T, U>(array: T[], fn: (item: T) => U): U[] {
-  const result: U[] = [];
-  for (const item of array) {
-    result.push(fn(item));
-  }
-  return result;
-}
-
-const numbers = [1, 2, 3]; // type inferred as number[]
-
-const d1 = map(numbers, n => n * 2);
-console.log(d1); // [2, 4, 6]
-
-const double = (n: number): number => n * 2;
-const d2 = map<number, number>(numbers, double);
-console.log(d2); // [2, 4, 6]
-
-const words = ['apple', 'banana', 'cherry'];
-const lengths = map<string, number>(words, s => s.length);
-console.log(lengths); // [5, 6, 6]
-```
-
-The type parameters specified in the calls to the `map` function above
-are not needed because they can be inferred from the arguments.
 
 ## Bounded Polymorphism
 
