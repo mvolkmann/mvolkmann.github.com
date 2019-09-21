@@ -1,0 +1,1780 @@
+# TypeScript: The Good Parts
+
+This article presents the most valuable parts of the TypeScript language
+and lists those that most developers can ignore.
+
+## Overview
+
+TypeScript is a superset of the JavaScript language.
+It adds types and more.
+Types can be added gradually.
+Specifying more types allows TypeScript to find more errors.
+
+TypeScript source files have a file extension of `.ts`.
+These are compiled to `.js` files.
+The TypeScript compiler requires Node.js to be installed in order to run.
+
+TypeScript was developed and maintained by Microsoft.
+See <https://www.typescriptlang.org/>.
+
+## Assumptions
+
+This article assumes knowledge of JavaScript.
+It focuses on features that TypeScript adds.
+
+Experience with a language that has classes and interfaces
+like C# or Java will be helpful.
+
+Examples use the most strict settings possible.
+Otherwise some errors described will here will not be reported.
+
+## Benefits
+
+TypeScript provides many benefits.
+
+- catches errors at compile-time
+- provides documentation
+- allows editors to flag errors while typing and provide completion
+- makes refactoring less error-prone
+- makes some tests unnecessary
+- disallows many JavaScript type coercions
+
+One of the criticisms of JavaScript is that many seemingly invalid expressions
+actually produce a result rather than trigger an error at runtime.
+For a humorous summary of some of these, see Gary Bernhardt's
+"WAT" talk at <https://www.destroyallsoftware.com/talks/wat>.
+
+TypeScript addresses most of these issues by
+disallowing many type coercions that JavaScript allows.
+For example TypeScript allows adding a number and a string
+(resulting in concatenation), but it
+does not allow adding an object and a number.
+
+## Creating a TypeScript Project
+
+Let's get started by creating a TypeScript project.
+Here are the steps.
+
+- Install Node.js from <https://nodejs.org>.
+- Create a directory for the project and `cd` to it.
+- Create a `package.json` file by running `npm init`.
+- Locally install the TypeScript compiler and type definitions for Node
+  by running `npm install -D typescript @types/node`.
+- Create a `tsconfig.json` file by running `npx tsc --init`.
+  This will contain many commented-out options.
+  `npx` searches in `./node_modules/.bin` for executables installed by `npm`.
+  `tsc` is an abbreviation for "TypeScript Compiler".
+- Modify `tsconfig.json` to match the starting point below.
+- Create a `src` directory at the top of your project directory.
+- Create your `.ts` files in and under the `src` directory.
+- Compile all your `.ts` files to `.js` files by running `npx tsc`.
+  This compiles all the `.ts` files under the `src` directory
+  to `.js` files under the `dist` directory.
+- Run the main `.js` file by entering `node dist/index.js`
+  which assumes the main `.ts` file is in `src/index.ts`.
+
+To see the version of TypeScript that is installed,
+enter `tsc -v`.
+
+## `tsconfig.json`
+
+The file `tsconfig.json` configures options for the TypeScript compiler.
+It is only used when `tsc` is run with no specified input files.
+
+Some top-level properties are `compilerOptions` and `include`.
+Others include `compileOnSave`, `exclude`, `extends`, and `files`.
+A good starting point for this file is:
+
+```tson
+{
+  "compilerOptions": {
+    "esModuleInterop": true,
+    "module": "commonjs",
+    "noImplicitReturns": true,
+    "outDir": "dist",
+    "strict": true,
+    "target": "es5",
+ }
+  "include": ["src"]
+}
+```
+
+`compilerOptions` is object with many properties including:
+
+- `esModuleInterop`  
+  This allows use of ES5 default exports and imports.
+- `tsx`  
+  Value values are `"preserve"`, `"react"`, and `"react-native"`.
+- `lib`  
+  This is an array of APIs assumed to exist.  
+  For example: `["dom", "es2015"]`
+- `module`  
+  This specifies the module system to use.  
+  For example: `"es2015"` for modern browsers
+  or `"commonjs"` for Node.js.
+- `noImplicitReturns`  
+  This requires functions that return a value
+  to do so from ALL code paths.
+- `outdir`  
+  This is the directory where `.js` files should be written.
+  For example: `"dist"`
+- `sourceMap`  
+  Set this to `true` to generate source map files.
+- `strict`  
+  Set this to `true` to require all code to be typed.
+- `target`  
+  This specifies the JavaScript version to generate.
+  For example, `"es5"` for older browsers
+  or `"es2015"` for modern browsers and Node.js.
+
+`include` is an array of directories where `.ts` files are found.
+For example: `"include": ["src"]`.
+
+## Strict Mode
+
+Setting the `compilerOption` `strict` to `true`
+implies many other options.
+
+- `alwaysStrict`  
+  This parses in strict mode and
+  emits `"use strict"` for each source file.
+- `noImplicitAny`  
+  This raises an error on declarations and expressions
+  with implied any type.
+- `noImplicitThis`  
+  This raises an error on `this` expressions
+  with an implied type of `any`.
+- `strictBindCallApply`  
+   This enables stricter checking of the `bind`, `call`, and `apply` methods on functions.
+- `strictFunctionTypes`  
+  This checks function type parameters covariantly
+  instead of bivariantly.
+  Suffice it to say you want this.
+  The curious can learn more about these terms at
+  <https://codewithstyle.info/Strict-function-types-in-TypeScript-covariance-contravariance-and-bivariance/>.
+- `strictNullChecks`
+  This makes `null` and `undefined` values
+  disallowed for every type by default.
+  With this option, `null` and `undefined` are
+  only assignable to themselves and the `any` type
+  (except `undefined` is assignable to the `void` type)
+- `strictPropertyInitialization`
+  This ensures that class properties with a type other than
+  `undefined` are initialized in the constructor.
+  It also requires the `strictNullChecks` option.
+
+## The Flow
+
+At compile-time `tsc`
+
+- reads `.ts` files
+- creates an abstract syntax tree (AST)
+- performs type checking against AST
+- generates one `.js` file for each `.ts` file
+
+At run-time a JavaScript Engine
+
+- reads `.js` files
+- generates a different AST
+- generates bytecode from AST
+- evaluates bytecode
+
+Since the JavaScript engine steps are not visible,
+it feels like JavaScript is an interpreted language.
+
+## TypeScript Node
+
+Another way to compile and run TypeScript code
+in a Node environment is to use `ts-node`
+at <`https://github.com/TypeStrong/ts-node>.
+
+To install this enter `npm i -g typescript ts-node`.
+
+To compile and run a TypeScript source file
+enter `ts-node name.ts`.
+
+## Editor Support
+
+The VS Code editor has great TypeScript support.
+To enable it, open Settings and check "Typescript > Validate".
+Once this is enabled, errors will be detected as you type.
+Hover over a variable to see its type.
+
+Note that VS Code doesn't currently honor the
+`compileOnSave` setting in `tsconfig.json`.
+See <https://github.com/microsoft/vscode/issues/973>.
+
+As a workaround, enter `tsc --watch` in a terminal window
+to watch for file changes and automatically compile.
+
+Other editors with TypeScript support include
+Atom, Eclipse, Emacs, Sublime, Vim,
+Visual Studio, and WebStorm.
+
+## Linting
+
+There are two popular options for linting TypeScript code,
+TSLint and ESLint.
+TSLint will soon be deprecated in favor of ESLint,
+but currently TSLint supports rules
+not yet implemented for ESLint.
+
+### TSLint
+
+To install TSLint, enter `npm install -D tslint`.
+
+To generate a default `tslint.json` file
+which configures the use of TSLint,
+enter `npx tslint --init`.
+Edit this file to customize the linting rules.
+
+To run TSLint on all source files in the current project,
+enter `npx tslint --project .`.
+
+To run TSLint using an npm script,
+add the following line to the `scripts` section
+of `package.json`: `"lint": "tslint --project ."`.
+With this in place, TSLint can be run by entering
+`npm run lint`.
+
+### ESLint
+
+To install ESLint, enter `npm install -D *`
+where `*` is the following:
+
+- `eslint`
+- `@typescript-eslint/parser`
+- `@typescript-eslint/eslint-plugin`
+- `eslint-plugin-react`
+- `eslint-config-prettier`
+- `eslint-plugin-prettier`
+
+Configure ESLint by creating the file `.eslintrc.json`.
+A good starting configuration is the following.
+Options that include the words "react" and "jsx"
+can be omitted when not using React.
+The "rules" option is used to override
+rules from the "extends" rule sets.
+
+```ts
+{
+  "extends": [
+    "plugin:@typescript-eslint/recommended",
+    "prettier/@typescript-eslint",
+    "plugin:prettier/recommended",
+    "plugin:react/recommended"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaVersion": 2018,
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "jsx":  true
+    }
+  },
+  "rules": {
+  },
+  "settings":  {
+    "react": {
+      "version": "detect"
+    }
+  }
+}
+```
+
+To run ESLint using an npm script, add the following
+line to the `scripts` section of `package.json`:
+`"lint": "eslint --cache --fix src/\*_/_.ts"`.
+With this in place, ESLint can be run by entering
+`npm run lint`.
+
+## Formatting
+
+The best code formatter for TypeScript is Prettier
+at <https://prettier.io/>.
+
+To install Prettier, enter `npm install -D prettier`.
+
+To run Prettier using an npm script, add the following
+line to the `scripts` section of `package.json`:
+`"format": "prettier --write src/\*_/_.ts"`.
+With this in place, Prettier can be run by entering
+`npm run format`.
+
+## Types
+
+Types define allowed values and
+operations that can be performed on the values.
+For example, the number type only allows
+integer and floating point values.
+One operation that can be performed on numbers is multiplication.
+
+## Type Hierarchy
+
+![TypeScript Type Hierarchy](./ts-type-hierarchy.png 'TypeScript Type Hierarchy')
+
+## Primitive Types
+
+- `boolean` - `true` and `false`
+- `number` - integers (up to 2^53) and floats
+- `string` - text
+- `bigint` - holds any size integers  
+  (as of 8/30/19 not supported by IE11 or Safari)
+- `symbol` - holds immutable, unique values  
+  These are sometimes used as keys in objects and Maps.
+- `null` - represents currently having no value
+- `undefined` - represent having never had a value
+
+## Other Builtin Types
+
+- `any` - default type; allows anything
+  It's best to avoid using this.
+- `unknown` - like any, but requires "refinement" when values are used
+
+## Types Not Used For Variables
+
+- `undefined` and `null`  
+   These types are only used in union types, not on their own.
+
+  ```ts
+  let name: string;
+  //console.log(name); // used before being assigned
+  name = 'Tami';
+  console.log(name); // Tami
+  //name = null; // not assignable
+
+  let name2: string | null | undefined;
+  console.log(name2); // undefined
+  name2 = 'Mark';
+  console.log(name2); // Mark
+  name2 = null;
+  console.log(name2); // null
+  ```
+
+- `void`  
+  This type is only used as the return type
+  of functions that return nothing.
+
+  ```ts
+  function printSum(n1: number, n2: number): void {
+    console.log(n1 + n2);
+  }
+  ```
+
+- `never`  
+  This type represents something that never happens.
+  One use is as the return type of functions that never return.
+  It is really tough to come up with a useful example.
+  You may never use `never`.
+
+## Non-Primitive Types
+
+- objects  
+  One form of these is described in the next section.
+- arrays
+  These are described later.
+- any JavaScript class  
+  Examples include `Date`, `Error`, `Function`,
+  `Map`, `Promise`, `RegExp`, and `Set`.
+
+## Objects With Unspecified Properties
+
+There are three ways to declare objects
+that can hold arbitrary properties.
+These are rarely used.
+It is more common to specify the allowed properties using
+type aliases and interfaces, which are described later.
+
+- `object`  
+  Variables of this type can be assigned any object or array.
+- `Object` or `{}`  
+  Variables of this type can be assigned
+  any object, array, or primitive value.
+  These types should be avoided.
+
+Note that `undefined` and `null` cannot assigned to
+variables of any of these types.
+
+## Union Types
+
+Union types define a new type that
+matches multiple specified types.
+
+Assuming the classes `Dog` and `Cat` are defined,
+we can define a `Pet` type as follows:
+
+```ts
+type Pet = Cat | Dog;
+```
+
+Here is another example.
+
+```ts
+type Custom = number | string | undefined;
+
+// If undefined is not an allowed type,
+// this is not assignable.
+//let c: Custom = undefined;
+
+let c: Custom;
+console.log(c); // undefined
+
+c = 1;
+console.log(c); // 1
+c = 'x';
+console.log(c); // x
+//c = true; // not assignable
+//c = null; // not assignable
+```
+
+## Enums
+
+Enums define a list of allowed number or string values.
+They are like objects where keys are strings
+and values are numbers or strings.
+
+By default values are integers starting from zero.
+Specify number or string values can be assigned.
+
+It is even possible to mix number and string values,
+but doing this is not typical.
+
+When the values are numbers,
+their keys can be retrieved by value.
+This cannot be done when the values are strings.
+
+Here are some examples.
+
+```ts
+// number enum
+enum Color {
+  Red, // 0
+  Green = 10, // 10
+  Blue // 11; next value after Green
+}
+let c: Color = Color.Blue;
+console.log(c); // 11
+c = 10; // can set number value
+console.log(c); // 10
+c = 30; // can set number value not present
+console.log(c); // 30, not an error
+//c = Color.Yellow; // error, does not exist
+console.log(Color[10]); // Green
+console.log(Color[12]); // undefined, not error
+
+// string enum
+enum HexColor {
+  Red = 'F00',
+  Green = '0F0',
+  Blue = '00F'
+}
+let hc: HexColor = HexColor.Blue;
+console.log(hc); // 00F
+//hc = 1; // cannot set numeric value
+hc = HexColor.Red;
+console.log(hc); // F00
+//hc = HexColor['0F0']; // error
+```
+
+When an enum type is declare as `const`,
+values can still be accessed by key,
+but keys cannot be accessed by value.
+A benefit of using const enums is that the
+TypeScript compiler can inline member references.
+
+```ts
+const enum ConstColor {
+  Red,
+  Green,
+  Blue
+}
+
+const cc: ConstColor = ConstColor.Blue;
+console.log(cc); // 2
+//console.log(ConstColor[1]); // can only access by key
+console.log(ConstColor.Green); // 1
+console.log(ConstColor['Green']); // 1
+```
+
+Many developers prefer to use union types instead of enums.
+For example:
+
+```ts
+// Instead of this enum ...
+const enum Color {
+  Red,
+  Green,
+  Blue
+}
+
+// can use this union type.
+type Color = 'red' | 'green' | 'blue';
+
+let c: Color = 'red';
+c = 'pink'; // "pink" is not assignable
+```
+
+One reason is that enums with number values
+allow any number to be assigned.
+For example:
+
+```ts
+const enum Color {
+  Red,
+  Green,
+  Blue
+}
+let c: Color = Color.Red; // valid value
+c = 19; // not a valid value, but allowed
+```
+
+## Arrays
+
+Array types have the syntax `type[]` or `Array<type>`.
+Their type can also be inferred from an initial value.
+For example:
+
+```ts
+const things = [99, 'Gretzky']; // type is (string | number)[]
+```
+
+While an array type can allow elements with different types,
+it is best to use a common type for all elements
+so TypeScript can better enforce their usage.
+
+The type of an untyped array is narrowed when
+it leaves the scope in which it was created.
+For example:
+
+```ts
+function getThings() {
+  const arr = []; // type is any[]
+  arr.push(1);
+  arr.push('x');
+  return arr; // type is (string | number)[]
+}
+
+const things = getThings(); // type is (string | number)[]
+things.push(new Date()); // error: not a string or number
+```
+
+## Tuples
+
+Tuples are a subtype of arrays.
+They have a fixed length.
+For example:
+
+```ts
+type Point = [number, number];
+
+function translate(point: Point, dx: number, dy: number): Point {
+  const [x, y] = point; // destructuring
+  return [x + dx, y + dy];
+}
+
+const p1: Point = [1, 2];
+const p2 = translate(p1, 2, 3);
+console.log('p2 =', p2); // [3, 5]
+```
+
+The element at each index can hold a different type (heterogeneous).
+Particular elements can be made optional by adding `?` after their type.
+For example:
+
+```ts
+type PlayerScore = [string, number?];
+```
+
+It is often preferred to use an interface instead of a tuple
+so that each piece of data has a name.
+For example:
+
+```ts
+type PlayerScore = [string, number];
+const ps: PlayerScore = ['Mark', 19];
+console.log('ps =', ps);
+
+// Usually this approach is better.
+interface Player {
+  name: string;
+  score: number;
+}
+const p: Player = {name: 'Mark', score: 19};
+console.log('p =', p);
+```
+
+## `readonly` Modifier
+
+The `readonly` modifier can be applied to arrays, tuples, and object properties.
+For example:
+
+```ts
+type Numbers = readonly number[]; // primitive array
+const n: Numbers = [1, 2, 3];
+//n[1] = 7; // only permits reading
+//n.push(4); // property "push" does not exist on readonly
+
+type Dates = readonly Date[]; // object array
+const d: Dates = [new Date()];
+//d[0] = new Date(); // only permits reading
+
+type PlayerScore = readonly [string, number, Date]; // tuple
+const ps: PlayerScore = ['Mark', 19, new Date()];
+//ps[1] = 20; // cannot assign read-only property
+
+type Lines = string[];
+// Can't apply readonly to a type alias,
+// only on array and tuple literal types.
+//const lines: readonly Lines = ['one', 'two'];
+
+// Can apply to individual properties of object types.
+interface ImmutablePoint {
+  readonly x: number;
+  readonly y: number;
+  readonly d: Date;
+}
+
+const p1: ImmutablePoint = {x: 1, y: 2, d: new Date()};
+//p1.x = 3; // cannot assign to read-only property
+//p1.d = new Date(); // cannot assign to read-only property
+```
+
+## Generic Types
+
+Generic types can be used in functions,
+type aliases, classes, interfaces, and methods.
+
+"Type parameters" are names used for
+parameter types, return types, and variable types.
+They are specified in angle brackets (ex. `<T, U>`).
+There can be any number of type parameters with any names,
+but common names are `T`, `U`, and `V`.
+It is rare to need more than three.
+
+All occurrences of a given type parameter
+are replaced with the same type at runtime.
+TypeScript can infer type parameter types at runtime,
+but they can also be made explicit.
+We will see many examples of this later.
+
+## `Readonly` Utility Type
+
+`Readonly` is one of the provided utility types.
+It creates a new type from an existing one
+where all object properties are readonly.
+For example:
+
+```ts
+interface MutablePoint {
+  x: number;
+  y: number;
+  d: Date;
+}
+
+const p2: Readonly<MutablePoint> = {x: 1, y: 2, d: new Date()};
+//p2.x = 3; // cannot assign to read-only property
+//p2.d = new Date(); // cannot assign to read-only property
+```
+
+## Declaring Variables
+
+TypeScript will infer variable types when initial values are assigned.
+For example:
+
+```ts
+let score = 0; // infers number
+const teams = 2; // infers 2 because it’s immutable
+```
+
+Variable types can also be specified explicitly.
+For example:
+
+```ts
+let score: number; // defaults to 0
+const teams: number = 2; // silly to specify type here
+```
+
+## Type Aliases
+
+Type aliases can give an alternate name to another type.
+For example:
+
+```ts
+type Age = number;
+const myAge: Age = 29;
+
+type Pet = Cat | Dog;
+```
+
+Type aliases can also define a type that allows a fixed set of values.
+For example:
+
+```ts
+type Color = 'red' | 'green' | 'blue';
+const color: Color = 'blue';
+```
+
+Another use for type aliases is to define an object "shape".
+For example:
+
+```ts
+type Address = {
+  street: string;
+  city: string;
+  state: string;
+  zip: number;
+};
+
+const myAddress: Address = {
+  street: '123 Some St.',
+  city: 'Somewhere',
+  state: 'Missouri',
+  zip: 12345
+};
+```
+
+While this works, most TypeScript developers prefer using interfaces
+instead of type aliases to defined object shapes.
+Interfaces are described later.
+
+Type aliases are block-scoped like `const` and `let`.
+
+## More on Shapes
+
+Object properties described by type aliases and interfaces are required by default.
+Also by default, additional properties cannot be added to objects of these types.
+
+To make a property optional, add `?` after its name.
+
+To make a property read-only, add `readonly` before its name.
+
+To allow arbitrary additional properties add an "index signature".
+For example:
+
+```ts
+[key: keyType]: valueType
+```
+
+`key` can have a different name, but using `key` is common.
+`keyType` must be `string` or `number`.
+`valueType` can be any type including `any`.
+
+For example:
+
+```ts
+type Address = {
+  street: string;
+  city?: string;
+  state?: string;
+  readonly zip: number;
+  [key: string]: any;
+};
+```
+
+## Generic Type Aliases
+
+Type aliases can use generic types.
+For example:
+
+```ts
+type Range<T> = {
+  min: T;
+  max: T;
+};
+
+const numberRange: Range<number> = {min: 1, max: 10};
+const letterRange: Range<string> = {min: 'a', max: 'f'};
+const letterRange: Range<Team> = {
+  min: new Team('Cubs'),
+  max: new Team('Cardinals')
+};
+```
+
+## Classes
+
+Classes provide a template for creating instances using `new` keyword.
+For example:
+
+```ts
+class Person {
+  name: string;
+  private age: number;
+
+  constructor(name: string, age: number) {
+    this.name = name;
+    this.age = age;
+  }
+}
+
+const p1 = new Person('Dylan', 21);
+```
+
+TypeScript supports three access modifiers for class members.
+
+`public` members can be accessed from anywhere.
+When no access modifier is specified, this is the default.
+
+`protected` members can be accessed from
+all instances of this class and subclasses.
+
+`private` members can only be accessed from instances of this class.
+
+Access modifiers can be applied to constructor parameters
+as a short-cut for assigning to instance properties.
+
+For example:
+
+```ts
+class Person2 {
+  // Shortcut for what Person constructor does.
+  // If public is removed from the name parameter,
+  // the name instance property will not be set.
+  constructor(public name: string, private age: number) {}
+}
+
+const p2 = new Person2('Paige', 16);
+```
+
+For classes whose constructor does not require parameters,
+parentheses are not needed when creating instances with `new`.
+However, code formatters like Prettier will add them.
+For example:
+
+```text
+class Demo {}
+const d1 = new Demo;
+```
+
+Unlike in JavaScript, classes in TypeScript must declare all properties.
+For example, this class in JavaScript
+
+```js
+class Person {
+  constructor(name) {
+    this.name = name;
+  }
+}
+```
+
+can be written like this in TypeScript.
+
+```ts
+class Person {
+  name: string; // required
+
+  constructor(name: string) {
+    this.name = name;
+  }
+}
+```
+
+Properties and methods declared with the `static` keyword
+are not associated with any instance
+and are accessed with the class name.
+
+Instance properties declared with the `readonly` keyword
+must set in the constructor and cannot be changed.
+
+For example:
+
+```ts
+class Widget {
+  private static count: number = 0;
+  readonly creationDate: Date;
+
+  constructor() {
+    this.creationDate = new Date();
+    Widget.count++;
+  }
+
+  static getCount() {
+    return Widget.count;
+  }
+}
+
+let w = new Widget();
+console.log('first Widget =', w);
+w = new Widget();
+console.log('second Widget =', w);
+w = new Widget();
+console.log(Widget.getCount()); // 2
+```
+
+Classes can extend one other class to inherit from it.
+Then can override any of the inherited methods.
+For example:
+
+```ts
+class Car extends Vehicle { ... }
+```
+
+Classes can implement any number of interfaces.
+They must implement all methods described in the interfaces.
+For example:
+
+```ts
+class Car extends Vehicle implements Recyclable, Sortable { ... }
+```
+
+Classes can be marked as abstract when they
+are only intended to be used as a superclass.
+Abstract classes cannot be instantiated with the `new` keyword.
+Extending classes must implement all the methods marked as abstract
+or they must also be abstract.
+For example:
+
+```ts
+abstract class Vehicle { ... }
+```
+
+be marked as abstract when only intended to be used as a superclass
+can’t instantiate with new
+extending classes must implement methods marked as abstract or also be abstract
+
+Subclasses must call their superclass constructor
+from their constructor with `super(args)`
+even if the superclass has no constructor
+or has one that doesn’t take arguments.
+`super` must be called before using the `this` keyword.
+Subclass methods can call superclass methods with
+`super.methodName(args)`.
+For example:
+
+```ts
+class Car extends Vehicle {
+  constructor() {
+    super();
+    ...
+  }
+
+  report() {
+    console.log('Car:');
+    super.report();
+  }
+}
+```
+
+## Generic Classes
+
+Generic classes support defining classes whose members have specific types
+that are specified by using code.
+For example:
+
+```ts
+class Pair<T> {
+  constructor(public first: T, public second: T) {}
+}
+
+const p1 = new Pair<number>(3, 19);
+const p2 = new Pair<string>('foo', 'bar');
+console.log(p1); // Pair { first: 3, second: 19 }
+console.log('p2 =', p2); // Pair { first 'foo', second: 'bar' }
+```
+
+One example of such a class is the JavaScript `Promise` class.
+For example;
+
+```ts
+const promise = new Promise<Person>(resolve => {
+  // Perhaps retrieve data with a REST call here.
+  resolve(new Person(...));
+});
+const person = await promise;
+```
+
+## Interfaces
+
+Interfaces can describe method signatures that implementing classes will implement.
+These can only be instance methods, not static.
+
+Interfaces can also describe properties that instances will have.
+
+For example:
+
+```ts
+interface Vehicle {
+  maxSpeed: number;
+  accelerate(speed: number): void;
+}
+```
+
+Unlike abstract classes, interfaces cannot
+
+- specify access modifiers (all members are public)
+- define constructor signatures
+- define default method implementations
+
+Interfaces are similar to type aliases that describe object shapes.
+Both can describe properties and method signatures.
+But there are three differences:
+
+1. Interfaces can extend another interface, a type alias, or a class (weird). Type aliases cannot.
+2. Interfaces can be defined multiple times in the same scope and their definitions are merged. Type aliases cannot.
+3. The right side of a type alias can be another type (truly an alias).
+
+The bottom line is that there is no strong reason to prefer one over the other.
+But it seems the community prefers using interfaces when either will do.
+
+## `Record` Utility Type
+
+`Record` is one of the provided utility types.
+It is used to defines a type that is a mapping from a set of keys to values.
+The keys must be strings, numbers, or symbols.
+The values can be any type.
+For example:
+
+```ts
+type Fruit = 'apple' | 'banana' | 'cherry' | 'lime';
+type Color = 'red' | 'orange' | 'yellow' | 'green' | 'blue';
+const fruitMap: Record<Fruit, Color> = {
+  apple: 'red',
+  banana: 'yellow',
+  cherry: 'red',
+  lime: 'green' // error if this line is missing
+};
+
+const color: Color = fruitMap.banana;
+console.log(color); // yellow
+```
+
+The benefit of using `Record` over using an `Object` or `Map`
+is that it provides "totality checking" (a.k.a exhaustiveness).
+This ensures that there is a mapping for all possible keys.
+
+## Additional Utility Types
+
+The "utility types" provided by TypeScript
+create a new type based on existing types.
+Here is a summary of most of them.
+
+- `Partial<T>`  
+  This creates a type that is the same as `T`
+  except all the properties are optional.
+
+- `Required<T>`  
+  This creates a type that is the same as `T`
+  except all the properties are required.
+
+- `Pick<T, K>`  
+  This creates a type contains the members of `T`
+  that are listed by name in the union type `K`.
+
+- `Omit<T, K>`  
+  This creates a type contains the members of `T`
+  that are not listed by name in the union type `K`.
+
+- `Extract<T, U>`  
+  This creates a type that contains the members of `T`
+  that can be assigned to the type `U`.
+
+- `Exclude<T, U>`  
+  This creates a type that contains the members of `T`
+  that cannot be assigned to the type `U`.
+
+- `NonNullable<T>`  
+  This creates a type that is the same as `T`
+  except no properties allow the values `undefined` and `null`.
+  This considers the type of `T`, but not
+  its members like the previous utility types.
+
+## Function Parameter and Return Types
+
+Function parameter types and return types can be specified
+regardless of how the function is defined.
+This includes named functions, function expressions, and arrow functions.
+For example:
+
+```ts
+// Named function
+// Same as String repeat method.
+function stringRepeat(text: string, repeat: number): string {
+  let result = '';
+  for (let i = 0; i < repeat; i++) {
+    result += text;
+  }
+  return result;
+};
+
+// Example call
+const santaSays = stringRepeat('Ho ', 3); // 'Ho Ho Ho '
+
+// Function expression
+const stringRepeat = function (text: string, repeat: number): string {
+  ...
+};
+
+// Arrow function
+const stringRepeat = (text: string, repeat: number): string => {
+  ...
+};
+```
+
+## Function Signature Types
+
+Function signature types define the parameter types and return types
+of functions that are defined elsewhere.
+For example:
+
+```js
+type StrNumFn = (s: string, n: number) => string;
+```
+
+Parameter names are just for documentation.
+Implementations can use other names.
+
+Parameter default values cannot be specified,
+but they can be in implementations.
+
+A return type must be specified, unlike in function definitions.
+
+Function signature types can be uses as the type of functions
+when they are defined and
+when they are passed as argument to other function.
+
+Parameter types are not inferred unless the function itself
+is typed using a function signature type.
+The return type can be inferred by return statements
+if the type of each return statement can be inferred.
+
+For example:
+
+```ts
+// The text parameter type is inferred to be string.
+// The repeat parameter type is inferred to be number.
+// We could specify parameter default values.
+// The return type is inferred to be string.
+const stringRepeat: StrNumFn = (text, repeat) => {
+  let result = '';
+  for (let i = 0; i < repeat; i++) {
+    result += text;
+  }
+  return result;
+};
+```
+
+Function signature types are useful in functions that take callbacks.
+For example:
+
+```ts
+function processStr3(text: string, fn: StrNumFn): string {
+  return text.length > 0 ? fn(text, 3) : 'empty';
+}
+```
+
+## Optional, Default, and Variadic Parameters
+
+To make a parameter optional, add `?` after its name.
+This is only allowed for ending parameters.
+For example:
+
+```ts
+function stringRepeat(text: string, repeat?: number): string { ... };
+```
+
+To give parameter a default value, add `= value`.
+The parameter type can be inferred from the default value.
+Specifying a default value for a parameter is more common than making it optional.
+For example:
+
+```ts
+function stringRepeat(text: string, repeat = 1): string { ... };
+```
+
+Variadic functions, which are functions that
+take variable number of arguments,
+are defined using a "rest parameter" at the end,
+just like in JavaScript.
+For example:
+
+```ts
+function labeledSum(label: string, ...values: number[]): string {
+  return label + ': ' + values.reduce((acc, v) => acc + v);
+}
+console.log(labeledSum('total', 1, 2, 3)); // total: 6
+```
+
+## Functions That Use `this`
+
+In functions that use `this`,
+its type can be declared as if it is the first parameter
+even though it is not passed that way.
+This is a rarely used feature.
+It is better to define the function as a method in a class.
+For example:
+
+```ts
+type Person = {
+  name: string;
+  age: number;
+};
+
+function greetTeen(this: Person, greeting: string) {
+  if (13 <= this.age && this.age <= 19) {
+    console.log(greeting, this.name);
+  }
+}
+
+const p1: Person = {name: 'Dylan', age: 21};
+const p2: Person = {name: 'Paige', age: 16};
+greetTeen.call(p1, 'Yo'); // no output
+greetTeen.call(p2, 'Yo'); // Yo Paige
+```
+
+## Other Kinds of Functions
+
+TypeScript also supports overloaded functions and generator functions.
+SHOULD THESE BE DESCRIBED IN THIS ARTICLE?
+
+## Generic Functions
+
+Generic functions use type parameters to specify types they should use.
+For example, if the `Array` `map` method was written as a function,
+it might look like this:
+
+```ts
+function map<T, U>(array: T[], fn: (item: T) => U): U[] {
+  const result: U[] = [];
+  for (const item of array) {
+    result.push(fn(item));
+  }
+  return result;
+}
+
+const numbers = [1, 2, 3]; // type inferred as number[]
+//const doubled = map(numbers, n => n * 2);
+const double = (n: number): number => n * 2;
+const doubled = map<number, number>(numbers, double);
+console.log(doubled); // [2, 4, 6]
+
+const words = ['apple', 'banana', 'cherry'];
+const lengths = map<string, number>(words, s => s.length);
+console.log(lengths); // [5, 6, 6]
+```
+
+The type parameters specified in the calls to the `map` function above
+are not needed because they can be inferred from the arguments.
+
+## Bounded Polymorphism
+
+Bounded polymorphism says that a type parameter cannot be just any type,
+but must be a type that implements a given interface or extends a given class.
+Consider these differences between these function and class definitions:
+
+```ts
+// Not using bounded polymorphism.
+function foo(bar: Bar): Bar { ... }
+// Using bounded polymorphism.
+function foo<T extends Bar>(bar: T): T { ... }
+
+// Not using bounded polymorphism.
+class Foo {
+  constructor(bar: Bar) { ... }
+}
+// Using bounded polymorphism.
+class Foo<T extends Bar> {
+  constructor(bar: T) { ... }
+}
+```
+
+In all cases `bar` is an object has a type of `Bar`.
+In the cases that use `extends`,
+the type of `T` is the actual subclass of `Bar` being used.
+If this seems confusing it is because it is!
+It is hard to come up with a good example where bounded polymorphism is needed.
+Typically the difference is not important and the non-generic form is used.
+
+## Structural Typing
+
+When determining object compatibility,
+TypeScript uses structuring typing, not nominal typing (by name).
+This means compatibility is based on their properties, not the classes.
+
+In the example below, note that the `Cat` and `Dog` classes
+have the same properties.
+
+```ts
+class Cat {
+  constructor(public name: string) {}
+}
+
+class Dog {
+  constructor(public name: string) {}
+}
+
+const cat = new Cat('Whiskers');
+const neither = {foo: 'bar'};
+
+let dog: Dog;
+dog = cat; // allowed because it has all Dog properties
+dog = neither; // not allowed because it doesn't have all Dog properties
+```
+
+Flow, an alternative JavaScript type checker,
+uses nominal typing instead of structural typing.
+
+## Script vs. Module Mode
+
+JavaScript source files are evaluated in one of two modes, script or module.
+Here are some ways in which modules differ from scripts:
+
+- Modules are always executed in strict mode.
+- Modules can use `import` and `export` statements.
+- Modules are loaded once regardless of how many times they are imported.
+- Top-level definitions in modules have file scope
+  and are only accessible outside the file if they are exported.
+- The top-level value of `this` in modules is `undefined`, not `window`.
+
+Source files are processed in module mode
+if they contain at least one `import` or `export` statement.
+When neither kind of statement is needed, module mode can be forced
+by including `export {}`, typically at the top of the source file.
+This is desirable to avoid conflicts between declarations
+of the same names across multiple source files.
+
+## DefinitelyTyped
+
+Many open source libraries include TypeScript type definitions
+when they are installed from npm.
+When they don’t, often these are available from DefinitelyTyped
+which is "The repository for high quality TypeScript type definitions".
+See <http://definitelytyped.org/>.
+
+Types are published in npm under the `@types` scope.
+To install type definitions for a library, enter
+`npm install --save-dev @types/library-name`.
+These type definitions are automatically included by the TypeScript compiler.
+
+To add or correct type definitions in DefinitelyTyped,
+submit pull requests.
+
+## Libraries With No Type Definitions
+
+To get type checking for a library that doesn’t provide its own type definitions
+and has none in DefinitelyTyped, there are three options.
+
+1. Contribute type definitions to the library.
+2. Contribute type definitions to DefinitelyTyped.
+3. Define type definitions in your own project,
+   perhaps in the file `src/types.ts` and import them where needed.
+
+## Type Declaration Files
+
+The TypeScript compiler and editors like VS Code
+use type declaration files for type checking.
+
+They can be generated from TypeScript source files
+using the command `tsc -d name.ts`.
+
+They can also be create manually.
+This is typically only done for JavaScript libraries that do not supply them.
+Declare all types that should be visible to using code,
+omitting privately used types.
+
+Type declaration files Contain “ambient declarations”.
+The term "ambient" distinguishes them from normal declarations.
+
+The `declare` keyword is used for all kinds of declarations except interfaces.
+
+The file extension for type declaration files
+is `.d.ts` when there is a corresponding `.js` file,
+and can be `.ts` or `.d.ts` otherwise.
+
+## Ambient Declaration Examples
+
+Here is a sample TypeScript source file:
+
+```ts
+export const MONTH = 'April';
+
+export let counter: number = 0;
+
+export function double(n: number): number {
+  return n * 2;
+}
+
+export type Fruit = {
+  name: string;
+  color: string;
+  volume: number;
+};
+
+export interface Sortable<T> {
+  sort(): T;
+}
+
+export class Person {
+  constructor(public name: string, public age: number) {}
+}
+```
+
+Here is a type declaration file that was generated by
+running `tsc -d` on the source file above:
+
+```ts
+export declare const MONTH = 'April';
+export declare let counter: number;
+export declare function double(n: number): number;
+export declare type Fruit = {
+  name: string;
+  color: string;
+  volume: number;
+};
+export interface Sortable<T> {
+  sort(): T;
+}
+export declare class Person {
+  name: string;
+  age: number;
+  constructor(name: string, age: number);
+}
+```
+
+## Shipping TypeScript Libraries
+
+The steps to ship a TypeScript library
+that others can use are as follows:
+
+1. Generate type declarations.
+2. Add types key in `package.json`.  
+   This indicates that type declarations are included.
+   Its value is the path to a `.d.ts` file.
+3. Add an npm script in `package.json`.  
+   This should generate new type declarations every time changes are published.
+4. Include source maps
+5. Choose the target module format appropriate for using code.  
+   For code targeted at web browsers this is typically "ES5".
+6. Omit `.ts` files and only include generated `.js` and `.d.ts` files.  
+   In `.npmignore`, add the `src` directory.  
+   In `.gitignore`, add the `dist` directory.  
+   Including `.ts` files increases the size of the download for little value.  
+   If `.ts` files are included and generated `.js` files are not,
+   users will have to compile them.
+
+## TypeScript With React
+
+To use TypeScript in React projects,
+configure use of `tsc` as an npm script in `package.json`.
+This is done for you if create-react-app is used as follows:
+
+```bash
+create-react-app my-app --typescript
+```
+
+React component props and state are defined differently when using TypeScript.
+
+Here is an example of a function component that takes props:
+
+```ts
+import React from 'react';
+
+type Props = {
+  name: type,
+  ...
+};
+
+function ComponentName(props: Props) {
+  ...
+}
+
+export default ComponentName;
+```
+
+Here is an example of a class component that uses both props and state:
+
+```ts
+import React, {Component} from 'react';
+
+type Props = {
+  name: type,
+  ...
+};
+
+type State = {
+  name: type,
+  ...
+};
+
+class ComponentName
+extends Component<Props, State> {
+  state = {
+    name: type,
+    ...
+  };
+
+  render() {
+    ...
+  }
+}
+
+export default ComponentName;
+```
+
+Use React’s synthetic event types instead of DOM event types.
+Type definitions for these can be found at
+<https://github.com/DefinitelyTyped/DefinitelyTyped/blob/master/types/react/index.d.ts>.
+They include `ChangeEvent`, `FocusEvent`, `KeyboardEvent`,
+`MouseEvent`, `TouchEvent`, `WheelEvent`, and more.
+
+When using the `useState` hook,
+if TypeScript can’t infer type from initial value, specify it like this:
+
+```ts
+const [name, setName] = useState<type>(initialValue);
+```
+
+## Migrating JavaScript Projects to TypeScript
+
+There are five steps to migrate a JavaScript project to TypeScript.
+After each step, run `npm run compile` and fix any reported errors.
+
+1. Add the use of tsc.
+
+   - In the top project directory, enter `npm install -D typescript`.
+   - Add the following to the `compilerOptions` in `tsconfig.json`:  
+     `"allowJs": true,`  
+     `"outDir": "dist"`,  
+     `"target": "ES5"`
+     Generated files will be written to the `dist` directory.
+   - Add the following `include` option in `tsconfig.json`:  
+     "include": ["src"]
+   - Add the following npm script in `package.json`:  
+     `"compile": "tsc"`
+
+2. Enable type checking of `.js` files.
+
+   - Add the following to the `compilerOptions` in `tsconfig.json`:  
+     `"checkJs": true`
+   - Optionally add `// @ts-nocheck` at the top of `.js` files
+     with too many errors to fix now.
+   - Optionally temporarily add `"noImplicitAny": false` to `compilerOptions`
+     because `any` will be a commonly inferred type.
+
+     TypeScript type checking is more lenient on `.js` files.
+     Function parameters are optional.
+     Class property types are inferred based on usage.
+     Extra properties can be assigned to objects.
+
+3. Optionally add JSDoc comments  
+   These appear before functions to provided parameter and return types.
+   Supported JSDoc annotations are listed at
+   <https://www.typescriptlang.org/docs/handbook/type-checking-javascript-files.html#supported-jsdoc>.
+   For example:
+
+   ```js
+   /**
+    * description
+    * @param name {type} description
+    * @return {type} description
+    */
+   ```
+
+4. Rename `.js` files to `.ts`  
+   Consider doing this one file at a time, renaming, compiling, and fixing errors.
+
+5. Stop processing `.js` files and make type checking strict  
+   Add/change the following `compilerOptions` in `tsconfig.json`:  
+   `"allowJs": false,`
+   `"checkJs": false,`
+   `"strict": true`
+
+## Processing Details
+
+When a `.ts` file imports a `.js` file
+it looks for a corresponding `.d.ts` file
+in the same directory as the `.js` file.
+If no such file is found and `allowJs` and `checkJs` are true, types are inferred.
+If no such file is found and `allowJs` and `checkJs` are false, types are treated as `any`.
+
+When a `.ts` file imports from `node_modules`
+it looks for type definitions in `src/types.ts`.
+You can manually create type definitions here.
+
+If `src/types.js` is not found, it looks for the
+`types` or `typings` key in `package.json`
+of the npm package that points to a `.d.ts` file.
+
+If this is not found, it looks for `.d.ts` file
+in `node_modules/@types/package-name`
+working upward to the top `node_modules` directory of the app.
+This supports nested dependencies.
+
+If this is not found, it uses the lookup process
+for imports not under `node_modules`.
+
+You can override where TypeScript looks for type declarations
+by setting the `typeRoots` option in the `tsconfig.json` `compilerOptions`,
+but doing this is not common.
+
+## Whitelisting
+
+When an npm package doesn’t include type definitions
+and they aren’t available in DefinitelyTyped,
+there are three options;
+
+1. Define yourself, perhaps in `src/types.ts`.  
+   Consider contributing your type definitions to the package or DefinitelyTyped.
+2. Whitelist specific imports by preceding them with `// @ts-ignore`.
+3. Whitelist all usages of the package by adding a line to `src/types.ts`.
+   For example, `declare module 'package-name';`
+
+## Polyfills
+
+`tsc` transpiles to many target environments,
+but it doesn’t provide any polyfills.
+
+Popular polyfill options include
+`core-js`, `@babel/polyfill`, and `polyfill.io`.
+
+Babel can be used to get support for language features
+that TypeScript doesn’t yet support.
+
+Set the `lib` option in `compilerOptions` to indicate
+which features have been polyfilled.
+
+## TypeScript With Node.js
+
+When using TypeScript with Node.js,
+the following `tsconfig.json` is recommended:
+
+```json
+{
+  "compilerOptions": {
+    "esModuleInterop": true,
+    "module": "commonjs",
+    "noImplicitReturns": true,
+    "outDir": "dist",
+    "sourceMap": true,
+    "strict": true,
+    "target": "es2015",
+ }
+  "include": ["src"]
+}
+```
+
+Setting module to commonjs
+compiles `import` statements to `require` calls and
+`export` statements to `module.exports` assignments.
+
+Generate sourcemaps requires installing the npm package `source-map-support`.
+
+## Features Coming in TypeScript 3.7
+
+There are many features coming in TypeScript 3.7.
+These include optional chaining, null coalescing, and top-level `await`.
+
+Here is an example of optional chaining:
+
+```ts
+// Old way
+const zip = person && person.address ? person.address.zip : undefined;
+
+// New way
+const zip = person?.address?.zip;
+```
+
+Here is an example of null coalescing:
+
+```ts
+// Old way - chooses option2 if option1 is any falsy value
+// including false, zero, or empty string
+const option = option1 || option2;
+
+// New way - chooses option2 only if option1 is undefined or null
+const option = option1 ?? option2;
+```
+
+Top-level await allows the use of the `await` keyword to
+wait for a `Promise` to resolve at the top level of code,
+not just in async functions.
+
+## `private` vs. `#` Prefix Fields
+
+TypeScript does not yet support ES private fields (`#`), but work is underway.
+See <https://github.com/microsoft/TypeScript/pull/30829>.
+
+There are some differences between the meaning of
+the `private` keyword and the `#` field name prefix.
+
+- When are they evaluated?  
+  Private fields are evaluated only at compile time
+  and do not generate code to protect accesses.  
+  `#` prefix fields generate code to protect access at runtime.
+- What happens when a subclass and superclass define a field with the same name?  
+  Duplicate private fields represent the same value.
+  `#` prefix fields represent different values.
+- Are they visible in `console.log` and `JSON.stringify` output?  
+  `private` fields are visible, but `#` prefix fields are not.
+
+## Do's and Don'ts
+
+The page at <https://www.typescriptlang.org/docs/handbook/declaration-files/do-s-and-don-ts.html>
+provides recommendations on things you should and should not do in TypeScript.
+It recommends never using the wrapper types
+`Boolean`, `Number`, `String`, `Symbol`, and `Object`.
+
+## Things to Avoid
+
+TypeScript has a large number of features.
+While all of them have some justification, many are rarely used.
+This increases the likelihood that many developers will not be familiar with them.
+To reduce the learning curve of TypeScript and improve code readability,
+I recommend avoiding the use of the following language features.
+
+- Tuples with a minimum length using spread  
+  For example:  
+  `type badIdea = [number, number, ...number[]] // contains 2 or more numbers`
+- Writing functions that use `this`  
+  ... and declaring the type of this as the first parameter
+- Overloaded functions
+- Bounded polymorphism with multiple constraints
+- Generic type defaults
+- Using `this` as a return type of a method in a superclass
+- Intersection types  
+  These match only what multiple types have in common.
+  I can’t think of a good example of when this is helpful.
+- Interfaces extending a type alias or class
+- Comparing classes
+- Defining a constructor signature in an interface with new
+- Decorators
+- `private` constructors to simulate final classes  
+  can’t be extended or directly instantiated (must use static factory methods)
+- `as const`
+- Type assertions
+- Tagged Unions
+- Keying-in operation  
+  This extracts a shape type from another type.
+- `keyof` operator  
+  This gets property names from a shape.
+- Mapped types, including built-in ones
+- Companion object pattern
+- Creating tuples with a function  
+  ... instead of using the `[]` syntax
+- User-defined type guards
+- Conditional types, including built-in ones
+- Distributive conditionals
+- `infer` keyword
+- Non-null assertions  
+  These just define non-nullable types.
+- Definite assignment assertions
+- Type branding
+- Extending prototypes
+- Dynamic imports
+- TypeScript namespaces
+- Declaration merging
+- Project references
+- Triple-slash directives
+- `amd-module` directive
+- Utility types other than `Record` and `Readonly`
+
+## Conclusion
+
+TypeScript is a large language with a wonderful core set of features.
+By limiting yourself to the most important set of features
+you will write code the derives most of the benefits of TypeScript
+while keeping the code as readable as possible.
+
+Thanks so much to ??? for reviewing this article!
+
+## References
+
+"Programming TypeScript" book by Boris Cherny, published by O'Reilly May 2019
