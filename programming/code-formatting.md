@@ -83,7 +83,7 @@ on the same line as the code that precedes it. For example:
 
 ```js
 if (temperature > 80) {
-  ...
+  // some code here
 }
 ```
 
@@ -147,7 +147,8 @@ function myFunction(arg1, arg2) {
 
 Instinct says that the arrow function is more terse because
 it doesn't require the seven-letter keyword "function".
-But the keyword "const" and the arrow surpass that in length.
+But the keyword "const", the equal sign, the arrow,
+and additional spaces surpass that in length.
 In addition, the "function" form screams out
 that a function is being defined and
 it doesn't require a semicolon after the closing brace.
