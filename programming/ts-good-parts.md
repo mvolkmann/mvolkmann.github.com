@@ -340,30 +340,40 @@ One operation that can be performed on numbers is multiplication.
 
 ## Type Hierarchy
 
+The diagram below shows the relationships
+between the builtin types provided by TypeScript.
+
 ![TypeScript Type Hierarchy](./ts-type-hierarchy.png 'TypeScript Type Hierarchy')
 
-## Primitive Types
+## Builtin Types
 
-- `boolean` - `true` and `false`
+The primitive types supplied by TypeScript include:
+
+- `boolean` - values are `true` and `false`
+
 - `number` - integers (up to 2^53) and floats
+
 - `string` - text
+
 - `bigint` - holds any size integers  
-  (as of 8/30/19 not supported by IE11 or Safari)
+  As of 8/30/19 this type is not supported by IE11 or Safari.
+
 - `symbol` - holds immutable, unique values  
   These are sometimes used as keys in objects and Maps.
-- `null` - represents currently having no value
-- `undefined` - represent having never had a value
 
-## Other Builtin Types
+- `null` - typically represents currently having no value
 
-- `any` - default type; allows anything
+- `undefined` - typically represent having never had a value
+
+Other builtin types include:
+
+- `any` - default type; allows anything  
   It's best to avoid using this.
-- `unknown` - like any, but requires "refinement" when values are used
-
-## Types Not Used For Variables
-
+- `unknown` - like any, but requires "refinement" when values are used  
+  Refinement involves checking the type of a variable in code,
+  typically using an `if` statement.
 - `undefined` and `null`  
-   These types are only used in union types, not on their own.
+   These types are only used in union types, not on their own. For example:
 
   ```ts
   let name: string;
@@ -393,15 +403,17 @@ One operation that can be performed on numbers is multiplication.
 - `never`  
   This type represents something that never happens.
   One use is as the return type of functions that never return.
-  It is really tough to come up with a useful example.
+  It is difficult to think of a useful example.
   You may never use `never`.
 
 ## Non-Primitive Types
 
 - objects  
   One form of these is described in the next section.
-- arrays
+
+- arrays  
   These are described later.
+
 - any JavaScript class  
   Examples include `Date`, `Error`, `Function`,
   `Map`, `Promise`, `RegExp`, and `Set`.
@@ -412,22 +424,23 @@ There are three ways to declare objects
 that can hold arbitrary properties.
 These are rarely used.
 It is more common to specify the allowed properties using
-type aliases and interfaces, which are described later.
+interfaces or type aliases which are described later.
 
 - `object`  
   Variables of this type can be assigned any object or array.
+
 - `Object` or `{}`  
-  Variables of this type can be assigned
+  Variables of these types can be assigned
   any object, array, or primitive value.
   These types should be avoided.
 
-Note that `undefined` and `null` cannot assigned to
-variables of any of these types.
+Note that `undefined` and `null` cannot be assigned
+to variables of any of these types.
 
 ## Union Types
 
 Union types define a new type that
-matches multiple specified types.
+matches any of a list of specified types.
 
 Assuming the classes `Dog` and `Cat` are defined,
 we can define a `Pet` type as follows:
@@ -436,13 +449,13 @@ we can define a `Pet` type as follows:
 type Pet = Cat | Dog;
 ```
 
-Here is another example.
+Here is another example:
 
 ```ts
 type Custom = number | string | undefined;
 
-// If undefined is not an allowed type,
-// this is not assignable.
+// If undefined was not an allowed type,
+// this would not be assignable.
 //let c: Custom = undefined;
 
 let c: Custom;
