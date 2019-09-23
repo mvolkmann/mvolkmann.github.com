@@ -175,6 +175,19 @@ This code does embrace the boolean type:
 const isHot = temperature > 80;
 ```
 
+## Indentation
+
+Are we really talking about this again? Yes we are!
+
+Use the indentation style that is preferred by the community of the programming language.
+
+There are only three valid indentations amounts: two spaces, four spaces, and one tab.
+An issue with tabs is that nearly all printers treat them as eight spaces.
+This forces many lines to wrap when printed.
+
+Continuation lines should be indented by one indentation unit
+unless a code formatter is used that does something different.
+
 ## Don’t make lines too long
 
 Sure, many of us have very wide monitors now.
