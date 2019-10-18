@@ -312,7 +312,7 @@ To run ESLint using an npm script, add the following
 line to the `scripts` section of `package.json`:
 
 ```json
-  "lint": "eslint --cache --fix src/\*_/_.ts"
+  "lint": "eslint --cache --ext=.ts,.tsx --fix src"
 ```
 
 With this in place, ESLint can be run by entering
@@ -329,7 +329,7 @@ To run Prettier using an npm script, add the following
 line to the `scripts` section of `package.json`:
 
 ```json
-  "format": "prettier --write src/\*_/_.ts"
+  "format": "prettier --write src/**/*.{ts,tsx}"
 ```
 
 With this in place, Prettier can be run by entering
