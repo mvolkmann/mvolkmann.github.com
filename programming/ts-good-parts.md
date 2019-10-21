@@ -1,6 +1,6 @@
 # TypeScript: The Good Parts
 
-In his book "JavaScript: The Good Parts" Douglas Crockford
+In his book, "JavaScript: The Good Parts", Douglas Crockford
 states, "In JavaScript, there is a beautiful, elegant, highly expressive
 language that is buried under a steaming pile of good intentions and blunders."
 
