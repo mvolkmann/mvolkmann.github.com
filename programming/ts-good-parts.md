@@ -1,7 +1,7 @@
 # TypeScript: The Good Parts
 
-In the book "JavaScript: The Good Parts" by Douglas Crockford
-he said "In JavaScript, there is a beautiful, elegant, highly expressive
+In his book "JavaScript: The Good Parts" Douglas Crockford
+states, "In JavaScript, there is a beautiful, elegant, highly expressive
 language that is buried under a steaming pile of good intentions and blunders."
 
 The combination of features added to JavaScript in ES2015 (ES6) and beyond
@@ -39,8 +39,9 @@ It focuses on features that TypeScript adds.
 Experience with a language that has classes and interfaces
 like C# or Java is helpful.
 
-Example code here assumes use the most strict TypeScript settings possible.
-Otherwise some errors described will here will not be reported.
+The example code here assumes that the most strict
+TypeScript settings possible are in effect.
+Otherwise some errors described here will not be reported.
 
 ## Benefits
 
@@ -48,7 +49,7 @@ TypeScript provides many benefits.
 
 - catches errors at compile-time
 - provides documentation
-- allows editors to flag errors while typing and provide completion
+- allows editors to flag errors while typing and provides completion
 - makes refactoring less error-prone
 - makes some tests unnecessary
 - disallows many JavaScript type coercions
@@ -67,34 +68,34 @@ does not allow adding an object and a number.
 ## Creating a TypeScript Project
 
 Let's get started by creating a TypeScript project.
-Here are the steps.
+Here are the steps:
 
-- Install Node.js from <https://nodejs.org>.
-- Create a directory for the project and `cd` to it.
-- Create a `package.json` file by running `npm init`.
-- Locally install the TypeScript compiler and optionally the type definitions
-  for Node by running `npm install -D typescript @types/node`.
-- Create a `tsconfig.json` file by running `npx tsc --init`.  
-  This will contain many commented-out options.  
-  `npx` searches in `./node_modules/.bin` for executables installed by `npm`.  
-  `tsc` is an abbreviation for "TypeScript Compiler".
-- Modify `tsconfig.json` to match the starting point described in the next section.
-- Create a `src` directory at the top of your project directory.
-- Create your `.ts` files in and under the `src` directory.
-- Add the following npm script in `package.json`:  
-  `"compile": "tsc",`
-- Compile all your `.ts` files to `.js` files by running `npm run compile`.  
-  This compiles all the `.ts` files under the `src` directory
-  to `.js` files under the `dist` directory.
-- Run the main `.js` file by entering `node dist/index.js`.  
-  This assumes the main `.ts` file is `src/index.ts`.
+1. Install Node.js from <https://nodejs.org>.
+1. Create a directory for the project and `cd` to it.
+1. Create a `package.json` file by running `npm init`.
+1. Locally install the TypeScript compiler and optionally the type definitions
+   for Node by running `npm install -D typescript @types/node`.
+1. Create a `tsconfig.json` file by running `npx tsc --init`.  
+   This will contain many commented-out options.  
+   `npx` searches in `./node_modules/.bin` for executables installed by `npm`.  
+   `tsc` is an abbreviation for "TypeScript Compiler".
+1. Modify `tsconfig.json` to match the starting point described in the next section.
+1. Create a `src` directory at the top of your project directory.
+1. Create your `.ts` files in and under the `src` directory.
+1. Add the following npm script in `package.json`:  
+   `"compile": "tsc",`
+1. Compile all your `.ts` files to `.js` files by running `npm run compile`.  
+   This compiles all the `.ts` files under the `src` directory
+   to `.js` files under the `dist` directory.
+1. Run the main `.js` file by entering `node dist/index.js`.  
+   This assumes the main `.ts` file is `src/index.ts`.
 
 To see the version of TypeScript that is installed,
 enter `npx tsc -v`.
 
 ## TypeScript Configuration
 
-The file `tsconfig.json` configures options for the TypeScript compiler.
+The file `tsconfig.json` contains configuration options for the TypeScript compiler.
 It is only used when `tsc` is run with no specified input files,
 which compiles all TypeScript files in a project.
 
@@ -133,7 +134,7 @@ The option `compilerOptions` is an object with many properties including:
 - `noImplicitReturns`  
   Set this to `true` to require functions that
   return a value to do so from ALL code paths.
-- `outdir`  
+- `outDir`  
   This is the directory where `.js` files should be written.
   For example, `"dist"`.
 - `sourceMap`  
@@ -234,7 +235,7 @@ Visual Studio, and WebStorm.
 
 ## Linting
 
-There are two popular options for linting TypeScript code,
+There are two popular options for linting TypeScript code:
 TSLint and ESLint.
 TSLint will soon be deprecated in favor of ESLint,
 but currently TSLint supports rules
@@ -522,7 +523,7 @@ console.log('hc =', hc); // F00
 //hc = HexColor['0F0']; // error, property does not exist
 ```
 
-When an `enum` type is declare as `const`,
+When an `enum` type is declared as `const`,
 values can be accessed by key,
 but keys cannot be accessed by value.
 A benefit of using `const` enums is that the
@@ -894,7 +895,7 @@ where it can be inferred.
 Function signature types can be used as
 the type of functions when they are defined.
 They can also be used as parameter types when
-functions can be passed as argument to other functions.
+functions can be passed as an argument to other functions.
 
 Parameter types are not inferred unless the function itself
 is typed using a function signature type.
@@ -949,7 +950,7 @@ function stringRepeat(text: string, repeat = 1): string { ... };
 ```
 
 Variadic functions, which are functions that
-take variable number of arguments,
+take a variable number of arguments,
 are defined using a "rest parameter" at the end
 just like in JavaScript.
 For example:
@@ -997,8 +998,8 @@ multiple function definitions with the same name can be written.
 When called, the implementation to invoke is determined
 based on the argument types.
 
-In TypeScript overloaded functions are described by a
-type aliases that defines all the acceptable function signatures.
+In TypeScript overloaded functions are described by
+type aliases that define all the acceptable function signatures.
 But they are all implemented by a single function
 whose type is this type alias.
 The function must check the types of its arguments
@@ -1047,7 +1048,7 @@ are not needed because they can be inferred from the arguments.
 
 ## Classes
 
-Classes provide a template for creating instances using `new` keyword.
+Classes provide a template for creating instances using the `new` keyword.
 For example:
 
 ```ts
@@ -1173,7 +1174,7 @@ class Car extends Vehicle { ... }
 ```
 
 Classes can implement any number of interfaces.
-They must implement all methods described in the interfaces.
+They must implement all methods described in each interface.
 For example:
 
 ```ts
@@ -1388,7 +1389,7 @@ TODO: You emailed Kyle and Paul about this.
 ## Structural Typing
 
 When determining object compatibility,
-TypeScript uses structuring typing,
+TypeScript uses structural typing,
 not nominal typing (by name).
 This means compatibility is based on
 the properties in an object, not its class.
@@ -1478,9 +1479,9 @@ use type declaration files for type checking.
 These can be generated from TypeScript source files
 using the command `tsc -d name.ts`.
 
-They can also be create manually.
+They can also be created manually.
 This is typically only done for JavaScript libraries that do not supply them.
-Declare all types that should be visible to using code,
+Declare all types that should be visible to consuming code,
 omitting privately used types.
 
 Type declaration files contain "ambient declarations".
@@ -1610,7 +1611,7 @@ After each step, run `npm run compile` and fix any reported errors.
      Extra properties can be assigned to objects.
 
 3. Optionally add JSDoc comments  
-   These appear before functions to provided parameter and return types.
+   These appear before functions to provide parameter and return types.
    Supported JSDoc annotations are listed at
    <https://www.typescriptlang.org/docs/handbook/type-checking-javascript-files.html#supported-jsdoc>.
    For example:
@@ -1861,7 +1862,7 @@ To reduce the learning curve of TypeScript for your team
 and improve code readability,
 I recommend avoiding the use of the following TypeScript features.
 
-- Tuples with a minimum length and no maxium using the spread operator  
+- Tuples with a minimum length and no maximum using the spread operator  
   For example:  
   `type badIdea = [number, number, ...number[]] // contains 2 or more numbers`
 - Implementing functions that use `this`  
@@ -1913,11 +1914,11 @@ I recommend avoiding the use of the following TypeScript features.
 ## Conclusion
 
 TypeScript is a large language with a wonderful core set of features.
-By limiting yourself to the most important set of features
-you will write code the derives most of the benefits of TypeScript
+By limiting yourself to the most important set of features,
+you will write code that derives most of the benefits of TypeScript
 while keeping the code as readable as possible.
 
-Thanks so much to ??? for reviewing this article!
+Thanks so much to Jason Schindler and Charles Sharp for reviewing this article!
 
 ## References
 
