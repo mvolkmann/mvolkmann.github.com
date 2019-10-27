@@ -1,11 +1,11 @@
 # TypeScript: The Good Parts
 
-In his book, "JavaScript: The Good Parts", Douglas Crockford
+In his book, _JavaScript: The Good Parts_, Douglas Crockford
 states, "In JavaScript, there is a beautiful, elegant, highly expressive
 language that is buried under a steaming pile of good intentions and blunders."
 
 The combination of features added to JavaScript in ES2015 (ES6) and beyond
-plus the use of ESLint make JavaScript a quite nice language.
+plus the use of ESLint make JavaScript quite a nice language.
 
 TypeScript is a superset of the JavaScript language.
 Therefore it contains the same beautiful features and blunders
@@ -33,8 +33,8 @@ See <https://www.typescriptlang.org/>.
 
 ## Assumptions
 
-This article assumes knowledge of JavaScript.
-It focuses on features that TypeScript adds.
+This article assumes knowledge of JavaScript
+and focuses on the features that TypeScript adds.
 
 Experience with a language that has classes and interfaces
 like C# or Java is helpful.
@@ -61,7 +61,7 @@ For a humorous summary of some of these, see Gary Bernhardt's
 
 TypeScript addresses most of these issues by
 disallowing many type coercions that JavaScript allows.
-For example TypeScript allows adding a number and a string
+For example, TypeScript allows adding a number and a string
 (resulting in concatenation), but it
 does not allow adding an object and a number.
 
@@ -76,12 +76,13 @@ Here are the steps:
 1. Locally install the TypeScript compiler and optionally the type definitions
    for Node by running `npm install -D typescript @types/node`.
 1. Create a `tsconfig.json` file by running `npx tsc --init`.  
-   This will contain many commented-out options.  
+   This file created will contain many commented-out options.  
    `npx` searches in `./node_modules/.bin` for executables installed by `npm`.  
    `tsc` is an abbreviation for "TypeScript Compiler".
 1. Modify `tsconfig.json` to match the starting point described in the next section.
 1. Create a `src` directory at the top of your project directory.
-1. Create your `.ts` files in and under the `src` directory.
+1. When you are ready to create new `.ts` files,
+   place them in and under the `src` directory.
 1. Add the following npm script in `package.json`:  
    `"compile": "tsc",`
 1. Compile all your `.ts` files to `.js` files by running `npm run compile`.  
@@ -169,7 +170,7 @@ implies many other options listed below.
 - `strictFunctionTypes`  
   This checks function type parameters covariantly
   instead of bivariantly.
-  Suffice it to say you want this.
+  Suffice it to say, you want this.
   The curious can learn more about these terms from
   Ben Weissmann's Strange Loop talk at
   <https://www.youtube.com/watch?v=uJHD2xyv7xo> and
@@ -438,7 +439,8 @@ interfaces or type aliases which are described later.
 - `Object` or `{}`  
   Variables of these types can be assigned
   any object, array, or primitive value.
-  These types should be avoided.
+  Because primitive values can be assigned,
+  these types should be avoided.
 
 Note that `undefined` and `null` cannot be assigned
 to variables of any of these types.
@@ -519,7 +521,7 @@ let hc: HexColor = HexColor.Blue;
 console.log(hc); // 00F
 //hc = 1; // error, not assignable
 hc = HexColor.Red;
-console.log('hc =', hc); // F00
+console.log(hc); // F00
 //hc = HexColor['0F0']; // error, property does not exist
 ```
 
@@ -621,7 +623,7 @@ function translate(point: Point, dx: number, dy: number): Point {
 
 const p1: Point = [1, 2];
 const p2 = translate(p1, 2, 3);
-console.log('p2 =', p2); // [3, 5]
+console.log(p2); // [3, 5]
 ```
 
 The element at each index can hold a different type (heterogeneous).
@@ -640,7 +642,6 @@ For example:
 // Using a tuple
 type PlayerScore = [string, number];
 const ps: PlayerScore = ['Mark', 19];
-console.log('ps =', ps);
 
 // Using an interface is usually better.
 interface Player {
@@ -648,7 +649,6 @@ interface Player {
   score: number;
 }
 const p: Player = {name: 'Mark', score: 19};
-console.log('p =', p);
 ```
 
 ## `readonly` Modifier
