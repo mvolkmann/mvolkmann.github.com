@@ -695,8 +695,9 @@ type aliases, classes, interfaces, and methods.
 
 "Type parameters" are names used for
 parameter types, return types, and variable types.
-They are specified in angle brackets (ex. `<T, U>`).
-There can be any number of type parameters with any names,
+They are specified in angle brackets (e.g., `<T, U>`).
+There can be any number of type parameters
+and they can be given any names,
 but common names are `T`, `U`, and `V`.
 It is rare to need more than three.
 
@@ -886,8 +887,8 @@ type StrNumFn = (s: string, n: number) => string;
 Parameter names are just for documentation.
 Implementations can use other names.
 
-Parameter default values cannot be specified,
-but they can be in implementations.
+Parameter default values cannot be specified in function signatures,
+but they can be specified in function definitions.
 
 A return type must be specified, unlike in function definitions
 where it can be inferred.
@@ -1354,7 +1355,7 @@ seem less useful.
 Bounded polymorphism requires a type parameter to be
 a type that implements a given interface or extends a given class,
 rather than just any type.
-Consider these differences between these function and class definitions:
+Consider the differences between these function and class definitions:
 
 ```ts
 // Not using bounded polymorphism.
@@ -1384,7 +1385,6 @@ which matches that of one of its type parameters.
 If this seems confusing it is because it is!
 It is hard to come up with a good example where bounded polymorphism is needed.
 Typically the difference is not important and the non-generic form is used.
-TODO: You emailed Kyle and Paul about this.
 
 ## Structural Typing
 
@@ -1491,13 +1491,12 @@ The `declare` keyword is used for every kind of type declaration except interfac
 
 The file extension for type declaration files
 is `.d.ts` when there is a corresponding `.js` file,
-and can be `.ts` or `.d.ts` otherwise.
+and can be `.d.ts` (preferred) or `.ts` otherwise.
 
 ## Ambient Declaration Examples
 
 Here is a sample TypeScript source file
-that includes a variety of kinds of things
-that have types:
+that uses a variety of types:
 
 ```ts
 export const MONTH = 'April';
@@ -1559,7 +1558,7 @@ that others can use are as follows:
    Its value is the path to a `.d.ts` file.
 3. Add an npm script in `package.json`.  
    This should generate new type declarations every time changes are published.
-4. Include source maps
+4. Include source maps.
 5. Choose the target module format appropriate
    for code that will use the library.  
    For code targeted at web browsers this is typically "ES5".
@@ -1745,7 +1744,7 @@ export default ComponentName;
 ```
 
 Here is an example of a class component
-that uses takes props and uses state:
+that takes props and uses state:
 
 ```ts
 import React, {Component} from 'react';
@@ -1918,8 +1917,8 @@ By limiting yourself to the most important set of features,
 you will write code that derives most of the benefits of TypeScript
 while keeping the code as readable as possible.
 
-Thanks so much to Jason Schindler and Charles Sharp for reviewing this article!
+Thanks so much to Charles Sharp and Jason Schindler for reviewing this article!
 
 ## References
 
-"Programming TypeScript" book by Boris Cherny, published by O'Reilly May 2019
+Cherny, Boris. Programming TypeScript. USA: O'Reilly, 2019
