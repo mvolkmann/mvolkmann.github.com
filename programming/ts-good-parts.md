@@ -141,7 +141,7 @@ The option `compilerOptions` is an object with many properties including:
   For example, `"dist"`.
 - `sourceMap`  
   Set this to `true` to generate source map files.
-  Generating sourcemaps requires installing the npm package `source-map-support`.
+  Generating source maps requires installing the npm package `source-map-support`.
 - `strict`  
   Set this to `true` to require all code to be typed.
 - `target`  
@@ -196,7 +196,7 @@ At compile-time `tsc`
 - performs type checking against the AST
 - generates one `.js` file for each `.ts` file
 
-At run-time a JavaScript Engine
+At runtime a JavaScript Engine
 
 - reads `.js` files
 - generates a different AST
