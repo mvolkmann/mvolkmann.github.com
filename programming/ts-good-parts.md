@@ -96,9 +96,10 @@ enter `npx tsc -v`.
 
 ## TypeScript Configuration
 
-The file `tsconfig.json` contains configuration options for the TypeScript compiler.
-It is only used when `tsc` is run with no specified input files,
-which compiles all TypeScript files in a project.
+The file `tsconfig.json` contains configuration options
+for the TypeScript compiler.
+It is only used when `tsc` is run with no specified input files.
+In this case `tsc` compiles all TypeScript files in the project.
 
 Some top-level properties are `compilerOptions` and `include`.
 Others include `compileOnSave`, `exclude`, `extends`, and `files`.
