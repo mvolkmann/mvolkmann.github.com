@@ -349,11 +349,11 @@ One operation that can be performed on numbers is multiplication.
 ## Type Hierarchy
 
 The diagram below shows the relationships
-between the builtin types provided by TypeScript.
+between the built-in types provided by TypeScript.
 
 ![TypeScript Type Hierarchy](./ts-type-hierarchy.png 'TypeScript Type Hierarchy')
 
-## Builtin Types
+## Built-in Types
 
 The primitive types supplied by TypeScript include:
 
@@ -373,7 +373,7 @@ The primitive types supplied by TypeScript include:
 
 - `undefined` - typically represent having never had a value
 
-Other builtin types include:
+Other built-in types include:
 
 - `any` - default type; allows anything  
   It's best to avoid using this.
@@ -1013,7 +1013,7 @@ For this reason overloaded functions are rarely used in TypeScript.
 ## Generic Functions
 
 Generic functions use type parameters to specify the types they should use.
-For example, if the builtin `Array` `map` method was written as a function,
+For example, if the built-in `Array` `map` method was written as a function,
 it might look like this:
 
 ```ts
@@ -1078,7 +1078,7 @@ all instances of this class and subclasses.
 `private` members can only be accessed from instances of this class.
 
 Access modifiers can be applied to constructor parameters
-as a short-cut for assigning to instance properties.
+as a shortcut for assigning values to instance properties.
 
 For example:
 
@@ -1220,8 +1220,9 @@ class Car extends Vehicle {
 
 ## Generic Classes
 
-Generic classes support defining classes whose members have specific types
-that are specified by code that creates instances of the class.
+Generic classes support defining classes whose members have specific types.
+Code that creates instances of generic classes specify those types.
+
 For example:
 
 ```ts
@@ -1236,7 +1237,7 @@ console.log(p2); // Pair { first 'foo', second: 'bar' }
 //const p3 = new Pair('foo', 1); // error, 1 not assignable to string
 ```
 
-One example of a builtin generic class is `Promise`.
+One example of a built-in generic class is `Promise`.
 For example;
 
 ```ts
