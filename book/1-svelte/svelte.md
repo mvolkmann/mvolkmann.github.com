@@ -2843,6 +2843,8 @@ they should declare props to accept them by name.
 Let's implement a Svelte app that has three page components
 named `Page1`, `Page2`, and `Page3`.
 
+![Using page for routing](./page-router.png)
+
 Here is the code in `Page1.svelte`.
 It accepts four props, two of which will come from path parameters
 and two of which will come from query parameters.
