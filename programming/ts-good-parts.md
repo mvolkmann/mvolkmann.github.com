@@ -18,7 +18,8 @@ At the end it lists features that most developers should avoid.
 
 ## Overview
 
-TypeScript adds types and more to JavaScript.
+TypeScript is and maintained by Microsoft (<https://www.typescriptlang.org/>).
+It adds types and more to JavaScript.
 Types can be added gradually.
 Specifying more types allows TypeScript to find more errors.
 
@@ -28,8 +29,6 @@ These files are compiled to `.js` files.
 
 The TypeScript compiler requires Node.js to be installed in order to run.
 
-TypeScript was developed and maintained by Microsoft.
-See <https://www.typescriptlang.org/>.
 
 ## Assumptions
 

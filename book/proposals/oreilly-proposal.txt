@@ -1,0 +1,279 @@
+﻿Book Proposal
+ 
+Proposed Book Title: Svelte & Sapper Up and Running
+Subtitle: Web Development Simplified
+Author(s): R. Mark Volkmann
+
+
+Author title(s) and affiliation(s):  
+ 
+Mailing address(es):  644 Glen Summit, St. Charles, Missouri 63304
+ 
+Phone number(s): 314-398-6537
+
+
+Preferred Email address(es): r.mark.volkmann@gmail.com
+
+
+About the Author(s)
+Author biography (write in the 3rd person as you would like the bio to appear on Amazon):
+Please be sure the biography answers the question:
+Why are you the best person to write this book?
+
+
+Mark Volkmann is a partner at Object Computing, Inc. (OCI) in St. Louis where he has provided software consulting and training since 1996. As a consultant, Mark has assisted many companies with JavaScript, Node.js, React, Angular, and Java application development.
+
+
+Mark has created and taught many courses on topics including React, Vue, Angular, Node.js, jQuery, JavaScript, HTML5, CSS3, Ruby, Java, and XML.
+
+
+Mark is a frequent presenter at St. Louis area user groups. He has written for XML Journal and the No Fluff Just Stuff magazine. He has presented at the MidwestJS, Jfokus, Strange Loop, NDC Oslo, No Fluff Just Stuff, and XML DevCon conferences.
+
+
+Mark frequently writes articles on various software development topics. These can be found at https://objectcomputing.com/resources/publications/sett/.
+
+LinkedIn profile: https://www.linkedin.com/in/mark-volkmann-28466/
+
+
+Twitter handle: @mark_volkmann
+
+
+Author public speaking samples (YouTube, etc.):
+Midwest JS 2019 talk on Svelte - https://www.youtube.com/watch?v=aoKpKSbKovU
+
+
+Here is a link to a page with many of my articles and videos:
+https://objectcomputing.com/resources/publications/mark-volkmann
+Marketing Description
+In 1-2 paragraphs, summarize what the book is about, like you would pitch it to a potential reader on the back cover. What makes your book unique in the marketplace?
+See my answer to “About the Topic” below.
+This book gradually builds a non-trivial web application, adding pieces as each new concept is introduced. The application includes user authentication and authorization. It tracks collections of user items, supporting the common CRUD operations of Create, Retrieve, Update, and Delete against a server-side data store.
+This book may be the first on the market to cover Svelte and Sapper. That makes it unique.
+About the Topic
+Briefly explain the topic and why it is important.
+Svelte is a tool for creating web applications that takes a fundamentally different approach than other popular web frameworks. It compiles web app code to a JavaScript bundle that is significantly smaller than those produced by frameworks such as React, Vue, and Angular. This reduces first page load time for users.
+Svelte significantly simplifies development of web UI components through features such as reactivity, reactive statements, two-way data binding, stores, and context.
+Sapper provides a framework around Svelte that supports server-side rendering, code splitting, easy routing, easy API development, static site generation, and more.
+Together Svelte and Sapper are poised to become popular choices for developing web applications.
+Audience
+In 1-2 paragraphs, explain who the primary audience is for your book. What professional positions do they hold? What positions are they considering next in their careers? What knowledge do you assume of them? What books can you assume they have read? What skills can you assume they have mastered?
+
+
+This book is for web developers. It assumes some knowledge of HTML, CSS, and JavaScript. Developers familiar with other web frameworks will be able to easily see how Svelte and Sapper make many aspects of web development easier.
+
+
+Estimate how many people will use this technology. Please state any applicable statistics (e.g., Google Trends, analyst reports, blogs, leading companies adopting the topic of your book) indicating market use or market potential.
+
+
+The Vue framework entered the scene a few years ago and quickly became a popular competitor to React and Angular. The two survey sites below provides numbers to back this up.
+Stack Overflow Developer Survey - https://insights.stackoverflow.com/survey/2019
+State of JS - https://2018.stateofjs.com/front-end-frameworks/overview/
+
+
+I see no reason that Svelte/Sapper can’t achieve this same level of success over the next two years. They have many benefits over the current front runners that will be clearly explained in the book.
+
+
+I was a speaker at the MidwestJS 2019 conference. There was a half-day workshop on Svelte that was full. I gave a 50 minute talk on Svelte that was also full.
+
+
+I was invited to speak at Nordic.js 2019 where I will be giving a talk on Svelte.
+
+
+Scott Tolinski of Level Up Tutorials released an online course on Svelte on October 1, 2019.
+
+
+Please provide some scenarios that indicate how the audience will use your book. For example, will readers refer to it daily as a reference? Will they read it once to learn the concepts and then refer to it occasionally?
+
+
+I believe that my writing style encourages readers to read my content once and then continually refer back to it to refresh their memory on specific topics. I use my own content that way.
+What the reader will learn — and how to apply it
+By the end of this book the reader will understand:
+* the features of Svelte and Sapper
+* the advantages of using then over others options
+
+
+And the reader will be able to:
+
+
+* create new Svelte/Sapper applications
+* use associated tooling
+
+
+Keywords
+What are the trending terms for the topics covered in your book?
+
+
+web development, JavaScript, HTML, CSS, SPA (single page application), REST services (APIs)
+Other Book Features
+Will there be a github site for code samples?
+Yes
+Software Dependencies
+What software updates or releases could potentially impact the release of your book?
+
+
+At some point support for TypeScript will be added to Svelte. If that happens before publication, we will want to include information about using that.
+Competing Titles
+What print books compete with your book? Please list at least 3 books from other publishers and include title, author, ISBN, publisher name and year. Explain how your book will be different or better in timing, content, coverage, approach or tone than each competing title.
+
+
+There are currently no books on Svelte or Sapper.
+
+
+1. Title, author, ISBN, publisher name, year -- why my book is better
+
+
+Related O’Reilly Titles
+What O’Reilly book(s) cover similar topics or related technology? 
+
+
+1. Any books on JavaScript
+
+
+2. Any books on Node.js
+
+
+3. Any books on web development
+Book Outline
+Include a detailed outline for the project here, following the example format below. (If proposing a second edition, please highlight changes from the previous edition.)
+* Section 1 - Introduction
+   * Chapter 1 - Svelte Overview
+      * What is Svelte?
+         * web application compiler
+            * can add an unlimited number of features without affecting bundle sizes because the compiler only includes what is used
+         * no virtual DOM like React and Vue
+         * developed by Rich Harris
+         * small bundle sizes
+         * CSS scoped by default
+         * clear place for global CSS
+         * easy component state management - reactivity
+         * reactive statements (destiny operator)
+         * easy app state management (stores)
+         * easy way to pass data to descendant components (context)
+         * two-way data binding
+         * easy animations built-in
+         * runtime warnings for accessibility issues
+      * Why consider Svelte?
+         * write less code
+         * code is easier to understand
+         * all the features in previous section
+      * History of Svelte
+      * Does Svelte disappear?
+         * discuss amount of Svelte library code included in bundles
+   * Chapter 2 - Sapper Overview
+      * What is Sapper?
+         * pages are components
+         * easy routing based on directory and file names
+         * code splitting
+         * offline support through Service Workers
+         * server-side rendering (SSR) (similar to Next.js for React)
+         * static site generation (similar to Gatsby for React)
+         * server routes for implementing server APIs (REST services)
+         * prefetching so components render faster
+      * Why consider Sapper?
+      * History of Sapper
+* Section 2 - Svelte
+   * Chapter 3 - Getting Started With Svelte
+      * npx
+      * REPL download
+   * Chapter 4 - Defining Components
+      * in .svelte files with <script>, <style>, and HTML sections
+      * component Names
+      * component Props
+      * importing Components
+      * inserting HTML from strings
+   * Chapter 5 - Styling
+      * component-based styles
+      * global styles
+      * using CSS preprocessors (like Sass)
+      * Can Svelte identify unused CSS without Prettier?
+   * Chapter 6 - Reactivity
+      * Are top-level variables only treated as state (watched) if there are used in the template HTML?
+   * Chapter 7 - Reactive Statements
+      * a.k.a. destiny operator
+      * reactive declarations
+   * Chapter 8 - Logic in Markup
+      * If Markup
+      * Each Markup
+      * Await Markup
+   * Chapter 9 - Slots
+      * default and named
+   * Chapter 10 - Binding Form Elements
+      * to Variables
+      * to custom props
+   * Chapter 11 - Event Handling
+      *  DOM events
+      * dispatching custom events
+   * Chapter 12 - Lifecycle Functions
+      * onMount
+      * beforeUpdate
+      * afterUpdate
+      * onDestroy
+   * Chapter 13 - Actions
+      * call a function when an element is added to DOM
+   * Chapter 14 - Sharing Data
+      * Props
+      * Context
+      * Stores
+         * readable, writable, derived, and custom
+   * Chapter 15 - Module Context
+   * Chapter 16 - Batched DOM Updates
+   * Chapter 17 - Animation
+      * show clock SVG example? <https://svelte.dev/repl/clock?version=3.12.1>
+      * show your spinner example?
+   * Chapter 18 - Special Elements
+   * Chapter 19 - Debugging
+   * Chapter 20 - Compiling to Custom Elements
+* Section 3 - Sapper
+   * Chapter 21 - Getting Started With Sapper
+      * npx
+   * Chapter 22 - Provided Files
+      * package.json
+      * client.js
+      * server.js
+      * service-worker.js
+      * template.html
+      * static directory
+      * bundler configuration
+   * Chapter 23 - Routes
+   * Chapter 24 - Server Routes
+      * for implementing server APIs (REST services)
+   * Chapter 25 - Error Page
+   * Chapter 26 - Client API
+      * start app with `start()`
+      * programmatically navigate with `goto()`
+   * Chapter 27 - Pre-fetching
+      * fetching data ahead of component rendering
+      * methods `this.fetch`, `this.error`, and `this.redirect`
+   * Chapter 28 - Layouts
+   * Chapter 29 - Server-side Rendering
+   * Chapter 30 - Sapper Stores
+   * Chapter 31 - Building dynamic apps for deployment
+   * Chapter 32 - Exporting static apps for deployment
+* Section 4 - Issues
+   * Chapter 33 - Svelte Issues
+      * no support for TypeScript yet, but it is coming
+   * Chapter 34 - Sapper Issues
+* Section 4 - Tooling for Svelte and Sapper
+   * Chapter 35 - ESLint
+   * Chapter 36 - Prettier
+   * Chapter 37 - VS Code and the Svelte Extension
+   * Chapter 38 - Unit Tests
+      * Jest and svelte-testing-library
+   * Chapter 39 - End-to-End Tests
+      * Cypress
+   * Chapter 40 - Storybook
+* Appendix - Resources
+   * Svelte Resources
+   * Sapper Resources
+Specs and Schedule
+How many pages do you expect the book to be?
+150
+Will you be using illustrations or screenshots? 
+Yes
+Do any special considerations apply to your plans for the book, including unusual format, use of color, hard-to-get illustrations, or anything else calling for unusual resources?
+Nothing unusual is planned.
+What do you anticipate your delivery schedule to be? Please fill out the following:
+Two draft chapters to be delivered by: 12/22/2019
+Half draft manuscript to be delivered by: 3/15/2019
+Full draft manuscript ready for tech review delivered by: 5/31/2019
+Final and full manuscript ready for production: 6/30/2019
