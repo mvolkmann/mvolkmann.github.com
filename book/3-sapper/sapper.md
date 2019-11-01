@@ -638,7 +638,7 @@ For example, `db.dogs.insert({breed: 'Whippet', name: 'Dasher'})`.
 - to **replace a document in a collection**,  
   `db.{coll}.replaceOne(query, newDocument)`
 - to **add an index** to a collection,  
-  `db.{coll}.createIndex({{prop-name}: 1});`
+  `db.{coll}.createIndex({ {prop-name}: 1 });`
   - 1 means ascending order, -1 means descending
 
 ## CRUD Example
