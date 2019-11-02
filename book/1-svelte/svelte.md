@@ -140,11 +140,11 @@ it is just very small compared to other web frameworks.
 Here is a list of important resources to check out
 when learning Svelte:
 
-- "Rethinking reactivity" - <https://svelte.dev/blog/svelte-3-rethinking-reactivity>  
-  This is a talk by Rich Harris at "You Gotta Love Frontend (YGLF) Code Camp 2019".
+- "Rethinking reactivity" - <https://www.youtube.com/watch?v=gJ2P6hGwcgo>
+  This is a talk by Rich Harris given multiple times.
+  The most recent was at the "Shift Dev 2019" conference.
   It describes the motivations behind Svelte 3
   and provides a brief introduction.
-  TODO: Consider using a link to a newer version of this talk.
 - Svelte home page - <https://svelte.dev>
 - Svelte Tutorial - <https://svelte.dev/tutorial>
 - Svelte API - <https://svelte.dev/docs>
@@ -489,7 +489,7 @@ Assigning default values to props is optional.
 
 The npm package `prop-types` that is used to provide prop type checking
 like in React can also be used with Svelte.
-TODO: See the "Prop Types" section near the end!
+This is described in the "Prop Types" section later.
 
 ## Directives
 
@@ -1282,9 +1282,545 @@ similar to how React hook names start with "use".
 Lifecycle functions are not called when components are server-side rendered.
 TODO: Verify that this is true for all of them.
 
-## Dialog Example
+## Reusable Components
 
-See <https://github.com/mvolkmann/svelte-dialog>.
+Nearly every web app benefits from having a collection of
+general purpose components that are used throughout the app.
+They add UI consistency.
+They also reduce errors by reducing duplicated code.
+
+Let's implement some reusable components to support the form example
+in the "Binding Form Elements" example above.
+We will create the components `LabeledChildren`,
+`LabeledInput`, `LabeledCheckbox`, `LabeledCheckboxes`,
+`LabeledRadioButtons`, `LabeledSelect`, and `LabeledTextArea`.
+
+TODO: See how big-svelte-demo adds language translation.
+
+TODO: Add example of using Spinner component.  See big-svelte-demo.
+
+TODO: Add example of using Dialog component.  See big-svelte-demo.
+
+The following component demonstrates using each
+of the labeled components.
+
+```html
+<script>
+  import { onMount } from 'svelte';
+
+  import LabeledCheckbox from './LabeledCheckbox.svelte';
+  import LabeledCheckboxes from './LabeledCheckboxes.svelte';
+  import LabeledInput from './LabeledInput.svelte';
+  import LabeledRadioButtons from './LabeledRadioButtons.svelte';
+  import LabeledSelect from './LabeledSelect.svelte';
+  import LabeledTextArea from './LabeledTextArea.svelte';
+  import LanguageSelect from './LanguageSelect.svelte';
+
+  let colorList = [];
+  let flavorList = [];
+  let seasonList = [];
+
+  colorList = [
+    { label: 'red' },
+    { label: 'orange' },
+    { label: 'yellow' },
+    { label: 'green' },
+    { label: 'blue' },
+    { label: 'purple' }
+  ];
+
+  flavorList = [
+    { label: 'Vanilla' },
+    { label: 'Chocolate' },
+    { label: 'Strawberry' }
+  ];
+
+  seasonList = [
+    { label: 'Spring' },
+    { label: 'Summer' },
+    { label: 'Fall' },
+    { label: 'Winter' }
+  ];
+
+  let favoriteColor = '';
+  let favoriteFlavors = [];
+  let favoriteSeason = '';
+  let happy = true;
+  let name = '';
+  let story = '';
+</script>
+
+<style>
+  .container {
+    display: flex;
+    flex-direction: column;
+  }
+</style>
+
+<form class="container" on:submit|preventDefault>
+  <LabeledInput label="Name" bind:value={name} />
+
+  <LabeledCheckbox label="Happy?" bind:checked={happy} />
+
+  <LabeledCheckboxes
+    label="Favorite Flavors"
+    list={flavorList}
+    bind:selected={favoriteFlavors} />
+
+  <LabeledRadioButtons
+    className="lrb"
+    label="Favorite Season"
+    list={seasonList}
+    bind:value={favoriteSeason} />
+
+  <LabeledSelect
+    label="Favorite Color"
+    list={colorList}
+    bind:value={favoriteColor} />
+
+  <LabeledTextArea label="Life Story" bind:value={story} />
+
+  {#if name}
+    <div>
+      {name} likes {favoriteColor}, {favoriteSeason}, and is {happy ? 'happy' : 'unhappy'}.
+    </div>
+    <div>{name}'s favorite flavors are {favoriteFlavors.join(' and ')}.</div>
+    <div>Story: {story}</div>
+  {/if}
+</form>
+```
+
+### LabeledChildren
+
+This component is used by all the other components
+whose name begins with "Labeled".
+It simply renders a label followed by one or more
+other components that are placed in a default slot.
+
+The `label` prop is a required string.
+The `className` prop is an optional string that is
+useful for applying styling from outside this component.
+
+This component uses flexbox for layout.
+
+```html
+<script>
+  export let className = '';
+  export let label;
+</script>
+
+<style>
+  .container {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: flex-start;
+
+    font-size: 14px;
+    margin-bottom: 0.5rem;
+    margin-top: 0.5rem;
+  }
+
+  label {
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+  }
+</style>
+
+<div class={'container ' + className}>
+  <label class="title">{label}</label>
+  <slot />
+</div>
+```
+
+### LabeledInput
+
+This component renders a label and an input.
+
+```html
+<script>
+  /* Example usage:
+  <LabeledInput label="Name" bind:value={name} />
+  */
+  import LabeledChildren from './LabeledChildren.svelte';
+
+  export let label;
+  export let type = 'text';
+  export let value = '';
+
+  const onChange = event => (value = event.target.value);
+</script>
+
+<style>
+  input {
+    --padding: 4px;
+    border: solid gray 1px;
+    border-radius: var(--padding);
+    padding: var(--padding);
+  }
+</style>
+
+<LabeledChildren {label}>
+  <!-- The type attribute must be hard-coded (not dynamic)
+       in order to use two-way binding.
+       This is why this component does not use bind:value={value}. -->
+  <input {type} {value} on:input={onChange} />
+</LabeledChildren>
+```
+
+### LabeledTextArea
+
+This component renders a label and a textarea.
+It is very similar to `LabeledInput`.
+
+```html
+<script>
+  /* Example usage:
+  <LabeledTextArea label="Life Story" bind:value={story} />
+  */
+  import LabeledChildren from './LabeledChildren.svelte';
+
+  export let label;
+  export let value = '';
+</script>
+
+<style>
+  textarea {
+    --padding: 4px;
+    border: solid gray 1px;
+    border-radius: var(--padding);
+    padding: var(--padding);
+  }
+</style>
+
+<LabeledChildren {label}>
+  <textarea bind:value />
+</LabeledChildren>
+```
+
+### LabeledCheckbox
+
+This component renders a label and a single checkbox.
+
+```html
+<script>
+  /* Example usage:
+  <LabeledCheckbox label="Happy?" bind:checked={happy} />
+  */
+  export let className = '';
+  export let label;
+  export let checked;
+</script>
+
+<label class={className}>
+  <input type="checkbox" bind:checked />
+  {label}
+</label>
+```
+
+### LabeledCheckboxes
+
+This component renders a label and a set of checkboxes.
+
+The `list` prop holds an array objects that have
+a required `label` property and an optional `value` property.
+When `value` is omitted, the value of `label` is used for the checkbox value.
+
+The `selected` prop holds an array of the selected checkbox values.
+
+```html
+<script>
+  /* Example usage:
+  <LabeledCheckboxes
+    label="Favorite Flavors"
+    list={flavorList}
+    bind:selected={favoriteFlavors} />
+  */
+  import LabeledChildren from './LabeledChildren.svelte';
+
+  export let className = '';
+  export let label;
+  export let list;
+  export let selected;
+</script>
+
+<style>
+  .checkbox-label {
+    display: inline-block;
+    margin-left: 0;
+  }
+
+  .checkbox-label:not(:first-of-type) {
+    margin-left: 10px;
+  }
+
+  .row {
+    display: flex;
+  }
+</style>
+
+<LabeledChildren {className} {label}>
+  <div class="row">
+    {#each list as item}
+      <label class="checkbox-label">
+        <input
+          type="checkbox"
+          value={item.value || item.label}
+          bind:group={selected} />
+        {item.label}
+      </label>
+    {/each}
+  </div>
+</LabeledChildren>
+```
+
+### LabeledRadioButtons
+
+This component renders a label and a set of radio buttons.
+
+```html
+<script>
+  /* Example usage:
+  <LabeledRadioButtons
+    label="Favorite Season"
+    list={seasonList}
+    bind:value={favoriteSeason} />
+  */
+  import LabeledChildren from './LabeledChildren.svelte';
+
+  export let className = '';
+  export let label;
+  export let list;
+  export let value;
+</script>
+
+<style>
+  .radio-label {
+    display: inline-block;
+    margin-left: 0;
+  }
+
+  .radio-label:not(:first-of-type) {
+    margin-left: 10px;
+  }
+
+  .row {
+    display: flex;
+  }
+</style>
+
+<LabeledChildren {className} {label}>
+  <div class="row">
+    {#each list as item}
+      <label class="radio-label">
+        <input
+          type="radio"
+          value={item.value || item.label}
+          bind:group={value} />
+        {item.label}
+      </label>
+    {/each}
+  </div>
+</LabeledChildren>
+```
+
+### LabeledSelect
+
+This component renders a label and a select with options.
+
+```html
+<script>
+  /* Example usage:
+  <LabeledSelect
+    label="Favorite Color"
+    list={colorList}
+    bind:value={favoriteColor} />
+  */
+  import LabeledChildren from './LabeledChildren.svelte';
+
+  export let className = '';
+  export let label;
+  export let list;
+  export let value;
+</script>
+
+<LabeledChildren {className} {label}>
+  <select bind:value>
+    <option />
+    {#each list as item}
+      <option value={item.value || item.label}>{item.label}</option>
+    {/each}
+  </select>
+</LabeledChildren>
+```
+
+### Dialog Component
+
+Typically dialog components are implemented using a `div` element
+that uses a `z-index` that is higher than anything else on the page.
+Absolute positioning is used to position the `div` in the center of the page.
+
+The HTML specification defines a `<dialog>` element
+that makes using dialogs much easier.
+Unfortunately, browser support for the `<dialog>` element is still lacking.
+In 2019, the only popular browsers that support it are Chrome and Edge.
+
+However, a good polyfill is available in npm.
+See `dialog-polyfill` at <https://www.npmjs.com/package/dialog-polyfill>.
+
+To enable use of this polyfill in a Svelte application:
+
+1. `npm install dialog-polyfill`
+2. Copy the file `dialog-polyfill.css`
+   from `node_modules/dialog-polyfill/dist`
+   to the `public` directory.
+3. Add the following line in the head section of `public/index.html`.
+
+   ```html
+   <link rel="stylesheet" href="dialog-polyfill.css" />
+   ```
+
+Here is a Svelte Dialog component that utilizes
+the `<dialog>` element and this polyfill.
+The code can be found at <https://github.com/mvolkmann/svelte-dialog>.
+
+The `Dialog` component can have an icon, a title, a close "X",
+and any content. It is initially closed.
+
+Parent components obtain a reference to the dialog element
+by including the prop `bind:dialog={myDialog}`
+where `myDialog` is a variable in the parent component.
+
+To open the dialog as a modal, call `myDialog.showModal()`.
+This prevents interaction with elements outside the dialog.
+
+To open the dialog as a non-modal, call `myDialog.show()`.
+This allows interaction with elements outside the dialog.
+
+To close the dialog programmatically, call `myDialog.close()`.
+Parent components can listen for the dialog being closed
+by the user by including the prop `on:close={handleClose}`
+where `handleClose` is a function in the parent component.
+
+Here is an example of a component that uses the `Dialog` component.
+
+```html
+<script>
+  let myDialog;
+</script>
+
+<div>
+  <button on:click={() => myDialog.showModal()}>Open Dialog</button>
+</div>
+
+<Dialog title="Test Dialog" bind:dialog={myDialog}>
+  <div>This is my dialog content.</div>
+</Dialog>
+```
+
+Here is the implementation of the `Dialog` component.
+
+```html
+<script>
+  import dialogPolyfill from 'dialog-polyfill';
+  import { createEventDispatcher, onMount } from 'svelte';
+
+  // Boolean that determines whether a close "X" should be displayed.
+  export let canClose = true;
+
+  // Optional CSS class name to be added to the dialog element.
+  export let className = '';
+
+  // Parent components can use bind:dialog={myDialog} to get a
+  // reference so they can call show(), showModal(), and close().
+  export let dialog;
+
+  // An optional icon to render in the header before the title.
+  export let icon = undefined;
+
+  // Title text to display in the dialog header.
+  export let title;
+
+  const dispatch = createEventDispatcher();
+
+  $: classNames = 'dialog' + (className ? ' ' + className : '');
+
+  onMount(() => dialogPolyfill.registerDialog(dialog));
+
+  function close() {
+    dispatch('close');
+    dialog.close();
+  }
+</script>
+
+<style>
+  .body {
+    padding: 10px;
+  }
+
+  .close-btn {
+    background-color: transparent;
+    border: none;
+    color: white;
+    font-size: 24px;
+    outline: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  dialog {
+    /* These properties center the dialog in the browser window. */
+    position: fixed;
+    top: 50%;
+    transform: translate(0, -50%);
+
+    border: none;
+    box-shadow: 0 0 10px darkgray;
+    padding: 0;
+  }
+
+  header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    background-color: cornflowerblue;
+    box-sizing: border-box;
+    color: white;
+    font-weight: bold;
+    padding: 10px;
+    width: 100%;
+  }
+
+  main {
+    padding: 10px;
+  }
+
+  .title {
+    flex-grow: 1;
+    font-size: 18px;
+    margin-right: 10px;
+  }
+
+  dialog::backdrop,
+  dialog + .backdrop {
+    /* a transparent shade of gray */
+    background-color: rgba(0, 0, 0, 0.4);
+  }
+</style>
+
+<dialog bind:this={dialog} class={classNames}>
+  <header>
+    {#if icon}{icon}{/if}
+    <div class="title">{title}</div>
+    {#if canClose}
+      <button class="close-btn" on:click={close}>&#x2716;</button>
+    {/if}
+  </header>
+  <main>
+    <slot />
+  </main>
+</dialog>
+```
 
 ## Actions
 
@@ -2806,6 +3342,7 @@ Here is an example of using it:
     selected: arrayOf(string).isRequired
   }
   // The name of this component is "LabeledCheckboxes".
+  // $$props is an undocumented variable that is subject to change.
   checkPropTypes(propTypes, $$props, 'prop', 'LabeledCheckboxes');
 ```
 
@@ -2858,6 +3395,7 @@ and two of which will come from query parameters.
 
   // This shows that we can access
   // all the props in a single object.
+  // $$props is an undocumented variable that is subject to change.
   console.log('Page1 $$props =', $$props);
 </script>
 
@@ -3018,10 +3556,231 @@ This code is heavily commented to explain each step.
 </main>
 ```
 
-## Internationalization
+The `page` library has additional features not demonstrated here.
+See <https://visionmedia.github.io/page.js/> for more details.
+
+## Language Translation
 
 There are many approaches for adding language translation
-to web applications.  One is to use the library "web-translate" in npm.
+to web applications.  Let's start with a very basic approach.
+
+We can create a separate JSON file for each language to be supported
+that contains all the desired translations.
+
+For example:
+
+### en.json
+
+{
+  "hello": "hello",
+  "goodbye": "goodbye"
+}
+
+### es.json
+
+{
+  "hello": "hola",
+  "goodbye": "adiós"
+}
+
+### fr.json
+
+{
+  "hello": "salut",
+  "goodbye": "au revior"
+}
+
+Recall that Svelte uses the Rollup module bundler by default.
+To import `.json` files in Svelte components,
+the Rollup JSON plugin must be installed and configured.
+
+To install this plugin,
+enter `npm install -D rollup-plugin-json`.
+
+To configure this plugin, edit `rollup.config.js`.
+add `json({})` in the `plugins` array.
+For detail on options that can be passed to the `json` plugin,
+see <https://github.com/rollup/rollup-plugin-json>.
+
+Here is a component that provides basic language translation.
+It is defined in `src/App.svelte`.
+
+![language translation](./language-translation.png)
+
+```html
+<script>
+  import english from './en.json';
+  import spanish from './es.json';
+  import french from './fr.json';
+
+  export let language = 'en';
+
+  let translationMap = {
+    en: english,
+    es: spanish,
+    fr: french
+  };
+  
+  $: translations = translationMap[language];
+</script>
+
+<select bind:value={language}>
+  <option value="en">English</option>
+  <option value="fr">French</option>
+  <option value="es">Spanish</option>
+</select>
+
+<h1>{translations.hello}</h1>
+<h1>{translations.goodbye}</h1>
+```
+
+There are several issues with this approach:
+
+1. Adding a new word requires looking up the translation
+   for all supported languages and
+   adding them to the appropriate `.json` files.
+2. Adding a language requires creating a new `.json` file,
+   adding translations for all the phrases being used,
+   adding an `import` of the new `.json` file,
+   and adding an `<option>` for it inside the `<select>`.
+
+This can be greatly simplified by using the "web-translate" in npm.
+See <https://www.npmjs.com/package/web-translate>.
+
+Let's change the application above to use this.
+Here are the steps:
+
+1. `npm install web-translate`
+2. Create the file `public/languages.json` containing the following:
+
+   ```json
+   {
+     "English": "en",
+     "French": "fr",
+     "Spanish": "es"
+   }
+   ```
+
+3. Create the file `src/stores.js` containing the following:
+
+   ```js
+   import {writable} from 'svelte/store';
+   import {i18n as originalI18n} from 'web-translate';
+
+   export const i18n = writable(originalI18n);
+   ```
+
+4. In Svelte components where language translation is needed,
+   such as `App.svelte` in our example,
+   add `import {i18n} from './stores';`
+
+5. Replace all strings that require language translation
+   with `$i18n('phrase')` where `phase` is English text.
+   For really long phrases, choose a key that is not an English word
+   (such as "intro-paragraph") and add the mapping from that key
+   to the full English phrase in `public/en.json`.
+   Pass this key to `$i18n`.
+
+6. Implement a component for selecting the current language
+   in the file `src/LanguageSelect.svelte` containing the following:
+
+    ```html
+    <script>
+      import {onMount} from 'svelte';
+      import {
+        getSupportedLanguages,
+        i18n as originalI18n,
+        setLanguage
+      } from 'web-translate';
+      import {i18n} from './stores';
+
+      let languageCode;
+      let languages;
+      let languageNames = [];
+
+      onMount(async () => {
+        // Get the languages listed in public/languages.json.
+        languages = await getSupportedLanguages();
+        languageNames = Object.keys(languages);
+      });
+
+      async function handleChange(event) {
+        languageCode = event.target.value;
+        await setLanguage(languageCode);
+        // Doing this triggers interpolations
+        // that use $i18n to re-render.
+        i18n.set(originalI18n);
+      }
+    </script>
+
+    <select on:change={handleChange} value={languageCode}>
+      {#each languageNames as name}
+        <option value={languages[name]}>{name}</option>
+      {/each}
+    </select>
+    ```
+
+7. Use the `LanguageSelect` component in every component
+   from which the user should be able to change the language.
+
+   ```html
+   <script>
+     import LanguageSelect from './LanguageSelect.svelte';
+   </script>
+
+   <LanguageSelect />
+   ```
+
+8. Create a free Yandex API key
+   by browsing <https://tech.yandex.com/translate/>
+   and clicking "Get a free API key".
+
+9. Create the script to set two environment variables.
+   In an *nix environment, this can be named `setup`
+   and have the following content:
+
+   ```bash
+   #!/usr/bin/env bash
+   export TRANSLATE_ENGINE=yandex
+   export API_KEY={your-api-key}
+   ```
+
+10. Add the `setup` script to the `.gitignore` file
+    so your API key is not exposed.
+
+11. Execute this script to set the environment variables.
+    In a *nix environment, this is done by entering `. ./setup`.
+
+12. Add the following npm script in `package.json`:
+
+    ```json
+    "gentran": "generate-translations",
+    ```
+
+    TODO: Why does this fail now unless `npm install -D node-fetch` is run?
+
+13. Generate translations by entering `npm run gentran`.
+    Run this again every time calls to `$i18n` are added
+    or the file `public/languages.json` is modified.
+
+That's it.  The application now uses generated translations.
+
+Of course sometimes generated translations are not desirable
+or even wrong.  When this happens, create `-overrides.json` files.
+For example, to override the French translation for "hello",
+create the file `public/fr-overrides.json`
+and add only the translations to be overridden.
+
+For example:
+
+```json
+{
+  "hello": "salutations"
+}
+```
+
+After creating or modifying overrides files,
+run `npm run gentran` again.
 
 ## Unit Tests
 
