@@ -3636,11 +3636,11 @@ It is defined in `src/App.svelte`.
 
 There are several issues with this approach:
 
-1. Adding a new word requires looking up the translation
-   for all supported languages and
+1. Adding a new phrase to translate requires looking up
+   the translation for all supported languages and
    adding them to the appropriate `.json` files.
-2. Adding a language requires creating a new `.json` file,
-   adding translations for all the phrases being used,
+2. Adding a language to support requires creating a new `.json` file,
+   adding translations for all the phrases currently being used,
    adding an `import` of the new `.json` file,
    and adding an `<option>` for it inside the `<select>`.
 
@@ -3651,6 +3651,7 @@ Let's change the application above to use this.
 Here are the steps:
 
 1. `npm install web-translate`
+
 2. Create the file `public/languages.json` containing the following:
 
    ```json
@@ -3671,15 +3672,18 @@ Here are the steps:
    ```
 
 4. In Svelte components where language translation is needed,
-   such as `App.svelte` in our example,
-   add `import {i18n} from './stores';`
+   such as `App.svelte` in our example, add the following:
+
+   ```js
+   import {i18n} from './stores';
+   ```
 
 5. Replace all strings that require language translation
    with `$i18n('phrase')` where `phase` is English text.
    For really long phrases, choose a key that is not an English word
    (such as "intro-paragraph") and add the mapping from that key
    to the full English phrase in `public/en.json`.
-   Pass this key to `$i18n`.
+   Pass this key to `$i18n` in place of the phrase.
 
 6. Implement a component for selecting the current language
    in the file `src/LanguageSelect.svelte` containing the following:
@@ -3735,7 +3739,7 @@ Here are the steps:
    by browsing <https://tech.yandex.com/translate/>
    and clicking "Get a free API key".
 
-9. Create the script to set two environment variables.
+9. Create a script to set two environment variables.
    In an *nix environment, this can be named `setup`
    and have the following content:
 
@@ -3745,11 +3749,16 @@ Here are the steps:
    export API_KEY={your-api-key}
    ```
 
-10. Add the `setup` script to the `.gitignore` file
+10. If the application is being saved in a Git repository,
+    add the `setup` script to the `.gitignore` file
     so your API key is not exposed.
 
 11. Execute this script to set the environment variables.
-    In a *nix environment, this is done by entering `. ./setup`.
+    In a *nix environment, this is done by entering the following:
+
+    ```bash
+    . ./setup
+    ```
 
 12. Add the following npm script in `package.json`:
 
@@ -3760,8 +3769,8 @@ Here are the steps:
     TODO: Why does this fail now unless `npm install -D node-fetch` is run?
 
 13. Generate translations by entering `npm run gentran`.
-    Run this again every time calls to `$i18n` are added
-    or the file `public/languages.json` is modified.
+    Run this again every time calls to `$i18n` that use new phrases are added
+    or when the file `public/languages.json` is modified.
 
 That's it.  The application now uses generated translations.
 
@@ -3779,8 +3788,8 @@ For example:
 }
 ```
 
-After creating or modifying overrides files,
-run `npm run gentran` again.
+After creating or modifying `-overrides.json` files,
+run `npm run gentran` again to incorporate the overrides.
 
 ## Unit Tests
 
