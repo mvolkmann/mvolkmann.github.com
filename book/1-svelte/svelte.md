@@ -1302,7 +1302,7 @@ TODO: Add example of using Spinner component.  See big-svelte-demo.
 TODO: Add example of using Dialog component.  See big-svelte-demo.
 
 The following component demonstrates using each
-of the labeled components.
+of these labeled components.
 
 ```html
 <script>
@@ -3645,6 +3645,9 @@ There are several issues with this approach:
    and adding an `<option>` for it inside the `<select>`.
 
 This can be greatly simplified by using the "web-translate" in npm.
+With this approach, each language `.json` file,
+except `en.json` for English, is generated using either
+the Yandex (default) or Google translation service.
 See <https://www.npmjs.com/package/web-translate>.
 
 Let's change the application above to use this.
@@ -4300,12 +4303,13 @@ It cannot currently listen for DOM events emitted by custom elements.
 
 ### Vue-specific Information
 
-## svelte.preprocess
+## Preprocessing
 
-This is a function that transforms `.svelte` files before the Svelte compiler
-sees them, replaces targeted code with other code.
+`svelte.preprocess` is a function that transforms `.svelte` files
+before the Svelte compiler sees them,
+replacing targeted code with other code.
 For example, it can be used to add support for
-Pug, Sass, and TypeScript (with some limitations).
+Markdown, Pug, Sass, and TypeScript (with some limitations).
 
 Additional packages must be installed to perform specific translations.
 To use Sass, `npm install node-sass`.
@@ -4364,7 +4368,7 @@ TODO: TEST THIS!
 When using Sapper, add the configuration above to
 both the `client` and `server` sections.
 
-## svelte-preprocess
+### svelte-preprocess
 
 The svelte-preprocess npm package enables the use of multiple preprocessors
 for the `<script>`, `<style>`, and HTML sections of a `.svelte` file.
@@ -4516,6 +4520,84 @@ $: upperName = name.toUpperCase();
 ```
 
 VS Code will report "$" as an unused label, but that can be ignored.
+
+### svelte-preprocess-markdown
+
+One option to add support for Markdown syntax
+is svelte-preprocess-markdown at
+<https://alexxnb.github.io/svelte-preprocess-markdown/>.
+
+This supports implementing Svelte components in `.md` files
+that include Markdown syntax.
+Any Markdown syntax can be used, including Markdown for tables.
+
+This uses the popular "marked" library at <https://marked.js.org>
+to process Markdown syntax.
+
+The `.md` files can contain everything that
+can be present in `.svelte` files.
+This includes `<script>` tags, `<style>` tags, HTML elements,
+and use of other Svelte components.
+
+To configure this:
+
+1. `npm i -D svelte-preprocess-markdown`
+2. Edit `rollup.config.js`.
+3. Add `const {markdown} = require('svelte-preprocess-markdown');`
+   after the imports at the top of the file.
+4. Add the following in the object passed to the `svelte` plugin:
+
+   ```json
+   extensions: ['.svelte','.md'],
+   preprocess: markdown()
+   ```
+
+For any components that use Markdown syntax,
+simply change the file extension from `.svelte` to `.md`.
+
+To style the Markdown, add CSS that targets the HTML elements produced by the Markdown syntax.  For example, `#` creates an `<h1>` element.
+For details on the mapping from Markdown syntax to HTML elements,
+see <https://www.markdownguide.org/basic-syntax/>.
+
+### MDsveX
+
+Another option to add support for Markdown syntax
+is MDsevX at <https://github.com/pngwn/MDsveX>.
+
+This supports implementing Svelte components in `.svexy` files
+that include Markdown syntax.
+Any Markdown syntax can be used, including Markdown for tables.
+
+This uses the "markdown-it" library at
+<https://github.com/markdown-it/markdown-it>
+to process Markdown syntax.
+
+To configure this:
+
+1. `npm i -D mdsvex`
+2. Edit `rollup.config.js`.
+3. Add `import { mdsvex } from 'mdsvex';`
+   after the imports at the top of the file.
+4. Add the following in the object passed to the `svelte` plugin:
+
+   ```json
+   extensions: ['.svelte', '.svexy'],
+   preprocess: mdsvex({
+     markdownOptions: {
+       typographer: true, // ex. changes (c) to copyright symbol, and more
+       linkify: true // detects URLs and turns them into links
+     },
+   }),
+   ```
+
+Detail on options supported by markdown-it
+can be found at <https://markdown-it.github.io/>.
+
+For any components that use Markdown syntax,
+simply change the file extension from `.svelte` to `.svexy`.
+
+To style the Markdown, use the same approach
+as for svelte-preprocess-markdown.
 
 ### Templates
 
@@ -5354,6 +5436,11 @@ so they have file scope.
 The "hydrate" compiler option is off by default.
 TODO: Learn what this does.  It has something to do with populating
 TODO: existing components with changes rather than recreating them.
+
+### Markdown Support
+
+There are several options for creating Svelte components
+that use Markdown syntax.
 
 ## Related Tools
 
