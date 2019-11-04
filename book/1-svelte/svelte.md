@@ -125,8 +125,9 @@ Other library files are used for specific features.
 These include `easing.js`, `motion.js`, `register.js`,
 `store.js`, and `transition.js`.
 
-Entering `npm run build` produces files in the `public` directory
-including `bundle.js`.
+Entering `npm run dev` or `npm run build`
+produces files in the `public` directory
+including `bundle.js` and `bundle.css`.
 Svelte library functions that are used by the app
 are copied to the top of `bundle.js`.
 In the case of the Todo app shown later,
@@ -261,8 +262,11 @@ Let's walk through the steps to create and run a Svelte application.
 
    This starts a local HTTP server and provides live reload,
    unlike `npm run start` which omits live reload.
-   Syntax errors are reported in the window where this is running,
-   not in the browser.
+   Before running this, enter `npm run build` to create
+   the bundle files that `npm run start` expects to exist.
+
+   Syntax errors are reported in the window
+   where this is running, not in the browser.
    This happens because Svelte doesn’t produce
    a new version of the app if there are errors.
 
@@ -2421,6 +2425,60 @@ that takes a store and returns its current value.
 For example, to get the current value of
 the `point` variable above (which refers to a store),
 we can use `get(point)`.
+
+### Persisting Stores
+
+If a user refreshes the browser,
+the code that creates stores is run again.
+This causes them to revert to their initial value.
+
+It is possible to implement custom stores
+that persist any changes to `sessionStorage`
+and restore their value from `sessionStorage` on refresh.
+
+Here is an example of a generic writable store that does this.
+Using it is nearly the same as using the provided `wriable` function.
+The only difference is that it needs a `sessionStorage` key string.
+Consider putting this code in a file like `store-util.js`
+and importing the `writableSession` function from that.
+
+```js
+import {get, writable} from 'svelte/store';
+
+function persist(key, value) {
+  sessionStorage.setItem(key, JSON.stringify(value));
+}
+
+export function writableSession(key, initialValue) {
+  const sessionValue = JSON.parse(sessionStorage.getItem(key));
+  if (!sessionValue) persist(key, initialValue);
+  const store = writable(sessionValue || initialValue);
+  const {set: realSet, subscribe, update: realUpdate} = store;
+
+  return {
+    set(value) {
+      realSet(value);
+      persist(key, value);
+    },
+    subscribe,
+    update(fn) {
+      realUpdate(fn);
+      persist(key, get(store));
+    }
+  };
+}
+```
+
+Here is an example of creating an instance of this kind of store.
+
+```html
+import {writableSession} from './store-util';
+
+export const numbers = writableSession('numbers', [1, 2, 3]);
+```
+
+Any number of components can import `numbers` and
+call its `set` and `update` methods to change the value.
 
 ## Module Context
 
