@@ -2,6 +2,10 @@
 
 <https://svelte-native.technology/>
 
+TODO: Read this interview with the creator: <https://www.nativescript.org/blog/an-interview-with-svelte-native-creator-david-pershouse>
+
+TODO: Watch YouTube video "Svelte Native - Alcohol Calculator App" from Svelte Master.
+
 ## Using TypeScript
 
 Supposedly it will work if you use both the svelte preprocessor and rollup-plugin-typescript.
@@ -14,11 +18,16 @@ Svelte Native copies the approach used by NativeScript-Vue to
 integrate use of NativeScript with Svelte for creating mobile applications.
 See <https://svelte-native.technology/>.
 
+It was created by David Pershouse who is
+halfnelson on GitHub and @halfnelson_au on Twitter.
+
 NativeScript uses HTML, CSS, and JavaScript to create
 apps that run on Android and iOS devices.
 It was created and is maintained by Telerik Corp.
 Native components are used rather than WebViews, just like in React Native.
 See <https://nativescript.org/>.
+
+Svelte Native supports all NativeScript UI packages.
 
 Supposedly all native device APIs can be used in Svelte Native.
 
@@ -47,6 +56,12 @@ The steps to get started are:
    The first time this is done, it will ask to install
    the "NativeScript Preview App". Click "Install".
    The live reload is very fast ... about three seconds for a small app.
+
+To create a Svelte Native project that uses TypeScript:
+
+```bash
+tns create my-awesome-app --template tns-template-blank-svelte
+```
 
 The official tutorial and API documentation are at
 <https://svelte-native.technology/>.

@@ -236,7 +236,9 @@ and click "Your saved apps".
 This will display a list of saved app names.
 Click one to load it.
 
-TODO: How do you ask the REPL to create a new app, starting from Hello World?
+To reset the REPL to its starting point
+which is a basic "Hello World" app,
+click "REPL" in the upper-right.
 
 ## Creating a Svelte App
 
@@ -253,6 +255,10 @@ Let's walk through the steps to create and run a Svelte application.
    In this case "sveltejs" is the user name and "template" is the repo.
    The second argument is the name of application
    and the name of the sub-directory to create.
+
+   This uses the Rollup module bundler.
+   To use Webpack instead, enter
+   `npx degit sveltejs/template-webpack _`app-name`_
 
 3. `cd` _`app-name`_
 
@@ -273,6 +279,9 @@ Let's walk through the steps to create and run a Svelte application.
 6. Browse localhost:5000
 
    This just outputs "Hello world!" in purple.
+
+   Note that the default Webpack configuration
+   uses port 8080 instead of 5000.
 
 Now you are ready to start modifying the app.
 
@@ -1240,8 +1249,8 @@ The attribute `bind:this` sets the variable specified as its value
 to a reference to the DOM element for the `input`.
 This is used in the function passed to `onMount`
 to move focus to the `input`.
-
-TODO: Should you mention here using an "action" to do this instead?
+We will see an even easier way to move focus
+in the "Actions" section ahead.
 
 To register a function to be called when a component
 is removed from the DOM, pass the function to `onDestroy`.
@@ -1283,8 +1292,12 @@ This is similar to defining custom React hooks.
 It is recommended to name these helper functions starting with "on",
 similar to how React hook names start with "use".
 
-Lifecycle functions are not called when components are server-side rendered.
-TODO: Verify that this is true for all of them.
+Lifecycle functions are not called when components are server-side rendered.  See the "Server-Side Rendering" section later.
+TODO: But see your "sapper-hot-load" project where you added
+TODO: lifecycle functions in about.svelte.
+TODO: Browse <http://localhost:3000/about> and you will see that
+TODO: HTML for "about" is downloaded first. But then about.hash.js
+TODO: is downloaded and the lifecycle functions DO get called!
 
 ## Reusable Components
 
@@ -1297,16 +1310,11 @@ Let's implement some reusable components to support the form example
 in the "Binding Form Elements" example above.
 We will create the components `LabeledChildren`,
 `LabeledInput`, `LabeledCheckbox`, `LabeledCheckboxes`,
-`LabeledRadioButtons`, `LabeledSelect`, and `LabeledTextArea`.
-
-TODO: See how big-svelte-demo adds language translation.
-
-TODO: Add example of using Spinner component.  See big-svelte-demo.
-
-TODO: Add example of using Dialog component.  See big-svelte-demo.
+`LabeledRadioButtons`, `LabeledSelect`, `LabeledTextArea`.
+and `Spinner`.
 
 The following component demonstrates using each
-of these labeled components.
+of these labeled components and the Spinner component.
 
 ```html
 <script>
@@ -1352,12 +1360,17 @@ of these labeled components.
   let happy = true;
   let name = '';
   let story = '';
+  let wait = false;
 </script>
 
 <style>
   .container {
     display: flex;
     flex-direction: column;
+  }
+
+  label {
+    display: inline-block;
   }
 </style>
 
@@ -1383,6 +1396,14 @@ of these labeled components.
     bind:value={favoriteColor} />
 
   <LabeledTextArea label="Life Story" bind:value={story} />
+
+  <div>
+    <label>Wait?</label>
+    <input type="checkbox" bind:checked={wait} />
+  </div>
+  {#if wait}
+    <Spinner size={100} />
+  {/if}
 
   {#if name}
     <div>
@@ -1655,6 +1676,117 @@ This component renders a label and a select with options.
     {/each}
   </select>
 </LabeledChildren>
+```
+
+### Spinner Component
+
+This component can be used to indicate
+that an application is waiting for something
+such as the result of a REST call.
+It demonstrates rendering SVG in a Svelte component.
+
+![Spinner component](./spinner.png)
+
+```html
+<script>
+  import {onMount} from 'svelte';
+
+  export let size = 100;
+
+  const HALF_SIZE = size / 2;
+
+  const STROKE_WIDTH = 10;
+  const HALF_STROKE = STROKE_WIDTH / 2;
+
+  const DELTA_DEGREES = 5;
+  const LARGE_ARC = 0;
+  const RADIUS = HALF_SIZE - HALF_STROKE;
+  const SWEEP = 0;
+  const SWEEP_DEGREES = 60;
+  const X_AXIS_ROTATION = 0;
+
+  let element;
+  let startDegrees = 0;
+  let token;
+
+  onMount(() => {
+    if (element) {
+      element.style.setProperty('--size', size + 'px');
+      const s = element.style.getPropertyValue('--size');
+    }
+
+    token = requestAnimationFrame(animate);
+    return () => cancelAnimationFrame(token);
+  });
+
+  function animate() {
+    startDegrees = (startDegrees - DELTA_DEGREES) % 360;
+    token = requestAnimationFrame(animate);
+  }
+
+  const degreesToRadians = degrees => (degrees * Math.PI) / 180;
+
+  // Must pass startDegrees as an argument to get reactivity!
+  function getPathD(startDegrees) {
+    const startAngle = degreesToRadians(startDegrees);
+    const endAngle = degreesToRadians(startDegrees + SWEEP_DEGREES);
+
+    const startX = HALF_SIZE + RADIUS * Math.cos(startAngle);
+    const startY = HALF_SIZE - RADIUS * Math.sin(startAngle);
+    const endX = HALF_SIZE + RADIUS * Math.cos(endAngle);
+    const endY = HALF_SIZE - RADIUS * Math.sin(endAngle);
+
+    const move = `M ${startX} ${startY}`;
+    const arc = `A ${RADIUS} ${RADIUS} ${X_AXIS_ROTATION} ${LARGE_ARC} ${SWEEP} ${endX} ${endY}`;
+    return move + ' ' + arc;
+  }
+</script>
+
+<style>
+  .progress {
+    box-sizing: border-box;
+    height: var(--size);
+    width: var(--size);
+
+    position: absolute;
+  }
+
+  .spinner {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 400;
+
+    background-color: cornflowerblue;
+    opacity: 0.7;
+    border: solid gray 10px;
+    border-radius: calc(var(--size) / 2);
+    box-sizing: border-box;
+    height: var(--size);
+    width: var(--size);
+  }
+
+  svg {
+    color: white;
+    height: 40%;
+    width: 40%;
+  }
+</style>
+
+<div bind:this={element} class="spinner">
+  <svg class="progress" width={size} height={size}>
+    <path
+      fill="none"
+      stroke="red"
+      stroke-width={STROKE_WIDTH}
+      d={getPathD(startDegrees)} />
+  </svg>
+</div>
 ```
 
 ### Dialog Component
@@ -2437,7 +2569,7 @@ that persist any changes to `sessionStorage`
 and restore their value from `sessionStorage` on refresh.
 
 Here is an example of a generic writable store that does this.
-Using it is nearly the same as using the provided `wriable` function.
+Using it is nearly the same as using the provided `writable` function.
 The only difference is that it needs a `sessionStorage` key string.
 Consider putting this code in a file like `store-util.js`
 and importing the `writableSession` function from that.
@@ -2604,6 +2736,7 @@ for a change to be processed before testing for the effect.
 Svelte provides many transition directive values
 and functions that make it easy to add animation to elements.
 This section describes each of these.
+In concludes with showing how custom transitions can be implemented..
 
 ### Easing
 
@@ -2859,6 +2992,189 @@ but this can be changed by specifying the `opacity` option.
 To slide an element off the screen without changing its opacity
 during the slide, set this to 1.
 
+### `fade` Transition
+
+This example moves buttons between left and right lists
+as each button is clicked.
+It uses the `fade` transition so the clicked button
+fades out of its current list and fades into its new list.
+It also uses the `flip` animation so buttons below the
+button being moved slide up to fill the space left behind.
+
+![fade transition](./fade-transition.png)
+
+This uses two components to avoid duplicating code.
+Here is the `ButtonList` component
+that is used for both the left and right lists:
+
+```html
+<script>
+  import {flip} from 'svelte/animate';
+  import {fade} from 'svelte/transition';
+  
+  // This is an array of button text values.
+  export let list;
+
+  // This is a function that moves the
+  // clicked button to the other list.
+  export let moveFn;
+
+  let options = {duration: 1000};
+</script>
+
+<style>
+  .item {
+    display: block;
+    margin-bottom: 10px;
+    padding: 5px;
+  }
+  
+  .list {
+    display: inline-block;
+    vertical-align: top;
+    width: 100px;
+  }
+</style>
+
+<div class="list">
+  {#each list as item (item)}
+  <button
+    class="item"
+    on:click={moveFn}
+    animate:flip={options}
+    transition:fade={options}>
+    {item}
+  </button>
+  {/each}
+</div>
+```
+
+Here is the `App` component that uses two instances of `ButtonList`:
+
+```html
+<script>
+  import ButtonList from './ButtonList.svelte';
+  
+  let left = ['red', 'orange', 'yellow', 'green'];
+  let right = ['blue', 'purple'];
+  
+  function move(event, from, to) {
+    const text = event.target.textContent.trim();
+    to.push(text);
+    return [from.filter(t => t !== text), to];
+  }
+  
+  function moveLeft(event) {
+    // New values must be assigned to left and right for reactivity.
+    [right, left] = move(event, right, left);
+  }
+  
+  function moveRight(event) {
+    // New values must be assigned to left and right for reactivity.
+    [left, right] = move(event, left, right);
+  }
+</script>
+
+<p>Click a button to move it to the other list.</p>
+<ButtonList list={left} moveFn={moveRight} />
+<ButtonList list={right} moveFn={moveLeft} />
+```
+
+### `crossfade` Transition
+
+The `crossfade` transition creates "send" and "receive" transitions.
+These are used to coordinate movement of
+an element from one parent to another.
+This is also referred to as a "deferred transition".
+See <https://svelte.dev/tutorial/deferred-transitions>.
+
+An example is moving items between lists.
+An item is sent out of one list and received into another.
+The "send" transition defers to see if the element
+is being "received" in another location.
+Then it animates a transition of the element
+from its current location to its new location.
+This provides a much nicer visual effect than
+what we achieved earlier using the "fade" transition.
+
+Here is an example of doing this.
+Note that the "flip" animation is also used
+so remaining list items animate closing up the vacated space.
+
+![crossfade Demo](./crossfade-demo.png)
+
+```html
+<script>
+  import {flip} from 'svelte/animate';
+  import {crossfade} from 'svelte/transition';
+  const [send, receive] = crossfade({});
+  
+  let leftItems = ['red', 'orange', 'green', 'purple'];
+  let rightItems = ['yellow', 'blue'];
+
+  function moveLeft(item) {
+    rightItems = rightItems.filter(i => i !== item);
+    leftItems.push(item);
+    leftItems = leftItems;
+  }
+  
+  function moveRight(item) {
+    leftItems = leftItems.filter(i => i !== item);
+    rightItems.push(item);
+    rightItems = rightItems;
+  }
+</script>
+
+<style>  
+  button {
+    background-color: cornflowerblue;
+    border: none;
+    color: white;
+    padding: 10px;
+    margin-bottom: 10px;
+    width: 100%;
+  }
+  
+  .list {
+    display: inline-block;
+    margin-right: 30px;
+    vertical-align: top;
+    width: 70px;
+  }
+</style>
+
+<main>
+  <p>Click a button to move it to the opposite list.</p>
+  <div class="list">
+    {#each leftItems as item (item)}
+      <button
+        animate:flip
+        in:receive={{key: item}}
+        out:send={{key: item}}
+        on:click={() => moveRight(item)}
+      >
+        {item}
+      </button>
+    {/each}
+  </div>
+
+  <div class="list">
+    {#each rightItems as item (item)}
+      <button
+        animate:flip
+        in:receive={{key: item}}
+        out:send={{key: item}}
+        on:click={() => moveLeft(item)}
+      >
+        {item}
+      </button>
+    {/each}
+  </div>
+</main>
+```
+
+### Transitions Demo
+
 Here is an example that demonstrates each of the transitions
 described above:
 
@@ -2893,6 +3209,10 @@ described above:
 
 Click the "Toggle" button to toggle between hiding and showing
 each of the `h1` elements which triggers their transition.
+Focus your eyes on one item at a time to get a clear
+understanding of the effect of a particular transition.
+
+### `draw` Transition
 
 The `draw` transition animates the stroke of an SVG element.
 The example below draws a house with a single SVG `path` element
@@ -2962,9 +3282,121 @@ to fade in when mounted and fade out when destroyed.
 </li>
 ```
 
-TODO: Verify this! When using the fade animation to fade a current element
-TODO: out and a new one in, you may want to use "position: absolute"
-TODO: so the new and old elements are in the same location.
+### Custom Transitions
+
+Implementing custom transitions is easy.
+All that is required is to write a function
+that follows a few basic rules.
+
+The function should take two arguments,
+the DOM node to be transitioned and an options object.
+Examples of options include:
+
+- `delay` - This is the number of milliseconds to wait before the transition begins.
+- `duration` - This is the number of milliseconds over which the transition should occur.
+- `easing` - This is an easing function that takes a value between zero and one, and returns a value in that same range.
+
+Options that are specific to a given transition can also be provided.
+For example, the `fly` transition accepts `x` and `y` options.
+
+The function must return an object
+whose properties include the transition options
+and a `css` method.
+
+The transition options returned can be given
+default values that are used when
+they are not passed to the function.
+For example, default values for `duration` and `easing`
+can be provided.
+
+The `css` method is passed a time value between zero and one.
+It must return a string containing
+CSS properties to be applied to the DOM node
+for that time value.
+Examples of CSS properties that might vary over time include
+opacity, size, font size, position, rotation, and color.
+
+![custom transition](./custom-transition.png)
+
+```html
+<script>
+  import {backInOut, linear} from 'svelte/easing';
+
+  let springy = false;
+  $: duration = springy ? 2000 : 1000;
+  $: easing = springy ? backInOut : linear;
+  
+  let show = true;
+  const toggle = () => show = !show;
+
+  function spin(node, options) {
+    const {duration, easing} = options;
+    return {
+      duration,
+      // The value of t passed to the css method
+      // varies between zero and one during an "in" transition
+      // and between one and zero during an "out" transition.
+      css(t) {
+        // Easing functions return values in the same range as t values.
+        const eased = easing(t);
+        const degrees = 360 * 3; // through which to spin
+        return `transform: scale(${eased}) rotate(${eased * degrees}deg);`;
+      }
+    };
+  }
+</script>
+
+<style>
+  .center {
+    /* This has a width and height of zero and is
+       only used to center the content on the page. */
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  .content {
+    /* for rotation about center */
+    position: absolute;
+    transform: translate(-50%, -50%);
+
+    font-size: 64px;
+    text-align: center;
+    width: 300px;
+  }
+</style>
+
+<label>
+  <input type="checkbox" bind:checked={springy} /> Springy
+  duration = {duration}
+  <button on:click={toggle}>Toggle</button>
+</label>
+
+{#if show}
+  <div class="center" transition:spin={{duration, easing}}>
+    <div class="content">Take me for a spin!</div>
+  </div>
+{/if}
+```
+
+Recall that we can specify separate `in` and `out` transition props
+instead of specifying a `transition` prop
+that is used for both the "in" and "out" portions.
+
+There is a difference between these approaches even if
+the same transition is specified for `in` and `out`.
+
+When the `transition` prop is used,
+the same transition options will be used
+for the "out" portion as the "in" portion
+even if the options are changed after the "in" portion occurs.
+
+To allow option changes made after the "in" portion occurs
+to be honored by the "out" portion,
+use `in` and `out` props instead of the `transition` prop.
+
+### More Transition Details
 
 To apply the different transitions for hiding and showing an element,
 use the `out:{name}={options}` and `in:{name}={options}` props.
@@ -2975,8 +3407,6 @@ starts and ends using the `on:introstart`, `on:introend`,
 
 Custom animations can be created.
 For an example see <https://svelte.dev/tutorial/custom-css-transitions>.
-
-TODO: Learn about "deferred transitions"!
 
 ## Special Elements
 
@@ -3852,6 +4282,117 @@ For example:
 After creating or modifying `-overrides.json` files,
 run `npm run gentran` again to incorporate the overrides.
 
+## Server-Side Rendering (SSR)
+
+See <https://github.com/mvolkmann/svelte-ssr>.
+TODO: Why doesn't this work?
+
+Server-side rendering generates the HTML for an app
+in the server an returns that HTML to browsers.
+This reduces the load time for the first page of the app.
+It is also desirable for search engine optimization (SEO).
+
+The easiest way to get SSR for a Svelte application
+is to use Sapper.  However, it is also possible to
+configure a Svelte app to provide this.
+
+Svelte SSR is achieved using the
+"Server-side component API" described at
+<https://svelte.dev/docs#Server-side_component_API>.
+This generates page content in three parts,
+`<head>`, `<style>`, and `<body>`.
+Your task to write a Node-based server
+that generates HTML including these parts.
+
+Here are the steps to do this:
+
+1. Edit `rollup.config.js`.
+   - Change the `input` property from `src/main.js` to `src/server.js`.
+   - Change the `output.format` property from `'iffe'` to `'cjs'`.
+     The "iffe" format produces a self-executing function
+     that can be included in a `<script>` tag.
+     The "cjs" format products a CommonJS module.
+     Other supported formats include "amd" (used with RequireJS),
+     "esm" (used as an ECMAScript module in modern browsers),
+     "system" (used with SystemJS), and
+     "umd" (produces a bundle that is compatible with amd, cjs, and iffe).
+   - Add `generate: ssr` to the object passed to the `svelte` plugin
+     to use the server-side rendering compiler
+     instead of the client-side rendering compiler.
+
+1. Enter `npm install express`.
+
+1. Create the file `src/server.js` with the following content:
+
+    ```js
+    require('svelte/register');
+    const express = require('express');
+    const App = require('./App.svelte');
+
+    const app = express();
+
+    app.get('/', (req, res) => {
+      // If the app uses path or query parameters,
+      // get the values from req.  For example,
+      // this gets the "name" from query parameter.
+      const {name = 'World'} = req.query;
+
+      // Render the App component with the "name" prop.
+      // head is set when <svelte:head> is used.
+      const {head, css, html} = App.default.render({name});
+
+      const style = css.code ? `<style>${css.code}</style>` : '';
+      const template = `
+        <html>
+          <head>
+            ${head}
+            ${style}
+          </head>
+          <body>
+            ${html.trim()}
+          </body>
+        </html>
+      `;
+
+      res.send(template);
+    });
+
+    const PORT = 5000;
+    app.listen(PORT, () => console.log('listening on port', PORT));
+    ```
+
+1. Add the npm script `"serve": "node src/server.js"`
+   to `package.json`.
+1. Enter `npm run serve` to start the server.
+1. Browse `localhost:5000`.
+
+This approach has the downside that the app
+must be compiled every time the server is started.
+This can be avoided by introducing a build step.
+Here are the steps to switch to this approach.
+
+1. Edit the file `src/server.js` from above.
+   - Delete the line `require('svelte/register');`.
+   - Change the call to `App.default.render` to `App.render`.
+
+1. Change the npm script in `package.json` described above
+   to `"serve": "node public/bundle.js"`
+1. Enter `npm run build` to produce
+   `public/bundle.js` and `public/bundle.css`.
+1. Enter `npm run serve` to start the server.
+1. Browse `localhost:5000`.
+
+Both of the approaches work fine for single-page apps.
+However, routing libraries like "page" that support
+client-side routing will not work with server-side rendering.
+When both SSR and page routing are desired,
+using Sapper is recommended since it provides both
+as builtin features.
+
+TODO: If using SSR with Svelte was popular,
+there could be a degit template for it
+that would greatly simplify setup.
+
 ## Unit Tests
 
 Unit tests for Svelte components can be implemented using Jest.
@@ -4387,13 +4928,12 @@ This code is inserted in `rollup.config.js`.
         ...
         preprocess: {
           style({content}) {
-            // Replace "red" with "blue" in all styles found in .svelte files.
+            // This will replace all instances of the word "purple"
+            // with "blue" in any styles found in Svelte files
             return {
-              code: content.replace(/red/gi, 'blue')
+              code: content.replace(/purple/gi, 'blue')
             };
           }
-          scss({ /* scss options */ }),
-          typescript({ /* typescript options */ })
         }
       ]
     })
@@ -4403,28 +4943,33 @@ This code is inserted in `rollup.config.js`.
     ...
 ```
 
-This code is inserted in `webpack.config.js`.
-TODO: TEST THIS!
+If using the Webpack module bundler instead of Rollup,
+insert this code in `webpack.config.js`.
 
 ```js
 {
-  loader: 'svelte-loader',
-  options: {
-    css: true,
-    preprocess: {
-      style ({ content }) {
-        // This will replace all instances of the word "red" with "blue" in any styles found in Svelte files
+  ...
+  use: {
+    loader: 'svelte-loader',
+    options: {
+      ...
+      style({content}) {
+        // This will replace all instances of the word "purple"
+        // with "blue" in any styles found in Svelte files
         return {
-          code: content.replace(/red/gi, 'blue')
+          code: content.replace(/purple/gi, 'blue')
         }
       }
     }
   }
+  ...
 }
 ```
 
 When using Sapper, add the configuration above to
-both the `client` and `server` sections.
+both the `client` and `server` sections
+so preprocessing is performed for both
+client-side and server-side rendered pages.
 
 ### svelte-preprocess
 
@@ -4634,7 +5179,7 @@ To configure this:
 
 1. `npm i -D mdsvex`
 2. Edit `rollup.config.js`.
-3. Add `import { mdsvex } from 'mdsvex';`
+3. Add `import {mdsvex} from 'mdsvex';`
    after the imports at the top of the file.
 4. Add the following in the object passed to the `svelte` plugin:
 
@@ -4957,18 +5502,6 @@ Note how `c` is set to `3` first.
 The call to `$$invalidate` triggers a call to `$$self.$$.update`.
 This first checks whether `c` has changed.  If so, it computes a new value for `b`.
 Then it checks whether `b` has changed.  If so, it computes a new value for `a`.
-
-TODO:
-I have a question about the efficiency of the way that Svelte
-determines which reactive statements need to be re-executed.
-IIUC, the statements `b = c * 2` and `a = b * 2` are
-going to be evaluate even if c and b are not dirty.
-It's just that those computed values will only be
-used in a call to $$invalidate if those are dirty.
-It's not a big deal since those calculations are fast,
-but it could be a big deal if they are more involved.
-I wonder why the generated code doesn't make it so
-those statements only get evaluated when needed.
 
 Now that you've got that down,
 here is a more full-featured Svelte component that
@@ -5472,7 +6005,7 @@ from parent element, removes event listeners,
 and calls the `dispose` function..
 TODO: What does `dispose` do?
 
-The `instance` function ... TODO.
+The `instance` function ... TODO: Finish this.
 
 The component is defined by a class that extends `SvelteComponent`.
 Its constructor calls the `init` function, passing it
@@ -5492,13 +6025,8 @@ so they have file scope.
 ### Hydrate Compiler Option
 
 The "hydrate" compiler option is off by default.
-TODO: Learn what this does.  It has something to do with populating
+TODO: Learn what this does.  It is related to SSR and populating
 TODO: existing components with changes rather than recreating them.
-
-### Markdown Support
-
-There are several options for creating Svelte components
-that use Markdown syntax.
 
 ## Related Tools
 
