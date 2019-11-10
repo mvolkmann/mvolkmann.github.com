@@ -474,12 +474,8 @@ For example, a parent component can do this:
 
 In this case the value of the `name` prop is a literal string.
 
-Prop values that are JavaScript expressions or non-string literals
-must be surrounded by curly braces instead of quotes.
-These values can be any kind of JavaScript value,
-including objects, arrays, and functions.
-
-The child component defined in `src/Hello.svelte` can do this:
+The `Hello` component defined in `src/Hello.svelte`
+can be defined as follows:
 
 ```html
 <script>
@@ -493,38 +489,92 @@ The child component defined in `src/Hello.svelte` can do this:
 
 Props are declared in the `<script>` section of a component
 with the `export` keyword.
-This uses valid JavaScript syntax in a Svelte-specific way.
+This uses valid JavaScript syntax, the `export` keyword,
+in a Svelte-specific way.
 
-The `let` keyword must be used instead of `const`
-since the parent element can change the value.
+The `let` keyword must be used instead of `const` to
+declare props because parent components can change the value.
 
 Assigning default values to props is optional.
+In the example above, the `name` prop
+is given a default value of `'World'`.
+Props with no default value are required.
+
+Prop values that are non-string literals or JavaScript expressions
+must be surrounded by curly braces instead of quotes.
+These can be evaluate to any kind of JavaScript value,
+including objects, arrays, and functions.
+
+Here are examples of specifying non-string values for a prop:
+
+- `myProp={false}`
+- `myProp={7}`
+- `myProp={{name: 'baseball', grams: 149, new: false}}`
+- `myProp={['red', 'green', 'blue']}`
+
+Is is also allowed to surround the braces with quotes.
+For example, `myProp="{{name: 'baseball'}}"`.
+Some editors and syntax highlighters prefer this, but
+the Svelte compiler does not require quotes in these cases.
 
 The npm package `prop-types` that is used to provide prop type checking
 like in React can also be used with Svelte.
-This is described in the "Prop Types" section later.
+This is described later in the "Prop Types" section.
+
+## Prop Types
+
+In the future when Svelte adds support for TypeScript
+it will be possible to define the types of props and
+catch errors in passing props to components at compile-time.
+Until then the best we can do is check prop types at run-time.
+
+We can use the same library that is used by React to do this.
+See "prop-types" in npm.
+
+Here is an example of using the prop-types library:
+
+```js
+  import PropTypes from 'prop-types/prop-types';
+  const {arrayOf, checkPropTypes, shape, string} = PropTypes;
+  ...
+  const propTypes = {
+    className: string,
+    label: string.isRequired,
+    list: arrayOf(shape({
+      label: string.isRequired,
+      value: string
+    })).isRequired,
+    selected: arrayOf(string).isRequired
+  }
+  // The name of this component is "LabeledCheckboxes".
+  // $$props is an undocumented Svelte variable
+  // that is subject to change.
+  checkPropTypes(propTypes, $$props, 'prop', 'LabeledCheckboxes');
+```
 
 ## Directives
 
 Directives are special props that are written as
 a directive name, followed by a colon and more.
-We will see each of these later.
 
-The "bind" directive binds a prop value to a variable.
+Brief descriptions of the directives are provided here.
+Each will be described in more detail later.
+
+The `bind` directive binds a prop value to a variable.
 See the sections on "Binding" later.
 
-The "class" directive toggles the presence of a CSS class
+The `class` directive toggles the presence of a CSS class
 based on the truthiness of a variable.
 See the "Styling" section later.
 
-The "on" directive registers an event listener.
+The `on` directive registers an event listener.
 See the section on "Event Handling" later.
 
-The "use" directive specifies a function that will be
+The `use` directive specifies a function that will be
 passed the created DOM element.
 See the "Actions" section later.
 
-The directives "animate", "transition", "in", and "out" support animations.
+The directives `animate`, `transition`, `in`, and `out` support animations.
 See the "Animation" section later.
 
 Svelte does not support creating custom directives.
@@ -2614,8 +2664,9 @@ call its `set` and `update` methods to change the value.
 
 ## Module Context
 
-Svelte supports a custom `<script>` tag attribute that
-indicates the code it contains is in the "module scope".
+Svelte supports a custom `<script>` tag attribute
+that indicates the code it contains
+is in the scope of the module, not the scope of the component.
 
 ```html
 <script context="module">
@@ -2623,7 +2674,8 @@ indicates the code it contains is in the "module scope".
 </script>
 ```
 
-When a `script` tag doesn’t specify its context, it is "instance context".
+When a `script` tag doesn’t specify its context,
+it is "instance context".
 
 Both kinds of `script` tags, instance and module context,
 can appear in a component source file.
@@ -3299,13 +3351,18 @@ Examples of options include:
 Options that are specific to a given transition can also be provided.
 For example, the `fly` transition accepts `x` and `y` options.
 
+Svelte takes care of honoring the `delay` and `duration` options.
+You only need to return the appropriate CSS string
+for the number between zero and one that is
+returned by calling the `easing` function.
+
 The function must return an object
 whose properties include the transition options
 and a `css` method.
 
 The transition options returned can be given
 default values that are used when
-they are not passed to the function.
+they are not passed to the custom function.
 For example, default values for `duration` and `easing`
 can be provided.
 
@@ -3325,21 +3382,22 @@ opacity, size, font size, position, rotation, and color.
   let springy = false;
   $: duration = springy ? 2000 : 1000;
   $: easing = springy ? backInOut : linear;
-  
+  $: options = {duration, easing, times: 2};
+
   let show = true;
   const toggle = () => show = !show;
-
+  
   function spin(node, options) {
-    const {duration, easing} = options;
+    const {easing, times = 1} = options;
     return {
-      duration,
+      ...options,
       // The value of t passed to the css method
       // varies between zero and one during an "in" transition
       // and between one and zero during an "out" transition.
       css(t) {
         // Easing functions return values in the same range as t values.
         const eased = easing(t);
-        const degrees = 360 * 3; // through which to spin
+        const degrees = 360 * times; // through which to spin
         return `transform: scale(${eased}) rotate(${eased * degrees}deg);`;
       }
     };
@@ -3374,11 +3432,13 @@ opacity, size, font size, position, rotation, and color.
 </label>
 
 {#if show}
-  <div class="center" transition:spin={{duration, easing}}>
+  <div class="center" in:spin={options} out:spin={options}>
     <div class="content">Take me for a spin!</div>
   </div>
 {/if}
 ```
+
+### `transition` vs. `in` and `out`
 
 Recall that we can specify separate `in` and `out` transition props
 instead of specifying a `transition` prop
@@ -3802,36 +3862,6 @@ this code should be mostly self-explanatory.
     {/each}
   </ul>
 </div>
-```
-
-## Prop Types
-
-In the future when Svelte adds support for TypeScript
-it will be possible to define the types of props
-and catch errors in passing props to components at compile-time.
-Until then, the best we can do is check prop types at run-time.
-
-We can use the same library that is used by React to do this.
-See "prop-types" in npm.
-
-Here is an example of using it:
-
-```js
-  import PropTypes from 'prop-types/prop-types';
-  const {arrayOf, checkPropTypes, shape, string} = PropTypes;
-  ...
-  const propTypes = {
-    className: string,
-    label: string.isRequired,
-    list: arrayOf(shape({
-      label: string.isRequired,
-      value: string
-    })).isRequired,
-    selected: arrayOf(string).isRequired
-  }
-  // The name of this component is "LabeledCheckboxes".
-  // $$props is an undocumented variable that is subject to change.
-  checkPropTypes(propTypes, $$props, 'prop', 'LabeledCheckboxes');
 ```
 
 ## Routing
